@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from notify_discord import build_message, is_failed, is_recovered
-from update_status import normalize_run_status
+from update_status import normalize_run_status, stale_fallback
 
 
 class DiscordAlertTests(unittest.TestCase):
@@ -27,6 +27,18 @@ class DiscordAlertTests(unittest.TestCase):
     def test_live_workflow_keeps_live_status(self):
         self.assertEqual(normalize_run_status({"status": "in_progress", "conclusion": None}), "in_progress")
         self.assertEqual(normalize_run_status(None), "unknown")
+
+    def test_api_error_preserves_card_but_marks_data_unknown(self):
+        previous = {
+            "name": "demo", "status": "success",
+            "business": {"business_status": "success", "business_label": "正常", "metrics": [], "note": "原始說明"},
+        }
+        fallback = stale_fallback({"name": "demo"}, previous, "HTTP 502")
+        self.assertEqual(fallback["status"], "unknown")
+        self.assertEqual(fallback["business"]["business_status"], "unknown")
+        self.assertIn("上次資料", fallback["business"]["business_label"])
+        self.assertIn("HTTP 502", fallback["monitor_warning"])
+        self.assertIsNone(stale_fallback({"name": "new"}, None, "HTTP 502"))
 
     def test_running_or_unknown_is_not_reported_as_recovered(self):
         self.assertFalse(is_recovered({"status": "in_progress", "business": {"business_status": "running"}}))
