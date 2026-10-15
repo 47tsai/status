@@ -89,6 +89,12 @@ class DiscordAlertTests(unittest.TestCase):
         self.assertFalse(result['ok'])
         self.assertIn('錯誤', result['reason'])
 
+    def test_health_check_marks_titleless_html_unknown_not_failed(self):
+        result = inspect_page_content(200, 'text/html', '<html><body><div id="app"></div><script src="/app.js"></script></body></html>', 'https://example.com/')
+        self.assertIsNone(result['ok'])
+        self.assertFalse(result['protected'])
+        self.assertIn('未能確認', result['reason'])
+
     def test_health_check_marks_protected_page_unknown(self):
         result = inspect_page_content(200, 'text/html', '<html><title>Protected</title><body>Access policy login</body></html>', 'https://example.com/cdn-cgi/access/login')
         self.assertIsNone(result['ok'])
