@@ -3,6 +3,12 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "*/10 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "scripts/**"
+      - ".github/workflows/update-status.yml"
 permissions:
   contents: write
   actions: read
