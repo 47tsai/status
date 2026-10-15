@@ -22,6 +22,7 @@ if TOKEN:
 # The presentation profile is deliberately separate from GitHub's generic run status.
 PROFILES = {
     "status": {"kind": "dashboard", "title": "監控中心", "description": "儀表板自身的資料更新與部署", "icon": "◈"},
+    "vps-01": {"kind": "vps", "title": "VPS-01 · Oracle Cloud", "description": "透過公開服務端點檢查 VPS 對外可用性", "icon": "▣"},
     "sc-auto-claim": {"kind": "claim", "title": "荒野亂鬥自動領取", "description": "兩個帳號的實際領取結果與最近成功時間", "icon": "🎮"},
     "free-game": {"kind": "freegame", "title": "免費遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "🕹"},
     "apktwsign": {"kind": "checkin", "title": "APK.TW 自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
@@ -194,6 +195,51 @@ def business_data(repo_name, run):
         result["details"] = [{"label": "最近更新流程", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal"}]
         result["note"] = "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
+    elif kind == "vps":
+        services = [
+            ("Alist", "https://alist.chi.qzz.io/"),
+            ("BiliTool", "https://bili.chi.qzz.io/"),
+            ("Twitch Drops Miner", "https://twitch.chi.qzz.io/"),
+        ]
+        checks = []
+        for label, url in services:
+            check = health_check(url)
+            checks.append({"label": label, "url": url, "check": check})
+        online = sum(1 for item in checks if item["check"] and item["check"]["ok"])
+        total = len(checks)
+        if online == total:
+            result["business_status"] = "success"
+            result["business_label"] = f"所有公開服務正常（{online}/{total}）"
+        elif online == 0:
+            result["business_status"] = "failure"
+            result["business_label"] = "所有公開服務皆無法連線"
+        else:
+            result["business_status"] = "failure"
+            result["business_label"] = f"部分公開服務異常（{online}/{total} 可用）"
+        result["metrics"] = [
+            metric("可用服務", f"{online}/{total}", "good" if online == total else "bad"),
+            metric("檢查方式", "HTTPS"),
+            metric("主機資源", "未提供代理程式"),
+        ]
+        for item in checks:
+            check = item["check"]
+            if check and check["ok"]:
+                detail_result = f"可連線 · HTTP {check['status']}"
+                tone = "good"
+            elif check:
+                detail_result = f"無法正常連線 · HTTP {check['status']}"
+                tone = "bad"
+            else:
+                detail_result = "未取得檢查結果"
+                tone = "normal"
+            result["details"].append({
+                "label": item["label"],
+                "result": detail_result,
+                "time": "",
+                "tone": tone,
+            })
+        result["note"] = "此卡片從外部檢查 Cloudflare Tunnel 公開網址，只能證明服務端點是否可回應，不能單憑此結果確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。若三個服務同時失聯，可能是 VPS、cloudflared、網路或 DNS 問題。"
+        result["evidence_url"] = None
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
         auto_match = re.search(r"最近自動檢查：\*\*\s*([^（\n]+)", readme)
@@ -303,6 +349,23 @@ def main():
             print(f"Skipping {full_name}: HTTP {exc.code}")
         except Exception as exc:
             print(f"Skipping {full_name}: {exc}")
+    # Synthetic host monitor: not a GitHub repository, but rendered alongside repo cards.
+    host_item = {
+        "name": "vps-01", "full_name": "VPS-01 · Oracle Cloud Infrastructure",
+        "html_url": "https://alist.chi.qzz.io/",
+        "workflow": "外部服務探測", "status": "unknown", "branch": "OCI",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "event": "healthcheck", "commit_message": "每 10 分鐘檢查三個公開服務端點",
+        "duration_seconds": None,
+        "runs_url": f"https://github.com/{OWNER}/status/actions",
+        "run_url": f"https://github.com/{OWNER}/status/actions",
+    }
+    host_item["business"] = business_data("vps-01", host_item)
+    host_item["status"] = ("success" if host_item["business"]["business_status"] == "success"
+                           else "failure" if host_item["business"]["business_status"] == "failure"
+                           else "unknown")
+    results.append(host_item)
     results.sort(key=lambda x: x.get("updated_at") or "", reverse=True)
     payload = {"generated_at": datetime.now(timezone.utc).isoformat(),
                "repository_count": len(results), "repositories": results}
