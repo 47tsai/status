@@ -104,6 +104,14 @@ def health_check(url):
         return {"ok": False, "reachable": False, "status": "連線失敗", "url": url,
                 "latency_ms": elapsed_ms, "error": str(exc)[:160]}
 
+def normalize_run_status(run):
+    """Return a conclusion for completed runs, otherwise the live run status."""
+    if not isinstance(run, dict):
+        return "unknown"
+    if run.get("status") == "completed":
+        return run.get("conclusion") or "unknown"
+    return run.get("status") or "unknown"
+
 def business_data(repo_name, run):
     profile = PROFILES.get(repo_name, {})
     kind = profile.get("kind", "generic")
@@ -326,8 +334,8 @@ def business_data(repo_name, run):
         result["note"] = "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。" if profile.get("health_url") else "目前僅依 GitHub Actions 判定部署流程；此舊版或文件型 Repo 尚未設定可驗證的正式網址。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     else:
-        status = (run or {}).get("status")
-        result["business_status"] = status or "unknown"
+        status = normalize_run_status(run)
+        result["business_status"] = status
         result["business_label"] = "最近 Workflow：" + str(status or "尚無紀錄")
         result["metrics"] = [metric("Workflow", (run or {}).get("name") or "尚無紀錄"),
                              metric("分支", (run or {}).get("head_branch") or "－")]
@@ -358,7 +366,7 @@ def main():
                 start = datetime.fromisoformat(run["run_started_at"].replace("Z", "+00:00"))
                 end = datetime.fromisoformat(run["updated_at"].replace("Z", "+00:00"))
                 duration = max(0, int((end - start).total_seconds()))
-            status = run.get("conclusion") if run.get("status") == "completed" else run.get("status")
+            status = normalize_run_status(run)
             item = {
                 "name": repo["name"], "full_name": full_name, "html_url": repo["html_url"],
                 "workflow": run.get("name") or run.get("display_title") or "GitHub Actions",
