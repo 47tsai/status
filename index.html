@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#090e1b">
+<meta name="theme-color" content="#0f1115">
 <title>Chi Status · 專案健康中心</title>
 <style>
 :root{color-scheme:dark;--bg:#090e1b;--panel:#111a2b;--panel2:#0d1525;--line:#26354d;--muted:#92a5c3;--text:#edf4ff;--blue:#91baff;--green:#72e4b2;--red:#ff9cab;--amber:#ffd17d;--purple:#c4a7ff}
@@ -114,7 +114,7 @@ html[data-theme="light"] .project[data-kind="claim"],html[data-theme="light"] .p
 </style>
 </head>
 <body><main>
-<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩主題">☀ 淺色</button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">更新紀錄 ↗</a><button id="refresh">↻ 重新整理</button></div></header>
+<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><svg class="button-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4 10 14"/><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></svg>更新紀錄</a><button id="refresh"><svg class="button-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 11.9-3"/></svg>重新整理</button></div></header>
 <section class="stats"><div class="stat"><span>專案</span><strong id="total">－</strong></div><div class="stat"><span>成功</span><strong id="bizok">－</strong></div><div class="stat"><span>異常</span><strong id="attention">－</strong></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong></div></section>
 <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
@@ -123,6 +123,19 @@ html[data-theme="light"] .project[data-kind="claim"],html[data-theme="light"] .p
 <script>
 const $=id=>document.getElementById(id);let items=[];let loading=false;let lastGeneratedAt=null;
 function node(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+function svgIcon(name){const paths={
+ dashboard:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8h8M8 12h4M8 16h8"/>',
+ vps:'<rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/><path d="M8 6.5h.01M8 17.5h.01M12 6.5h4M12 17.5h4"/>',
+ claim:'<path d="M6 9h12a3 3 0 0 1 2.8 4l-1.2 3.2a2 2 0 0 1-3.2.8L14 15H10l-2.4 2a2 2 0 0 1-3.2-.8L3.2 13A3 3 0 0 1 6 9Z"/><path d="M7 11v4M5 13h4M16 12h.01M18 14h.01"/>',
+ freegame:'<path d="M6 9h12a3 3 0 0 1 2.8 4l-1.2 3.2a2 2 0 0 1-3.2.8L14 15H10l-2.4 2a2 2 0 0 1-3.2-.8L3.2 13A3 3 0 0 1 6 9Z"/><path d="M7 11v4M5 13h4M16 12h.01M18 14h.01"/>',
+ checkin:'<circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/>',
+ source:'<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.5 7.8 7.5 4.4 7.5-4.4M12 12.2V21"/>',
+ deploy:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+ generic:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
+ system:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
+ light:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/>',
+ dark:'<path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/>'
+ };const e=document.createElementNS('http://www.w3.org/2000/svg','svg');e.setAttribute('viewBox','0 0 24 24');e.setAttribute('aria-hidden','true');e.classList.add('app-svg');const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',paths[name]||paths.generic);if(name==='dashboard'||name==='vps'||name==='claim'||name==='freegame'||name==='checkin'||name==='source'||name==='deploy'||name==='system'||name==='light'||name==='dark'){p.setAttribute('fill','none');p.setAttribute('stroke','currentColor');p.setAttribute('stroke-width','1.7');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round')}e.append(p);return e}
 function bucket(s){if(s==='success')return'good';if(['failure','timed_out','action_required'].includes(s))return'bad';if(['in_progress','queued','requested','waiting'].includes(s))return'running';return'unknown'}
 function label(s){return({success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過'}[s]||s||'尚無紀錄')}
 function businessBucket(s){return s==='success'?'good':s==='failure'?'bad':s==='running'?'running':'unknown'}
@@ -154,7 +167,7 @@ function render(){
  if(!filtered.length){wrap.append(node('div','empty','沒有符合條件的專案。'));return}
  filtered.forEach(x=>{
   const b=x.business||{},card=node('article','project');card.dataset.kind=b.kind||'generic';
-  const head=node('div','project-head'),ico=node('div','app-icon',b.icon||'◉'),tw=node('div','title-wrap');
+  const head=node('div','project-head'),ico=node('div','app-icon'),tw=node('div','title-wrap');ico.append(svgIcon(['dashboard','vps','claim','freegame','checkin','source','deploy'].includes(b.kind)?b.kind:'generic'));
   tw.append(node('div','project-title',b.title||x.name));
   const repo=node('a','repo',x.full_name||x.name);repo.href=x.html_url;repo.target='_blank';repo.rel='noopener noreferrer';tw.append(repo);
   const badges=node('div','badges');badges.append(node('span','badge '+businessBucket(b.business_status),(b.kind==='vps'?'服務：':'業務：')+businessLabel(b)));badges.append(node('span','badge '+bucket(x.status),(b.kind==='vps'?'探測：':'Actions：')+label(x.status)));
@@ -174,10 +187,42 @@ async function load(){if(loading)return;loading=true;const btn=$('refresh');btn.
 function updateFreshness(){const el=$('updated');if(!lastGeneratedAt){el.textContent='尚未取得資料更新時間';return}const age=Math.max(0,Math.floor((Date.now()-lastGeneratedAt.getTime())/60000));const stamp=lastGeneratedAt.toLocaleString('zh-TW',{hour12:false});el.textContent='資料更新：'+stamp+' · '+(age<1?'不到 1 分鐘前':age+' 分鐘前')+(age>=20?' · 資料可能過期':'')}
 setInterval(()=>{if(!document.hidden)load()},60000);
 setInterval(updateFreshness,15000);
-const themeToggle=$('themeToggle');
-function setTheme(theme){document.documentElement.dataset.theme=theme;const light=theme==='light';themeToggle.textContent=light?'☾ 深色':'☀ 淺色';themeToggle.setAttribute('aria-label',light?'切換為深色模式':'切換為淺色模式');document.querySelector('meta[name="theme-color"]').content=light?'#f5f6f8':'#0f1115';}
-let savedTheme=null;try{savedTheme=localStorage.getItem('chi-status-theme')}catch(e){}
-setTheme(savedTheme==='light'||savedTheme==='dark'?savedTheme:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));
-themeToggle.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='light'?'dark':'light';setTheme(next);try{localStorage.setItem('chi-status-theme',next)}catch(e){}});
+const themeToggle=$('themeToggle'),themeIcon=$('themeIcon'),themeLabel=$('themeLabel');
+const themeModes=['system','light','dark'];
+const themeNames={system:'跟隨系統',light:'淺色模式',dark:'深色模式'};
+const systemTheme=window.matchMedia('(prefers-color-scheme: light)');
+function setTheme(mode,save=false){
+ const resolved=mode==='system'?(systemTheme.matches?'light':'dark'):mode;
+ document.documentElement.dataset.theme=resolved;
+ themeIcon.replaceChildren(svgIcon(mode==='system'?'system':mode));
+ themeLabel.textContent=themeNames[mode];
+ themeToggle.setAttribute('aria-label','色彩模式：'+themeNames[mode]+'，點擊切換');
+ themeToggle.title='色彩模式：'+themeNames[mode];
+ document.querySelector('meta[name="theme-color"]').content=resolved==='light'?'#f5f6f8':'#0f1115';
+ if(save){try{localStorage.setItem('chi-status-theme',mode)}catch(e){}}
+}
+let savedTheme='system';try{savedTheme=localStorage.getItem('chi-status-theme')||'system'}catch(e){}
+if(!themeModes.includes(savedTheme))savedTheme='system';
+let currentTheme=savedTheme;
+setTheme(currentTheme);
+themeToggle.addEventListener('click',()=>{currentTheme=themeModes[(themeModes.indexOf(currentTheme)+1)%themeModes.length];setTheme(currentTheme,true)});
+systemTheme.addEventListener('change',()=>{if(currentTheme==='system')setTheme('system')});
 $('refresh').addEventListener('click',load);$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
 </script></body></html>
+<style>
+/* Accessible icon system and complete three-mode theme support. */
+:root{color-scheme:dark}
+html[data-theme="light"]{color-scheme:light}
+.app-svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.app-icon .app-svg{width:22px;height:22px}
+.button-icon{width:16px;height:16px;display:inline-block;vertical-align:-3px;margin-right:6px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.top-actions button,.top-actions .btn{display:inline-flex;align-items:center;justify-content:center;gap:0}
+#themeToggle{min-width:142px}
+html[data-theme="light"] body{background:var(--bg)}
+html[data-theme="light"] .stat,html[data-theme="light"] .toolbar,html[data-theme="light"] .project{background:var(--panel)}
+html[data-theme="light"] .metric,html[data-theme="light"] .business-line,html[data-theme="light"] .detail-row{background:var(--panel2)}
+html[data-theme="light"] .runline,html[data-theme="light"] details{border-color:var(--line)}
+html[data-theme="light"] .good-text{color:#17663a}
+html[data-theme="light"] .bad-text{color:#a32118}
+@media(max-width:760px){#themeToggle{min-width:0}}
+</style>
