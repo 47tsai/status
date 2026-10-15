@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T13:53:07.420735+00:00",
+  "generated_at": "2026-10-15T13:54:39.936836+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -9,12 +9,12 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T13:52:57Z",
+      "updated_at": "2026-10-15T13:54:30Z",
       "event": "push",
-      "commit_message": "ci: refresh dashboard after monitor code changes",
+      "commit_message": "feat: monitor source updates and deployed site health",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38746484532",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38746710887",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -53,39 +53,27 @@
       "runs_url": "https://github.com/tsai97216/chi-source/actions",
       "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38745464897",
       "business": {
-        "kind": "deploy",
+        "kind": "source",
         "title": "Chi Source",
-        "description": "AltStore 來源網站建置與部署",
+        "description": "AltStore 來源更新、App 版本變動與網站可用性",
         "icon": "⌘",
         "business_status": "success",
-        "business_label": "最近部署成功",
+        "business_label": "最近 Workflow：success",
         "metrics": [
           {
-            "label": "部署結果",
-            "value": "最近部署成功",
-            "tone": "good"
+            "label": "Workflow",
+            "value": "chi-source",
+            "tone": "normal"
           },
           {
             "label": "分支",
             "value": "－",
             "tone": "normal"
-          },
-          {
-            "label": "觸發方式",
-            "value": "dynamic",
-            "tone": "normal"
           }
         ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "最近部署成功",
-            "time": "2026-10-15 21:46:34",
-            "tone": "good"
-          }
-        ],
-        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
-        "evidence_url": "https://github.com/tsai97216/chi-source/actions"
+        "details": [],
+        "note": "尚未配置專屬業務資料解析器。",
+        "evidence_url": null
       }
     },
     {
@@ -152,39 +140,27 @@
       "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
       "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38722001128",
       "business": {
-        "kind": "deploy",
+        "kind": "source",
         "title": "Chi Source Personal",
-        "description": "個人化 AltStore 來源部署",
+        "description": "個人來源更新、App 版本變動與網站可用性",
         "icon": "⌘",
         "business_status": "success",
-        "business_label": "最近部署成功",
+        "business_label": "最近 Workflow：success",
         "metrics": [
           {
-            "label": "部署結果",
-            "value": "最近部署成功",
-            "tone": "good"
+            "label": "Workflow",
+            "value": "chi-source-personal",
+            "tone": "normal"
           },
           {
             "label": "分支",
             "value": "－",
             "tone": "normal"
-          },
-          {
-            "label": "觸發方式",
-            "value": "dynamic",
-            "tone": "normal"
           }
         ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "最近部署成功",
-            "time": "2026-10-15 18:41:44",
-            "tone": "good"
-          }
-        ],
-        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
-        "evidence_url": "https://github.com/tsai97216/chi-source-personal/actions"
+        "details": [],
+        "note": "尚未配置專屬業務資料解析器。",
+        "evidence_url": null
       }
     },
     {
@@ -340,7 +316,7 @@
       "business": {
         "kind": "deploy",
         "title": "H 連結工具",
-        "description": "工具網站建置與部署",
+        "description": "工具網站部署與實際 HTTP 健康檢查",
         "icon": "↗",
         "business_status": "success",
         "business_label": "最近部署成功",
@@ -389,7 +365,7 @@
       "business": {
         "kind": "deploy",
         "title": "Chi 導航站",
-        "description": "導航網站建置與部署",
+        "description": "導航網站部署與實際 HTTP 健康檢查",
         "icon": "⌖",
         "business_status": "success",
         "business_label": "最近部署成功",
@@ -438,7 +414,7 @@
       "business": {
         "kind": "deploy",
         "title": "Merch 商品資料",
-        "description": "商品資料更新與部署流程",
+        "description": "商品網站部署與實際 HTTP 健康檢查",
         "icon": "▦",
         "business_status": "success",
         "business_label": "最近部署成功",
