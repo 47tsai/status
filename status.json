@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T15:38:22.462926+00:00",
+  "generated_at": "2026-10-15T15:39:11.582441+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -7,22 +7,22 @@
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
       "workflow": "Update Actions status",
-      "status": "in_progress",
+      "status": "pending",
       "branch": "main",
-      "updated_at": "2026-10-15T15:38:09Z",
-      "created_at": "2026-10-15T15:38:02Z",
+      "updated_at": "2026-10-15T15:38:50Z",
+      "created_at": "2026-10-15T15:38:49Z",
       "event": "push",
-      "commit_message": "fix: include alert state in change detection",
+      "commit_message": "fix: format Discord workflow alerts with real line breaks",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38762048229",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38762159751",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
         "description": "儀表板自身的資料更新與部署",
         "icon": "◈",
-        "business_status": "running",
-        "business_label": "儀表板正在更新",
+        "business_status": "unknown",
+        "business_label": "等待資料更新",
         "metrics": [
           {
             "label": "監控範圍",
@@ -36,15 +36,15 @@
           },
           {
             "label": "資料狀態",
-            "value": "儀表板正在更新",
+            "value": "等待資料更新",
             "tone": "normal"
           }
         ],
         "details": [
           {
             "label": "最近更新流程",
-            "result": "儀表板正在更新",
-            "time": "2026-10-15 23:38:09",
+            "result": "等待資料更新",
+            "time": "2026-10-15 23:38:50",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-15T15:38:19.693327+00:00",
-      "created_at": "2026-10-15T15:38:19.693345+00:00",
+      "updated_at": "2026-10-15T15:39:05.285261+00:00",
+      "created_at": "2026-10-15T15:39:05.285279+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -93,19 +93,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "公開端點有回應 · HTTP 200 · 595 ms",
+            "result": "公開端點有回應 · HTTP 200 · 4358 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "公開端點有回應 · HTTP 200 · 1095 ms",
+            "result": "公開端點有回應 · HTTP 200 · 1030 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 1079 ms",
+            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 907 ms",
             "time": "",
             "tone": "good"
           }
