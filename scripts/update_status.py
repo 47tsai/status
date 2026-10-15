@@ -77,8 +77,8 @@ def inspect_page_content(status, content_type, body, final_url):
     """Distinguish an HTTP response from a plausible application page."""
     text = body or ""
     lowered = text.lower()
-    title_match = re.search(r"<title\\b[^>]*>(.*?)</title\\s*>", text, re.IGNORECASE | re.DOTALL)
-    title = unescape(re.sub(r"\\s+", " ", title_match.group(1)).strip())[:120] if title_match else ""
+    title_match = re.search(r"<title\b[^>]*>(.*?)</title\s*>", text, re.IGNORECASE | re.DOTALL)
+    title = unescape(re.sub(r"\s+", " ", title_match.group(1)).strip())[:120] if title_match else ""
     access_page = (
         "/cdn-cgi/access/login" in (final_url or "").lower()
         or ("cloudflare access" in lowered and
