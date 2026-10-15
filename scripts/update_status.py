@@ -23,8 +23,8 @@ if TOKEN:
 PROFILES = {
     "status": {"kind": "dashboard", "title": "監控中心", "description": "儀表板自身的資料更新與部署", "icon": "◈"},
     "vps-01": {"kind": "vps", "title": "VPS-01 · Oracle Cloud", "description": "透過公開服務端點檢查 VPS 對外可用性", "icon": "▣"},
-    "sc-auto-claim": {"kind": "claim", "title": "荒野亂鬥自動領取", "description": "兩個帳號的實際領取結果與最近成功時間", "icon": "🎮"},
-    "free-game": {"kind": "freegame", "title": "免費遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "🕹"},
+    "sc-auto-claim": {"kind": "claim", "title": "荒野亂鬥自動領取", "description": "兩個帳號的實際領取結果與最近成功時間", "icon": "gamepad"},
+    "free-game": {"kind": "freegame", "title": "免費遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "gamepad"},
     "apktwsign": {"kind": "checkin", "title": "APK.TW 自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
     "bahasign": {"kind": "checkin", "title": "巴哈姆特自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
     "chi-source": {"kind": "source", "title": "Chi Source", "description": "AltStore 來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipa.chi.qzz.io/"},
