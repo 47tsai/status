@@ -329,12 +329,15 @@ def business_data(repo_name, run):
         status = (run or {}).get("status")
         health = health_check(profile.get("health_url"))
         workflow_ok = status == "success"
-        if health and not health["ok"]:
+        if health and health.get("ok") is False:
             result["business_status"] = "failure"
-            result["business_label"] = "網站無法正常回應"
-        elif health and health["ok"] and workflow_ok:
+            result["business_label"] = "網站 HTTP 或頁面內容檢查失敗"
+        elif health and health.get("ok") is True and workflow_ok:
             result["business_status"] = "success"
-            result["business_label"] = "部署成功、網站可用"
+            result["business_label"] = "部署成功、HTTP 與基本頁面內容檢查通過"
+        elif health and health.get("protected") and workflow_ok:
+            result["business_status"] = "unknown"
+            result["business_label"] = "部署成功，但網站受 Access 保護，無法確認頁面內容"
         elif status == "failure":
             result["business_status"] = "failure"
             result["business_label"] = "最近部署失敗"
