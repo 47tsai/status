@@ -290,7 +290,8 @@ def business_data(repo_name, run):
             elif check.get("ok") is False:
                 detail_result, tone = f"端點異常 · HTTP {check.get('status', '未知')}", "bad"
             else:
-                detail_result, tone = f"內容狀態未能確認 · HTTP {check.get('status', '未知')}", "normal"
+                reason = check.get("content_reason") or "回應內容不足以確認頁面健康"
+                detail_result, tone = f"內容狀態未能確認 · {reason} · HTTP {check.get('status', '未知')}", "normal"
             if check and check.get("latency_ms") is not None:
                 detail_result += f" · {check['latency_ms']} ms"
             result["details"].append({
