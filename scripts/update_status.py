@@ -2,6 +2,7 @@
 """Collect workflow health and project-specific business outcomes for the status dashboard."""
 import json
 import os
+import copy
 import re
 import urllib.request
 import urllib.error
@@ -343,7 +344,32 @@ def business_data(repo_name, run):
         result["note"] = "尚未配置專屬業務資料解析器。"
     return result
 
+def stale_fallback(repo, previous_item, error):
+    """Keep a card visible when one repository's status API call temporarily fails."""
+    if not previous_item:
+        return None
+    item = copy.deepcopy(previous_item)
+    item["status"] = "unknown"
+    item["updated_at"] = datetime.now(timezone.utc).isoformat()
+    item["event"] = "monitor-error"
+    item["monitor_warning"] = str(error)[:180]
+    business = item.get("business") or {}
+    previous_label = business.get("business_label") or "上次資料"
+    business["business_status"] = "unknown"
+    business["business_label"] = "暫時無法更新，保留上次資料"
+    business["note"] = (business.get("note", "") + f"\n本輪無法取得最新狀態（{previous_label}）；目前展示的是上次資料，請勿視為即時結果。").strip()
+    business["metrics"] = list(business.get("metrics") or [])
+    business["metrics"].append(metric("資料狀態", "暫時無法更新", "normal"))
+    item["business"] = business
+    return item
+
 def main():
+    previous_payload = parse_json(open("status.json", encoding="utf-8").read()) if os.path.exists("status.json") else {}
+    previous_items = (previous_payload or {}).get("repositories", [])
+    previous_by_name = {
+        item.get("name"): item for item in previous_items
+        if isinstance(item, dict) and item.get("name")
+    }
     repos = []
     for page in range(1, 4):
         batch = get_json(f"https://api.github.com/users/{OWNER}/repos?type=public&per_page=100&page={page}&sort=updated")
@@ -359,6 +385,9 @@ def main():
             data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page=1")
             runs = data.get("workflow_runs", [])
             if not runs:
+                fallback = stale_fallback(repo, previous_by_name.get(repo["name"]), "此 Repo 尚無 Workflow 執行紀錄")
+                if fallback:
+                    results.append(fallback)
                 continue
             run = runs[0]
             duration = None
@@ -381,9 +410,15 @@ def main():
             item["business"] = business_data(repo["name"], item)
             results.append(item)
         except urllib.error.HTTPError as exc:
-            print(f"Skipping {full_name}: HTTP {exc.code}")
+            print(f"Status API error for {full_name}: HTTP {exc.code}")
+            fallback = stale_fallback(repo, previous_by_name.get(repo["name"]), f"HTTP {exc.code}")
+            if fallback:
+                results.append(fallback)
         except Exception as exc:
-            print(f"Skipping {full_name}: {exc}")
+            print(f"Status API error for {full_name}: {exc}")
+            fallback = stale_fallback(repo, previous_by_name.get(repo["name"]), str(exc))
+            if fallback:
+                results.append(fallback)
     # Synthetic host monitor: not a GitHub repository, but rendered alongside repo cards.
     host_item = {
         "name": "vps-01", "full_name": "VPS-01 · Oracle Cloud Infrastructure",
