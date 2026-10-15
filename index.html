@@ -201,7 +201,7 @@ function render(){
  });
 }
 async function load(){if(loading)return;loading=true;const btn=$('refresh');btn.disabled=true;$('refreshLabel').textContent='更新中…';try{const r=await fetch('./status.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();items=data.repositories||[];lastGeneratedAt=data.generated_at?new Date(data.generated_at):null;updateFreshness();render()}catch(e){$('updated').textContent='讀取失敗：'+e.message;if(!items.length)$('projects').replaceChildren(node('div','empty','目前讀取不到狀態資料，請稍後重試。'))}finally{loading=false;btn.disabled=false;$('refreshLabel').textContent='重新整理'}}
-function updateFreshness(){const el=$('updated');if(!lastGeneratedAt){el.textContent='尚未取得資料更新時間';return}const age=Math.max(0,Math.floor((Date.now()-lastGeneratedAt.getTime())/60000));const stamp=lastGeneratedAt.toLocaleString('zh-TW',{hour12:false});el.textContent='資料更新：'+stamp+' · '+(age<1?'不到 1 分鐘前':age+' 分鐘前')+(age>=20?' · 資料可能過期':'')}
+function updateFreshness(){const el=$('updated');if(!lastGeneratedAt){el.textContent='尚未取得資料更新時間';return}const age=Math.max(0,Math.floor((Date.now()-lastGeneratedAt.getTime())/60000));const stamp=lastGeneratedAt.toLocaleString('zh-TW',{hour12:false});el.textContent='資料更新：'+stamp+' · '+(age<1?'不到 1 分鐘前':age+' 分鐘前')+(age>=20?' · 資料可能過期':'');el.classList.toggle('stale',age>=20)}
 setInterval(()=>{if(!document.hidden)load()},60000);
 setInterval(updateFreshness,15000);
 const themeToggle=$('themeToggle'),themeIcon=$('themeIcon'),themeLabel=$('themeLabel');
