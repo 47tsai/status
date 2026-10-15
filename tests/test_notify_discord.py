@@ -4,6 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from notify_discord import build_message, is_failed, is_recovered
+from update_status import normalize_run_status
 
 
 class DiscordAlertTests(unittest.TestCase):
@@ -17,6 +18,15 @@ class DiscordAlertTests(unittest.TestCase):
 
     def test_workflow_failure_is_detected(self):
         self.assertTrue(is_failed({"name": "demo", "status": "failure", "business": {}}))
+
+    def test_completed_workflow_uses_conclusion_not_literal_completed_status(self):
+        self.assertEqual(normalize_run_status({"status": "completed", "conclusion": "success"}), "success")
+        self.assertEqual(normalize_run_status({"status": "completed", "conclusion": "failure"}), "failure")
+        self.assertEqual(normalize_run_status({"status": "completed", "conclusion": None}), "unknown")
+
+    def test_live_workflow_keeps_live_status(self):
+        self.assertEqual(normalize_run_status({"status": "in_progress", "conclusion": None}), "in_progress")
+        self.assertEqual(normalize_run_status(None), "unknown")
 
     def test_running_or_unknown_is_not_reported_as_recovered(self):
         self.assertFalse(is_recovered({"status": "in_progress", "business": {"business_status": "running"}}))
