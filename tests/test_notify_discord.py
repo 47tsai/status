@@ -97,11 +97,20 @@ class DiscordAlertTests(unittest.TestCase):
         detail = format_unknown_health_detail({"status": 200})
         self.assertEqual(detail, "狀態未確認 · 回應內容不足以確認頁面健康 · HTTP 200")
 
+    def test_unknown_health_detail_includes_safe_html_signals(self):
+        detail = format_unknown_health_detail({
+            "content_reason": "HTML 缺少 title，內容狀態未能確認",
+            "content_signals": ["script", "app-root", "viewport"],
+            "status": 200,
+        })
+        self.assertEqual(detail, "狀態未確認 · HTML 缺少 title（頁面包含 script、app/root 容器、viewport） · HTTP 200")
+
     def test_health_check_marks_titleless_html_unknown_not_failed(self):
-        result = inspect_page_content(200, 'text/html', '<html><body><div id="app"></div><script src="/app.js"></script></body></html>', 'https://example.com/')
+        result = inspect_page_content(200, 'text/html', '<html><head><meta name="viewport" content="width=device-width"><script src="/app.js"></script></head><body><div id="app"></div></body></html>', 'https://example.com/')
         self.assertIsNone(result['ok'])
         self.assertFalse(result['protected'])
         self.assertIn('未能確認', result['reason'])
+        self.assertEqual(result['signals'], ["script", "app-root", "viewport"])
 
     def test_health_check_marks_protected_page_unknown(self):
         result = inspect_page_content(200, 'text/html', '<html><title>Protected</title><body>Access policy login</body></html>', 'https://example.com/cdn-cgi/access/login')
