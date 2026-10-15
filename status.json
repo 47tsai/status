@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T13:43:04.222855+00:00",
+  "generated_at": "2026-10-15T13:53:07.420735+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -9,26 +9,84 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T13:42:58Z",
-      "event": "workflow_dispatch",
-      "commit_message": "Deploy status dashboard to GitHub Pages",
+      "updated_at": "2026-10-15T13:52:57Z",
+      "event": "push",
+      "commit_message": "ci: refresh dashboard after monitor code changes",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38745053101"
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38746484532",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "in_progress",
+        "business_label": "最近 Workflow：in_progress",
+        "metrics": [
+          {
+            "label": "Workflow",
+            "value": "status",
+            "tone": "normal"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          }
+        ],
+        "details": [],
+        "note": "尚未配置專屬業務資料解析器。",
+        "evidence_url": null
+      }
     },
     {
       "name": "chi-source",
       "full_name": "tsai97216/chi-source",
       "html_url": "https://github.com/tsai97216/chi-source",
       "workflow": "pages build and deployment",
-      "status": "in_progress",
+      "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-15T13:42:48Z",
+      "updated_at": "2026-10-15T13:46:34Z",
       "event": "dynamic",
-      "commit_message": "docs: reduce AltDirect badge size",
-      "duration_seconds": null,
+      "commit_message": "Remove redundant AltDirect links from README",
+      "duration_seconds": 49,
       "runs_url": "https://github.com/tsai97216/chi-source/actions",
-      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38744963909"
+      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38745464897",
+      "business": {
+        "kind": "deploy",
+        "title": "Chi Source",
+        "description": "AltStore 來源網站建置與部署",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "最近部署成功",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "最近部署成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "觸發方式",
+            "value": "dynamic",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "最近部署成功",
+            "time": "2026-10-15 21:46:34",
+            "tone": "good"
+          }
+        ],
+        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "evidence_url": "https://github.com/tsai97216/chi-source/actions"
+      }
     },
     {
       "name": "sc-auto-claim",
@@ -42,7 +100,43 @@
       "commit_message": "update claim status",
       "duration_seconds": 114,
       "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38733103959"
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38733103959",
+      "business": {
+        "kind": "claim",
+        "title": "荒野亂鬥自動領取",
+        "description": "兩個帳號的實際領取結果與最近成功時間",
+        "icon": "🎮",
+        "business_status": "success",
+        "business_label": "2/2 個帳號成功",
+        "metrics": [
+          {
+            "label": "成功帳號",
+            "value": "2/2",
+            "tone": "good"
+          },
+          {
+            "label": "最近領取",
+            "value": "2026-10-15 20:15:57",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "帳號 A",
+            "result": "成功",
+            "time": "2026-10-15 20:15:32",
+            "tone": "good"
+          },
+          {
+            "label": "帳號 B",
+            "result": "成功",
+            "time": "2026-10-15 20:15:57",
+            "tone": "good"
+          }
+        ],
+        "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
+        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+      }
     },
     {
       "name": "chi-source-personal",
@@ -56,7 +150,42 @@
       "commit_message": "Remove development instructions from README",
       "duration_seconds": 42,
       "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38722001128"
+      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38722001128",
+      "business": {
+        "kind": "deploy",
+        "title": "Chi Source Personal",
+        "description": "個人化 AltStore 來源部署",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "最近部署成功",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "最近部署成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "觸發方式",
+            "value": "dynamic",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "最近部署成功",
+            "time": "2026-10-15 18:41:44",
+            "tone": "good"
+          }
+        ],
+        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "evidence_url": "https://github.com/tsai97216/chi-source-personal/actions"
+      }
     },
     {
       "name": "free-game",
@@ -70,7 +199,42 @@
       "commit_message": "chore: update processed state",
       "duration_seconds": 11,
       "runs_url": "https://github.com/tsai97216/free-game/actions",
-      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38713008682"
+      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38713008682",
+      "business": {
+        "kind": "freegame",
+        "title": "免費遊戲通知",
+        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
+        "icon": "🕹",
+        "business_status": "success",
+        "business_label": "最近掃描流程成功",
+        "metrics": [
+          {
+            "label": "已處理遊戲",
+            "value": "6",
+            "tone": "normal"
+          },
+          {
+            "label": "已處理文章",
+            "value": "5",
+            "tone": "normal"
+          },
+          {
+            "label": "去重紀錄",
+            "value": "11",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "狀態檔",
+            "result": "可讀取",
+            "time": "以 Workflow 執行時間為準",
+            "tone": "good"
+          }
+        ],
+        "note": "目前倉庫只保存累積去重清單，尚未保存「本輪新增幾款／通知幾則」的獨立摘要；此處不會把累積數誤當成單輪成果。",
+        "evidence_url": "https://github.com/tsai97216/free-game/blob/main/data/processed.json"
+      }
     },
     {
       "name": "apktwsign",
@@ -84,7 +248,37 @@
       "commit_message": "chore: update check-in status",
       "duration_seconds": 17,
       "runs_url": "https://github.com/tsai97216/apktwsign/actions",
-      "run_url": "https://github.com/tsai97216/apktwsign/actions/runs/38708672006"
+      "run_url": "https://github.com/tsai97216/apktwsign/actions/runs/38708672006",
+      "business": {
+        "kind": "checkin",
+        "title": "APK.TW 自動簽到",
+        "description": "網站回報的簽到結果與最近紀錄",
+        "icon": "✓",
+        "business_status": "success",
+        "business_label": "✅ 簽到成功",
+        "metrics": [
+          {
+            "label": "業務結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "最近簽到",
+            "value": "2026-10-15 16:51:43",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "來源紀錄",
+            "result": "✅ 簽到成功",
+            "time": "2026-10-15 16:51:43",
+            "tone": "good"
+          }
+        ],
+        "note": "讀取專案自己更新的簽到紀錄；如果腳本只回報文字或格式改變，會標示未知而不是猜測成功。",
+        "evidence_url": "https://github.com/tsai97216/apktwsign/blob/main/README.md"
+      }
     },
     {
       "name": "bahasign",
@@ -98,7 +292,37 @@
       "commit_message": "Auto Sign-in Status: 2026/10/15 04:01:49",
       "duration_seconds": 13,
       "runs_url": "https://github.com/tsai97216/bahasign/actions",
-      "run_url": "https://github.com/tsai97216/bahasign/actions/runs/38708614064"
+      "run_url": "https://github.com/tsai97216/bahasign/actions/runs/38708614064",
+      "business": {
+        "kind": "checkin",
+        "title": "巴哈姆特自動簽到",
+        "description": "網站回報的簽到結果與最近紀錄",
+        "icon": "✓",
+        "business_status": "success",
+        "business_label": "巴哈姆特帳號 | 2026-10-15 16:51:11 | ✅ 簽到成功 |",
+        "metrics": [
+          {
+            "label": "業務結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "最近簽到",
+            "value": "2026-10-15 16:51:11",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "來源紀錄",
+            "result": "巴哈姆特帳號 | 2026-10-15 16:51:11 | ✅ 簽到成功 |",
+            "time": "2026-10-15 16:51:11",
+            "tone": "good"
+          }
+        ],
+        "note": "讀取專案自己更新的簽到紀錄；如果腳本只回報文字或格式改變，會標示未知而不是猜測成功。",
+        "evidence_url": "https://github.com/tsai97216/bahasign/blob/main/README.md"
+      }
     },
     {
       "name": "h",
@@ -112,7 +336,42 @@
       "commit_message": "Keep inline theme script valid JavaScript",
       "duration_seconds": 69,
       "runs_url": "https://github.com/tsai97216/h/actions",
-      "run_url": "https://github.com/tsai97216/h/actions/runs/38421704440"
+      "run_url": "https://github.com/tsai97216/h/actions/runs/38421704440",
+      "business": {
+        "kind": "deploy",
+        "title": "H 連結工具",
+        "description": "工具網站建置與部署",
+        "icon": "↗",
+        "business_status": "success",
+        "business_label": "最近部署成功",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "最近部署成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "觸發方式",
+            "value": "push",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "最近部署成功",
+            "time": "2026-10-13 23:25:02",
+            "tone": "good"
+          }
+        ],
+        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "evidence_url": "https://github.com/tsai97216/h/actions"
+      }
     },
     {
       "name": "nav",
@@ -126,7 +385,42 @@
       "commit_message": "chore: auto bump version [skip ci]",
       "duration_seconds": 44,
       "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/38209999973"
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/38209999973",
+      "business": {
+        "kind": "deploy",
+        "title": "Chi 導航站",
+        "description": "導航網站建置與部署",
+        "icon": "⌖",
+        "business_status": "success",
+        "business_label": "最近部署成功",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "最近部署成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "觸發方式",
+            "value": "dynamic",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "最近部署成功",
+            "time": "2026-10-12 13:55:00",
+            "tone": "good"
+          }
+        ],
+        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "evidence_url": "https://github.com/tsai97216/nav/actions"
+      }
     },
     {
       "name": "merch",
@@ -140,7 +434,42 @@
       "commit_message": "fix: update item WWd002 [skip ci]",
       "duration_seconds": 84,
       "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/37083130601"
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/37083130601",
+      "business": {
+        "kind": "deploy",
+        "title": "Merch 商品資料",
+        "description": "商品資料更新與部署流程",
+        "icon": "▦",
+        "business_status": "success",
+        "business_label": "最近部署成功",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "最近部署成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "觸發方式",
+            "value": "workflow_run",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "最近部署成功",
+            "time": "2026-10-03 08:43:09",
+            "tone": "good"
+          }
+        ],
+        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "evidence_url": "https://github.com/tsai97216/merch/actions"
+      }
     },
     {
       "name": "chi-brand",
@@ -154,7 +483,42 @@
       "commit_message": "Add Chi brand showcase entry page",
       "duration_seconds": 42,
       "runs_url": "https://github.com/tsai97216/chi-brand/actions",
-      "run_url": "https://github.com/tsai97216/chi-brand/actions/runs/34218118767"
+      "run_url": "https://github.com/tsai97216/chi-brand/actions/runs/34218118767",
+      "business": {
+        "kind": "deploy",
+        "title": "Chi Brand",
+        "description": "品牌展示頁建置與部署",
+        "icon": "◇",
+        "business_status": "success",
+        "business_label": "最近部署成功",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "最近部署成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "觸發方式",
+            "value": "dynamic",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "最近部署成功",
+            "time": "2026-09-08 18:57:49",
+            "tone": "good"
+          }
+        ],
+        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "evidence_url": "https://github.com/tsai97216/chi-brand/actions"
+      }
     },
     {
       "name": "merch-old",
@@ -168,7 +532,42 @@
       "commit_message": "Delete CNAME",
       "duration_seconds": 39,
       "runs_url": "https://github.com/tsai97216/merch-old/actions",
-      "run_url": "https://github.com/tsai97216/merch-old/actions/runs/33873492994"
+      "run_url": "https://github.com/tsai97216/merch-old/actions/runs/33873492994",
+      "business": {
+        "kind": "deploy",
+        "title": "Merch 舊版",
+        "description": "舊版商品網站部署狀態",
+        "icon": "▦",
+        "business_status": "success",
+        "business_label": "最近部署成功",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "最近部署成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "觸發方式",
+            "value": "dynamic",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "最近部署成功",
+            "time": "2026-09-04 20:35:31",
+            "tone": "good"
+          }
+        ],
+        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "evidence_url": "https://github.com/tsai97216/merch-old/actions"
+      }
     },
     {
       "name": "nav-n",
@@ -182,7 +581,42 @@
       "commit_message": "Delete CNAME",
       "duration_seconds": 51,
       "runs_url": "https://github.com/tsai97216/nav-n/actions",
-      "run_url": "https://github.com/tsai97216/nav-n/actions/runs/32755595531"
+      "run_url": "https://github.com/tsai97216/nav-n/actions/runs/32755595531",
+      "business": {
+        "kind": "deploy",
+        "title": "Chi 導航站（舊版）",
+        "description": "舊版導航站最近一次部署",
+        "icon": "⌖",
+        "business_status": "success",
+        "business_label": "最近部署成功",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "最近部署成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "觸發方式",
+            "value": "dynamic",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "最近部署成功",
+            "time": "2026-08-25 01:16:28",
+            "tone": "good"
+          }
+        ],
+        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "evidence_url": "https://github.com/tsai97216/nav-n/actions"
+      }
     }
   ]
 }
