@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T15:04:57.407648+00:00",
+  "generated_at": "2026-10-15T15:07:04.194256+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T15:04:47Z",
-      "created_at": "2026-10-15T15:04:43Z",
+      "updated_at": "2026-10-15T15:06:50Z",
+      "created_at": "2026-10-15T15:06:46Z",
       "event": "push",
-      "commit_message": "fix: require all VPS-01 endpoints including Access-protected Twitch",
+      "commit_message": "style: tidy dashboard layout for mobile and desktop",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38757126166",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38757428750",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +44,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 23:04:47",
+            "time": "2026-10-15 23:06:50",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-15T15:04:54.917401+00:00",
-      "created_at": "2026-10-15T15:04:54.917447+00:00",
+      "updated_at": "2026-10-15T15:07:01.869962+00:00",
+      "created_at": "2026-10-15T15:07:01.869980+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -93,19 +93,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "公開端點有回應 · HTTP 200 · 655 ms",
+            "result": "公開端點有回應 · HTTP 200 · 489 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "公開端點有回應 · HTTP 200 · 1269 ms",
+            "result": "公開端點有回應 · HTTP 200 · 893 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 564 ms",
+            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 941 ms",
             "time": "",
             "tone": "good"
           }
