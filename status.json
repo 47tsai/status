@@ -1,69 +1,7 @@
 {
-  "generated_at": "2026-10-15T23:18:03.714826+00:00",
+  "generated_at": "2026-10-15T23:20:04.877111+00:00",
   "repository_count": 11,
   "repositories": [
-    {
-      "name": "vps-01",
-      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
-      "html_url": "https://alist.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "failure",
-      "branch": "OCI",
-      "updated_at": "2026-10-15T23:17:57.766560+00:00",
-      "created_at": "2026-10-15T23:17:57.766577+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘檢查三個公開服務端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions",
-      "business": {
-        "kind": "vps",
-        "title": "VPS-01 · Oracle Cloud",
-        "description": "透過公開服務端點檢查 VPS 對外可用性",
-        "icon": "▣",
-        "business_status": "failure",
-        "business_label": "VPS-01 異常（2/3 成功／1 異常／0 未知）",
-        "metrics": [
-          {
-            "label": "成功端點",
-            "value": "2/3",
-            "tone": "bad"
-          },
-          {
-            "label": "異常端點",
-            "value": "1",
-            "tone": "bad"
-          },
-          {
-            "label": "未確認端點",
-            "value": "0",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "Alist",
-            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 4270 ms",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "BiliTool",
-            "result": "端點異常 · HTTP 200 · 1048 ms",
-            "time": "",
-            "tone": "bad"
-          },
-          {
-            "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 628 ms",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "此卡只驗證 Alist、BiliTool、Twitch Drops Miner 三個公開網址是否有 HTTP 回應，不等同於確認應用程式內部功能或 VPS 本身健康。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，只代表 Access 閘道有回應，不代表登入後的後端服務可用。任一端點明確異常即判定對外服務異常；此探測無法確認 VM、SSH、CPU、記憶體或磁碟狀態。",
-        "evidence_url": null
-      }
-    },
     {
       "name": "status",
       "full_name": "tsai97216/status",
@@ -71,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T23:17:40Z",
-      "created_at": "2026-10-15T23:16:52Z",
+      "updated_at": "2026-10-15T23:19:52Z",
+      "created_at": "2026-10-15T23:19:48Z",
       "event": "push",
-      "commit_message": "test: verify alert persistence and recovery transitions",
+      "commit_message": "fix: avoid false endpoint failures for titleless HTML",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38822619336",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38822912275",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -106,12 +44,74 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-16 07:17:40",
+            "time": "2026-10-16 07:19:52",
             "tone": "normal"
           }
         ],
         "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/tsai97216/status/actions"
+      }
+    },
+    {
+      "name": "vps-01",
+      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
+      "html_url": "https://alist.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "unknown",
+      "branch": "OCI",
+      "updated_at": "2026-10-15T23:20:00.406288+00:00",
+      "created_at": "2026-10-15T23:20:00.406304+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘檢查三個公開服務端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions",
+      "business": {
+        "kind": "vps",
+        "title": "VPS-01 · Oracle Cloud",
+        "description": "透過公開服務端點檢查 VPS 對外可用性",
+        "icon": "▣",
+        "business_status": "unknown",
+        "business_label": "VPS-01 狀態未能完全確認（2/3 成功／1 未知）",
+        "metrics": [
+          {
+            "label": "成功端點",
+            "value": "2/3",
+            "tone": "normal"
+          },
+          {
+            "label": "異常端點",
+            "value": "0",
+            "tone": "good"
+          },
+          {
+            "label": "未確認端點",
+            "value": "1",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "Alist",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 996 ms",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "BiliTool",
+            "result": "內容狀態未能確認 · HTTP 200 · 2486 ms",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "Twitch Drops Miner",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 986 ms",
+            "time": "",
+            "tone": "normal"
+          }
+        ],
+        "note": "此卡只驗證 Alist、BiliTool、Twitch Drops Miner 三個公開網址是否有 HTTP 回應，不等同於確認應用程式內部功能或 VPS 本身健康。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，只代表 Access 閘道有回應，不代表登入後的後端服務可用。任一端點明確異常即判定對外服務異常；此探測無法確認 VM、SSH、CPU、記憶體或磁碟狀態。",
+        "evidence_url": null
       }
     },
     {
