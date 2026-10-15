@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-15T13:55:25.734464+00:00",
-  "repository_count": 11,
+  "generated_at": "2026-10-15T13:56:25.058595+00:00",
+  "repository_count": 13,
   "repositories": [
     {
       "name": "status",
@@ -9,12 +9,12 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T13:55:18Z",
+      "updated_at": "2026-10-15T13:56:14Z",
       "event": "push",
-      "commit_message": "fix: enable source and website health parsers",
+      "commit_message": "fix: parse app source and sign-in records correctly",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38746826209",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38746949862",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -37,6 +37,73 @@
         "details": [],
         "note": "尚未配置專屬業務資料解析器。",
         "evidence_url": null
+      }
+    },
+    {
+      "name": "chi-source",
+      "full_name": "tsai97216/chi-source",
+      "html_url": "https://github.com/tsai97216/chi-source",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-15T13:46:34Z",
+      "event": "dynamic",
+      "commit_message": "Remove redundant AltDirect links from README",
+      "duration_seconds": 49,
+      "runs_url": "https://github.com/tsai97216/chi-source/actions",
+      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38745464897",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source",
+        "description": "AltStore 來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站可用",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "7",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "2",
+            "tone": "good"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-15 16:51:07",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-15 00:33:08",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "2 個 App 更新、5 個未變更",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "更新的 App",
+            "result": "Facebook、Threads",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
       }
     },
     {
@@ -87,6 +154,73 @@
         ],
         "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
         "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+      }
+    },
+    {
+      "name": "chi-source-personal",
+      "full_name": "tsai97216/chi-source-personal",
+      "html_url": "https://github.com/tsai97216/chi-source-personal",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-15T10:41:44Z",
+      "event": "dynamic",
+      "commit_message": "Remove development instructions from README",
+      "duration_seconds": 42,
+      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
+      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38722001128",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source Personal",
+        "description": "個人來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站可用",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "9",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "7",
+            "tone": "good"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-15 18:40:09",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-15 18:40:09",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "7 個 App 更新、2 個未變更",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "更新的 App",
+            "result": "SpooferPro Pokemon GO、Kazumi、Photos Backup、AirCard-iOS、EnsWilde、StikDebug、MiniWatts",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       }
     },
     {
@@ -201,7 +335,7 @@
         "description": "網站回報的簽到結果與最近紀錄",
         "icon": "✓",
         "business_status": "success",
-        "business_label": "巴哈姆特帳號 | 2026-10-15 16:51:11 | ✅ 簽到成功 |",
+        "business_label": "✅ 簽到成功",
         "metrics": [
           {
             "label": "業務結果",
@@ -217,7 +351,7 @@
         "details": [
           {
             "label": "來源紀錄",
-            "result": "巴哈姆特帳號 | 2026-10-15 16:51:11 | ✅ 簽到成功 |",
+            "result": "✅ 簽到成功",
             "time": "2026-10-15 16:51:11",
             "tone": "good"
           }
