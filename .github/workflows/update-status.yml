@@ -8,8 +8,10 @@ on:
     paths:
       - "index.html"
       - "CNAME"
+      - "README.md"
       - "docs/**"
       - "scripts/**"
+      - "tests/**"
       - ".github/workflows/update-status.yml"
 permissions:
   contents: write
