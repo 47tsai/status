@@ -101,10 +101,10 @@ jobs:
               if result not in ("success", "skipped"):
                   failed.append(f"- {name}: {result}")
           content = (
-              "**Chi Status 工作流程失敗**\\n"
-              f"Repo：{os.environ.get('REPOSITORY', 'unknown')}\\n"
-              f"Workflow：{os.environ.get('WORKFLOW', 'unknown')}\\n"
-              + ("\\n".join(failed) + "\\n" if failed else "")
+              "**Chi Status 工作流程失敗**\n"
+              f"Repo：{os.environ.get('REPOSITORY', 'unknown')}\n"
+              f"Workflow：{os.environ.get('WORKFLOW', 'unknown')}\n"
+              + ("\n".join(failed) + "\n" if failed else "")
               + f"執行紀錄：{os.environ.get('RUN_URL', '')}"
           )
           body = json.dumps({"content": content[:1900], "allowed_mentions": {"parse": []}}).encode()
