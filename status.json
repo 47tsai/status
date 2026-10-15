@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T23:07:04.843931+00:00",
+  "generated_at": "2026-10-15T23:07:40.923785+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "failure",
       "branch": "OCI",
-      "updated_at": "2026-10-15T23:07:02.755479+00:00",
-      "created_at": "2026-10-15T23:07:02.755494+00:00",
+      "updated_at": "2026-10-15T23:07:38.362687+00:00",
+      "created_at": "2026-10-15T23:07:38.362705+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,19 +43,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "公開端點有 HTTP 回應 · HTTP 200（未驗證站內功能） · 514 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 604 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "端點異常 · HTTP 200 · 1051 ms",
+            "result": "端點異常 · HTTP 200 · 1156 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 521 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 799 ms",
             "time": "",
             "tone": "good"
           }
@@ -71,13 +71,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T23:06:46Z",
-      "created_at": "2026-10-15T23:06:41Z",
+      "updated_at": "2026-10-15T23:07:29Z",
+      "created_at": "2026-10-15T23:07:04Z",
       "event": "push",
-      "commit_message": "feat: show page content diagnosis in status details",
+      "commit_message": "docs: explain page-content health checks",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38821554915",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38821594687",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -106,7 +106,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-16 07:06:46",
+            "time": "2026-10-16 07:07:29",
             "tone": "normal"
           }
         ],
