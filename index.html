@@ -129,6 +129,7 @@ html[data-theme="light"] .good-text{color:#17663a}
 html[data-theme="light"] .bad-text{color:#a32118}
 @media(max-width:760px){#themeToggle{min-width:0}}
 </style>
+<style>#updated.stale{color:var(--red);font-weight:650}</style>
 </head>
 <body><main>
 <header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><svg class="button-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4 10 14"/><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></svg>更新紀錄</a><button id="refresh"><svg class="button-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 11.9-3"/></svg><span id="refreshLabel">重新整理</span></button></div></header>
@@ -226,6 +227,3 @@ themeToggle.addEventListener('click',()=>{currentTheme=themeModes[(themeModes.in
 systemTheme.addEventListener('change',()=>{if(currentTheme==='system')setTheme('system')});
 $('refresh').addEventListener('click',load);$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
 </script></body></html>
-
-
-<style>#updated.stale{color:var(--red);font-weight:650}</style>
