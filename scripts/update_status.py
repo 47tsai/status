@@ -284,7 +284,7 @@ def business_data(repo_name, run):
             elif check.get("protected"):
                 detail_result, tone = f"Cloudflare Access 登入頁可達 · HTTP {check['status']}（僅確認 Access 回應）", "good"
             elif check.get("ok") is True:
-                detail_result, tone = f"公開端點有 HTTP 回應 · HTTP {check['status']}（未驗證站內功能）", "good"
+                detail_result, tone = f"HTTP 與基本頁面內容檢查通過 · HTTP {check['status']}", "good"
             else:
                 detail_result, tone = f"端點異常 · HTTP {check.get('status', '未知')}", "bad" if check.get("ok") is False else "normal"
             if check and check.get("latency_ms") is not None:
