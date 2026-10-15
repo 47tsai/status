@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T23:06:20.756882+00:00",
+  "generated_at": "2026-10-15T23:07:04.843931+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "failure",
       "branch": "OCI",
-      "updated_at": "2026-10-15T23:06:17.538238+00:00",
-      "created_at": "2026-10-15T23:06:17.538252+00:00",
+      "updated_at": "2026-10-15T23:07:02.755479+00:00",
+      "created_at": "2026-10-15T23:07:02.755494+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,19 +43,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "公開端點有 HTTP 回應 · HTTP 200（未驗證站內功能） · 1203 ms",
+            "result": "公開端點有 HTTP 回應 · HTTP 200（未驗證站內功能） · 514 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "端點異常 · HTTP 200 · 1221 ms",
+            "result": "端點異常 · HTTP 200 · 1051 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 792 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 521 ms",
             "time": "",
             "tone": "good"
           }
@@ -69,22 +69,22 @@
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
       "workflow": "Update Actions status",
-      "status": "pending",
+      "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T23:06:09Z",
-      "created_at": "2026-10-15T23:06:08Z",
+      "updated_at": "2026-10-15T23:06:46Z",
+      "created_at": "2026-10-15T23:06:41Z",
       "event": "push",
-      "commit_message": "fix: keep protected sites in unknown health state",
+      "commit_message": "feat: show page content diagnosis in status details",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38821497481",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38821554915",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
         "description": "儀表板自身的資料更新與部署",
         "icon": "◈",
-        "business_status": "unknown",
-        "business_label": "等待資料更新",
+        "business_status": "running",
+        "business_label": "儀表板正在更新",
         "metrics": [
           {
             "label": "監控範圍",
@@ -98,15 +98,15 @@
           },
           {
             "label": "資料狀態",
-            "value": "等待資料更新",
+            "value": "儀表板正在更新",
             "tone": "normal"
           }
         ],
         "details": [
           {
             "label": "最近更新流程",
-            "result": "等待資料更新",
-            "time": "2026-10-16 07:06:09",
+            "result": "儀表板正在更新",
+            "time": "2026-10-16 07:06:46",
             "tone": "normal"
           }
         ],
@@ -149,6 +149,11 @@
           {
             "label": "網站 HTTP",
             "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
             "tone": "good"
           }
         ],
@@ -217,6 +222,11 @@
           {
             "label": "網站 HTTP",
             "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
             "tone": "good"
           }
         ],
@@ -477,6 +487,11 @@
             "label": "網站 HTTP",
             "value": "200",
             "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
           }
         ],
         "details": [
@@ -490,6 +505,12 @@
             "label": "網站檢查",
             "result": "https://h.chi.qzz.io/ · HTTP 200",
             "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "H Tools",
             "tone": "good"
           }
         ],
@@ -533,6 +554,11 @@
             "label": "網站 HTTP",
             "value": "200",
             "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
           }
         ],
         "details": [
@@ -546,6 +572,12 @@
             "label": "網站檢查",
             "result": "https://nav.chi.qzz.io/ · HTTP 200",
             "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi 的工具箱",
             "tone": "good"
           }
         ],
@@ -589,6 +621,11 @@
             "label": "網站 HTTP",
             "value": "200",
             "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
           }
         ],
         "details": [
@@ -602,6 +639,12 @@
             "label": "網站檢查",
             "result": "https://merch.chi.qzz.io/ · HTTP 200",
             "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi MERCH",
             "tone": "good"
           }
         ],
