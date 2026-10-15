@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T15:41:04.666158+00:00",
+  "generated_at": "2026-10-15T17:54:14.466706+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T15:40:51Z",
-      "created_at": "2026-10-15T15:40:34Z",
-      "event": "push",
-      "commit_message": "fix: collect status from latest main revision",
+      "updated_at": "2026-10-15T17:53:57Z",
+      "created_at": "2026-10-15T17:53:53Z",
+      "event": "schedule",
+      "commit_message": "chore: update project business status",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38762413619",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38781131516",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +44,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 23:40:51",
+            "time": "2026-10-16 01:53:57",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-15T15:41:02.716511+00:00",
-      "created_at": "2026-10-15T15:41:02.716527+00:00",
+      "updated_at": "2026-10-15T17:54:11.482710+00:00",
+      "created_at": "2026-10-15T17:54:11.482723+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -93,25 +93,76 @@
         "details": [
           {
             "label": "Alist",
-            "result": "公開端點有回應 · HTTP 200 · 507 ms",
+            "result": "公開端點有回應 · HTTP 200 · 1060 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "公開端點有回應 · HTTP 200 · 943 ms",
+            "result": "公開端點有回應 · HTTP 200 · 1091 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 497 ms",
+            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 831 ms",
             "time": "",
             "tone": "good"
           }
         ],
         "note": "VPS-01 必須同時通過 Alist、BiliTool、Twitch Drops Miner 三個端點才算成功。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，視為成功；其他無法確認的情況會標示未知。任一端點明確異常即判定 VPS-01 失敗。外部端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。",
         "evidence_url": null
+      }
+    },
+    {
+      "name": "sc-auto-claim",
+      "full_name": "tsai97216/sc-auto-claim",
+      "html_url": "https://github.com/tsai97216/sc-auto-claim",
+      "workflow": "daily-claim",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-15T17:28:13Z",
+      "created_at": "2026-10-15T17:26:58Z",
+      "event": "schedule",
+      "commit_message": "update claim status",
+      "duration_seconds": 75,
+      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38777420639",
+      "business": {
+        "kind": "claim",
+        "title": "荒野亂鬥自動領取",
+        "description": "兩個帳號的實際領取結果與最近成功時間",
+        "icon": "gamepad",
+        "business_status": "success",
+        "business_label": "2/2 個帳號成功",
+        "metrics": [
+          {
+            "label": "成功帳號",
+            "value": "2/2",
+            "tone": "good"
+          },
+          {
+            "label": "最近領取",
+            "value": "2026-10-15 20:15:57",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "帳號 A",
+            "result": "成功",
+            "time": "2026-10-15 20:15:32",
+            "tone": "good"
+          },
+          {
+            "label": "帳號 B",
+            "result": "成功",
+            "time": "2026-10-15 20:15:57",
+            "tone": "good"
+          }
+        ],
+        "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
+        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
       }
     },
     {
@@ -298,57 +349,6 @@
         ],
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
-      }
-    },
-    {
-      "name": "sc-auto-claim",
-      "full_name": "tsai97216/sc-auto-claim",
-      "html_url": "https://github.com/tsai97216/sc-auto-claim",
-      "workflow": "daily-claim",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-15T12:16:03Z",
-      "created_at": "2026-10-15T12:14:09Z",
-      "event": "schedule",
-      "commit_message": "update claim status",
-      "duration_seconds": 114,
-      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38733103959",
-      "business": {
-        "kind": "claim",
-        "title": "荒野亂鬥自動領取",
-        "description": "兩個帳號的實際領取結果與最近成功時間",
-        "icon": "gamepad",
-        "business_status": "success",
-        "business_label": "2/2 個帳號成功",
-        "metrics": [
-          {
-            "label": "成功帳號",
-            "value": "2/2",
-            "tone": "good"
-          },
-          {
-            "label": "最近領取",
-            "value": "2026-10-15 20:15:57",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "帳號 A",
-            "result": "成功",
-            "time": "2026-10-15 20:15:32",
-            "tone": "good"
-          },
-          {
-            "label": "帳號 B",
-            "result": "成功",
-            "time": "2026-10-15 20:15:57",
-            "tone": "good"
-          }
-        ],
-        "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
-        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
       }
     },
     {
