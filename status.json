@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T23:05:11.527461+00:00",
+  "generated_at": "2026-10-15T23:05:46.668358+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "failure",
       "branch": "OCI",
-      "updated_at": "2026-10-15T23:05:09.386994+00:00",
-      "created_at": "2026-10-15T23:05:09.387010+00:00",
+      "updated_at": "2026-10-15T23:05:44.843341+00:00",
+      "created_at": "2026-10-15T23:05:44.843362+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -22,16 +22,16 @@
         "description": "透過公開服務端點檢查 VPS 對外可用性",
         "icon": "▣",
         "business_status": "failure",
-        "business_label": "VPS-01 異常（1/3 成功／2 異常／0 未知）",
+        "business_label": "VPS-01 異常（2/3 成功／1 異常／0 未知）",
         "metrics": [
           {
             "label": "成功端點",
-            "value": "1/3",
+            "value": "2/3",
             "tone": "bad"
           },
           {
             "label": "異常端點",
-            "value": "2",
+            "value": "1",
             "tone": "bad"
           },
           {
@@ -43,19 +43,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "端點異常 · HTTP 200 · 462 ms",
+            "result": "公開端點有 HTTP 回應 · HTTP 200（未驗證站內功能） · 692 ms",
             "time": "",
-            "tone": "bad"
+            "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "端點異常 · HTTP 200 · 814 ms",
+            "result": "端點異常 · HTTP 200 · 835 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 862 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 296 ms",
             "time": "",
             "tone": "good"
           }
@@ -65,187 +65,19 @@
       }
     },
     {
-      "name": "h",
-      "full_name": "tsai97216/h",
-      "html_url": "https://github.com/tsai97216/h",
-      "workflow": "Deploy to GitHub Pages",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-13T15:25:02Z",
-      "created_at": "2026-10-13T15:23:53Z",
-      "event": "push",
-      "commit_message": "Keep inline theme script valid JavaScript",
-      "duration_seconds": 69,
-      "runs_url": "https://github.com/tsai97216/h/actions",
-      "run_url": "https://github.com/tsai97216/h/actions/runs/38421704440",
-      "business": {
-        "kind": "deploy",
-        "title": "H 連結工具",
-        "description": "工具網站部署與實際 HTTP 健康檢查",
-        "icon": "↗",
-        "business_status": "failure",
-        "business_label": "網站無法正常回應",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "bad"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "網站無法正常回應",
-            "time": "2026-10-13 23:25:02",
-            "tone": "bad"
-          },
-          {
-            "label": "網站檢查",
-            "result": "https://h.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "bad"
-          }
-        ],
-        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/h/actions"
-      }
-    },
-    {
-      "name": "nav",
-      "full_name": "tsai97216/nav",
-      "html_url": "https://github.com/tsai97216/nav",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-12T05:55:00Z",
-      "created_at": "2026-10-12T05:54:16Z",
-      "event": "dynamic",
-      "commit_message": "chore: auto bump version [skip ci]",
-      "duration_seconds": 44,
-      "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/38209999973",
-      "business": {
-        "kind": "deploy",
-        "title": "Chi 導航站",
-        "description": "導航網站部署與實際 HTTP 健康檢查",
-        "icon": "⌖",
-        "business_status": "failure",
-        "business_label": "網站無法正常回應",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "bad"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "網站無法正常回應",
-            "time": "2026-10-12 13:55:00",
-            "tone": "bad"
-          },
-          {
-            "label": "網站檢查",
-            "result": "https://nav.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "bad"
-          }
-        ],
-        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/nav/actions"
-      }
-    },
-    {
-      "name": "merch",
-      "full_name": "tsai97216/merch",
-      "html_url": "https://github.com/tsai97216/merch",
-      "workflow": "Deploy",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-03T00:43:09Z",
-      "created_at": "2026-10-03T00:41:45Z",
-      "event": "workflow_run",
-      "commit_message": "fix: update item WWd002 [skip ci]",
-      "duration_seconds": 84,
-      "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/37083130601",
-      "business": {
-        "kind": "deploy",
-        "title": "Merch 商品資料",
-        "description": "商品網站部署與實際 HTTP 健康檢查",
-        "icon": "▦",
-        "business_status": "failure",
-        "business_label": "網站無法正常回應",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "bad"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "網站無法正常回應",
-            "time": "2026-10-03 08:43:09",
-            "tone": "bad"
-          },
-          {
-            "label": "網站檢查",
-            "result": "https://merch.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "bad"
-          }
-        ],
-        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/merch/actions"
-      }
-    },
-    {
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T23:04:56Z",
-      "created_at": "2026-10-15T23:04:52Z",
+      "updated_at": "2026-10-15T23:05:34Z",
+      "created_at": "2026-10-15T23:05:04Z",
       "event": "push",
-      "commit_message": "feat: validate basic page content in health checks",
+      "commit_message": "fix: correct page title parsing patterns",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38821356222",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38821381327",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -274,7 +106,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-16 07:04:56",
+            "time": "2026-10-16 07:05:34",
             "tone": "normal"
           }
         ],
@@ -607,6 +439,174 @@
         ],
         "note": "讀取專案自己更新的簽到紀錄；如果腳本只回報文字或格式改變，會標示未知而不是猜測成功。",
         "evidence_url": "https://github.com/tsai97216/apktwsign/blob/main/README.md"
+      }
+    },
+    {
+      "name": "h",
+      "full_name": "tsai97216/h",
+      "html_url": "https://github.com/tsai97216/h",
+      "workflow": "Deploy to GitHub Pages",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-13T15:25:02Z",
+      "created_at": "2026-10-13T15:23:53Z",
+      "event": "push",
+      "commit_message": "Keep inline theme script valid JavaScript",
+      "duration_seconds": 69,
+      "runs_url": "https://github.com/tsai97216/h/actions",
+      "run_url": "https://github.com/tsai97216/h/actions/runs/38421704440",
+      "business": {
+        "kind": "deploy",
+        "title": "H 連結工具",
+        "description": "工具網站部署與實際 HTTP 健康檢查",
+        "icon": "↗",
+        "business_status": "success",
+        "business_label": "部署成功、網站可用",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "部署成功、網站可用",
+            "time": "2026-10-13 23:25:02",
+            "tone": "good"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://h.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
+        "evidence_url": "https://github.com/tsai97216/h/actions"
+      }
+    },
+    {
+      "name": "nav",
+      "full_name": "tsai97216/nav",
+      "html_url": "https://github.com/tsai97216/nav",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-12T05:55:00Z",
+      "created_at": "2026-10-12T05:54:16Z",
+      "event": "dynamic",
+      "commit_message": "chore: auto bump version [skip ci]",
+      "duration_seconds": 44,
+      "runs_url": "https://github.com/tsai97216/nav/actions",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/38209999973",
+      "business": {
+        "kind": "deploy",
+        "title": "Chi 導航站",
+        "description": "導航網站部署與實際 HTTP 健康檢查",
+        "icon": "⌖",
+        "business_status": "success",
+        "business_label": "部署成功、網站可用",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "部署成功、網站可用",
+            "time": "2026-10-12 13:55:00",
+            "tone": "good"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://nav.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
+        "evidence_url": "https://github.com/tsai97216/nav/actions"
+      }
+    },
+    {
+      "name": "merch",
+      "full_name": "tsai97216/merch",
+      "html_url": "https://github.com/tsai97216/merch",
+      "workflow": "Deploy",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-03T00:43:09Z",
+      "created_at": "2026-10-03T00:41:45Z",
+      "event": "workflow_run",
+      "commit_message": "fix: update item WWd002 [skip ci]",
+      "duration_seconds": 84,
+      "runs_url": "https://github.com/tsai97216/merch/actions",
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/37083130601",
+      "business": {
+        "kind": "deploy",
+        "title": "Merch 商品資料",
+        "description": "商品網站部署與實際 HTTP 健康檢查",
+        "icon": "▦",
+        "business_status": "success",
+        "business_label": "部署成功、網站可用",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "部署成功、網站可用",
+            "time": "2026-10-03 08:43:09",
+            "tone": "good"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://merch.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
+        "evidence_url": "https://github.com/tsai97216/merch/actions"
       }
     }
   ]
