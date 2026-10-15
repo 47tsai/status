@@ -314,8 +314,8 @@ def business_data(repo_name, run):
         updated_names = [name for name, state in rows if state == "Updated"]
         unchanged_count = sum(1 for _, state in rows if state == "Unchanged")
         health = health_check(profile.get("health_url"))
-        result["business_status"] = "failure" if health and not health["ok"] else "success" if health and health["ok"] else "unknown"
-        result["business_label"] = "來源網站可用" if health and health["ok"] else "來源網站異常" if health else "網站狀態未知"
+        result["business_status"] = "failure" if health and health.get("ok") is False else "success" if health and health.get("ok") is True else "unknown"
+        result["business_label"] = "來源網站內容檢查通過" if health and health.get("ok") is True else "來源網站回應異常" if health and health.get("ok") is False else "網站狀態未知（可能受 Access 保護）"
         result["metrics"] = [metric("App 數量", len(rows)), metric("本次標示更新", len(updated_names), "good" if updated_names else "normal"),
                              metric("網站 HTTP", str(health["status"]) if health else "未檢查", "good" if health and health["ok"] else "bad" if health else "normal")]
         result["details"] = [{"label": "自動檢查", "result": auto_match.group(1).strip() if auto_match else "README 無紀錄", "time": "", "tone": "normal"},
