@@ -25,13 +25,13 @@ PROFILES = {
     "free-game": {"kind": "freegame", "title": "免費遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "🕹"},
     "apktwsign": {"kind": "checkin", "title": "APK.TW 自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
     "bahasign": {"kind": "checkin", "title": "巴哈姆特自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
-    "chi-source": {"kind": "deploy", "title": "Chi Source", "description": "AltStore 來源網站建置與部署", "icon": "⌘"},
-    "chi-source-personal": {"kind": "deploy", "title": "Chi Source Personal", "description": "個人化 AltStore 來源部署", "icon": "⌘"},
-    "h": {"kind": "deploy", "title": "H 連結工具", "description": "工具網站建置與部署", "icon": "↗"},
-    "nav": {"kind": "deploy", "title": "Chi 導航站", "description": "導航網站建置與部署", "icon": "⌖"},
+    "chi-source": {"kind": "source", "title": "Chi Source", "description": "AltStore 來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipa.chi.qzz.io/"},
+    "chi-source-personal": {"kind": "source", "title": "Chi Source Personal", "description": "個人來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipap.chi.qzz.io/"},
+    "h": {"kind": "deploy", "title": "H 連結工具", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "↗", "health_url": "https://h.chi.qzz.io/"},
+    "nav": {"kind": "deploy", "title": "Chi 導航站", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
     "nav-n": {"kind": "deploy", "title": "Chi 導航站（舊版）", "description": "舊版導航站最近一次部署", "icon": "⌖"},
     "chi-brand": {"kind": "deploy", "title": "Chi Brand", "description": "品牌展示頁建置與部署", "icon": "◇"},
-    "merch": {"kind": "deploy", "title": "Merch 商品資料", "description": "商品資料更新與部署流程", "icon": "▦"},
+    "merch": {"kind": "deploy", "title": "Merch 商品資料", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
     "merch-old": {"kind": "deploy", "title": "Merch 舊版", "description": "舊版商品網站部署狀態", "icon": "▦"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
