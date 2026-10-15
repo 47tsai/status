@@ -72,10 +72,49 @@ details{margin-top:11px;border-top:1px solid #26334a;padding-top:10px}summary{fo
   button,.btn,.project{transition:border-color .18s ease,transform .18s ease}
   .project:hover{border-color:#3a4d6d}
 }
+
+/* Professional monitoring UI: restrained surfaces, clear status colors, no decorative glow. */
+:root{color-scheme:dark;--bg:#0f1115;--panel:#171a21;--panel2:#1d2129;--line:#303640;--muted:#a0a8b5;--text:#e7eaf0;--blue:#8ab4f8;--green:#81c995;--red:#f28b82;--amber:#fdd663;--purple:#b8a1e3;--accent-neutral:#aeb8c7}
+body{background:var(--bg);color:var(--text)}
+h1{font-size:clamp(25px,4vw,32px);font-weight:650;letter-spacing:-.025em;margin:0}
+main{max-width:1320px;padding-top:24px}
+.stat,.toolbar,.project,.metric,.business-line,.detail-row{box-shadow:none;border-radius:8px}
+.stat{background:var(--panel);border-color:var(--line)}
+.toolbar{background:var(--panel);border-color:var(--line)}
+.toolbar input,.toolbar select{background:var(--bg);border-color:var(--line);border-radius:6px}
+.project{background:var(--panel);border-color:var(--line);border-radius:8px;padding:16px}
+.project:before{width:2px;opacity:.7}
+.app-icon{border-radius:7px;background:var(--panel2);border-color:var(--line);color:var(--muted)}
+.project-title{font-size:16px;font-weight:650}
+.badge{border-radius:5px;font-weight:650}
+.good{background:#193326;color:#a4e2b5}.bad{background:#3b2224;color:#ffb4ab}.running{background:#392f18;color:#fdd663}.unknown{background:#292e37;color:#c2c8d2}
+.metric{background:var(--panel2);border-color:var(--line);border-radius:6px}
+.business-line,.detail-row{background:var(--panel2);border-color:var(--line);border-radius:6px}
+.runline,details{border-color:var(--line)}
+button,.btn{background:var(--panel2);border-color:var(--line);border-radius:6px;padding:8px 11px}
+button:hover,.btn:hover{border-color:var(--blue)}
+.links .btn{border-radius:5px}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media(prefers-reduced-motion:no-preference){button,.btn,.project{transition:border-color .12s ease}}
+html[data-theme="light"]{color-scheme:light;--bg:#f5f6f8;--panel:#ffffff;--panel2:#f0f2f5;--line:#d9dde4;--muted:#626b78;--text:#20242b;--blue:#245fba;--green:#187344;--red:#b42318;--amber:#8a5a00;--purple:#7052a0;--accent-neutral:#626b78}
+html[data-theme="light"] body{background:var(--bg);color:var(--text)}
+html[data-theme="light"] .stat,html[data-theme="light"] .toolbar,html[data-theme="light"] .project{background:var(--panel);border-color:var(--line)}
+html[data-theme="light"] .toolbar input,html[data-theme="light"] .toolbar select{background:#fff;color:var(--text);border-color:var(--line)}
+html[data-theme="light"] .app-icon{background:var(--panel2);border-color:var(--line);color:var(--muted)}
+html[data-theme="light"] .badge{background:#eceff3;color:#424a55}
+html[data-theme="light"] .good{background:#e6f4ea;color:#17663a}
+html[data-theme="light"] .bad{background:#fce8e6;color:#a32118}
+html[data-theme="light"] .running{background:#fef3c7;color:#854d0e}
+html[data-theme="light"] .unknown{background:#eceff3;color:#525b67}
+html[data-theme="light"] .metric,html[data-theme="light"] .business-line,html[data-theme="light"] .detail-row{background:var(--panel2);border-color:var(--line)}
+html[data-theme="light"] .runmeta strong{color:#343b45}
+html[data-theme="light"] button,html[data-theme="light"] .btn{background:#fff;color:var(--text);border-color:var(--line)}
+html[data-theme="light"] .good-text{color:#17663a}html[data-theme="light"] .bad-text{color:#a32118}
+html[data-theme="light"] .project[data-kind="claim"],html[data-theme="light"] .project[data-kind="freegame"],html[data-theme="light"] .project[data-kind="checkin"],html[data-theme="light"] .project[data-kind="deploy"],html[data-theme="light"] .project[data-kind="dashboard"],html[data-theme="light"] .project[data-kind="vps"]{--accent:#667085}
 </style>
 </head>
 <body><main>
-<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">更新紀錄 ↗</a><button id="refresh">↻ 重新整理</button></div></header>
+<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩主題">☀ 淺色</button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">更新紀錄 ↗</a><button id="refresh">↻ 重新整理</button></div></header>
 <section class="stats"><div class="stat"><span>專案</span><strong id="total">－</strong></div><div class="stat"><span>成功</span><strong id="bizok">－</strong></div><div class="stat"><span>異常</span><strong id="attention">－</strong></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong></div></section>
 <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
@@ -135,5 +174,10 @@ async function load(){if(loading)return;loading=true;const btn=$('refresh');btn.
 function updateFreshness(){const el=$('updated');if(!lastGeneratedAt){el.textContent='尚未取得資料更新時間';return}const age=Math.max(0,Math.floor((Date.now()-lastGeneratedAt.getTime())/60000));const stamp=lastGeneratedAt.toLocaleString('zh-TW',{hour12:false});el.textContent='資料更新：'+stamp+' · '+(age<1?'不到 1 分鐘前':age+' 分鐘前')+(age>=20?' · 資料可能過期':'')}
 setInterval(()=>{if(!document.hidden)load()},60000);
 setInterval(updateFreshness,15000);
+const themeToggle=$('themeToggle');
+function setTheme(theme){document.documentElement.dataset.theme=theme;const light=theme==='light';themeToggle.textContent=light?'☾ 深色':'☀ 淺色';themeToggle.setAttribute('aria-label',light?'切換為深色模式':'切換為淺色模式');document.querySelector('meta[name="theme-color"]').content=light?'#f5f6f8':'#0f1115';}
+let savedTheme=null;try{savedTheme=localStorage.getItem('chi-status-theme')}catch(e){}
+setTheme(savedTheme==='light'||savedTheme==='dark'?savedTheme:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));
+themeToggle.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='light'?'dark':'light';setTheme(next);try{localStorage.setItem('chi-status-theme',next)}catch(e){}});
 $('refresh').addEventListener('click',load);$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
 </script></body></html>
