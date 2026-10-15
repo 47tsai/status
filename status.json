@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T15:23:02.863747+00:00",
+  "generated_at": "2026-10-15T15:23:36.539858+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T15:22:45Z",
-      "created_at": "2026-10-15T15:22:42Z",
+      "updated_at": "2026-10-15T15:23:25Z",
+      "created_at": "2026-10-15T15:23:12Z",
       "event": "push",
-      "commit_message": "feat: add system theme mode and replace emoji with SVG icons",
+      "commit_message": "chore: remove emoji icons from status data profiles",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38759777855",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38759854571",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +44,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 23:22:45",
+            "time": "2026-10-15 23:23:25",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-15T15:22:59.317789+00:00",
-      "created_at": "2026-10-15T15:22:59.317805+00:00",
+      "updated_at": "2026-10-15T15:23:33.960776+00:00",
+      "created_at": "2026-10-15T15:23:33.960792+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -93,19 +93,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "公開端點有回應 · HTTP 200 · 1823 ms",
+            "result": "公開端點有回應 · HTTP 200 · 759 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "公開端點有回應 · HTTP 200 · 811 ms",
+            "result": "公開端點有回應 · HTTP 200 · 1292 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 910 ms",
+            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 527 ms",
             "time": "",
             "tone": "good"
           }
@@ -132,7 +132,7 @@
         "kind": "freegame",
         "title": "免費遊戲通知",
         "description": "RSS 掃描、已處理遊戲與文章去重狀態",
-        "icon": "🕹",
+        "icon": "gamepad",
         "business_status": "success",
         "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
         "metrics": [
@@ -318,7 +318,7 @@
         "kind": "claim",
         "title": "荒野亂鬥自動領取",
         "description": "兩個帳號的實際領取結果與最近成功時間",
-        "icon": "🎮",
+        "icon": "gamepad",
         "business_status": "success",
         "business_label": "2/2 個帳號成功",
         "metrics": [
