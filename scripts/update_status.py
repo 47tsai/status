@@ -91,7 +91,9 @@ def inspect_page_content(status, content_type, body, final_url):
     if not text.strip():
         return {"ok": False, "protected": False, "title": title, "reason": "回應內容為空"}
     if "html" in (content_type or "").lower() and not title:
-        return {"ok": False, "protected": False, "title": title, "reason": "HTML 缺少 title，可能是錯誤頁或不完整回應"}
+        # A missing title is weak evidence: valid SPAs and minimal HTML pages may omit it.
+        # Keep the endpoint reachable, but do not claim the page content is healthy.
+        return {"ok": None, "protected": False, "title": title, "reason": "HTML 缺少 title，內容狀態未能確認"}
     error_titles = ("404", "not found", "access denied", "bad gateway", "service unavailable",
                     "internal server error", "just a moment", "attention required")
     if title and any(term in title.lower() for term in error_titles):
@@ -282,11 +284,13 @@ def business_data(repo_name, run):
             if not check:
                 detail_result, tone = "未取得檢查結果", "normal"
             elif check.get("protected"):
-                detail_result, tone = f"Cloudflare Access 登入頁可達 · HTTP {check['status']}（僅確認 Access 回應）", "good"
+                detail_result, tone = f"Cloudflare Access 登入頁可達 · HTTP {check['status']}（僅確認 Access 回應）", "normal"
             elif check.get("ok") is True:
                 detail_result, tone = f"HTTP 與基本頁面內容檢查通過 · HTTP {check['status']}", "good"
+            elif check.get("ok") is False:
+                detail_result, tone = f"端點異常 · HTTP {check.get('status', '未知')}", "bad"
             else:
-                detail_result, tone = f"端點異常 · HTTP {check.get('status', '未知')}", "bad" if check.get("ok") is False else "normal"
+                detail_result, tone = f"內容狀態未能確認 · HTTP {check.get('status', '未知')}", "normal"
             if check and check.get("latency_ms") is not None:
                 detail_result += f" · {check['latency_ms']} ms"
             result["details"].append({
