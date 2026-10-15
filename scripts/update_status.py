@@ -92,11 +92,11 @@ def inspect_page_content(status, content_type, body, final_url):
         return {"ok": False, "protected": False, "title": title, "reason": "回應內容為空"}
     signals = []
     if "html" in (content_type or "").lower():
-        if re.search(r"<script\\b", text, re.IGNORECASE):
+        if re.search(r"<script\b", text, re.IGNORECASE):
             signals.append("script")
-        if re.search(r"\\bid=[\\\"'](?:app|root|__next|__nuxt|q-app)[\\\"']", text, re.IGNORECASE):
+        if re.search(r"\bid=[^>]*\b(?:app|root|__next|__nuxt|q-app)\b", text, re.IGNORECASE):
             signals.append("app-root")
-        if re.search(r"<meta\\b[^>]*name=[\\\"']viewport[\\\"']", text, re.IGNORECASE):
+        if re.search(r"<meta\b[^>]*name=[^>]*viewport", text, re.IGNORECASE):
             signals.append("viewport")
     if "html" in (content_type or "").lower() and not title:
         # These signals help diagnose a title-less SPA, but are not sufficient to mark it healthy.
