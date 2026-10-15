@@ -18,6 +18,60 @@ main{max-width:1240px;margin:auto;padding:30px 20px 56px}.top{display:flex;align
 details{margin-top:11px;border-top:1px solid #26334a;padding-top:10px}summary{font-size:12px;color:var(--accent);font-weight:750;cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}summary:after{content:"＋";float:right}details[open] summary:after{content:"−"}.detail-list{display:grid;gap:7px;margin-top:10px}.detail-row{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:8px 10px;background:#0b1322;border-radius:9px}.detail-row span{color:var(--muted)}.detail-row strong{text-align:right;overflow-wrap:anywhere}.note{font-size:12px;color:var(--muted);margin:10px 0 0}.empty{padding:36px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px;grid-column:1/-1}.footer{font-size:12px;color:var(--muted);margin-top:18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.error{color:var(--red)}
 @media(max-width:760px){main{padding:24px 13px 38px}.grid{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:24px}.toolbar .meta{margin-left:0;width:100%}}
 @media(max-width:430px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.project-head{gap:9px}.app-icon{width:37px;height:37px;flex-basis:37px}.badges{max-width:120px}.business-line{align-items:flex-start;flex-direction:column}.business-line span{text-align:left}}
+
+/* Layout refinement: clearer hierarchy and a compact, predictable mobile layout. */
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.top{align-items:flex-end}
+.top-actions{flex-shrink:0}
+.stat{min-width:0}
+.toolbar select{max-width:100%}
+.project{display:flex;flex-direction:column}
+.project-head{min-width:0}
+.project-title{overflow-wrap:anywhere}
+.badges{max-width:46%;min-width:0}
+.badge{white-space:normal;line-height:1.4}
+.business-line{min-width:0}
+.business-line strong{overflow-wrap:anywhere}
+.metric{min-height:67px}
+.runmeta{overflow-wrap:anywhere}
+@media(max-width:760px){
+  main{padding:22px 14px 34px}
+  .top{align-items:flex-start}
+  .top>div:first-child{width:100%}
+  .top-actions{width:100%}
+  .top-actions .btn,.top-actions button{flex:1;text-align:center;justify-content:center}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));margin:20px 0 14px}
+  .stat{padding:13px 14px}
+  .stat strong{font-size:26px}
+  .toolbar{display:grid;grid-template-columns:minmax(0,1fr);gap:9px;padding:11px}
+  .toolbar input,.toolbar select{width:100%;min-width:0}
+  .toolbar .meta{width:100%;margin:0}
+  .project{padding:15px}
+  .badges{max-width:43%}
+}
+@media(max-width:430px){
+  .grid{gap:10px}
+  .project-head{display:grid;grid-template-columns:37px minmax(0,1fr);gap:9px}
+  .app-icon{width:37px;height:37px;flex-basis:37px}
+  .title-wrap{min-width:0}
+  .badges{grid-column:1/-1;max-width:none;width:100%;justify-content:flex-start}
+  .badge{font-size:10px}
+  .project-title{font-size:16px}
+  .desc{margin:10px 0 12px}
+  .business-line{align-items:flex-start;flex-direction:column;gap:4px}
+  .business-line span{text-align:left}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .metric{padding:9px;min-height:62px}
+  .runline{align-items:flex-start;flex-direction:column}
+  .runline .links{width:100%}
+  .runline .links .btn{flex:1;text-align:center}
+  .detail-row{align-items:flex-start;flex-direction:column;gap:4px}
+  .detail-row strong{text-align:left}
+}
+@media(prefers-reduced-motion:no-preference){
+  button,.btn,.project{transition:border-color .18s ease,transform .18s ease}
+  .project:hover{border-color:#3a4d6d}
+}
 </style>
 </head>
 <body><main>
