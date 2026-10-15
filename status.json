@@ -1,7 +1,69 @@
 {
-  "generated_at": "2026-10-15T14:03:29.476781+00:00",
-  "repository_count": 10,
+  "generated_at": "2026-10-15T14:07:59.284099+00:00",
+  "repository_count": 11,
   "repositories": [
+    {
+      "name": "vps-01",
+      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
+      "html_url": "https://alist.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "failure",
+      "branch": "OCI",
+      "updated_at": "2026-10-15T14:07:57.744643+00:00",
+      "created_at": "2026-10-15T14:07:57.744666+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘檢查三個公開服務端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions",
+      "business": {
+        "kind": "vps",
+        "title": "VPS-01 · Oracle Cloud",
+        "description": "透過公開服務端點檢查 VPS 對外可用性",
+        "icon": "▣",
+        "business_status": "failure",
+        "business_label": "部分公開服務異常（1/3 可用）",
+        "metrics": [
+          {
+            "label": "可用服務",
+            "value": "1/3",
+            "tone": "bad"
+          },
+          {
+            "label": "檢查方式",
+            "value": "HTTPS",
+            "tone": "normal"
+          },
+          {
+            "label": "主機資源",
+            "value": "未提供代理程式",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "Alist",
+            "result": "無法正常連線 · HTTP 530",
+            "time": "",
+            "tone": "bad"
+          },
+          {
+            "label": "BiliTool",
+            "result": "無法正常連線 · HTTP 530",
+            "time": "",
+            "tone": "bad"
+          },
+          {
+            "label": "Twitch Drops Miner",
+            "result": "可連線 · HTTP 200",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "此卡片從外部檢查 Cloudflare Tunnel 公開網址，只能證明服務端點是否可回應，不能單憑此結果確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。若三個服務同時失聯，可能是 VPS、cloudflared、網路或 DNS 問題。",
+        "evidence_url": null
+      }
+    },
     {
       "name": "status",
       "full_name": "tsai97216/status",
@@ -9,13 +71,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T14:03:19Z",
-      "created_at": "2026-10-15T14:03:15Z",
+      "updated_at": "2026-10-15T14:07:47Z",
+      "created_at": "2026-10-15T14:07:41Z",
       "event": "push",
-      "commit_message": "chore: exclude retired and unwanted projects from dashboard",
+      "commit_message": "feat: add VPS monitor card and filter",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38747976800",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38748630743",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +106,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 22:03:19",
+            "time": "2026-10-15 22:07:47",
             "tone": "normal"
           }
         ],
@@ -57,15 +119,15 @@
       "full_name": "tsai97216/chi-source-personal",
       "html_url": "https://github.com/tsai97216/chi-source-personal",
       "workflow": "pages build and deployment",
-      "status": "success",
+      "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T13:59:59Z",
-      "created_at": "2026-10-15T13:56:58Z",
+      "updated_at": "2026-10-15T14:05:41Z",
+      "created_at": "2026-10-15T14:05:01Z",
       "event": "dynamic",
-      "commit_message": "Add AltDirect source button to README",
-      "duration_seconds": 181,
+      "commit_message": "auto: sync Chi Source",
+      "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38747078767",
+      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38748237792",
       "business": {
         "kind": "source",
         "title": "Chi Source Personal",
@@ -81,7 +143,7 @@
           },
           {
             "label": "本次標示更新",
-            "value": "7",
+            "value": "3",
             "tone": "good"
           },
           {
@@ -93,7 +155,7 @@
         "details": [
           {
             "label": "自動檢查",
-            "result": "2026-10-15 18:40:09",
+            "result": "2026-10-15 22:04:58",
             "time": "",
             "tone": "normal"
           },
@@ -105,13 +167,13 @@
           },
           {
             "label": "版本狀態",
-            "result": "7 個 App 更新、2 個未變更",
+            "result": "3 個 App 更新、6 個未變更",
             "time": "",
             "tone": "good"
           },
           {
             "label": "更新的 App",
-            "result": "SpooferPro Pokemon GO、Kazumi、Photos Backup、AirCard-iOS、EnsWilde、StikDebug、MiniWatts",
+            "result": "SpooferPro Pokemon GO、Kazumi、MiniWatts",
             "time": "",
             "tone": "good"
           }
