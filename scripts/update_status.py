@@ -128,6 +128,16 @@ def health_check(url):
         return {"ok": False, "reachable": False, "protected": False, "status": "連線失敗", "url": url,
                 "latency_ms": elapsed_ms, "error": str(exc)[:160], "content_reason": "DNS、TLS、逾時或連線錯誤"}
 
+def format_unknown_health_detail(check):
+    """Format an inconclusive endpoint check without repeating its status phrase."""
+    reason = (check or {}).get("content_reason") or "回應內容不足以確認頁面健康"
+    reason = re.sub(r"^(?:HTML 缺少 title，)?內容狀態未能確認[：:，, ]*", "", reason).strip()
+    if not reason:
+        reason = "回應內容不足以確認頁面健康"
+    status = (check or {}).get("status", "未知")
+    return f"狀態未確認 · {reason} · HTTP {status}"
+
+
 def normalize_run_status(run):
     """Return a conclusion for completed runs, otherwise the live run status."""
     if not isinstance(run, dict):
@@ -290,8 +300,7 @@ def business_data(repo_name, run):
             elif check.get("ok") is False:
                 detail_result, tone = f"端點異常 · HTTP {check.get('status', '未知')}", "bad"
             else:
-                reason = check.get("content_reason") or "回應內容不足以確認頁面健康"
-                detail_result, tone = f"內容狀態未能確認 · {reason} · HTTP {check.get('status', '未知')}", "normal"
+                detail_result, tone = format_unknown_health_detail(check), "normal"
             if check and check.get("latency_ms") is not None:
                 detail_result += f" · {check['latency_ms']} ms"
             result["details"].append({
