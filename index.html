@@ -105,6 +105,8 @@ function render(){
   if(f==='vps'&&b.kind!=='vps')return false;
   return true;
  });
+ const kindOrder={dashboard:0,vps:1,claim:2,checkin:3,source:4,deploy:5,freegame:6};
+ filtered.sort((a,b)=>(kindOrder[a.business?.kind]??7)-(kindOrder[b.business?.kind]??7));
  $('total').textContent=items.length;
  $('bizok').textContent=items.filter(x=>x.business?.business_status==='success').length;
  $('attention').textContent=items.filter(x=>isWorkflowBad(x)||isBusinessBad(x)).length;
