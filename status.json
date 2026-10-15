@@ -1,69 +1,7 @@
 {
-  "generated_at": "2026-10-15T14:36:16.023393+00:00",
+  "generated_at": "2026-10-15T14:43:57.037106+00:00",
   "repository_count": 11,
   "repositories": [
-    {
-      "name": "vps-01",
-      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
-      "html_url": "https://alist.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "failure",
-      "branch": "OCI",
-      "updated_at": "2026-10-15T14:36:14.560252+00:00",
-      "created_at": "2026-10-15T14:36:14.560268+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘檢查三個公開服務端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions",
-      "business": {
-        "kind": "vps",
-        "title": "VPS-01 · Oracle Cloud",
-        "description": "透過公開服務端點檢查 VPS 對外可用性",
-        "icon": "▣",
-        "business_status": "failure",
-        "business_label": "公開端點異常（0 正常／2 異常／1 未驗證）",
-        "metrics": [
-          {
-            "label": "已確認可用",
-            "value": "0/3",
-            "tone": "normal"
-          },
-          {
-            "label": "異常端點",
-            "value": "2",
-            "tone": "bad"
-          },
-          {
-            "label": "未驗證端點",
-            "value": "1",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "Alist",
-            "result": "端點異常 · HTTP 530 · 156 ms",
-            "time": "",
-            "tone": "bad"
-          },
-          {
-            "label": "BiliTool",
-            "result": "端點異常 · HTTP 530 · 183 ms",
-            "time": "",
-            "tone": "bad"
-          },
-          {
-            "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁 · HTTP 200（未驗證應用） · 1123 ms",
-            "time": "",
-            "tone": "normal"
-          }
-        ],
-        "note": "此卡片從外部檢查 Cloudflare Tunnel 公開網址。HTTP 200 只代表有回應；若回應是 Cloudflare Access 登入頁，會標為未驗證，不會算成應用正常。端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。多個端點同時異常可能是 VPS、cloudflared、網路、DNS 或來源服務問題。",
-        "evidence_url": null
-      }
-    },
     {
       "name": "status",
       "full_name": "tsai97216/status",
@@ -71,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T14:36:06Z",
-      "created_at": "2026-10-15T14:36:01Z",
+      "updated_at": "2026-10-15T14:43:41Z",
+      "created_at": "2026-10-15T14:43:36Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38752839469",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38753959681",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -106,12 +44,74 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 22:36:06",
+            "time": "2026-10-15 22:43:41",
             "tone": "normal"
           }
         ],
         "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/tsai97216/status/actions"
+      }
+    },
+    {
+      "name": "vps-01",
+      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
+      "html_url": "https://alist.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "unknown",
+      "branch": "OCI",
+      "updated_at": "2026-10-15T14:43:53.662845+00:00",
+      "created_at": "2026-10-15T14:43:53.662863+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘檢查三個公開服務端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions",
+      "business": {
+        "kind": "vps",
+        "title": "VPS-01 · Oracle Cloud",
+        "description": "透過公開服務端點檢查 VPS 對外可用性",
+        "icon": "▣",
+        "business_status": "unknown",
+        "business_label": "有端點未驗證（2/3 可確認）",
+        "metrics": [
+          {
+            "label": "已確認可用",
+            "value": "2/3",
+            "tone": "normal"
+          },
+          {
+            "label": "異常端點",
+            "value": "0",
+            "tone": "good"
+          },
+          {
+            "label": "未驗證端點",
+            "value": "1",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "Alist",
+            "result": "公開端點有回應 · HTTP 200 · 768 ms",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "BiliTool",
+            "result": "公開端點有回應 · HTTP 200 · 1825 ms",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "Twitch Drops Miner",
+            "result": "Cloudflare Access 登入頁 · HTTP 200（未驗證應用） · 779 ms",
+            "time": "",
+            "tone": "normal"
+          }
+        ],
+        "note": "此卡片從外部檢查 Cloudflare Tunnel 公開網址。HTTP 200 只代表有回應；若回應是 Cloudflare Access 登入頁，會標為未驗證，不會算成應用正常。端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。多個端點同時異常可能是 VPS、cloudflared、網路、DNS 或來源服務問題。",
+        "evidence_url": null
       }
     },
     {
