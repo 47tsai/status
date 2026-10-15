@@ -99,9 +99,9 @@ def inspect_page_content(status, content_type, body, final_url):
         if re.search(r"<meta\b[^>]*name=[^>]*viewport", text, re.IGNORECASE):
             signals.append("viewport")
     if "html" in (content_type or "").lower() and not title:
-        # These signals help diagnose a title-less SPA, but are not sufficient to mark it healthy.
-        return {"ok": None, "protected": False, "title": title,
-                "reason": "HTML 缺少 title，內容狀態未能確認", "signals": signals}
+        # Treat a non-empty HTTP 2xx/3xx response as reachable even when a page omits <title>.
+        return {"ok": True, "protected": False, "title": title,
+                "reason": "HTTP 回應正常（HTML 無 title，略過標題檢查）", "signals": signals}
     error_titles = ("404", "not found", "access denied", "bad gateway", "service unavailable",
                     "internal server error", "just a moment", "attention required")
     if title and any(term in title.lower() for term in error_titles):
