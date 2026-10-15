@@ -216,10 +216,11 @@ def business_data(repo_name, run):
         result["note"] = "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     elif kind == "vps":
+        # VPS-01 is considered healthy when either core service is reachable.
+        # Twitch Drops Miner is intentionally excluded from the VPS health decision.
         services = [
             ("Alist", "https://alist.chi.qzz.io/"),
             ("BiliTool", "https://bili.chi.qzz.io/"),
-            ("Twitch Drops Miner", "https://twitch.chi.qzz.io/"),
         ]
         checks = []
         for label, url in services:
@@ -229,18 +230,18 @@ def business_data(repo_name, run):
         failed = sum(1 for item in checks if item["check"] and item["check"].get("ok") is False)
         unknown = sum(1 for item in checks if not item["check"] or item["check"].get("ok") is None)
         total = len(checks)
-        if failed:
-            result["business_status"] = "failure"
-            result["business_label"] = f"公開端點異常（{healthy} 正常／{failed} 異常／{unknown} 未驗證）"
+        if healthy:
+            result["business_status"] = "success"
+            result["business_label"] = f"VPS-01 正常（Alist／BiliTool 至少一項可用，{healthy}/{total}）"
         elif unknown:
             result["business_status"] = "unknown"
-            result["business_label"] = f"有端點未驗證（{healthy}/{total} 可確認）"
+            result["business_label"] = f"核心服務狀態未能確認（{failed} 異常／{unknown} 未驗證）"
         else:
-            result["business_status"] = "success"
-            result["business_label"] = f"所有公開端點均有回應（{healthy}/{total}）"
+            result["business_status"] = "failure"
+            result["business_label"] = "Alist 與 BiliTool 均異常"
         result["metrics"] = [
-            metric("已確認可用", f"{healthy}/{total}", "good" if healthy == total else "normal"),
-            metric("異常端點", failed, "bad" if failed else "good"),
+            metric("核心服務可用", f"{healthy}/{total}", "good" if healthy else "bad" if not unknown else "normal"),
+            metric("異常端點", failed, "bad" if failed and not healthy else "normal" if failed else "good"),
             metric("未驗證端點", unknown, "normal" if unknown else "good"),
         ]
         for item in checks:
@@ -261,7 +262,7 @@ def business_data(repo_name, run):
                 "time": "",
                 "tone": tone,
             })
-        result["note"] = "此卡片從外部檢查 Cloudflare Tunnel 公開網址。HTTP 200 只代表有回應；若回應是 Cloudflare Access 登入頁，會標為未驗證，不會算成應用正常。端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。多個端點同時異常可能是 VPS、cloudflared、網路、DNS 或來源服務問題。"
+        result["note"] = "VPS-01 的健康判定只看 Alist 與 BiliTool：兩者任一公開端點確認可用，就判定 VPS-01 成功；只有兩者都異常才判定失敗。若沒有任何一項確認可用，且仍有端點因 Cloudflare Access 等原因無法驗證，則標示未知。Twitch Drops Miner 不納入判定。外部端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。"
         result["evidence_url"] = None
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
