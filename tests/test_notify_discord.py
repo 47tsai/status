@@ -60,7 +60,7 @@ class DiscordAlertTests(unittest.TestCase):
             [{"title": "VPS-01", "reason": "端點異常", "url": "https://example.com"}],
             [{"title": "Chi Source"}],
         )
-        self.assertIn("https://tsai97216.github.io/status/", message)
+        self.assertIn("https://status.chi.qzz.io/", message)
         self.assertIn("VPS-01", message)
         self.assertIn("已恢復正常", message)
         self.assertNotIn("@everyone", message)
