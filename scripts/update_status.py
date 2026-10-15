@@ -353,7 +353,8 @@ def business_data(repo_name, run):
             result["business_label"] = "部署狀態未知"
         result["metrics"] = [metric("部署結果", "成功" if workflow_ok else status or "未知", "good" if workflow_ok else "bad" if status == "failure" else "normal"),
                              metric("分支", (run or {}).get("head_branch") or "－"),
-                             metric("網站 HTTP", str(health["status"]) if health else "未設定", "good" if health and health["ok"] else "bad" if health else "normal")]
+                             metric("網站 HTTP", str(health["status"]) if health else "未設定", "good" if health and health.get("ok") is True else "bad" if health and health.get("ok") is False else "normal"),
+                             metric("頁面內容", "通過" if health and health.get("ok") is True else "異常" if health and health.get("ok") is False else "未確認", "good" if health and health.get("ok") is True else "bad" if health and health.get("ok") is False else "normal")]
         result["details"] = [{"label": "最近部署", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal"}]
         if health:
             result["details"].append({"label": "網站檢查", "result": f"{health['url']} · HTTP {health['status']}", "time": "", "tone": "good" if health["ok"] else "bad"})
