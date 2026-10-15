@@ -28,6 +28,26 @@ class DiscordAlertTests(unittest.TestCase):
         self.assertEqual(normalize_run_status({"status": "in_progress", "conclusion": None}), "in_progress")
         self.assertEqual(normalize_run_status(None), "unknown")
 
+    def test_health_check_accepts_normal_html_page(self):
+        result = inspect_page_content(200, 'text/html', '<html><head><title>Chi Source</title></head><body>OK</body></html>', 'https://ipa.chi.qzz.io/')
+        self.assertTrue(result['ok'])
+        self.assertEqual(result['title'], 'Chi Source')
+
+    def test_health_check_rejects_http_200_with_empty_body(self):
+        result = inspect_page_content(200, 'text/html', '   ', 'https://example.com/')
+        self.assertFalse(result['ok'])
+        self.assertIn('空', result['reason'])
+
+    def test_health_check_rejects_http_200_error_page(self):
+        result = inspect_page_content(200, 'text/html', '<html><title>502 Bad Gateway</title><body>upstream error</body></html>', 'https://example.com/')
+        self.assertFalse(result['ok'])
+        self.assertIn('錯誤', result['reason'])
+
+    def test_health_check_marks_protected_page_unknown(self):
+        result = inspect_page_content(200, 'text/html', '<html><title>Protected</title><body>Access policy login</body></html>', 'https://example.com/cdn-cgi/access/login')
+        self.assertIsNone(result['ok'])
+        self.assertTrue(result['protected'])
+
     def test_api_error_preserves_card_but_marks_data_unknown(self):
         previous = {
             "name": "demo", "status": "success",
