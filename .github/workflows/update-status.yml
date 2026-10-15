@@ -6,6 +6,8 @@ on:
 permissions:
   contents: write
   actions: read
+  pages: write
+  id-token: write
 concurrency:
   group: update-actions-status
   cancel-in-progress: true
@@ -101,3 +103,19 @@ jobs:
           git add status.json
           git commit -m "chore: update Actions status data"
           git push
+
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out latest dashboard
+        uses: actions/checkout@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
