@@ -96,7 +96,7 @@ def build_message(new_failures, recovered):
             lines.append(f"• **{item['title']}**")
         if len(recovered) > 10:
             lines.append(f"另有 {len(recovered) - 10} 個專案已恢復。")
-    lines.append("儀表板：https://tsai97216.github.io/status/")
+    lines.append("儀表板：https://status.chi.qzz.io/")
     lines.append("時間：" + datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
     return "\n".join(lines)
 
