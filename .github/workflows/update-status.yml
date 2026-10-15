@@ -87,7 +87,7 @@ jobs:
           }
           with open("status.json", "w", encoding="utf-8") as f:
               json.dump(payload, f, ensure_ascii=False, indent=2)
-              f.write("\\n")
+              f.write("\n")
           print(f"Collected latest workflow runs for {len(results)} repositories.")
           PY
       - name: Commit updated status data
