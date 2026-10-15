@@ -73,11 +73,24 @@ def taipei_time(value):
 def metric(label, value, tone="normal"):
     return {"label": label, "value": str(value) if value is not None else "－", "tone": tone}
 
+def health_check(url):
+    if not url:
+        return None
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "tsai97216-status-healthcheck"})
+        with urllib.request.urlopen(req, timeout=12) as response:
+            return {"ok": 200 <= response.status < 400, "status": response.status, "url": url}
+    except urllib.error.HTTPError as exc:
+        return {"ok": False, "status": exc.code, "url": url}
+    except Exception as exc:
+        return {"ok": False, "status": "連線失敗", "url": url, "error": str(exc)[:160]}
+
 def business_data(repo_name, run):
-    kind = PROFILES.get(repo_name, {}).get("kind", "generic")
-    result = {"kind": kind, "title": PROFILES.get(repo_name, {}).get("title", repo_name),
-              "description": PROFILES.get(repo_name, {}).get("description", "最近一次 Workflow 執行狀況"),
-              "icon": PROFILES.get(repo_name, {}).get("icon", "◉"),
+    profile = PROFILES.get(repo_name, {})
+    kind = profile.get("kind", "generic")
+    result = {"kind": kind, "title": profile.get("title", repo_name),
+              "description": profile.get("description", "最近一次 Workflow 執行狀況"),
+              "icon": profile.get("icon", "◉"),
               "business_status": "unknown", "business_label": "尚未建立業務紀錄",
               "metrics": [], "details": [], "note": "", "evidence_url": None}
     if kind == "claim":
@@ -136,15 +149,63 @@ def business_data(repo_name, run):
         result["details"] = [{"label": "來源紀錄", "result": status_line or "無法判讀", "time": timestamp or "尚無紀錄", "tone": "good" if success else "bad" if failure else "normal"}]
         result["note"] = "讀取專案自己更新的簽到紀錄；如果腳本只回報文字或格式改變，會標示未知而不是猜測成功。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/README.md"
+    elif kind == "source":
+        readme = raw(repo_name, "README.md") or ""
+        auto_match = re.search(r"最近自動檢查：\\*\\*\\s*([^（\\n]+)", readme)
+        content_match = re.search(r"最近內容更新：\\*\\*\\s*([^（\\n]+)", readme)
+        rows = []
+        for line in readme.splitlines():
+            if not line.startswith("|") or "Updated" not in line and "Unchanged" not in line:
+                continue
+            cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+            if len(cells) < 4:
+                continue
+            name_match = re.search(r"\\[([^\\]]+)\\]", cells[0])
+            if name_match:
+                rows.append((name_match.group(1), "Updated" if "Updated" in cells[2] else "Unchanged"))
+        updated_names = [name for name, state in rows if state == "Updated"]
+        unchanged_count = sum(1 for _, state in rows if state == "Unchanged")
+        health = health_check(profile.get("health_url"))
+        result["business_status"] = "failure" if health and not health["ok"] else "success" if health and health["ok"] else "unknown"
+        result["business_label"] = "來源網站可用" if health and health["ok"] else "來源網站異常" if health else "網站狀態未知"
+        result["metrics"] = [metric("App 數量", len(rows)), metric("本次標示更新", len(updated_names), "good" if updated_names else "normal"),
+                             metric("網站 HTTP", str(health["status"]) if health else "未檢查", "good" if health and health["ok"] else "bad" if health else "normal")]
+        result["details"] = [{"label": "自動檢查", "result": auto_match.group(1).strip() if auto_match else "README 無紀錄", "time": "", "tone": "normal"},
+                             {"label": "內容更新", "result": content_match.group(1).strip() if content_match else "README 無紀錄", "time": "", "tone": "normal"},
+                             {"label": "版本狀態", "result": f"{len(updated_names)} 個 App 更新、{unchanged_count} 個未變更", "time": "", "tone": "good" if updated_names else "normal"}]
+        if updated_names:
+            result["details"].append({"label": "更新的 App", "result": "、".join(updated_names[:8]), "time": "", "tone": "good"})
+        result["note"] = "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。"
+        result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/README.md"
     elif kind == "deploy":
         status = (run or {}).get("status")
-        result["business_status"] = "success" if status == "success" else "failure" if status == "failure" else "running" if status in ("in_progress", "queued", "waiting", "requested") else "unknown"
-        result["business_label"] = {"success": "最近部署成功", "failure": "最近部署失敗", "running": "部署進行中"}.get(result["business_status"], "部署狀態未知")
-        result["metrics"] = [metric("部署結果", result["business_label"], "good" if status == "success" else "bad" if status == "failure" else "normal"),
+        health = health_check(profile.get("health_url"))
+        workflow_ok = status == "success"
+        if health and not health["ok"]:
+            result["business_status"] = "failure"
+            result["business_label"] = "網站無法正常回應"
+        elif health and health["ok"] and workflow_ok:
+            result["business_status"] = "success"
+            result["business_label"] = "部署成功、網站可用"
+        elif status == "failure":
+            result["business_status"] = "failure"
+            result["business_label"] = "最近部署失敗"
+        elif status in ("in_progress", "queued", "waiting", "requested"):
+            result["business_status"] = "running"
+            result["business_label"] = "部署進行中"
+        elif workflow_ok:
+            result["business_status"] = "success"
+            result["business_label"] = "最近部署成功"
+        else:
+            result["business_status"] = "unknown"
+            result["business_label"] = "部署狀態未知"
+        result["metrics"] = [metric("部署結果", "成功" if workflow_ok else status or "未知", "good" if workflow_ok else "bad" if status == "failure" else "normal"),
                              metric("分支", (run or {}).get("head_branch") or "－"),
-                             metric("觸發方式", (run or {}).get("event") or "－")]
-        result["details"] = [{"label": "最近部署", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if status == "success" else "bad" if status == "failure" else "normal"}]
-        result["note"] = "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。"
+                             metric("網站 HTTP", str(health["status"]) if health else "未設定", "good" if health and health["ok"] else "bad" if health else "normal")]
+        result["details"] = [{"label": "最近部署", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal"}]
+        if health:
+            result["details"].append({"label": "網站檢查", "result": f"{health['url']} · HTTP {health['status']}", "time": "", "tone": "good" if health["ok"] else "bad"})
+        result["note"] = "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     else:
         status = (run or {}).get("status")
