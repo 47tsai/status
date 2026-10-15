@@ -291,6 +291,7 @@ def main():
                 "workflow": run.get("name") or run.get("display_title") or "GitHub Actions",
                 "status": status, "branch": run.get("head_branch") or repo.get("default_branch"),
                 "updated_at": run.get("updated_at") or run.get("created_at"),
+                "created_at": run.get("created_at"),
                 "event": run.get("event"),
                 "commit_message": ((run.get("head_commit") or {}).get("message") or "").splitlines()[0][:180],
                 "duration_seconds": duration, "runs_url": repo["html_url"] + "/actions",
