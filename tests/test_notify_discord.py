@@ -105,11 +105,11 @@ class DiscordAlertTests(unittest.TestCase):
         })
         self.assertEqual(detail, "狀態未確認 · HTML 缺少 title（頁面包含 script、app/root 容器、viewport） · HTTP 200")
 
-    def test_health_check_marks_titleless_html_unknown_not_failed(self):
+    def test_health_check_accepts_nonempty_titleless_html_with_http_200(self):
         result = inspect_page_content(200, 'text/html', '<html><head><meta name="viewport" content="width=device-width"><script src="/app.js"></script></head><body><div id="app"></div></body></html>', 'https://example.com/')
-        self.assertIsNone(result['ok'])
+        self.assertTrue(result['ok'])
         self.assertFalse(result['protected'])
-        self.assertIn('未能確認', result['reason'])
+        self.assertIn('略過標題檢查', result['reason'])
         self.assertEqual(result['signals'], ["script", "app-root", "viewport"])
 
     def test_health_check_marks_protected_page_unknown(self):
