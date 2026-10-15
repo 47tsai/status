@@ -112,6 +112,34 @@ def normalize_active_failures(state):
             if isinstance(name, str) and isinstance(record, dict)}
 
 
+def calculate_alert_changes(current, previous):
+    """Compute alert transitions without treating missing/unknown data as recovery."""
+    current_failures = {
+        name: failure_record(item)
+        for name, item in current.items()
+        if is_failed(item)
+    }
+    new_failures = [
+        record for name, record in current_failures.items()
+        if name not in previous
+    ]
+    recovered = [
+        previous[name] for name in previous
+        if name in current
+        and name not in current_failures
+        and is_recovered(current[name])
+    ]
+
+    # Missing, unknown, or running results do not prove a prior incident recovered.
+    next_active = dict(current_failures)
+    for name, record in previous.items():
+        if name not in current or (
+            name not in current_failures and not is_recovered(current[name])
+        ):
+            next_active[name] = record
+    return new_failures, recovered, next_active
+
+
 def main():
     webhook_url = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
     if not webhook_url:
@@ -129,20 +157,9 @@ def main():
 
     current = {str(item.get("name") or item.get("full_name")): item for item in items
                if isinstance(item, dict) and (item.get("name") or item.get("full_name"))}
-    current_failures = {name: failure_record(item) for name, item in current.items() if is_failed(item)}
     previous_state = read_json(STATE_PATH, {"active_failures": {}})
     previous = normalize_active_failures(previous_state)
-
-    new_failures = [record for name, record in current_failures.items() if name not in previous]
-    recovered = [previous[name] for name in previous
-                 if name in current and name not in current_failures and is_recovered(current[name])]
-
-    # Keep the prior alert active if a project is missing or only has an unknown/running
-    # result. Missing data and an in-progress run are not proof that the issue recovered.
-    next_active = dict(current_failures)
-    for name, record in previous.items():
-        if name not in current or (name not in current_failures and not is_recovered(current[name])):
-            next_active[name] = record
+    new_failures, recovered, next_active = calculate_alert_changes(current, previous)
 
     if not new_failures and not recovered:
         print(f"沒有新的異常或恢復事件；目前追蹤 {len(next_active)} 個異常。")
