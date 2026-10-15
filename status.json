@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T23:47:17.477224+00:00",
+  "generated_at": "2026-10-15T23:49:45.454002+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T23:47:04Z",
-      "created_at": "2026-10-15T23:46:28Z",
+      "updated_at": "2026-10-15T23:49:32Z",
+      "created_at": "2026-10-15T23:49:29Z",
       "event": "push",
-      "commit_message": "test: cover titleless SPA health diagnostics",
+      "commit_message": "test: accept nonempty titleless HTTP 200 pages",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38825569308",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38825866429",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +44,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-16 07:47:04",
+            "time": "2026-10-16 07:49:32",
             "tone": "normal"
           }
         ],
@@ -57,10 +57,10 @@
       "full_name": "VPS-01 · Oracle Cloud Infrastructure",
       "html_url": "https://alist.chi.qzz.io/",
       "workflow": "外部服務探測",
-      "status": "unknown",
+      "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-15T23:47:14.089399+00:00",
-      "created_at": "2026-10-15T23:47:14.089412+00:00",
+      "updated_at": "2026-10-15T23:49:42.413996+00:00",
+      "created_at": "2026-10-15T23:49:42.414011+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -71,13 +71,13 @@
         "title": "VPS-01 · Oracle Cloud",
         "description": "透過公開服務端點檢查 VPS 對外可用性",
         "icon": "▣",
-        "business_status": "unknown",
-        "business_label": "VPS-01 狀態未能完全確認（2/3 成功／1 未知）",
+        "business_status": "success",
+        "business_label": "VPS-01 對外端點正常（3/3 HTTP 回應；不代表 VM/SSH 健康）",
         "metrics": [
           {
             "label": "成功端點",
-            "value": "2/3",
-            "tone": "normal"
+            "value": "3/3",
+            "tone": "good"
           },
           {
             "label": "異常端點",
@@ -86,26 +86,26 @@
           },
           {
             "label": "未確認端點",
-            "value": "1",
-            "tone": "normal"
+            "value": "0",
+            "tone": "good"
           }
         ],
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 980 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 937 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "狀態未確認 · HTML 缺少 title（頁面包含 script、viewport） · HTTP 200 · 1525 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 1498 ms",
             "time": "",
-            "tone": "normal"
+            "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 879 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 602 ms",
             "time": "",
             "tone": "normal"
           }
