@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T14:30:37.010194+00:00",
+  "generated_at": "2026-10-15T14:31:23.115407+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "failure",
       "branch": "OCI",
-      "updated_at": "2026-10-15T14:30:36.302726+00:00",
-      "created_at": "2026-10-15T14:30:36.302742+00:00",
+      "updated_at": "2026-10-15T14:31:22.178638+00:00",
+      "created_at": "2026-10-15T14:31:22.178657+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,19 +43,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "端點異常 · HTTP 530 · 211 ms",
+            "result": "端點異常 · HTTP 530 · 138 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "BiliTool",
-            "result": "端點異常 · HTTP 530 · 89 ms",
+            "result": "端點異常 · HTTP 530 · 108 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁 · HTTP 200（未驗證應用） · 405 ms",
+            "result": "Cloudflare Access 登入頁 · HTTP 200（未驗證應用） · 689 ms",
             "time": "",
             "tone": "normal"
           }
@@ -71,13 +71,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T14:30:24Z",
-      "created_at": "2026-10-15T14:30:06Z",
+      "updated_at": "2026-10-15T14:31:09Z",
+      "created_at": "2026-10-15T14:30:52Z",
       "event": "push",
-      "commit_message": "Clarify VPS monitoring evidence label",
+      "commit_message": "Prevent status workflow push races",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38751952836",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38752075515",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -106,7 +106,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 22:30:24",
+            "time": "2026-10-15 22:31:09",
             "tone": "normal"
           }
         ],
