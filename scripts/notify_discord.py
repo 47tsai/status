@@ -3,6 +3,7 @@
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -51,15 +52,31 @@ def read_json(path, default):
 
 def post_discord(webhook_url, content):
     payload = json.dumps({"content": content[:1900], "allowed_mentions": {"parse": []}}).encode("utf-8")
-    request = urllib.request.Request(
-        webhook_url,
-        data=payload,
-        headers={"Content-Type": "application/json", "User-Agent": "ChiStatus/1.0"},
-        method="POST",
-    )
-    with urllib.request.urlopen(request, timeout=15) as response:
-        if response.status < 200 or response.status >= 300:
-            raise RuntimeError(f"Discord webhook returned HTTP {response.status}")
+    headers = {"Content-Type": "application/json", "User-Agent": "ChiStatus/1.0"}
+    for attempt in range(3):
+        request = urllib.request.Request(webhook_url, data=payload, headers=headers, method="POST")
+        try:
+            with urllib.request.urlopen(request, timeout=15) as response:
+                if 200 <= response.status < 300:
+                    return
+                raise RuntimeError(f"Discord webhook returned HTTP {response.status}")
+        except urllib.error.HTTPError as exc:
+            # Retry rate limits and transient server errors, but fail fast for
+            # invalid webhook URLs or other client errors.
+            if exc.code != 429 and exc.code < 500:
+                raise
+            if attempt == 2:
+                raise
+            retry_after = exc.headers.get("Retry-After", "")
+            try:
+                delay = min(30, max(1, float(retry_after)))
+            except (TypeError, ValueError):
+                delay = 2 ** attempt
+            time.sleep(delay)
+        except (urllib.error.URLError, TimeoutError):
+            if attempt == 2:
+                raise
+            time.sleep(2 ** attempt)
 
 
 def build_message(new_failures, recovered):
