@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from notify_discord import build_message, is_failed, is_recovered, normalize_active_failures
+from notify_discord import (build_message, calculate_alert_changes, is_failed, is_recovered, normalize_active_failures)
 from update_status import normalize_run_status, stale_fallback, inspect_page_content
 
 
@@ -18,6 +18,41 @@ class DiscordAlertTests(unittest.TestCase):
             }}),
             {"good": {"title": "Project"}},
         )
+
+    def test_unknown_or_missing_project_does_not_clear_active_alert(self):
+        previous = {"vps-01": {"name": "vps-01", "title": "VPS-01", "reason": "端點異常", "url": ""}}
+        current = {
+            "vps-01": {"name": "vps-01", "status": "unknown",
+                       "business": {"business_status": "unknown", "business_label": "資料未知"}}
+        }
+        new, recovered, active = calculate_alert_changes(current, previous)
+        self.assertEqual(new, [])
+        self.assertEqual(recovered, [])
+        self.assertIn("vps-01", active)
+
+        new, recovered, active = calculate_alert_changes({}, previous)
+        self.assertEqual(new, [])
+        self.assertEqual(recovered, [])
+        self.assertIn("vps-01", active)
+
+    def test_explicit_success_clears_active_alert_once(self):
+        previous = {"vps-01": {"name": "vps-01", "title": "VPS-01", "reason": "端點異常", "url": ""}}
+        current = {
+            "vps-01": {"name": "vps-01", "status": "success",
+                       "business": {"business_status": "success", "business_label": "正常"}}
+        }
+        new, recovered, active = calculate_alert_changes(current, previous)
+        self.assertEqual(new, [])
+        self.assertEqual([item["name"] for item in recovered], ["vps-01"])
+        self.assertEqual(active, {})
+
+    def test_existing_failure_does_not_repeat_as_new_alert(self):
+        item = {"name": "demo", "status": "failure", "business": {"business_status": "failure"}}
+        previous = {"demo": {"name": "demo", "title": "demo", "reason": "failure", "url": ""}}
+        new, recovered, active = calculate_alert_changes({"demo": item}, previous)
+        self.assertEqual(new, [])
+        self.assertEqual(recovered, [])
+        self.assertIn("demo", active)
 
     def test_business_failure_is_detected_even_when_workflow_succeeded(self):
         item = {
