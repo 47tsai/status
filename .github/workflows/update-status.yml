@@ -22,8 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Check out status dashboard
+      - name: Check out latest status dashboard
         uses: actions/checkout@v7
+        with:
+          ref: main
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
