@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T13:58:04.041225+00:00",
+  "generated_at": "2026-10-15T13:59:46.174958+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -9,12 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T13:57:53Z",
+      "updated_at": "2026-10-15T13:59:32Z",
+      "created_at": "2026-10-15T13:58:28Z",
       "event": "push",
-      "commit_message": "feat: complete dashboard profile and branch fallbacks",
+      "commit_message": "fix: include run start time for per-run metrics",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38747116914",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38747287918",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -43,12 +44,74 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 21:57:53",
+            "time": "2026-10-15 21:59:32",
             "tone": "normal"
           }
         ],
         "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/tsai97216/status/actions"
+      }
+    },
+    {
+      "name": "chi-source",
+      "full_name": "tsai97216/chi-source",
+      "html_url": "https://github.com/tsai97216/chi-source",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-15T13:58:26Z",
+      "created_at": "2026-10-15T13:56:48Z",
+      "event": "dynamic",
+      "commit_message": "auto: sync Chi Source",
+      "duration_seconds": 98,
+      "runs_url": "https://github.com/tsai97216/chi-source/actions",
+      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38747053500",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source",
+        "description": "AltStore 來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站可用",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "7",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-15 21:56:44",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-15 00:33:08",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "0 個 App 更新、7 個未變更",
+            "time": "",
+            "tone": "normal"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
       }
     },
     {
@@ -59,6 +122,7 @@
       "status": "in_progress",
       "branch": "main",
       "updated_at": "2026-10-15T13:57:30Z",
+      "created_at": "2026-10-15T13:56:58Z",
       "event": "dynamic",
       "commit_message": "Add AltDirect source button to README",
       "duration_seconds": null,
@@ -119,67 +183,6 @@
       }
     },
     {
-      "name": "chi-source",
-      "full_name": "tsai97216/chi-source",
-      "html_url": "https://github.com/tsai97216/chi-source",
-      "workflow": "pages build and deployment",
-      "status": "in_progress",
-      "branch": "main",
-      "updated_at": "2026-10-15T13:57:21Z",
-      "event": "dynamic",
-      "commit_message": "auto: sync Chi Source",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/chi-source/actions",
-      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38747053500",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source",
-        "description": "AltStore 來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "來源網站可用",
-        "metrics": [
-          {
-            "label": "App 數量",
-            "value": "7",
-            "tone": "normal"
-          },
-          {
-            "label": "本次標示更新",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "自動檢查",
-            "result": "2026-10-15 21:56:44",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "內容更新",
-            "result": "2026-10-15 00:33:08",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "版本狀態",
-            "result": "0 個 App 更新、7 個未變更",
-            "time": "",
-            "tone": "normal"
-          }
-        ],
-        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
-        "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
-      }
-    },
-    {
       "name": "sc-auto-claim",
       "full_name": "tsai97216/sc-auto-claim",
       "html_url": "https://github.com/tsai97216/sc-auto-claim",
@@ -187,6 +190,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-10-15T12:16:03Z",
+      "created_at": "2026-10-15T12:14:09Z",
       "event": "schedule",
       "commit_message": "update claim status",
       "duration_seconds": 114,
@@ -237,6 +241,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-10-15T09:27:12Z",
+      "created_at": "2026-10-15T09:27:01Z",
       "event": "schedule",
       "commit_message": "chore: update processed state",
       "duration_seconds": 11,
@@ -248,34 +253,40 @@
         "description": "RSS 掃描、已處理遊戲與文章去重狀態",
         "icon": "🕹",
         "business_status": "success",
-        "business_label": "最近掃描流程成功",
+        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
         "metrics": [
           {
-            "label": "已處理遊戲",
-            "value": "6",
+            "label": "本輪新增遊戲",
+            "value": "0",
             "tone": "normal"
           },
           {
-            "label": "已處理文章",
-            "value": "5",
+            "label": "本輪處理文章",
+            "value": "0",
             "tone": "normal"
           },
           {
-            "label": "去重紀錄",
-            "value": "11",
+            "label": "累積遊戲／文章",
+            "value": "6／5",
             "tone": "normal"
           }
         ],
         "details": [
           {
-            "label": "狀態檔",
+            "label": "本輪狀態紀錄",
+            "result": "沒有本輪狀態提交（可能無新項目）",
+            "time": "2026-10-12 15:59:55",
+            "tone": "normal"
+          },
+          {
+            "label": "去重狀態檔",
             "result": "可讀取",
-            "time": "以 Workflow 執行時間為準",
+            "time": "",
             "tone": "good"
           }
         ],
-        "note": "目前倉庫只保存累積去重清單，尚未保存「本輪新增幾款／通知幾則」的獨立摘要；此處不會把累積數誤當成單輪成果。",
-        "evidence_url": "https://github.com/tsai97216/free-game/blob/main/data/processed.json"
+        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
+        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       }
     },
     {
@@ -286,6 +297,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-10-15T08:51:47Z",
+      "created_at": "2026-10-15T08:51:30Z",
       "event": "schedule",
       "commit_message": "chore: update check-in status",
       "duration_seconds": 17,
@@ -330,6 +342,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-10-15T08:51:15Z",
+      "created_at": "2026-10-15T08:51:02Z",
       "event": "schedule",
       "commit_message": "Auto Sign-in Status: 2026/10/15 04:01:49",
       "duration_seconds": 13,
@@ -374,6 +387,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-10-13T15:25:02Z",
+      "created_at": "2026-10-13T15:23:53Z",
       "event": "push",
       "commit_message": "Keep inline theme script valid JavaScript",
       "duration_seconds": 69,
@@ -429,6 +443,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-10-12T05:55:00Z",
+      "created_at": "2026-10-12T05:54:16Z",
       "event": "dynamic",
       "commit_message": "chore: auto bump version [skip ci]",
       "duration_seconds": 44,
@@ -484,6 +499,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-10-03T00:43:09Z",
+      "created_at": "2026-10-03T00:41:45Z",
       "event": "workflow_run",
       "commit_message": "fix: update item WWd002 [skip ci]",
       "duration_seconds": 84,
@@ -539,6 +555,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-09-08T10:57:49Z",
+      "created_at": "2026-09-08T10:57:07Z",
       "event": "dynamic",
       "commit_message": "Add Chi brand showcase entry page",
       "duration_seconds": 42,
@@ -588,6 +605,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-09-04T12:35:31Z",
+      "created_at": "2026-09-04T12:34:52Z",
       "event": "dynamic",
       "commit_message": "Delete CNAME",
       "duration_seconds": 39,
@@ -637,6 +655,7 @@
       "status": "success",
       "branch": "main",
       "updated_at": "2026-08-24T17:16:28Z",
+      "created_at": "2026-08-24T17:15:37Z",
       "event": "dynamic",
       "commit_message": "Delete CNAME",
       "duration_seconds": 51,
