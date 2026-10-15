@@ -73,8 +73,34 @@ def taipei_time(value):
 def metric(label, value, tone="normal"):
     return {"label": label, "value": str(value) if value is not None else "－", "tone": tone}
 
+def inspect_page_content(status, content_type, body, final_url):
+    """Distinguish an HTTP response from a plausible application page."""
+    text = body or ""
+    lowered = text.lower()
+    title_match = re.search(r"<title\\b[^>]*>(.*?)</title\\s*>", text, re.IGNORECASE | re.DOTALL)
+    title = unescape(re.sub(r"\\s+", " ", title_match.group(1)).strip())[:120] if title_match else ""
+    access_page = (
+        "/cdn-cgi/access/login" in (final_url or "").lower()
+        or ("cloudflare access" in lowered and
+            any(term in lowered for term in ("one-time pin", "login", "email address", "access policy")))
+    )
+    if access_page:
+        return {"ok": None, "protected": True, "title": title, "reason": "Cloudflare Access 登入頁"}
+    if not 200 <= status < 400:
+        return {"ok": False, "protected": False, "title": title, "reason": f"HTTP {status}"}
+    if not text.strip():
+        return {"ok": False, "protected": False, "title": title, "reason": "回應內容為空"}
+    if "html" in (content_type or "").lower() and not title:
+        return {"ok": False, "protected": False, "title": title, "reason": "HTML 缺少 title，可能是錯誤頁或不完整回應"}
+    error_titles = ("404", "not found", "access denied", "bad gateway", "service unavailable",
+                    "internal server error", "just a moment", "attention required")
+    if title and any(term in title.lower() for term in error_titles):
+        return {"ok": False, "protected": False, "title": title, "reason": f"疑似錯誤／挑戰頁：{title}"}
+    return {"ok": True, "protected": False, "title": title, "reason": "HTTP 與基本頁面內容檢查通過"}
+
+
 def health_check(url):
-    """Check public HTTP reachability without mistaking an Access login page for the app."""
+    """Check HTTP status plus basic page content; this is not a full end-to-end test."""
     if not url:
         return None
     started = datetime.now(timezone.utc)
@@ -83,27 +109,22 @@ def health_check(url):
         with urllib.request.urlopen(req, timeout=12) as response:
             status = response.status
             final_url = response.geturl()
-            body = response.read(8192).decode("utf-8", errors="replace")
+            content_type = response.headers.get("Content-Type", "")
+            body = response.read(65536).decode("utf-8", errors="replace")
         elapsed_ms = int((datetime.now(timezone.utc) - started).total_seconds() * 1000)
-        access_page = (
-            "/cdn-cgi/access/login" in final_url.lower()
-            or ("cloudflare access" in body.lower() and
-                any(term in body.lower() for term in ("one-time pin", "login", "email address", "access policy")))
-        )
-        if access_page:
-            return {"ok": None, "reachable": True, "protected": True, "status": status,
-                    "url": url, "final_url": final_url, "latency_ms": elapsed_ms,
-                    "classification": "cloudflare_access"}
-        return {"ok": 200 <= status < 400, "reachable": True, "status": status,
-                "url": url, "final_url": final_url, "latency_ms": elapsed_ms}
+        inspected = inspect_page_content(status, content_type, body, final_url)
+        return {"ok": inspected["ok"], "reachable": True, "protected": inspected["protected"],
+                "status": status, "url": url, "final_url": final_url, "latency_ms": elapsed_ms,
+                "content_type": content_type, "title": inspected["title"],
+                "content_reason": inspected["reason"]}
     except urllib.error.HTTPError as exc:
         elapsed_ms = int((datetime.now(timezone.utc) - started).total_seconds() * 1000)
-        return {"ok": False, "reachable": True, "status": exc.code, "url": url,
-                "final_url": exc.geturl(), "latency_ms": elapsed_ms}
+        return {"ok": False, "reachable": True, "protected": False, "status": exc.code, "url": url,
+                "final_url": exc.geturl(), "latency_ms": elapsed_ms, "content_reason": f"HTTP {exc.code}"}
     except Exception as exc:
         elapsed_ms = int((datetime.now(timezone.utc) - started).total_seconds() * 1000)
-        return {"ok": False, "reachable": False, "status": "連線失敗", "url": url,
-                "latency_ms": elapsed_ms, "error": str(exc)[:160]}
+        return {"ok": False, "reachable": False, "protected": False, "status": "連線失敗", "url": url,
+                "latency_ms": elapsed_ms, "error": str(exc)[:160], "content_reason": "DNS、TLS、逾時或連線錯誤"}
 
 def normalize_run_status(run):
     """Return a conclusion for completed runs, otherwise the live run status."""
