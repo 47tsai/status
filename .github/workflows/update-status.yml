@@ -38,7 +38,7 @@ jobs:
         run: python scripts/notify_discord.py
       - name: Commit updated status data
         run: |
-          if git diff --quiet -- status.json; then
+          if git diff --quiet -- status.json alert-state.json; then
             echo "No status changes."
             exit 0
           fi
