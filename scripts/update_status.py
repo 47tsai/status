@@ -130,7 +130,12 @@ def business_data(repo_name, run):
                 if line.lower().startswith("last run:"):
                     timestamp = line.split(":", 1)[1].strip()
                 if "簽到成功" in line or "今日已簽到" in line or "簽到失敗" in line or "執行完成，結果未知" in line:
-                    status_line = re.sub(r"^[|\s#>*-]+", "", line).strip()
+                    cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+                    if len(cells) >= 3 and re.search(r"\d{4}[-/]\d{2}[-/]\d{2}", cells[-2]):
+                        timestamp = cells[-2]
+                        status_line = cells[-1]
+                    else:
+                        status_line = re.sub(r"^[|\s#>*-]+", "", line).strip()
                     if status_line.startswith("Result:"):
                         status_line = status_line.split(":", 1)[1].strip()
                     if status_line:
@@ -151,16 +156,16 @@ def business_data(repo_name, run):
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/README.md"
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
-        auto_match = re.search(r"最近自動檢查：\\*\\*\\s*([^（\\n]+)", readme)
-        content_match = re.search(r"最近內容更新：\\*\\*\\s*([^（\\n]+)", readme)
+        auto_match = re.search(r"最近自動檢查：\*\*\s*([^（\n]+)", readme)
+        content_match = re.search(r"最近內容更新：\*\*\s*([^（\n]+)", readme)
         rows = []
         for line in readme.splitlines():
-            if not line.startswith("|") or "Updated" not in line and "Unchanged" not in line:
+            if not line.startswith("|") or ("Updated" not in line and "Unchanged" not in line):
                 continue
             cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
             if len(cells) < 4:
                 continue
-            name_match = re.search(r"\\[([^\\]]+)\\]", cells[0])
+            name_match = re.search(r"\[([^\]]+)\]", cells[0])
             if name_match:
                 rows.append((name_match.group(1), "Updated" if "Updated" in cells[2] else "Unchanged"))
         updated_names = [name for name, state in rows if state == "Updated"]
