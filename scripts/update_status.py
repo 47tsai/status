@@ -90,10 +90,18 @@ def inspect_page_content(status, content_type, body, final_url):
         return {"ok": False, "protected": False, "title": title, "reason": f"HTTP {status}"}
     if not text.strip():
         return {"ok": False, "protected": False, "title": title, "reason": "回應內容為空"}
+    signals = []
+    if "html" in (content_type or "").lower():
+        if re.search(r"<script\\b", text, re.IGNORECASE):
+            signals.append("script")
+        if re.search(r"\\bid=[\\\"'](?:app|root|__next|__nuxt|q-app)[\\\"']", text, re.IGNORECASE):
+            signals.append("app-root")
+        if re.search(r"<meta\\b[^>]*name=[\\\"']viewport[\\\"']", text, re.IGNORECASE):
+            signals.append("viewport")
     if "html" in (content_type or "").lower() and not title:
-        # A missing title is weak evidence: valid SPAs and minimal HTML pages may omit it.
-        # Keep the endpoint reachable, but do not claim the page content is healthy.
-        return {"ok": None, "protected": False, "title": title, "reason": "HTML 缺少 title，內容狀態未能確認"}
+        # These signals help diagnose a title-less SPA, but are not sufficient to mark it healthy.
+        return {"ok": None, "protected": False, "title": title,
+                "reason": "HTML 缺少 title，內容狀態未能確認", "signals": signals}
     error_titles = ("404", "not found", "access denied", "bad gateway", "service unavailable",
                     "internal server error", "just a moment", "attention required")
     if title and any(term in title.lower() for term in error_titles):
@@ -118,7 +126,7 @@ def health_check(url):
         return {"ok": inspected["ok"], "reachable": True, "protected": inspected["protected"],
                 "status": status, "url": url, "final_url": final_url, "latency_ms": elapsed_ms,
                 "content_type": content_type, "title": inspected["title"],
-                "content_reason": inspected["reason"]}
+                "content_reason": inspected["reason"], "content_signals": inspected.get("signals", [])}
     except urllib.error.HTTPError as exc:
         elapsed_ms = int((datetime.now(timezone.utc) - started).total_seconds() * 1000)
         return {"ok": False, "reachable": True, "protected": False, "status": exc.code, "url": url,
@@ -133,6 +141,16 @@ def format_unknown_health_detail(check):
     reason = (check or {}).get("content_reason") or "回應內容不足以確認頁面健康"
     if reason.startswith("HTML 缺少 title，內容狀態未能確認"):
         reason = "HTML 缺少 title"
+        signals = (check or {}).get("content_signals") or []
+        signal_labels = []
+        if "script" in signals:
+            signal_labels.append("script")
+        if "app-root" in signals:
+            signal_labels.append("app/root 容器")
+        if "viewport" in signals:
+            signal_labels.append("viewport")
+        if signal_labels:
+            reason += "（頁面包含 " + "、".join(signal_labels) + "）"
     elif reason.startswith("內容狀態未能確認"):
         reason = re.sub(r"^內容狀態未能確認[：:，, ]*", "", reason).strip()
     if not reason:
