@@ -216,44 +216,47 @@ def business_data(repo_name, run):
         result["note"] = "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     elif kind == "vps":
-        # VPS-01 is considered healthy when either core service is reachable.
-        # Twitch Drops Miner is intentionally excluded from the VPS health decision.
+        # All three VPS-01 endpoints must pass. Twitch's Cloudflare Access
+        # login page is an expected successful response for this endpoint.
         services = [
             ("Alist", "https://alist.chi.qzz.io/"),
             ("BiliTool", "https://bili.chi.qzz.io/"),
+            ("Twitch Drops Miner", "https://twitch.chi.qzz.io/"),
         ]
         checks = []
         for label, url in services:
             check = health_check(url)
             checks.append({"label": label, "url": url, "check": check})
-        healthy = sum(1 for item in checks if item["check"] and item["check"].get("ok") is True)
+        def endpoint_ok(check):
+            return bool(check and (check.get("ok") is True or check.get("protected") is True))
+        healthy = sum(1 for item in checks if endpoint_ok(item["check"]))
         failed = sum(1 for item in checks if item["check"] and item["check"].get("ok") is False)
-        unknown = sum(1 for item in checks if not item["check"] or item["check"].get("ok") is None)
+        unknown = sum(1 for item in checks if not item["check"] or (item["check"].get("ok") is None and not item["check"].get("protected")))
         total = len(checks)
-        if healthy:
+        if healthy == total:
             result["business_status"] = "success"
-            result["business_label"] = f"VPS-01 正常（Alist／BiliTool 至少一項可用，{healthy}/{total}）"
-        elif unknown:
-            result["business_status"] = "unknown"
-            result["business_label"] = f"核心服務狀態未能確認（{failed} 異常／{unknown} 未驗證）"
-        else:
+            result["business_label"] = f"VPS-01 正常（3/3 端點成功，Access 登入頁視為預期成功）"
+        elif failed:
             result["business_status"] = "failure"
-            result["business_label"] = "Alist 與 BiliTool 均異常"
+            result["business_label"] = f"VPS-01 異常（{healthy}/{total} 成功／{failed} 異常／{unknown} 未知）"
+        else:
+            result["business_status"] = "unknown"
+            result["business_label"] = f"VPS-01 狀態未能完全確認（{healthy}/{total} 成功／{unknown} 未知）"
         result["metrics"] = [
-            metric("核心服務可用", f"{healthy}/{total}", "good" if healthy else "bad" if not unknown else "normal"),
-            metric("異常端點", failed, "bad" if failed and not healthy else "normal" if failed else "good"),
-            metric("未驗證端點", unknown, "normal" if unknown else "good"),
+            metric("成功端點", f"{healthy}/{total}", "good" if healthy == total else "bad" if failed else "normal"),
+            metric("異常端點", failed, "bad" if failed else "good"),
+            metric("未確認端點", unknown, "normal" if unknown else "good"),
         ]
         for item in checks:
             check = item["check"]
             if not check:
                 detail_result, tone = "未取得檢查結果", "normal"
             elif check.get("protected"):
-                detail_result, tone = f"Cloudflare Access 登入頁 · HTTP {check['status']}（未驗證應用）", "normal"
+                detail_result, tone = f"Cloudflare Access 登入頁 · HTTP {check['status']}（依設定視為成功）", "good"
             elif check.get("ok") is True:
                 detail_result, tone = f"公開端點有回應 · HTTP {check['status']}", "good"
             else:
-                detail_result, tone = f"端點異常 · HTTP {check['status']}", "bad"
+                detail_result, tone = f"端點異常 · HTTP {check.get('status', '未知')}", "bad" if check.get("ok") is False else "normal"
             if check and check.get("latency_ms") is not None:
                 detail_result += f" · {check['latency_ms']} ms"
             result["details"].append({
@@ -262,7 +265,7 @@ def business_data(repo_name, run):
                 "time": "",
                 "tone": tone,
             })
-        result["note"] = "VPS-01 的健康判定只看 Alist 與 BiliTool：兩者任一公開端點確認可用，就判定 VPS-01 成功；只有兩者都異常才判定失敗。若沒有任何一項確認可用，且仍有端點因 Cloudflare Access 等原因無法驗證，則標示未知。Twitch Drops Miner 不納入判定。外部端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。"
+        result["note"] = "VPS-01 必須同時通過 Alist、BiliTool、Twitch Drops Miner 三個端點才算成功。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，視為成功；其他無法確認的情況會標示未知。任一端點明確異常即判定 VPS-01 失敗。外部端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。"
         result["evidence_url"] = None
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
