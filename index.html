@@ -143,7 +143,7 @@ main{max-width:1320px;padding-top:24px}
 .project{background:var(--panel);border-color:var(--line);border-radius:8px;padding:16px}
 .project:before{width:2px;opacity:.7}
 .app-icon{border-radius:7px;background:var(--panel2);border-color:var(--line);color:var(--muted)}
-.project-title{font-size:16px;font-weight:650}
+.project-title{font-size:16px;font-weight:650;margin:0}
 .badge{border-radius:5px;font-weight:650}
 .good{background:#193326;color:#a4e2b5}
 .bad{background:#3b2224;color:#ffb4ab}
@@ -184,9 +184,9 @@ html[data-theme="light"] .monitor-warning{background:#fff7e8;border-color:#d8ad6
 :root{color-scheme:dark}
 html[data-theme="light"]{color-scheme:light}
 .app-svg{width:21px;height:21px;display:block;stroke-width:1.7}
-.app-icon .app-svg{width:22px;height:22px}
-.button-icon{width:16px;height:16px;display:inline-block;vertical-align:-3px;margin-right:6px;stroke-width:1.7}
-.summary-icon{width:14px;height:14px;margin-left:auto;flex-shrink:0;transition:transform .15s ease}
+.app-icon .app-svg{width:22px;height:22px;font-size:20px;line-height:1}
+.button-icon{width:16px;height:16px;display:inline-block;vertical-align:-3px;margin-right:6px;stroke-width:1.7;font-size:15px;line-height:1}
+.summary-icon{width:14px;height:14px;margin-left:auto;flex-shrink:0;transition:transform .15s ease;font-size:13px;line-height:1}
 details[open] .summary-icon{transform:rotate(180deg)}
 summary{display:flex;align-items:center;gap:8px}
 .monitor-warning .button-icon{margin-right:7px;vertical-align:-4px}
@@ -207,7 +207,7 @@ html[data-theme="light"] .bad-text{color:#a32118}
 </head>
 <body><main>
 <header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><i class="button-icon" data-lucide="external-link" aria-hidden="true"></i>更新紀錄</a><button id="refresh"><i class="button-icon" data-lucide="refresh-cw" aria-hidden="true"></i><span id="refreshLabel">重新整理</span></button></div></header>
-<section class="stats"><div class="stat"><span>專案</span><strong id="total">－</strong></div><div class="stat"><span>成功</span><strong id="bizok">－</strong></div><div class="stat"><span>異常</span><strong id="attention">－</strong></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong></div></section>
+<section class="stats"><div class="stat"><span>專案</span><strong id="total">－</strong></div><div class="stat"><span>業務成功</span><strong id="bizok">－</strong></div><div class="stat"><span>需注意</span><strong id="attention">－</strong></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong></div></section>
 <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
 
@@ -216,7 +216,7 @@ html[data-theme="light"] .bad-text{color:#a32118}
 <script>
 const $=id=>document.getElementById(id);let items=[];let loading=false;let lastGeneratedAt=null;let loadError='';
 function node(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
-function iconNode(name,cls){const e=document.createElement("i");e.setAttribute("data-lucide",name);e.setAttribute("aria-hidden","true");if(cls)e.className=cls;return e}
+function iconNode(name,cls){const e=document.createElement("i");e.setAttribute("data-lucide",name);e.setAttribute("aria-hidden","true");if(cls)e.className=cls;const fallback={"layout-dashboard":"▦",server:"▤","gamepad-2":"⌘","circle-check":"✓",package:"▣",globe:"◎",activity:"⌁","external-link":"↗","refresh-cw":"↻","alert-triangle":"!","chevron-down":"⌄",monitor:"▣",sun:"☼",moon:"☾"};e.textContent=fallback[name]||"•";return e}
 function renderIcons(){if(window.lucide&&typeof window.lucide.createIcons==="function")window.lucide.createIcons()}
 function bucket(s){if(s==='success')return'good';if(['failure','timed_out','action_required','startup_failure'].includes(s))return'bad';if(['in_progress','queued','requested','waiting'].includes(s))return'running';return'unknown'}
 function label(s){return({success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過'}[s]||s||'尚無紀錄')}
@@ -251,7 +251,7 @@ function render(){
  filtered.forEach(x=>{
   const b=x.business||{},card=node('article','project');card.dataset.kind=b.kind||'generic';if(isWorkflowBad(x)||isBusinessBad(x)){card.dataset.health='attention';card.setAttribute('aria-label',(b.title||x.name)+'，需要注意')}else if(x.monitor_warning){card.dataset.health='warning';card.setAttribute('aria-label',(b.title||x.name)+'，監控資料有警告')}else if(isRunning(x)){card.dataset.health='running'}else{card.dataset.health='normal'}
   const head=node('div','project-head'),ico=node('div','app-icon'),tw=node('div','title-wrap');const iconNames={dashboard:'layout-dashboard',vps:'server',claim:'gamepad-2',freegame:'gamepad-2',checkin:'circle-check',source:'package',deploy:'globe',generic:'activity'};ico.append(iconNode(iconNames[b.kind]||iconNames.generic,'app-svg'));
-  tw.append(node('div','project-title',b.title||x.name));
+  tw.append(node('h2','project-title',b.title||x.name));
   const repo=node('a','repo',x.full_name||x.name);repo.href=x.html_url;repo.target='_blank';repo.rel='noopener noreferrer';tw.append(repo);
   const badges=node('div','badges');badges.append(node('span','badge '+businessBucket(b.business_status),(b.kind==='vps'?'服務：':'業務：')+businessLabel(b)));badges.append(node('span','badge '+bucket(x.status),(b.kind==='vps'?'探測：':'Actions：')+label(x.status)));
   head.append(ico,tw,badges);card.append(head);
