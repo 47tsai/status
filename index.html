@@ -173,6 +173,8 @@ html[data-theme="light"] .project[data-kind="claim"],html[data-theme="light"] .p
 .project[data-health="attention"]{border-color:color-mix(in srgb,var(--red) 58%,var(--line))}
 .project[data-health="attention"]:before{background:var(--red);opacity:1}
 .project[data-health="running"]{border-color:color-mix(in srgb,var(--amber) 38%,var(--line))}
+.project[data-health="warning"]{border-color:color-mix(in srgb,var(--amber) 55%,var(--line))}
+.project[data-health="warning"]:before{background:var(--amber);opacity:1}
 .monitor-warning{margin-top:11px;padding:10px 12px;border:1px solid #8a6532;border-radius:11px;background:#2b2114;color:#ffdb9b;font-size:12px;overflow-wrap:anywhere}
 html[data-theme="light"] .monitor-warning{background:#fff7e8;border-color:#d8ad68;color:#704b12}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
@@ -220,7 +222,7 @@ function svgIcon(name){const paths={
  light:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/>',
  dark:'<path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/>'
  };const e=document.createElementNS('http://www.w3.org/2000/svg','svg');e.setAttribute('viewBox','0 0 24 24');e.setAttribute('aria-hidden','true');e.classList.add('app-svg');e.innerHTML=paths[name]||paths.generic;return e}
-function bucket(s){if(s==='success')return'good';if(['failure','timed_out','action_required'].includes(s))return'bad';if(['in_progress','queued','requested','waiting'].includes(s))return'running';return'unknown'}
+function bucket(s){if(s==='success')return'good';if(['failure','timed_out','action_required','startup_failure'].includes(s))return'bad';if(['in_progress','queued','requested','waiting'].includes(s))return'running';return'unknown'}
 function label(s){return({success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過'}[s]||s||'尚無紀錄')}
 function businessBucket(s){return s==='success'?'good':s==='failure'?'bad':s==='running'?'running':'unknown'}
 function businessLabel(b){return b?.business_label||'尚未建立業務紀錄'}
@@ -246,7 +248,7 @@ function render(){
  filtered.sort((a,b)=>(kindOrder[a.business?.kind]??7)-(kindOrder[b.business?.kind]??7)||severity(a)-severity(b)||(new Date(b.updated_at||0)-new Date(a.updated_at||0)));
  $('total').textContent=items.length;
  $('bizok').textContent=items.filter(x=>x.business?.business_status==='success').length;
- $('attention').textContent=items.filter(x=>isWorkflowBad(x)||isBusinessBad(x)).length;
+ $('attention').textContent=items.filter(x=>isWorkflowBad(x)||isBusinessBad(x)||x.monitor_warning).length;
  $('runningCount').textContent=items.filter(isRunning).length;
  const wrap=$('projects');wrap.replaceChildren();
  if(!filtered.length){wrap.append(node('div','empty','沒有符合條件的專案。'));return}
