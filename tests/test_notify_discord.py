@@ -24,6 +24,14 @@ class DiscordAlertTests(unittest.TestCase):
 
     def test_success_is_recovery(self):
         self.assertTrue(is_recovered({"status": "success", "business": {"business_status": "success"}}))
+        self.assertTrue(is_recovered({"status": "success", "business": {}}))
+
+    def test_workflow_success_does_not_mask_unknown_business_state(self):
+        self.assertFalse(is_recovered({"status": "success", "business": {"business_status": "unknown"}}))
+        self.assertFalse(is_recovered({"status": "success", "business": {"business_status": "running"}}))
+
+    def test_workflow_success_does_not_mask_business_failure(self):
+        self.assertFalse(is_recovered({"status": "success", "business": {"business_status": "failure"}}))
 
     def test_message_includes_dashboard_and_does_not_ping_everyone(self):
         message = build_message(
