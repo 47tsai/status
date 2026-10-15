@@ -357,7 +357,8 @@ def business_data(repo_name, run):
                              metric("頁面內容", "通過" if health and health.get("ok") is True else "異常" if health and health.get("ok") is False else "未確認", "good" if health and health.get("ok") is True else "bad" if health and health.get("ok") is False else "normal")]
         result["details"] = [{"label": "最近部署", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal"}]
         if health:
-            result["details"].append({"label": "網站檢查", "result": f"{health['url']} · HTTP {health['status']}", "time": "", "tone": "good" if health["ok"] else "bad"})
+            result["details"].append({"label": "網站檢查", "result": f"{health['url']} · HTTP {health['status']}", "time": "", "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"})
+            result["details"].append({"label": "頁面內容", "result": health.get("content_reason") or "未取得內容判讀", "time": health.get("title") or "", "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"})
         result["note"] = "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。" if profile.get("health_url") else "目前僅依 GitHub Actions 判定部署流程；此舊版或文件型 Repo 尚未設定可驗證的正式網址。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     else:
