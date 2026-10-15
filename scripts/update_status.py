@@ -392,25 +392,21 @@ def main():
     def dashboard_priority(item):
         business_status = (item.get("business") or {}).get("business_status")
         workflow_status = item.get("status")
+        if (item.get("business") or {}).get("kind") == "vps" and (
+            business_status == "failure" or workflow_status in ("failure", "timed_out", "action_required")
+        ):
+            return -1
         if business_status == "failure" or workflow_status in ("failure", "timed_out", "action_required"):
-            priority = 0
-        elif business_status == "running" or workflow_status in ("in_progress", "queued", "requested", "waiting"):
-            priority = 1
-        elif business_status == "unknown" or workflow_status in (None, "unknown"):
-            priority = 2
-        else:
-            priority = 3
-        # Keep the VPS alert prominent among issues, then sort each group by latest activity.
-        if (item.get("business") or {}).get("kind") == "vps" and priority == 0:
-            priority = -1
-        return (priority, item.get("updated_at") or "")
+            return 0
+        if business_status == "running" or workflow_status in ("in_progress", "queued", "requested", "waiting"):
+            return 1
+        if business_status == "unknown" or workflow_status in (None, "unknown"):
+            return 2
+        return 3
 
-    results.sort(key=dashboard_priority, reverse=False)
-    # Newest activity first within each priority group.
-    results.sort(key=lambda x: (dashboard_priority(x)[0], x.get("updated_at") or ""), reverse=False)
-    # Sort by priority, then newest activity within that group.
-    results.sort(key=lambda x: (dashboard_priority(x)[0], x.get("updated_at") or ""), reverse=False)
-
+    # Keep priority groups stable while sorting recent activity first inside each group.
+    results.sort(key=lambda x: x.get("updated_at") or "", reverse=True)
+    results.sort(key=dashboard_priority)
     payload = {"generated_at": datetime.now(timezone.utc).isoformat(),
                "repository_count": len(results), "repositories": results}
     with open("status.json", "w", encoding="utf-8") as f:
