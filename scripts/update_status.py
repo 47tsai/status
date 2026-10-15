@@ -244,7 +244,7 @@ def business_data(repo_name, run):
         total = len(checks)
         if healthy == total:
             result["business_status"] = "success"
-            result["business_label"] = f"VPS-01 正常（3/3 端點成功，Access 登入頁視為預期成功）"
+            result["business_label"] = f"VPS-01 對外端點正常（3/3 HTTP 回應；不代表 VM/SSH 健康）"
         elif failed:
             result["business_status"] = "failure"
             result["business_label"] = f"VPS-01 異常（{healthy}/{total} 成功／{failed} 異常／{unknown} 未知）"
@@ -261,9 +261,9 @@ def business_data(repo_name, run):
             if not check:
                 detail_result, tone = "未取得檢查結果", "normal"
             elif check.get("protected"):
-                detail_result, tone = f"Cloudflare Access 登入頁 · HTTP {check['status']}（依設定視為成功）", "good"
+                detail_result, tone = f"Cloudflare Access 登入頁可達 · HTTP {check['status']}（僅確認 Access 回應）", "good"
             elif check.get("ok") is True:
-                detail_result, tone = f"公開端點有回應 · HTTP {check['status']}", "good"
+                detail_result, tone = f"公開端點有 HTTP 回應 · HTTP {check['status']}（未驗證站內功能）", "good"
             else:
                 detail_result, tone = f"端點異常 · HTTP {check.get('status', '未知')}", "bad" if check.get("ok") is False else "normal"
             if check and check.get("latency_ms") is not None:
@@ -274,7 +274,7 @@ def business_data(repo_name, run):
                 "time": "",
                 "tone": tone,
             })
-        result["note"] = "VPS-01 必須同時通過 Alist、BiliTool、Twitch Drops Miner 三個端點才算成功。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，視為成功；其他無法確認的情況會標示未知。任一端點明確異常即判定 VPS-01 失敗。外部端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。"
+        result["note"] = "此卡只驗證 Alist、BiliTool、Twitch Drops Miner 三個公開網址是否有 HTTP 回應，不等同於確認應用程式內部功能或 VPS 本身健康。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，只代表 Access 閘道有回應，不代表登入後的後端服務可用。任一端點明確異常即判定對外服務異常；此探測無法確認 VM、SSH、CPU、記憶體或磁碟狀態。"
         result["evidence_url"] = None
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
