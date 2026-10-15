@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from notify_discord import (build_message, calculate_alert_changes, is_failed, is_recovered, normalize_active_failures)
-from update_status import normalize_run_status, stale_fallback, inspect_page_content
+from update_status import normalize_run_status, stale_fallback, inspect_page_content, format_unknown_health_detail
 
 
 class DiscordAlertTests(unittest.TestCase):
@@ -88,6 +88,14 @@ class DiscordAlertTests(unittest.TestCase):
         result = inspect_page_content(200, 'text/html', '<html><title>502 Bad Gateway</title><body>upstream error</body></html>', 'https://example.com/')
         self.assertFalse(result['ok'])
         self.assertIn('錯誤', result['reason'])
+
+    def test_unknown_health_detail_avoids_repeating_status_phrase(self):
+        detail = format_unknown_health_detail({"content_reason": "HTML 缺少 title，內容狀態未能確認", "status": 200})
+        self.assertEqual(detail, "狀態未確認 · HTML 缺少 title · HTTP 200")
+
+    def test_unknown_health_detail_has_fallback_reason(self):
+        detail = format_unknown_health_detail({"status": 200})
+        self.assertEqual(detail, "狀態未確認 · 回應內容不足以確認頁面健康 · HTTP 200")
 
     def test_health_check_marks_titleless_html_unknown_not_failed(self):
         result = inspect_page_content(200, 'text/html', '<html><body><div id="app"></div><script src="/app.js"></script></body></html>', 'https://example.com/')
