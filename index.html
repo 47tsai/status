@@ -23,12 +23,12 @@ details{margin-top:11px;border-top:1px solid #26334a;padding-top:10px}summary{fo
 <body><main>
 <header class="top"><div><div class="eyebrow">CHI SYSTEMS · PROJECT OBSERVABILITY</div><h1>專案健康中心</h1><p class="subtitle">不只看 Actions 綠勾，也看每個專案真正做成了什麼。簽到、遊戲通知、部署，各自使用對應的監控規則。</p></div><div class="top-actions"><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">更新紀錄 ↗</a><button id="refresh">↻ 重新整理</button></div></header>
 <section class="stats"><div class="stat"><span>監控專案</span><strong id="total">－</strong><small>GitHub Repo 與主機監控項目</small></div><div class="stat"><span>業務成功</span><strong id="bizok">－</strong><small>依各專案紀錄判定</small></div><div class="stat"><span>需要注意</span><strong id="attention">－</strong><small>業務失敗或 Workflow 失敗</small></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong><small>目前正在執行的 Workflow</small></div></section>
-<section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta">讀取資料中…</span></section>
+<section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
 <footer class="footer"><span>資料約每 10 分鐘更新。重新整理只會重新讀取最新已產生的資料。</span><span>業務結果與 Workflow 結果分開判斷，未知就是未知，不會硬判成功。</span></footer>
 </main>
 <script>
-const $=id=>document.getElementById(id);let items=[];
+const $=id=>document.getElementById(id);let items=[];let loading=false;let lastGeneratedAt=null;
 function node(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
 function bucket(s){if(s==='success')return'good';if(['failure','timed_out','action_required'].includes(s))return'bad';if(['in_progress','queued','requested','waiting'].includes(s))return'running';return'unknown'}
 function label(s){return({success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過'}[s]||s||'尚無紀錄')}
@@ -76,6 +76,9 @@ function render(){
   det.append(sum,list);if(b.note)det.append(node('p','note',b.note));card.append(det);wrap.append(card);
  });
 }
-async function load(){const btn=$('refresh');btn.disabled=true;btn.textContent='讀取中…';try{const r=await fetch('./status.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();items=data.repositories||[];$('updated').textContent='資料更新：'+(data.generated_at?new Date(data.generated_at).toLocaleString('zh-TW',{hour12:false}):'尚未更新');render()}catch(e){$('updated').textContent='讀取失敗：'+e.message;if(!items.length)$('projects').replaceChildren(node('div','empty','目前讀取不到狀態資料，請稍後重試。'))}finally{btn.disabled=false;btn.textContent='↻ 重新整理'}}
+async function load(){if(loading)return;loading=true;const btn=$('refresh');btn.disabled=true;btn.textContent='讀取中…';try{const r=await fetch('./status.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();items=data.repositories||[];lastGeneratedAt=data.generated_at?new Date(data.generated_at):null;updateFreshness();render()}catch(e){$('updated').textContent='讀取失敗：'+e.message;if(!items.length)$('projects').replaceChildren(node('div','empty','目前讀取不到狀態資料，請稍後重試。'))}finally{loading=false;btn.disabled=false;btn.textContent='↻ 重新整理'}}
+function updateFreshness(){const el=$('updated');if(!lastGeneratedAt){el.textContent='尚未取得資料更新時間';return}const age=Math.max(0,Math.floor((Date.now()-lastGeneratedAt.getTime())/60000));const stamp=lastGeneratedAt.toLocaleString('zh-TW',{hour12:false});el.textContent='資料更新：'+stamp+' · '+(age<1?'不到 1 分鐘前':age+' 分鐘前')+(age>=20?' · 資料可能過期':'')}
+setInterval(()=>{if(!document.hidden)load()},60000);
+setInterval(updateFreshness,15000);
 $('refresh').addEventListener('click',load);$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
 </script></body></html>
