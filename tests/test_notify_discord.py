@@ -3,11 +3,22 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from notify_discord import build_message, is_failed, is_recovered
+from notify_discord import build_message, is_failed, is_recovered, normalize_active_failures
 from update_status import normalize_run_status, stale_fallback, inspect_page_content
 
 
 class DiscordAlertTests(unittest.TestCase):
+    def test_malformed_alert_state_is_ignored_safely(self):
+        self.assertEqual(normalize_active_failures(None), {})
+        self.assertEqual(normalize_active_failures([]), {})
+        self.assertEqual(normalize_active_failures({"active_failures": []}), {})
+        self.assertEqual(
+            normalize_active_failures({"active_failures": {
+                "good": {"title": "Project"}, "bad": "not a record", 7: {"title": "invalid key"}
+            }}),
+            {"good": {"title": "Project"}},
+        )
+
     def test_business_failure_is_detected_even_when_workflow_succeeded(self):
         item = {
             "name": "vps-01",
