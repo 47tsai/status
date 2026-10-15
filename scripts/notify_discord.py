@@ -19,10 +19,16 @@ def is_failed(item):
 
 
 def is_recovered(item):
+    """Require explicit success from the same source that can report business health."""
     business = item.get("business") or {}
-    return not is_failed(item) and (
-        item.get("status") == "success" or business.get("business_status") == "success"
-    )
+    if is_failed(item):
+        return False
+    business_status = business.get("business_status")
+    # A generic green Actions run must not hide an unknown or still-failing
+    # business result (for example, a reachable workflow but unhealthy VPS).
+    if business_status:
+        return business_status == "success"
+    return item.get("status") == "success"
 
 
 def failure_record(item):
