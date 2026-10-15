@@ -127,6 +127,13 @@ details[open] summary:after{content:none}
   .detail-row{align-items:flex-start;flex-direction:column;gap:4px}
   .detail-row strong{text-align:left}
 }
+/* Keyboard and touch accessibility refinements. */
+.project a:focus-visible,.project summary:focus-visible{outline-offset:-2px;border-radius:5px}
+#refreshLabel{display:inline-block}
+@media(max-width:760px){
+  .top-actions .btn,.top-actions button{min-height:44px}
+  .links .btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+}
 @media(prefers-reduced-motion:no-preference){
   button,.btn,.project{transition:border-color .18s ease,transform .18s ease}
   .project:hover{border-color:#3a4d6d}
@@ -206,7 +213,7 @@ html[data-theme="light"] .bad-text{color:#a32118}
 
 </head>
 <body><main>
-<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><i class="button-icon" data-lucide="external-link" aria-hidden="true"></i>更新紀錄</a><button id="refresh"><i class="button-icon" data-lucide="refresh-cw" aria-hidden="true"></i><span id="refreshLabel">重新整理</span></button></div></header>
+<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><i class="button-icon" data-lucide="external-link" aria-hidden="true"></i>更新紀錄</a><button id="refresh"><i class="button-icon" data-lucide="refresh-cw" aria-hidden="true"></i><span id="refreshLabel" aria-live="polite">重新整理</span></button></div></header>
 <section class="stats"><div class="stat"><span>專案</span><strong id="total">－</strong></div><div class="stat"><span>業務成功</span><strong id="bizok">－</strong></div><div class="stat"><span>需注意</span><strong id="attention">－</strong></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong></div></section>
 <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
