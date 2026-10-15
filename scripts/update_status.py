@@ -317,7 +317,8 @@ def business_data(repo_name, run):
         result["business_status"] = "failure" if health and health.get("ok") is False else "success" if health and health.get("ok") is True else "unknown"
         result["business_label"] = "來源網站內容檢查通過" if health and health.get("ok") is True else "來源網站回應異常" if health and health.get("ok") is False else "網站狀態未知（可能受 Access 保護）"
         result["metrics"] = [metric("App 數量", len(rows)), metric("本次標示更新", len(updated_names), "good" if updated_names else "normal"),
-                             metric("網站 HTTP", str(health["status"]) if health else "未檢查", "good" if health and health["ok"] else "bad" if health else "normal")]
+                             metric("網站 HTTP", str(health["status"]) if health else "未檢查", "good" if health and health.get("ok") is True else "bad" if health and health.get("ok") is False else "normal"),
+                             metric("頁面內容", "通過" if health and health.get("ok") is True else "異常" if health and health.get("ok") is False else "未確認", "good" if health and health.get("ok") is True else "bad" if health and health.get("ok") is False else "normal")]
         result["details"] = [{"label": "自動檢查", "result": auto_match.group(1).strip() if auto_match else "README 無紀錄", "time": "", "tone": "normal"},
                              {"label": "內容更新", "result": content_match.group(1).strip() if content_match else "README 無紀錄", "time": "", "tone": "normal"},
                              {"label": "版本狀態", "result": f"{len(updated_names)} 個 App 更新、{unchanged_count} 個未變更", "time": "", "tone": "good" if updated_names else "normal"}]
