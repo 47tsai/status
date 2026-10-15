@@ -7,6 +7,8 @@ on:
     branches: [main]
     paths:
       - "index.html"
+      - "CNAME"
+      - "docs/**"
       - "scripts/**"
       - ".github/workflows/update-status.yml"
 permissions:
@@ -108,7 +110,8 @@ jobs:
               f"Repo：{os.environ.get('REPOSITORY', 'unknown')}\n"
               f"Workflow：{os.environ.get('WORKFLOW', 'unknown')}\n"
               + ("\n".join(failed) + "\n" if failed else "")
-              + f"執行紀錄：{os.environ.get('RUN_URL', '')}"
+              + f"執行紀錄：{os.environ.get('RUN_URL', '')}\n"
+              + "儀表板：https://status.chi.qzz.io/"
           )
           body = json.dumps({"content": content[:1900], "allowed_mentions": {"parse": []}}).encode()
           request = urllib.request.Request(
