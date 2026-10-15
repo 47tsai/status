@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T15:02:00.509793+00:00",
+  "generated_at": "2026-10-15T15:04:57.407648+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T15:01:47Z",
-      "created_at": "2026-10-15T15:01:43Z",
+      "updated_at": "2026-10-15T15:04:47Z",
+      "created_at": "2026-10-15T15:04:43Z",
       "event": "push",
-      "commit_message": "fix: determine VPS-01 health from Alist or BiliTool",
+      "commit_message": "fix: require all VPS-01 endpoints including Access-protected Twitch",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38756679417",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38757126166",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +44,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 23:01:47",
+            "time": "2026-10-15 23:04:47",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-15T15:01:58.199096+00:00",
-      "created_at": "2026-10-15T15:01:58.199114+00:00",
+      "updated_at": "2026-10-15T15:04:54.917401+00:00",
+      "created_at": "2026-10-15T15:04:54.917447+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -72,11 +72,11 @@
         "description": "透過公開服務端點檢查 VPS 對外可用性",
         "icon": "▣",
         "business_status": "success",
-        "business_label": "VPS-01 正常（Alist／BiliTool 至少一項可用，2/2）",
+        "business_label": "VPS-01 正常（3/3 端點成功，Access 登入頁視為預期成功）",
         "metrics": [
           {
-            "label": "核心服務可用",
-            "value": "2/2",
+            "label": "成功端點",
+            "value": "3/3",
             "tone": "good"
           },
           {
@@ -85,7 +85,7 @@
             "tone": "good"
           },
           {
-            "label": "未驗證端點",
+            "label": "未確認端點",
             "value": "0",
             "tone": "good"
           }
@@ -93,18 +93,24 @@
         "details": [
           {
             "label": "Alist",
-            "result": "公開端點有回應 · HTTP 200 · 1241 ms",
+            "result": "公開端點有回應 · HTTP 200 · 655 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "公開端點有回應 · HTTP 200 · 1069 ms",
+            "result": "公開端點有回應 · HTTP 200 · 1269 ms",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "Twitch Drops Miner",
+            "result": "Cloudflare Access 登入頁 · HTTP 200（依設定視為成功） · 564 ms",
             "time": "",
             "tone": "good"
           }
         ],
-        "note": "VPS-01 的健康判定只看 Alist 與 BiliTool：兩者任一公開端點確認可用，就判定 VPS-01 成功；只有兩者都異常才判定失敗。若沒有任何一項確認可用，且仍有端點因 Cloudflare Access 等原因無法驗證，則標示未知。Twitch Drops Miner 不納入判定。外部端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。",
+        "note": "VPS-01 必須同時通過 Alist、BiliTool、Twitch Drops Miner 三個端點才算成功。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，視為成功；其他無法確認的情況會標示未知。任一端點明確異常即判定 VPS-01 失敗。外部端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。",
         "evidence_url": null
       }
     },
