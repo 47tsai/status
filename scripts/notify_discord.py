@@ -18,6 +18,13 @@ def is_failed(item):
     return item.get("status") in FAILURE_STATUSES or business.get("business_status") in FAILURE_STATUSES
 
 
+def is_recovered(item):
+    business = item.get("business") or {}
+    return not is_failed(item) and (
+        item.get("status") == "success" or business.get("business_status") == "success"
+    )
+
+
 def failure_record(item):
     business = item.get("business") or {}
     return {
@@ -32,7 +39,7 @@ def read_json(path, default):
     try:
         with path.open("r", encoding="utf-8") as stream:
             return json.load(stream)
-    except FileNotFoundError:
+    except (FileNotFoundError, json.JSONDecodeError):
         return default
 
 
@@ -93,13 +100,13 @@ def main():
 
     new_failures = [record for name, record in current_failures.items() if name not in previous]
     recovered = [previous[name] for name in previous
-                 if name in current and name not in current_failures]
+                 if name in current and name not in current_failures and is_recovered(current[name])]
 
-    # If a project disappears from the API response, retain its previous state rather
-    # than incorrectly announcing recovery based on missing data.
+    # Keep the prior alert active if a project is missing or only has an unknown/running
+    # result. Missing data and an in-progress run are not proof that the issue recovered.
     next_active = dict(current_failures)
     for name, record in previous.items():
-        if name not in current:
+        if name not in current or (name not in current_failures and not is_recovered(current[name])):
             next_active[name] = record
 
     if not new_failures and not recovered:
