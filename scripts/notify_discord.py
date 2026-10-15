@@ -46,7 +46,7 @@ def read_json(path, default):
     try:
         with path.open("r", encoding="utf-8") as stream:
             return json.load(stream)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (OSError, json.JSONDecodeError):
         return default
 
 
@@ -108,18 +108,25 @@ def main():
         return 0
 
     payload = read_json(STATUS_PATH, {})
+    if not isinstance(payload, dict):
+        print("status.json 根資料格式錯誤；略過通知，保留告警狀態。", file=sys.stderr)
+        return 0
     items = payload.get("repositories", [])
     if not isinstance(items, list):
-        print("status.json 的 repositories 格式錯誤；略過通知。", file=sys.stderr)
+        print("status.json 的 repositories 格式錯誤；略過通知，保留告警狀態。", file=sys.stderr)
         return 0
 
     current = {str(item.get("name") or item.get("full_name")): item for item in items
                if isinstance(item, dict) and (item.get("name") or item.get("full_name"))}
     current_failures = {name: failure_record(item) for name, item in current.items() if is_failed(item)}
     previous_state = read_json(STATE_PATH, {"active_failures": {}})
+    if not isinstance(previous_state, dict):
+        previous_state = {}
     previous = previous_state.get("active_failures", {})
     if not isinstance(previous, dict):
         previous = {}
+    previous = {name: record for name, record in previous.items()
+                if isinstance(name, str) and isinstance(record, dict)}
 
     new_failures = [record for name, record in current_failures.items() if name not in previous]
     recovered = [previous[name] for name in previous
