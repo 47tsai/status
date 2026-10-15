@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from html import unescape
 
 OWNER = "tsai97216"
+EXCLUDED_REPOS = {"chi-brand", "merch-old", "nav-n"}
 TOKEN = os.environ.get("GH_TOKEN", "")
 HEADERS = {
     "Accept": "application/vnd.github+json",
@@ -29,10 +30,7 @@ PROFILES = {
     "chi-source-personal": {"kind": "source", "title": "Chi Source Personal", "description": "個人來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipap.chi.qzz.io/"},
     "h": {"kind": "deploy", "title": "H 連結工具", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "↗", "health_url": "https://h.chi.qzz.io/"},
     "nav": {"kind": "deploy", "title": "Chi 導航站", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
-    "nav-n": {"kind": "deploy", "title": "Chi 導航站（舊版）", "description": "舊版導航站最近一次部署", "icon": "⌖"},
-    "chi-brand": {"kind": "deploy", "title": "Chi Brand", "description": "品牌展示頁建置與部署", "icon": "◇"},
     "merch": {"kind": "deploy", "title": "Merch 商品資料", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
-    "merch-old": {"kind": "deploy", "title": "Merch 舊版", "description": "舊版商品網站部署狀態", "icon": "▦"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 
@@ -273,6 +271,8 @@ def main():
             break
     results = []
     for repo in repos:
+        if repo["name"] in EXCLUDED_REPOS:
+            continue
         full_name = repo["full_name"]
         try:
             data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page=1")
