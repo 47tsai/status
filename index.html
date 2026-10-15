@@ -222,7 +222,7 @@ function bucket(s){if(s==='success')return'good';if(['failure','timed_out','acti
 function label(s){return({success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過'}[s]||s||'尚無紀錄')}
 function businessBucket(s){return s==='success'?'good':s==='failure'?'bad':s==='running'?'running':'unknown'}
 function businessLabel(b){return b?.business_label||'尚未建立業務紀錄'}
-function isWorkflowBad(x){return ['failure','timed_out','action_required'].includes(x.status)}
+function isWorkflowBad(x){return ['failure','timed_out','action_required','startup_failure'].includes(x.status)}
 function isBusinessBad(x){return x.business?.business_status==='failure'}
 function isRunning(x){return ['in_progress','queued','requested','waiting'].includes(x.status)}
 function render(){
