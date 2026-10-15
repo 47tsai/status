@@ -32,6 +32,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python scripts/update_status.py
+      - name: Notify Discord about new project failures
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python scripts/notify_discord.py
       - name: Commit updated status data
         run: |
           if git diff --quiet -- status.json; then
@@ -40,7 +44,7 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add status.json
+          git add status.json alert-state.json
           git commit -m "chore: update project business status"
           git pull --rebase origin main
           git push origin HEAD:main
@@ -62,3 +66,54 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  notify-workflow-failure:
+    if: ${{ failure() }}
+    needs: [update, deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    steps:
+      - name: Notify Discord about workflow failure
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          REPOSITORY: ${{ github.repository }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          UPDATE_RESULT: ${{ needs.update.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::warning::DISCORD_WEBHOOK_URL is not configured; skipping Discord failure notification."
+            exit 0
+          fi
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          failed = []
+          for name in ("update", "deploy"):
+              result = os.environ.get(name.upper() + "_RESULT", "unknown")
+              if result not in ("success", "skipped"):
+                  failed.append(f"- {name}: {result}")
+          content = (
+              "**Chi Status 工作流程失敗**\\n"
+              f"Repo：{os.environ.get('REPOSITORY', 'unknown')}\\n"
+              f"Workflow：{os.environ.get('WORKFLOW', 'unknown')}\\n"
+              + ("\\n".join(failed) + "\\n" if failed else "")
+              + f"執行紀錄：{os.environ.get('RUN_URL', '')}"
+          )
+          body = json.dumps({"content": content[:1900], "allowed_mentions": {"parse": []}}).encode()
+          request = urllib.request.Request(
+              os.environ["DISCORD_WEBHOOK_URL"],
+              data=body,
+              headers={"Content-Type": "application/json", "User-Agent": "ChiStatus/1.0"},
+              method="POST",
+          )
+          with urllib.request.urlopen(request, timeout=15) as response:
+              if response.status < 200 or response.status >= 300:
+                  raise RuntimeError(f"Discord returned HTTP {response.status}")
+          print("Discord workflow-failure notification sent.")
+          PY
