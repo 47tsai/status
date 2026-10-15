@@ -73,16 +73,36 @@ def metric(label, value, tone="normal"):
     return {"label": label, "value": str(value) if value is not None else "－", "tone": tone}
 
 def health_check(url):
+    """Check public HTTP reachability without mistaking an Access login page for the app."""
     if not url:
         return None
+    started = datetime.now(timezone.utc)
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "tsai97216-status-healthcheck"})
         with urllib.request.urlopen(req, timeout=12) as response:
-            return {"ok": 200 <= response.status < 400, "status": response.status, "url": url}
+            status = response.status
+            final_url = response.geturl()
+            body = response.read(8192).decode("utf-8", errors="replace")
+        elapsed_ms = int((datetime.now(timezone.utc) - started).total_seconds() * 1000)
+        access_page = (
+            "/cdn-cgi/access/login" in final_url.lower()
+            or ("cloudflare access" in body.lower() and
+                any(term in body.lower() for term in ("one-time pin", "login", "email address", "access policy")))
+        )
+        if access_page:
+            return {"ok": None, "reachable": True, "protected": True, "status": status,
+                    "url": url, "final_url": final_url, "latency_ms": elapsed_ms,
+                    "classification": "cloudflare_access"}
+        return {"ok": 200 <= status < 400, "reachable": True, "status": status,
+                "url": url, "final_url": final_url, "latency_ms": elapsed_ms}
     except urllib.error.HTTPError as exc:
-        return {"ok": False, "status": exc.code, "url": url}
+        elapsed_ms = int((datetime.now(timezone.utc) - started).total_seconds() * 1000)
+        return {"ok": False, "reachable": True, "status": exc.code, "url": url,
+                "final_url": exc.geturl(), "latency_ms": elapsed_ms}
     except Exception as exc:
-        return {"ok": False, "status": "連線失敗", "url": url, "error": str(exc)[:160]}
+        elapsed_ms = int((datetime.now(timezone.utc) - started).total_seconds() * 1000)
+        return {"ok": False, "reachable": False, "status": "連線失敗", "url": url,
+                "latency_ms": elapsed_ms, "error": str(exc)[:160]}
 
 def business_data(repo_name, run):
     profile = PROFILES.get(repo_name, {})
@@ -205,40 +225,43 @@ def business_data(repo_name, run):
         for label, url in services:
             check = health_check(url)
             checks.append({"label": label, "url": url, "check": check})
-        online = sum(1 for item in checks if item["check"] and item["check"]["ok"])
+        healthy = sum(1 for item in checks if item["check"] and item["check"].get("ok") is True)
+        failed = sum(1 for item in checks if item["check"] and item["check"].get("ok") is False)
+        unknown = sum(1 for item in checks if not item["check"] or item["check"].get("ok") is None)
         total = len(checks)
-        if online == total:
-            result["business_status"] = "success"
-            result["business_label"] = f"所有公開服務正常（{online}/{total}）"
-        elif online == 0:
+        if failed:
             result["business_status"] = "failure"
-            result["business_label"] = "所有公開服務皆無法連線"
+            result["business_label"] = f"公開端點異常（{healthy} 正常／{failed} 異常／{unknown} 未驗證）"
+        elif unknown:
+            result["business_status"] = "unknown"
+            result["business_label"] = f"有端點未驗證（{healthy}/{total} 可確認）"
         else:
-            result["business_status"] = "failure"
-            result["business_label"] = f"部分公開服務異常（{online}/{total} 可用）"
+            result["business_status"] = "success"
+            result["business_label"] = f"所有公開端點均有回應（{healthy}/{total}）"
         result["metrics"] = [
-            metric("可用服務", f"{online}/{total}", "good" if online == total else "bad"),
-            metric("檢查方式", "HTTPS"),
-            metric("主機資源", "未提供代理程式"),
+            metric("已確認可用", f"{healthy}/{total}", "good" if healthy == total else "normal"),
+            metric("異常端點", failed, "bad" if failed else "good"),
+            metric("未驗證端點", unknown, "normal" if unknown else "good"),
         ]
         for item in checks:
             check = item["check"]
-            if check and check["ok"]:
-                detail_result = f"可連線 · HTTP {check['status']}"
-                tone = "good"
-            elif check:
-                detail_result = f"無法正常連線 · HTTP {check['status']}"
-                tone = "bad"
+            if not check:
+                detail_result, tone = "未取得檢查結果", "normal"
+            elif check.get("protected"):
+                detail_result, tone = f"Cloudflare Access 登入頁 · HTTP {check['status']}（未驗證應用）", "normal"
+            elif check.get("ok") is True:
+                detail_result, tone = f"公開端點有回應 · HTTP {check['status']}", "good"
             else:
-                detail_result = "未取得檢查結果"
-                tone = "normal"
+                detail_result, tone = f"端點異常 · HTTP {check['status']}", "bad"
+            if check and check.get("latency_ms") is not None:
+                detail_result += f" · {check['latency_ms']} ms"
             result["details"].append({
                 "label": item["label"],
                 "result": detail_result,
                 "time": "",
                 "tone": tone,
             })
-        result["note"] = "此卡片從外部檢查 Cloudflare Tunnel 公開網址，只能證明服務端點是否可回應，不能單憑此結果確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。若三個服務同時失聯，可能是 VPS、cloudflared、網路或 DNS 問題。"
+        result["note"] = "此卡片從外部檢查 Cloudflare Tunnel 公開網址。HTTP 200 只代表有回應；若回應是 Cloudflare Access 登入頁，會標為未驗證，不會算成應用正常。端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。多個端點同時異常可能是 VPS、cloudflared、網路、DNS 或來源服務問題。"
         result["evidence_url"] = None
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
