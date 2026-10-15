@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from notify_discord import build_message, is_failed, is_recovered
-from update_status import normalize_run_status, stale_fallback
+from update_status import normalize_run_status, stale_fallback, inspect_page_content
 
 
 class DiscordAlertTests(unittest.TestCase):
