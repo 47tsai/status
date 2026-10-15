@@ -154,6 +154,14 @@ def business_data(repo_name, run):
         result["details"] = [{"label": "來源紀錄", "result": status_line or "無法判讀", "time": timestamp or "尚無紀錄", "tone": "good" if success else "bad" if failure else "normal"}]
         result["note"] = "讀取專案自己更新的簽到紀錄；如果腳本只回報文字或格式改變，會標示未知而不是猜測成功。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/README.md"
+    elif kind == "dashboard":
+        status = (run or {}).get("status")
+        result["business_status"] = "running" if status in ("in_progress", "queued", "waiting", "requested") else "success" if status == "success" else "failure" if status == "failure" else "unknown"
+        result["business_label"] = "儀表板正在更新" if result["business_status"] == "running" else "資料更新成功" if result["business_status"] == "success" else "資料更新失敗" if result["business_status"] == "failure" else "等待資料更新"
+        result["metrics"] = [metric("監控範圍", "公開 Repo"), metric("更新頻率", "每 10 分鐘"), metric("資料狀態", result["business_label"], "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal")]
+        result["details"] = [{"label": "最近更新流程", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal"}]
+        result["note"] = "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。"
+        result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
         auto_match = re.search(r"最近自動檢查：\*\*\s*([^（\n]+)", readme)
@@ -210,7 +218,7 @@ def business_data(repo_name, run):
         result["details"] = [{"label": "最近部署", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal"}]
         if health:
             result["details"].append({"label": "網站檢查", "result": f"{health['url']} · HTTP {health['status']}", "time": "", "tone": "good" if health["ok"] else "bad"})
-        result["note"] = "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。"
+        result["note"] = "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。" if profile.get("health_url") else "目前僅依 GitHub Actions 判定部署流程；此舊版或文件型 Repo 尚未設定可驗證的正式網址。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     else:
         status = (run or {}).get("status")
@@ -247,7 +255,7 @@ def main():
             item = {
                 "name": repo["name"], "full_name": full_name, "html_url": repo["html_url"],
                 "workflow": run.get("name") or run.get("display_title") or "GitHub Actions",
-                "status": status, "branch": run.get("head_branch"),
+                "status": status, "branch": run.get("head_branch") or repo.get("default_branch"),
                 "updated_at": run.get("updated_at") or run.get("created_at"),
                 "event": run.get("event"),
                 "commit_message": ((run.get("head_commit") or {}).get("message") or "").splitlines()[0][:180],
