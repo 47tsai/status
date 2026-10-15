@@ -5,6 +5,10 @@
 - **監控到專案異常**：每次狀態更新時檢查 status.json。只在某個專案第一次進入失敗狀態時通知；異常持續期間不重複洗頻，恢復正常後會發送恢復通知。狀態為未知、執行中或 API 暫時沒回傳資料，不會直接當作已恢復。
 - **儀表板工作流程失敗**：狀態收集或 GitHub Pages 部署工作失敗時，另外發送一則通知。
 
+## 儀表板網址
+
+正式網址：<https://status.chi.qzz.io/>。GitHub Pages 自訂網域由根目錄的 `CNAME` 檔案保存；若 DNS 與 Pages 網域設定已完成，等待 GitHub Pages 部署及 DNS/HTTPS 生效即可。
+
 ## 設定一次即可
 
 1. 在 Discord 伺服器建立一個專用的 Webhook，複製 Webhook URL。
