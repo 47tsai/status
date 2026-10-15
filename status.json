@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-15T13:59:46.174958+00:00",
-  "repository_count": 13,
+  "generated_at": "2026-10-15T14:03:29.476781+00:00",
+  "repository_count": 10,
   "repositories": [
     {
       "name": "status",
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T13:59:32Z",
-      "created_at": "2026-10-15T13:58:28Z",
+      "updated_at": "2026-10-15T14:03:19Z",
+      "created_at": "2026-10-15T14:03:15Z",
       "event": "push",
-      "commit_message": "fix: include run start time for per-run metrics",
+      "commit_message": "chore: exclude retired and unwanted projects from dashboard",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38747287918",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38747976800",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,12 +44,80 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 21:59:32",
+            "time": "2026-10-15 22:03:19",
             "tone": "normal"
           }
         ],
         "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/tsai97216/status/actions"
+      }
+    },
+    {
+      "name": "chi-source-personal",
+      "full_name": "tsai97216/chi-source-personal",
+      "html_url": "https://github.com/tsai97216/chi-source-personal",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-15T13:59:59Z",
+      "created_at": "2026-10-15T13:56:58Z",
+      "event": "dynamic",
+      "commit_message": "Add AltDirect source button to README",
+      "duration_seconds": 181,
+      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
+      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38747078767",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source Personal",
+        "description": "個人來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站可用",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "9",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "7",
+            "tone": "good"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-15 18:40:09",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-15 18:40:09",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "7 個 App 更新、2 個未變更",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "更新的 App",
+            "result": "SpooferPro Pokemon GO、Kazumi、Photos Backup、AirCard-iOS、EnsWilde、StikDebug、MiniWatts",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       }
     },
     {
@@ -112,74 +180,6 @@
         ],
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
-      }
-    },
-    {
-      "name": "chi-source-personal",
-      "full_name": "tsai97216/chi-source-personal",
-      "html_url": "https://github.com/tsai97216/chi-source-personal",
-      "workflow": "pages build and deployment",
-      "status": "in_progress",
-      "branch": "main",
-      "updated_at": "2026-10-15T13:57:30Z",
-      "created_at": "2026-10-15T13:56:58Z",
-      "event": "dynamic",
-      "commit_message": "Add AltDirect source button to README",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38747078767",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source Personal",
-        "description": "個人來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "來源網站可用",
-        "metrics": [
-          {
-            "label": "App 數量",
-            "value": "9",
-            "tone": "normal"
-          },
-          {
-            "label": "本次標示更新",
-            "value": "7",
-            "tone": "good"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "自動檢查",
-            "result": "2026-10-15 18:40:09",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "內容更新",
-            "result": "2026-10-15 18:40:09",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "版本狀態",
-            "result": "7 個 App 更新、2 個未變更",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "更新的 App",
-            "result": "SpooferPro Pokemon GO、Kazumi、Photos Backup、AirCard-iOS、EnsWilde、StikDebug、MiniWatts",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
-        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       }
     },
     {
@@ -545,156 +545,6 @@
         ],
         "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/merch/actions"
-      }
-    },
-    {
-      "name": "chi-brand",
-      "full_name": "tsai97216/chi-brand",
-      "html_url": "https://github.com/tsai97216/chi-brand",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-09-08T10:57:49Z",
-      "created_at": "2026-09-08T10:57:07Z",
-      "event": "dynamic",
-      "commit_message": "Add Chi brand showcase entry page",
-      "duration_seconds": 42,
-      "runs_url": "https://github.com/tsai97216/chi-brand/actions",
-      "run_url": "https://github.com/tsai97216/chi-brand/actions/runs/34218118767",
-      "business": {
-        "kind": "deploy",
-        "title": "Chi Brand",
-        "description": "品牌展示頁建置與部署",
-        "icon": "◇",
-        "business_status": "success",
-        "business_label": "最近部署成功",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "未設定",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "最近部署成功",
-            "time": "2026-09-08 18:57:49",
-            "tone": "good"
-          }
-        ],
-        "note": "目前僅依 GitHub Actions 判定部署流程；此舊版或文件型 Repo 尚未設定可驗證的正式網址。",
-        "evidence_url": "https://github.com/tsai97216/chi-brand/actions"
-      }
-    },
-    {
-      "name": "merch-old",
-      "full_name": "tsai97216/merch-old",
-      "html_url": "https://github.com/tsai97216/merch-old",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-09-04T12:35:31Z",
-      "created_at": "2026-09-04T12:34:52Z",
-      "event": "dynamic",
-      "commit_message": "Delete CNAME",
-      "duration_seconds": 39,
-      "runs_url": "https://github.com/tsai97216/merch-old/actions",
-      "run_url": "https://github.com/tsai97216/merch-old/actions/runs/33873492994",
-      "business": {
-        "kind": "deploy",
-        "title": "Merch 舊版",
-        "description": "舊版商品網站部署狀態",
-        "icon": "▦",
-        "business_status": "success",
-        "business_label": "最近部署成功",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "未設定",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "最近部署成功",
-            "time": "2026-09-04 20:35:31",
-            "tone": "good"
-          }
-        ],
-        "note": "目前僅依 GitHub Actions 判定部署流程；此舊版或文件型 Repo 尚未設定可驗證的正式網址。",
-        "evidence_url": "https://github.com/tsai97216/merch-old/actions"
-      }
-    },
-    {
-      "name": "nav-n",
-      "full_name": "tsai97216/nav-n",
-      "html_url": "https://github.com/tsai97216/nav-n",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-08-24T17:16:28Z",
-      "created_at": "2026-08-24T17:15:37Z",
-      "event": "dynamic",
-      "commit_message": "Delete CNAME",
-      "duration_seconds": 51,
-      "runs_url": "https://github.com/tsai97216/nav-n/actions",
-      "run_url": "https://github.com/tsai97216/nav-n/actions/runs/32755595531",
-      "business": {
-        "kind": "deploy",
-        "title": "Chi 導航站（舊版）",
-        "description": "舊版導航站最近一次部署",
-        "icon": "⌖",
-        "business_status": "success",
-        "business_label": "最近部署成功",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "未設定",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "最近部署成功",
-            "time": "2026-08-25 01:16:28",
-            "tone": "good"
-          }
-        ],
-        "note": "目前僅依 GitHub Actions 判定部署流程；此舊版或文件型 Repo 尚未設定可驗證的正式網址。",
-        "evidence_url": "https://github.com/tsai97216/nav-n/actions"
       }
     }
   ]
