@@ -173,6 +173,8 @@ html[data-theme="light"] .project[data-kind="claim"],html[data-theme="light"] .p
 .project[data-health="attention"]{border-color:color-mix(in srgb,var(--red) 58%,var(--line))}
 .project[data-health="attention"]:before{background:var(--red);opacity:1}
 .project[data-health="running"]{border-color:color-mix(in srgb,var(--amber) 38%,var(--line))}
+.monitor-warning{margin-top:11px;padding:10px 12px;border:1px solid #8a6532;border-radius:11px;background:#2b2114;color:#ffdb9b;font-size:12px;overflow-wrap:anywhere}
+html[data-theme="light"] .monitor-warning{background:#fff7e8;border-color:#d8ad68;color:#704b12}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 /* Accessible icon system and complete three-mode theme support. */
 :root{color-scheme:dark}
@@ -228,9 +230,9 @@ function isRunning(x){return ['in_progress','queued','requested','waiting'].incl
 function render(){
  const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
  const filtered=items.filter(x=>{
-  const b=x.business||{},hay=[x.name,x.workflow,x.branch,x.commit_message,b.title,b.description,b.business_label,...(b.metrics||[]).flatMap(m=>[m.label,m.value])].join(' ').toLowerCase();
+  const b=x.business||{},hay=[x.name,x.workflow,x.branch,x.commit_message,x.monitor_warning,b.title,b.description,b.business_label,...(b.metrics||[]).flatMap(m=>[m.label,m.value])].join(' ').toLowerCase();
   if(q&&!hay.includes(q)&&!(b.details||[]).some(d=>[d.label,d.result,d.time].join(' ').toLowerCase().includes(q)))return false;
-  if(f==='attention'&&!(isWorkflowBad(x)||isBusinessBad(x)))return false;
+  if(f==='attention'&&!(isWorkflowBad(x)||isBusinessBad(x)||x.monitor_warning))return false;
   if(f==='business-failure'&&!isBusinessBad(x))return false;
   if(f==='workflow-failure'&&!isWorkflowBad(x))return false;
   if(f==='success'&&b.business_status!=='success')return false;
@@ -240,7 +242,7 @@ function render(){
   return true;
  });
  const kindOrder={dashboard:0,vps:1,claim:2,checkin:3,source:4,deploy:5,freegame:6};
- const severity=x=>isWorkflowBad(x)||isBusinessBad(x)?0:isRunning(x)?1:(x.business?.business_status==='success'&&x.status==='success')?3:2;
+ const severity=x=>isWorkflowBad(x)||isBusinessBad(x)?0:x.monitor_warning?1:isRunning(x)?1:(x.business?.business_status==='success'&&x.status==='success')?3:2;
  filtered.sort((a,b)=>(kindOrder[a.business?.kind]??7)-(kindOrder[b.business?.kind]??7)||severity(a)-severity(b)||(new Date(b.updated_at||0)-new Date(a.updated_at||0)));
  $('total').textContent=items.length;
  $('bizok').textContent=items.filter(x=>x.business?.business_status==='success').length;
@@ -249,7 +251,7 @@ function render(){
  const wrap=$('projects');wrap.replaceChildren();
  if(!filtered.length){wrap.append(node('div','empty','沒有符合條件的專案。'));return}
  filtered.forEach(x=>{
-  const b=x.business||{},card=node('article','project');card.dataset.kind=b.kind||'generic';if(isWorkflowBad(x)||isBusinessBad(x)){card.dataset.health='attention';card.setAttribute('aria-label',(b.title||x.name)+'，需要注意')}else if(isRunning(x)){card.dataset.health='running'}else{card.dataset.health='normal'}
+  const b=x.business||{},card=node('article','project');card.dataset.kind=b.kind||'generic';if(isWorkflowBad(x)||isBusinessBad(x)){card.dataset.health='attention';card.setAttribute('aria-label',(b.title||x.name)+'，需要注意')}else if(x.monitor_warning){card.dataset.health='warning';card.setAttribute('aria-label',(b.title||x.name)+'，監控資料有警告')}else if(isRunning(x)){card.dataset.health='running'}else{card.dataset.health='normal'}
   const head=node('div','project-head'),ico=node('div','app-icon'),tw=node('div','title-wrap');ico.append(svgIcon(['dashboard','vps','claim','freegame','checkin','source','deploy'].includes(b.kind)?b.kind:'generic'));
   tw.append(node('div','project-title',b.title||x.name));
   const repo=node('a','repo',x.full_name||x.name);repo.href=x.html_url;repo.target='_blank';repo.rel='noopener noreferrer';tw.append(repo);
@@ -260,6 +262,7 @@ function render(){
   const links=node('div','links'),runLink=node('a','btn',b.kind==='vps'?'監控更新紀錄 ↗':'執行紀錄 ↗');runLink.href=x.run_url||x.runs_url||x.html_url+'/actions';runLink.target='_blank';runLink.rel='noopener noreferrer';links.append(runLink);
   if(b.evidence_url){const evidence=node('a','btn','業務證據 ↗');evidence.href=b.evidence_url;evidence.target='_blank';evidence.rel='noopener noreferrer';links.append(evidence)}
   runline.append(links);card.append(runline);
+  if(x.monitor_warning)card.append(node('div','monitor-warning','⚠ '+x.monitor_warning));
   const det=node('details'),sum=node('summary','', '詳細資訊'),list=node('div','detail-list');
   (b.details||[]).forEach(d=>{const row=node('div','detail-row');row.append(node('span','',d.label||'紀錄'));row.append(node('strong',d.tone==='good'?'good-text':d.tone==='bad'?'bad-text':'', [d.result,d.time&&d.time!=='尚無紀錄'?'時間：'+d.time:null].filter(Boolean).join(' · ')||'尚無資料'));list.append(row)});
   if(!list.childNodes.length)list.append(node('div','detail-row','尚無額外業務明細'));
