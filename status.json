@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T14:12:35.682325+00:00",
+  "generated_at": "2026-10-15T14:30:37.010194+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "failure",
       "branch": "OCI",
-      "updated_at": "2026-10-15T14:12:34.393259+00:00",
-      "created_at": "2026-10-15T14:12:34.393289+00:00",
+      "updated_at": "2026-10-15T14:30:36.302726+00:00",
+      "created_at": "2026-10-15T14:30:36.302742+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -22,45 +22,45 @@
         "description": "透過公開服務端點檢查 VPS 對外可用性",
         "icon": "▣",
         "business_status": "failure",
-        "business_label": "部分公開服務異常（1/3 可用）",
+        "business_label": "公開端點異常（0 正常／2 異常／1 未驗證）",
         "metrics": [
           {
-            "label": "可用服務",
-            "value": "1/3",
-            "tone": "bad"
-          },
-          {
-            "label": "檢查方式",
-            "value": "HTTPS",
+            "label": "已確認可用",
+            "value": "0/3",
             "tone": "normal"
           },
           {
-            "label": "主機資源",
-            "value": "未提供代理程式",
+            "label": "異常端點",
+            "value": "2",
+            "tone": "bad"
+          },
+          {
+            "label": "未驗證端點",
+            "value": "1",
             "tone": "normal"
           }
         ],
         "details": [
           {
             "label": "Alist",
-            "result": "無法正常連線 · HTTP 530",
+            "result": "端點異常 · HTTP 530 · 211 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "BiliTool",
-            "result": "無法正常連線 · HTTP 530",
+            "result": "端點異常 · HTTP 530 · 89 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "可連線 · HTTP 200",
+            "result": "Cloudflare Access 登入頁 · HTTP 200（未驗證應用） · 405 ms",
             "time": "",
-            "tone": "good"
+            "tone": "normal"
           }
         ],
-        "note": "此卡片從外部檢查 Cloudflare Tunnel 公開網址，只能證明服務端點是否可回應，不能單憑此結果確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。若三個服務同時失聯，可能是 VPS、cloudflared、網路或 DNS 問題。",
+        "note": "此卡片從外部檢查 Cloudflare Tunnel 公開網址。HTTP 200 只代表有回應；若回應是 Cloudflare Access 登入頁，會標為未驗證，不會算成應用正常。端點探測仍不能確認 VM 本身、SSH、CPU、記憶體或磁碟狀態。多個端點同時異常可能是 VPS、cloudflared、網路、DNS 或來源服務問題。",
         "evidence_url": null
       }
     },
@@ -71,13 +71,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T14:12:27Z",
-      "created_at": "2026-10-15T14:12:22Z",
-      "event": "workflow_dispatch",
-      "commit_message": "chore: update project business status",
+      "updated_at": "2026-10-15T14:30:24Z",
+      "created_at": "2026-10-15T14:30:06Z",
+      "event": "push",
+      "commit_message": "Clarify VPS monitoring evidence label",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38749312789",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38751952836",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -106,12 +106,68 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-15 22:12:27",
+            "time": "2026-10-15 22:30:24",
             "tone": "normal"
           }
         ],
         "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/tsai97216/status/actions"
+      }
+    },
+    {
+      "name": "free-game",
+      "full_name": "tsai97216/free-game",
+      "html_url": "https://github.com/tsai97216/free-game",
+      "workflow": "Free Game Notifier",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-15T14:20:10Z",
+      "created_at": "2026-10-15T14:19:55Z",
+      "event": "schedule",
+      "commit_message": "chore: update processed state",
+      "duration_seconds": 15,
+      "runs_url": "https://github.com/tsai97216/free-game/actions",
+      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38750425043",
+      "business": {
+        "kind": "freegame",
+        "title": "免費遊戲通知",
+        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
+        "icon": "🕹",
+        "business_status": "success",
+        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
+        "metrics": [
+          {
+            "label": "本輪新增遊戲",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "本輪處理文章",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "累積遊戲／文章",
+            "value": "6／5",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "本輪狀態紀錄",
+            "result": "沒有本輪狀態提交（可能無新項目）",
+            "time": "2026-10-12 15:59:55",
+            "tone": "normal"
+          },
+          {
+            "label": "去重狀態檔",
+            "result": "可讀取",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
+        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       }
     },
     {
@@ -293,62 +349,6 @@
         ],
         "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
         "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
-      }
-    },
-    {
-      "name": "free-game",
-      "full_name": "tsai97216/free-game",
-      "html_url": "https://github.com/tsai97216/free-game",
-      "workflow": "Free Game Notifier",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-15T09:27:12Z",
-      "created_at": "2026-10-15T09:27:01Z",
-      "event": "schedule",
-      "commit_message": "chore: update processed state",
-      "duration_seconds": 11,
-      "runs_url": "https://github.com/tsai97216/free-game/actions",
-      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38713008682",
-      "business": {
-        "kind": "freegame",
-        "title": "免費遊戲通知",
-        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
-        "icon": "🕹",
-        "business_status": "success",
-        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
-        "metrics": [
-          {
-            "label": "本輪新增遊戲",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "本輪處理文章",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "累積遊戲／文章",
-            "value": "6／5",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "本輪狀態紀錄",
-            "result": "沒有本輪狀態提交（可能無新項目）",
-            "time": "2026-10-12 15:59:55",
-            "tone": "normal"
-          },
-          {
-            "label": "去重狀態檔",
-            "result": "可讀取",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
-        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       }
     },
     {
