@@ -66,8 +66,8 @@ button:disabled{opacity:.65;cursor:wait}
 details{margin-top:11px;border-top:1px solid #26334a;padding-top:10px}
 summary{font-size:12px;color:var(--accent);font-weight:750;cursor:pointer;list-style:none}
 summary::-webkit-details-marker{display:none}
-summary:after{content:"＋";float:right}
-details[open] summary:after{content:"−"}
+summary:after{content:none}
+details[open] summary:after{content:none}
 .detail-list{display:grid;gap:7px;margin-top:10px}
 .detail-row{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:8px 10px;background:#0b1322;border-radius:9px}
 .detail-row span{color:var(--muted)}
@@ -183,9 +183,13 @@ html[data-theme="light"] .monitor-warning{background:#fff7e8;border-color:#d8ad6
 /* Accessible icon system and complete three-mode theme support. */
 :root{color-scheme:dark}
 html[data-theme="light"]{color-scheme:light}
-.app-svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.app-svg{width:21px;height:21px;display:block;stroke-width:1.7}
 .app-icon .app-svg{width:22px;height:22px}
-.button-icon{width:16px;height:16px;display:inline-block;vertical-align:-3px;margin-right:6px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.button-icon{width:16px;height:16px;display:inline-block;vertical-align:-3px;margin-right:6px;stroke-width:1.7}
+.summary-icon{width:14px;height:14px;margin-left:auto;flex-shrink:0;transition:transform .15s ease}
+details[open] .summary-icon{transform:rotate(180deg)}
+summary{display:flex;align-items:center;gap:8px}
+.monitor-warning .button-icon{margin-right:7px;vertical-align:-4px}
 .top-actions button,.top-actions .btn{display:inline-flex;align-items:center;justify-content:center;gap:0}
 #themeToggle{min-width:142px}
 html[data-theme="light"] body{background:var(--bg)}
@@ -202,28 +206,18 @@ html[data-theme="light"] .bad-text{color:#a32118}
 
 </head>
 <body><main>
-<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><svg class="button-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4 10 14"/><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></svg>更新紀錄</a><button id="refresh"><svg class="button-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 11.9-3"/></svg><span id="refreshLabel">重新整理</span></button></div></header>
+<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><i class="button-icon" data-lucide="external-link" aria-hidden="true"></i>更新紀錄</a><button id="refresh"><i class="button-icon" data-lucide="refresh-cw" aria-hidden="true"></i><span id="refreshLabel">重新整理</span></button></div></header>
 <section class="stats"><div class="stat"><span>專案</span><strong id="total">－</strong></div><div class="stat"><span>成功</span><strong id="bizok">－</strong></div><div class="stat"><span>異常</span><strong id="attention">－</strong></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong></div></section>
 <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
 
 </main>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 <script>
 const $=id=>document.getElementById(id);let items=[];let loading=false;let lastGeneratedAt=null;let loadError='';
 function node(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
-function svgIcon(name){const paths={
- dashboard:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8h8M8 12h4M8 16h8"/>',
- vps:'<rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/><path d="M8 6.5h.01M8 17.5h.01M12 6.5h4M12 17.5h4"/>',
- claim:'<path d="M6 9h12a3 3 0 0 1 2.8 4l-1.2 3.2a2 2 0 0 1-3.2.8L14 15H10l-2.4 2a2 2 0 0 1-3.2-.8L3.2 13A3 3 0 0 1 6 9Z"/><path d="M7 11v4M5 13h4M16 12h.01M18 14h.01"/>',
- freegame:'<path d="M6 9h12a3 3 0 0 1 2.8 4l-1.2 3.2a2 2 0 0 1-3.2.8L14 15H10l-2.4 2a2 2 0 0 1-3.2-.8L3.2 13A3 3 0 0 1 6 9Z"/><path d="M7 11v4M5 13h4M16 12h.01M18 14h.01"/>',
- checkin:'<circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/>',
- source:'<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.5 7.8 7.5 4.4 7.5-4.4M12 12.2V21"/>',
- deploy:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
- generic:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
- system:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
- light:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/>',
- dark:'<path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/>'
- };const e=document.createElementNS('http://www.w3.org/2000/svg','svg');e.setAttribute('viewBox','0 0 24 24');e.setAttribute('aria-hidden','true');e.classList.add('app-svg');e.innerHTML=paths[name]||paths.generic;return e}
+function iconNode(name,cls){const e=document.createElement("i");e.setAttribute("data-lucide",name);e.setAttribute("aria-hidden","true");if(cls)e.className=cls;return e}
+function renderIcons(){if(window.lucide&&typeof window.lucide.createIcons==="function")window.lucide.createIcons()}
 function bucket(s){if(s==='success')return'good';if(['failure','timed_out','action_required','startup_failure'].includes(s))return'bad';if(['in_progress','queued','requested','waiting'].includes(s))return'running';return'unknown'}
 function label(s){return({success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過'}[s]||s||'尚無紀錄')}
 function businessBucket(s){return s==='success'?'good':s==='failure'?'bad':s==='running'?'running':'unknown'}
@@ -253,25 +247,26 @@ function render(){
  $('attention').textContent=items.filter(x=>isWorkflowBad(x)||isBusinessBad(x)||x.monitor_warning).length;
  $('runningCount').textContent=items.filter(isRunning).length;
  const wrap=$('projects');wrap.replaceChildren();
- if(!filtered.length){wrap.append(node('div','empty','沒有符合條件的專案。'));return}
+ if(!filtered.length){wrap.append(node('div','empty','沒有符合條件的專案。'));renderIcons();return}
  filtered.forEach(x=>{
   const b=x.business||{},card=node('article','project');card.dataset.kind=b.kind||'generic';if(isWorkflowBad(x)||isBusinessBad(x)){card.dataset.health='attention';card.setAttribute('aria-label',(b.title||x.name)+'，需要注意')}else if(x.monitor_warning){card.dataset.health='warning';card.setAttribute('aria-label',(b.title||x.name)+'，監控資料有警告')}else if(isRunning(x)){card.dataset.health='running'}else{card.dataset.health='normal'}
-  const head=node('div','project-head'),ico=node('div','app-icon'),tw=node('div','title-wrap');ico.append(svgIcon(['dashboard','vps','claim','freegame','checkin','source','deploy'].includes(b.kind)?b.kind:'generic'));
+  const head=node('div','project-head'),ico=node('div','app-icon'),tw=node('div','title-wrap');const iconNames={dashboard:'layout-dashboard',vps:'server',claim:'gamepad-2',freegame:'gamepad-2',checkin:'circle-check',source:'package',deploy:'globe',generic:'activity'};ico.append(iconNode(iconNames[b.kind]||iconNames.generic,'app-svg'));
   tw.append(node('div','project-title',b.title||x.name));
   const repo=node('a','repo',x.full_name||x.name);repo.href=x.html_url;repo.target='_blank';repo.rel='noopener noreferrer';tw.append(repo);
   const badges=node('div','badges');badges.append(node('span','badge '+businessBucket(b.business_status),(b.kind==='vps'?'服務：':'業務：')+businessLabel(b)));badges.append(node('span','badge '+bucket(x.status),(b.kind==='vps'?'探測：':'Actions：')+label(x.status)));
   head.append(ico,tw,badges);card.append(head);
   const metrics=node('div','metrics');(b.metrics||[]).slice(0,3).forEach(m=>{const el=node('div','metric');el.append(node('span','',m.label||'指標'));const val=node('strong',m.tone==='good'?'good-text':m.tone==='bad'?'bad-text':'',m.value??'－');el.append(val);metrics.append(el)});if(metrics.childNodes.length)card.append(metrics);
   const runline=node('div','runline'),meta=node('div','runmeta');meta.append(node('span','',b.kind==='vps'?'監控方式：':'Workflow：'));meta.append(node('strong','',x.workflow||'尚無 Workflow'));meta.append(node('span','',' · '+(x.updated_at?new Date(x.updated_at).toLocaleString('zh-TW',{hour12:false}):'尚無時間')));runline.append(meta);
-  const links=node('div','links'),runLink=node('a','btn',b.kind==='vps'?'監控更新紀錄 ↗':'執行紀錄 ↗');runLink.href=x.run_url||x.runs_url||x.html_url+'/actions';runLink.target='_blank';runLink.rel='noopener noreferrer';links.append(runLink);
-  if(b.evidence_url){const evidence=node('a','btn','業務證據 ↗');evidence.href=b.evidence_url;evidence.target='_blank';evidence.rel='noopener noreferrer';links.append(evidence)}
+  const links=node('div','links'),runLink=node('a','btn');runLink.append(iconNode('external-link','button-icon'),document.createTextNode(b.kind==='vps'?'監控更新紀錄':'執行紀錄'));runLink.href=x.run_url||x.runs_url||x.html_url+'/actions';runLink.target='_blank';runLink.rel='noopener noreferrer';links.append(runLink);
+  if(b.evidence_url){const evidence=node('a','btn');evidence.append(iconNode('external-link','button-icon'),document.createTextNode('業務證據'));evidence.href=b.evidence_url;evidence.target='_blank';evidence.rel='noopener noreferrer';links.append(evidence)}
   runline.append(links);card.append(runline);
-  if(x.monitor_warning)card.append(node('div','monitor-warning','⚠ '+x.monitor_warning));
-  const det=node('details'),sum=node('summary','', '詳細資訊'),list=node('div','detail-list');
+  if(x.monitor_warning){const warning=node('div','monitor-warning');warning.append(iconNode('alert-triangle','button-icon'),document.createTextNode(x.monitor_warning));card.append(warning)}
+  const det=node('details'),sum=node('summary','', '詳細資訊'),list=node('div','detail-list');sum.append(iconNode('chevron-down','summary-icon'));
   (b.details||[]).forEach(d=>{const row=node('div','detail-row');row.append(node('span','',d.label||'紀錄'));row.append(node('strong',d.tone==='good'?'good-text':d.tone==='bad'?'bad-text':'', [d.result,d.time&&d.time!=='尚無紀錄'?'時間：'+d.time:null].filter(Boolean).join(' · ')||'尚無資料'));list.append(row)});
   if(!list.childNodes.length)list.append(node('div','detail-row','尚無額外業務明細'));
   det.append(sum,list);if(b.note)det.append(node('p','note',b.note));card.append(det);wrap.append(card);
  });
+  renderIcons();
 }
 async function load(){if(loading)return;loading=true;const btn=$('refresh');btn.disabled=true;$('refreshLabel').textContent='更新中…';try{const r=await fetch('./status.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();items=data.repositories||[];lastGeneratedAt=data.generated_at?new Date(data.generated_at):null;loadError='';updateFreshness();render()}catch(e){loadError='讀取失敗：'+e.message;updateFreshness();if(!items.length)$('projects').replaceChildren(node('div','empty','目前讀取不到狀態資料，請稍後重試。'))}finally{loading=false;btn.disabled=false;$('refreshLabel').textContent='重新整理'}}
 function updateFreshness(){const el=$('updated');if(loadError){el.textContent=loadError;el.classList.add('stale');return}if(!lastGeneratedAt||Number.isNaN(lastGeneratedAt.getTime())){el.textContent='尚未取得資料更新時間';el.classList.add('stale');return}const age=Math.max(0,Math.floor((Date.now()-lastGeneratedAt.getTime())/60000));const stamp=lastGeneratedAt.toLocaleString('zh-TW',{hour12:false});el.textContent='資料更新：'+stamp+' · '+(age<1?'不到 1 分鐘前':age+' 分鐘前')+(age>=20?' · 資料可能過期':'');el.classList.toggle('stale',age>=20)}
@@ -284,7 +279,7 @@ const systemTheme=window.matchMedia('(prefers-color-scheme: light)');
 function setTheme(mode,save=false){
  const resolved=mode==='system'?(systemTheme.matches?'light':'dark'):mode;
  document.documentElement.dataset.theme=resolved;
- themeIcon.replaceChildren(svgIcon(mode==='system'?'system':mode));
+ themeIcon.replaceChildren(iconNode(mode==='system'?'monitor':mode==='light'?'sun':'moon','button-icon'));renderIcons();
  themeLabel.textContent=themeNames[mode];
  themeToggle.setAttribute('aria-label','色彩模式：'+themeNames[mode]+'，點擊切換');
  themeToggle.title='色彩模式：'+themeNames[mode];
