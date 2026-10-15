@@ -131,7 +131,10 @@ def health_check(url):
 def format_unknown_health_detail(check):
     """Format an inconclusive endpoint check without repeating its status phrase."""
     reason = (check or {}).get("content_reason") or "回應內容不足以確認頁面健康"
-    reason = re.sub(r"^(?:HTML 缺少 title，)?內容狀態未能確認[：:，, ]*", "", reason).strip()
+    if reason.startswith("HTML 缺少 title，內容狀態未能確認"):
+        reason = "HTML 缺少 title"
+    elif reason.startswith("內容狀態未能確認"):
+        reason = re.sub(r"^內容狀態未能確認[：:，, ]*", "", reason).strip()
     if not reason:
         reason = "回應內容不足以確認頁面健康"
     status = (check or {}).get("status", "未知")
