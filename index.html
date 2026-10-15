@@ -164,7 +164,7 @@ function render(){
  const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
  const filtered=items.filter(x=>{
   const b=x.business||{},hay=[x.name,x.workflow,x.branch,x.commit_message,b.title,b.description,b.business_label,...(b.metrics||[]).flatMap(m=>[m.label,m.value])].join(' ').toLowerCase();
-  if(q&&!hay.includes(q))return false;
+  if(q&&!hay.includes(q)&&!(b.details||[]).some(d=>[d.label,d.result,d.time].join(' ').toLowerCase().includes(q)))return false;
   if(f==='attention'&&!(isWorkflowBad(x)||isBusinessBad(x)))return false;
   if(f==='business-failure'&&!isBusinessBad(x))return false;
   if(f==='workflow-failure'&&!isWorkflowBad(x))return false;
