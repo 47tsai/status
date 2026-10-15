@@ -101,6 +101,17 @@ def build_message(new_failures, recovered):
     return "\n".join(lines)
 
 
+def normalize_active_failures(state):
+    """Ignore malformed persisted alert state instead of crashing notification runs."""
+    if not isinstance(state, dict):
+        return {}
+    active = state.get("active_failures", {})
+    if not isinstance(active, dict):
+        return {}
+    return {name: record for name, record in active.items()
+            if isinstance(name, str) and isinstance(record, dict)}
+
+
 def main():
     webhook_url = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
     if not webhook_url:
@@ -120,13 +131,7 @@ def main():
                if isinstance(item, dict) and (item.get("name") or item.get("full_name"))}
     current_failures = {name: failure_record(item) for name, item in current.items() if is_failed(item)}
     previous_state = read_json(STATE_PATH, {"active_failures": {}})
-    if not isinstance(previous_state, dict):
-        previous_state = {}
-    previous = previous_state.get("active_failures", {})
-    if not isinstance(previous, dict):
-        previous = {}
-    previous = {name: record for name, record in previous.items()
-                if isinstance(name, str) and isinstance(record, dict)}
+    previous = normalize_active_failures(previous_state)
 
     new_failures = [record for name, record in current_failures.items() if name not in previous]
     recovered = [previous[name] for name in previous
