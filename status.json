@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T23:49:45.454002+00:00",
+  "generated_at": "2026-10-15T23:57:48.694847+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T23:49:32Z",
-      "created_at": "2026-10-15T23:49:29Z",
+      "updated_at": "2026-10-15T23:57:36Z",
+      "created_at": "2026-10-15T23:57:33Z",
       "event": "push",
-      "commit_message": "test: accept nonempty titleless HTTP 200 pages",
+      "commit_message": "a11y: improve dashboard semantics and icon fallbacks",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38825866429",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38826665499",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +44,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-16 07:49:32",
+            "time": "2026-10-16 07:57:36",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-15T23:49:42.413996+00:00",
-      "created_at": "2026-10-15T23:49:42.414011+00:00",
+      "updated_at": "2026-10-15T23:57:43.967628+00:00",
+      "created_at": "2026-10-15T23:57:43.967643+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -93,25 +93,81 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 937 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 1107 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 1498 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 3030 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 602 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 587 ms",
             "time": "",
             "tone": "normal"
           }
         ],
         "note": "此卡只驗證 Alist、BiliTool、Twitch Drops Miner 三個公開網址是否有 HTTP 回應，不等同於確認應用程式內部功能或 VPS 本身健康。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，只代表 Access 閘道有回應，不代表登入後的後端服務可用。任一端點明確異常即判定對外服務異常；此探測無法確認 VM、SSH、CPU、記憶體或磁碟狀態。",
         "evidence_url": null
+      }
+    },
+    {
+      "name": "free-game",
+      "full_name": "tsai97216/free-game",
+      "html_url": "https://github.com/tsai97216/free-game",
+      "workflow": "Free Game Notifier",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-15T23:53:36Z",
+      "created_at": "2026-10-15T23:53:25Z",
+      "event": "schedule",
+      "commit_message": "chore: update processed state",
+      "duration_seconds": 11,
+      "runs_url": "https://github.com/tsai97216/free-game/actions",
+      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38826258096",
+      "business": {
+        "kind": "freegame",
+        "title": "免費遊戲通知",
+        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
+        "icon": "gamepad",
+        "business_status": "success",
+        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
+        "metrics": [
+          {
+            "label": "本輪新增遊戲",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "本輪處理文章",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "累積遊戲／文章",
+            "value": "8／6",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "本輪狀態紀錄",
+            "result": "沒有本輪狀態提交（可能無新項目）",
+            "time": "2026-10-16 02:30:16",
+            "tone": "normal"
+          },
+          {
+            "label": "去重狀態檔",
+            "result": "可讀取",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
+        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       }
     },
     {
@@ -303,62 +359,6 @@
         ],
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
-      }
-    },
-    {
-      "name": "free-game",
-      "full_name": "tsai97216/free-game",
-      "html_url": "https://github.com/tsai97216/free-game",
-      "workflow": "Free Game Notifier",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-15T21:41:57Z",
-      "created_at": "2026-10-15T21:41:45Z",
-      "event": "schedule",
-      "commit_message": "chore: update processed state",
-      "duration_seconds": 12,
-      "runs_url": "https://github.com/tsai97216/free-game/actions",
-      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38811809091",
-      "business": {
-        "kind": "freegame",
-        "title": "免費遊戲通知",
-        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
-        "icon": "gamepad",
-        "business_status": "success",
-        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
-        "metrics": [
-          {
-            "label": "本輪新增遊戲",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "本輪處理文章",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "累積遊戲／文章",
-            "value": "8／6",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "本輪狀態紀錄",
-            "result": "沒有本輪狀態提交（可能無新項目）",
-            "time": "2026-10-16 02:30:16",
-            "tone": "normal"
-          },
-          {
-            "label": "去重狀態檔",
-            "result": "可讀取",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
-        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       }
     },
     {
