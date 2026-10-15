@@ -75,11 +75,11 @@ details{margin-top:11px;border-top:1px solid #26334a;padding-top:10px}summary{fo
 </style>
 </head>
 <body><main>
-<header class="top"><div><div class="eyebrow">CHI SYSTEMS · PROJECT OBSERVABILITY</div><h1>專案健康中心</h1><p class="subtitle">不只看 Actions 綠勾，也看每個專案真正做成了什麼。簽到、遊戲通知、部署，各自使用對應的監控規則。</p></div><div class="top-actions"><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">更新紀錄 ↗</a><button id="refresh">↻ 重新整理</button></div></header>
-<section class="stats"><div class="stat"><span>監控專案</span><strong id="total">－</strong><small>GitHub Repo 與主機監控項目</small></div><div class="stat"><span>業務成功</span><strong id="bizok">－</strong><small>依各專案紀錄判定</small></div><div class="stat"><span>需要注意</span><strong id="attention">－</strong><small>業務失敗或 Workflow 失敗</small></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong><small>目前正在執行的 Workflow</small></div></section>
+<header class="top"><div><div class="eyebrow">CHI SYSTEMS · PROJECT OBSERVABILITY</div><h1>專案健康中心</h1><p class="subtitle">GitHub Actions、業務結果與 VPS 狀態。</p></div><div class="top-actions"><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">更新紀錄 ↗</a><button id="refresh">↻ 重新整理</button></div></header>
+<section class="stats"><div class="stat"><span>監控專案</span><strong id="total">－</strong><small></small></div><div class="stat"><span>業務成功</span><strong id="bizok">－</strong><small></small></div><div class="stat"><span>需要注意</span><strong id="attention">－</strong><small></small></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong><small></small></div></section>
 <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
-<footer class="footer"><span>資料約每 10 分鐘更新。重新整理只會重新讀取最新已產生的資料。</span><span>業務結果與 Workflow 結果分開判斷，未知就是未知，不會硬判成功。</span></footer>
+<footer class="footer"><span>狀態每 10 分鐘更新。</span><span>資料更新時間顯示於上方。</span></footer>
 </main>
 <script>
 const $=id=>document.getElementById(id);let items=[];let loading=false;let lastGeneratedAt=null;
@@ -124,7 +124,7 @@ function render(){
   const links=node('div','links'),runLink=node('a','btn',b.kind==='vps'?'監控更新紀錄 ↗':'執行紀錄 ↗');runLink.href=x.run_url||x.runs_url||x.html_url+'/actions';runLink.target='_blank';runLink.rel='noopener noreferrer';links.append(runLink);
   if(b.evidence_url){const evidence=node('a','btn','業務證據 ↗');evidence.href=b.evidence_url;evidence.target='_blank';evidence.rel='noopener noreferrer';links.append(evidence)}
   runline.append(links);card.append(runline);
-  const det=node('details'),sum=node('summary','', '監控細節與判定方式'),list=node('div','detail-list');
+  const det=node('details'),sum=node('summary','', '詳細資訊'),list=node('div','detail-list');
   (b.details||[]).forEach(d=>{const row=node('div','detail-row');row.append(node('span','',d.label||'紀錄'));row.append(node('strong',d.tone==='good'?'good-text':d.tone==='bad'?'bad-text':'', [d.result,d.time&&d.time!=='尚無紀錄'?'時間：'+d.time:null].filter(Boolean).join(' · ')||'尚無資料'));list.append(row)});
   if(!list.childNodes.length)list.append(node('div','detail-row','尚無額外業務明細'));
   det.append(sum,list);if(b.note)det.append(node('p','note',b.note));card.append(det);wrap.append(card);
