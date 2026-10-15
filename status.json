@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-15T13:54:39.936836+00:00",
-  "repository_count": 13,
+  "generated_at": "2026-10-15T13:55:25.734464+00:00",
+  "repository_count": 11,
   "repositories": [
     {
       "name": "status",
@@ -9,12 +9,12 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-15T13:54:30Z",
+      "updated_at": "2026-10-15T13:55:18Z",
       "event": "push",
-      "commit_message": "feat: monitor source updates and deployed site health",
+      "commit_message": "fix: enable source and website health parsers",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38746710887",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38746826209",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -26,43 +26,6 @@
           {
             "label": "Workflow",
             "value": "status",
-            "tone": "normal"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          }
-        ],
-        "details": [],
-        "note": "尚未配置專屬業務資料解析器。",
-        "evidence_url": null
-      }
-    },
-    {
-      "name": "chi-source",
-      "full_name": "tsai97216/chi-source",
-      "html_url": "https://github.com/tsai97216/chi-source",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-15T13:46:34Z",
-      "event": "dynamic",
-      "commit_message": "Remove redundant AltDirect links from README",
-      "duration_seconds": 49,
-      "runs_url": "https://github.com/tsai97216/chi-source/actions",
-      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38745464897",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source",
-        "description": "AltStore 來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "最近 Workflow：success",
-        "metrics": [
-          {
-            "label": "Workflow",
-            "value": "chi-source",
             "tone": "normal"
           },
           {
@@ -124,43 +87,6 @@
         ],
         "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
         "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
-      }
-    },
-    {
-      "name": "chi-source-personal",
-      "full_name": "tsai97216/chi-source-personal",
-      "html_url": "https://github.com/tsai97216/chi-source-personal",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-15T10:41:44Z",
-      "event": "dynamic",
-      "commit_message": "Remove development instructions from README",
-      "duration_seconds": 42,
-      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38722001128",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source Personal",
-        "description": "個人來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "最近 Workflow：success",
-        "metrics": [
-          {
-            "label": "Workflow",
-            "value": "chi-source-personal",
-            "tone": "normal"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          }
-        ],
-        "details": [],
-        "note": "尚未配置專屬業務資料解析器。",
-        "evidence_url": null
       }
     },
     {
@@ -319,11 +245,11 @@
         "description": "工具網站部署與實際 HTTP 健康檢查",
         "icon": "↗",
         "business_status": "success",
-        "business_label": "最近部署成功",
+        "business_label": "部署成功、網站可用",
         "metrics": [
           {
             "label": "部署結果",
-            "value": "最近部署成功",
+            "value": "成功",
             "tone": "good"
           },
           {
@@ -332,20 +258,26 @@
             "tone": "normal"
           },
           {
-            "label": "觸發方式",
-            "value": "push",
-            "tone": "normal"
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
           }
         ],
         "details": [
           {
             "label": "最近部署",
-            "result": "最近部署成功",
+            "result": "部署成功、網站可用",
             "time": "2026-10-13 23:25:02",
+            "tone": "good"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://h.chi.qzz.io/ · HTTP 200",
+            "time": "",
             "tone": "good"
           }
         ],
-        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/h/actions"
       }
     },
@@ -368,11 +300,11 @@
         "description": "導航網站部署與實際 HTTP 健康檢查",
         "icon": "⌖",
         "business_status": "success",
-        "business_label": "最近部署成功",
+        "business_label": "部署成功、網站可用",
         "metrics": [
           {
             "label": "部署結果",
-            "value": "最近部署成功",
+            "value": "成功",
             "tone": "good"
           },
           {
@@ -381,20 +313,26 @@
             "tone": "normal"
           },
           {
-            "label": "觸發方式",
-            "value": "dynamic",
-            "tone": "normal"
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
           }
         ],
         "details": [
           {
             "label": "最近部署",
-            "result": "最近部署成功",
+            "result": "部署成功、網站可用",
             "time": "2026-10-12 13:55:00",
+            "tone": "good"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://nav.chi.qzz.io/ · HTTP 200",
+            "time": "",
             "tone": "good"
           }
         ],
-        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/nav/actions"
       }
     },
@@ -417,11 +355,11 @@
         "description": "商品網站部署與實際 HTTP 健康檢查",
         "icon": "▦",
         "business_status": "success",
-        "business_label": "最近部署成功",
+        "business_label": "部署成功、網站可用",
         "metrics": [
           {
             "label": "部署結果",
-            "value": "最近部署成功",
+            "value": "成功",
             "tone": "good"
           },
           {
@@ -430,20 +368,26 @@
             "tone": "normal"
           },
           {
-            "label": "觸發方式",
-            "value": "workflow_run",
-            "tone": "normal"
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
           }
         ],
         "details": [
           {
             "label": "最近部署",
-            "result": "最近部署成功",
+            "result": "部署成功、網站可用",
             "time": "2026-10-03 08:43:09",
+            "tone": "good"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://merch.chi.qzz.io/ · HTTP 200",
+            "time": "",
             "tone": "good"
           }
         ],
-        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/merch/actions"
       }
     },
@@ -470,7 +414,7 @@
         "metrics": [
           {
             "label": "部署結果",
-            "value": "最近部署成功",
+            "value": "成功",
             "tone": "good"
           },
           {
@@ -479,8 +423,8 @@
             "tone": "normal"
           },
           {
-            "label": "觸發方式",
-            "value": "dynamic",
+            "label": "網站 HTTP",
+            "value": "未設定",
             "tone": "normal"
           }
         ],
@@ -492,7 +436,7 @@
             "tone": "good"
           }
         ],
-        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/chi-brand/actions"
       }
     },
@@ -519,7 +463,7 @@
         "metrics": [
           {
             "label": "部署結果",
-            "value": "最近部署成功",
+            "value": "成功",
             "tone": "good"
           },
           {
@@ -528,8 +472,8 @@
             "tone": "normal"
           },
           {
-            "label": "觸發方式",
-            "value": "dynamic",
+            "label": "網站 HTTP",
+            "value": "未設定",
             "tone": "normal"
           }
         ],
@@ -541,7 +485,7 @@
             "tone": "good"
           }
         ],
-        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/merch-old/actions"
       }
     },
@@ -568,7 +512,7 @@
         "metrics": [
           {
             "label": "部署結果",
-            "value": "最近部署成功",
+            "value": "成功",
             "tone": "good"
           },
           {
@@ -577,8 +521,8 @@
             "tone": "normal"
           },
           {
-            "label": "觸發方式",
-            "value": "dynamic",
+            "label": "網站 HTTP",
+            "value": "未設定",
             "tone": "normal"
           }
         ],
@@ -590,7 +534,7 @@
             "tone": "good"
           }
         ],
-        "note": "此類專案的主要可驗證成果是部署流程；目前監控的是 GitHub Actions 部署結果，尚未做網站 HTTP 健康檢查。",
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/nav-n/actions"
       }
     }
