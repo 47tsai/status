@@ -1,19 +1,81 @@
 {
-  "generated_at": "2026-10-16T10:57:29.484883+00:00",
+  "generated_at": "2026-10-16T10:58:36.118244+00:00",
   "repository_count": 12,
   "repositories": [
+    {
+      "name": "vps-01",
+      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
+      "html_url": "https://alist.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "OCI",
+      "updated_at": "2026-10-16T10:58:33.166634+00:00",
+      "created_at": "2026-10-16T10:58:33.166654+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘檢查三個公開服務端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions",
+      "business": {
+        "kind": "vps",
+        "title": "VPS-01 · Oracle Cloud",
+        "description": "透過公開服務端點檢查 VPS 對外可用性",
+        "icon": "▣",
+        "business_status": "success",
+        "business_label": "VPS-01 正常運作（至少 2/3 個端點 HTTP 200）",
+        "metrics": [
+          {
+            "label": "HTTP 200 端點",
+            "value": "3/3",
+            "tone": "good"
+          },
+          {
+            "label": "非 200 端點",
+            "value": "0",
+            "tone": "good"
+          },
+          {
+            "label": "未取得狀態",
+            "value": "0",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "Alist",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 936 ms",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "BiliTool",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1270 ms",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "Twitch Drops Miner",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 742 ms",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
+        "evidence_url": null
+      }
+    },
     {
       "name": "chi-source-personal",
       "full_name": "tsai97216/chi-source-personal",
       "html_url": "https://github.com/tsai97216/chi-source-personal",
       "workflow": "pages build and deployment",
-      "status": "in_progress",
+      "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T10:56:17Z",
+      "updated_at": "2026-10-16T10:58:02Z",
       "created_at": "2026-10-16T10:55:50Z",
       "event": "dynamic",
       "commit_message": "auto: sync Chi Source",
-      "duration_seconds": null,
+      "duration_seconds": 132,
       "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
       "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38890447943",
       "business": {
@@ -76,81 +138,19 @@
       }
     },
     {
-      "name": "vps-01",
-      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
-      "html_url": "https://alist.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "OCI",
-      "updated_at": "2026-10-16T10:57:22.106945+00:00",
-      "created_at": "2026-10-16T10:57:22.106961+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘檢查三個公開服務端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions",
-      "business": {
-        "kind": "vps",
-        "title": "VPS-01 · Oracle Cloud",
-        "description": "透過公開服務端點檢查 VPS 對外可用性",
-        "icon": "▣",
-        "business_status": "success",
-        "business_label": "VPS-01 正常運作（至少 2/3 個端點 HTTP 200）",
-        "metrics": [
-          {
-            "label": "HTTP 200 端點",
-            "value": "3/3",
-            "tone": "good"
-          },
-          {
-            "label": "非 200 端點",
-            "value": "0",
-            "tone": "good"
-          },
-          {
-            "label": "未取得狀態",
-            "value": "0",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 5727 ms",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1143 ms",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 505 ms",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
-        "evidence_url": null
-      }
-    },
-    {
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
+      "workflow": "Deploy Cloudflare trigger Worker",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T10:54:32Z",
-      "created_at": "2026-10-16T10:53:29Z",
-      "event": "workflow_dispatch",
-      "commit_message": "chore: update project business status",
-      "duration_seconds": 63,
+      "updated_at": "2026-10-16T10:57:33Z",
+      "created_at": "2026-10-16T10:56:55Z",
+      "event": "push",
+      "commit_message": "Correct Worker deployment instructions",
+      "duration_seconds": 38,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38890193192",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38890561002",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -179,7 +179,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-16 18:54:32",
+            "time": "2026-10-16 18:57:33",
             "tone": "good"
           }
         ],
