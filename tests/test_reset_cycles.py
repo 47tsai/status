@@ -92,6 +92,14 @@ class CheckinFreshnessTests(unittest.TestCase):
     def test_malformed_timestamp_never_claims_success(self):
         result = classify_checkin_result("not-a-date", "簽到成功", self.now)
         self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["business_label"], "時間戳記格式錯誤，無法確認今日結果")
+        self.assertEqual(result["displayed_result"], "簽到時間無法解析，請檢查來源紀錄格式")
+        self.assertEqual(result["tone"], "normal")
+
+    def test_impossible_calendar_date_is_not_mislabeled_as_expired(self):
+        result = classify_checkin_result("2026-99-99 12:00:00", "簽到成功", self.now)
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["business_label"], "時間戳記格式錯誤，無法確認今日結果")
         self.assertEqual(result["tone"], "normal")
 
     def test_unavailable_source_has_distinct_message_from_expired_record(self):
