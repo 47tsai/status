@@ -109,6 +109,7 @@ def build_message(new_failures, recovered):
             "color": 15158332,
             "timestamp": now,
             "footer": {"text": "Chi Status · 自動監控"},
+            "fields": [{"name": "監控儀表板", "value": "[開啟狀態頁](https://status.chi.qzz.io/)", "inline": True}],
         }
         if item.get("url", "").startswith(("https://", "http://")):
             embed["url"] = item["url"]
@@ -121,6 +122,7 @@ def build_message(new_failures, recovered):
             "color": 3066993,
             "timestamp": now,
             "footer": {"text": "Chi Status · 自動監控"},
+            "fields": [{"name": "監控儀表板", "value": "[開啟狀態頁](https://status.chi.qzz.io/)", "inline": True}],
         }
         if item.get("url", "").startswith(("https://", "http://")):
             embed["url"] = item["url"]
