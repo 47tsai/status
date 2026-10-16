@@ -44,7 +44,7 @@ html[data-theme=light] .hero{background:linear-gradient(110deg,#e3edff,#eaf0ff 6
 <script>
 const $=id=>document.getElementById(id);let items=[];let loading=false;let lastGeneratedAt=null;let loadError='';
 function node(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
-function iconNode(name,cls){const e=document.createElement("i");e.setAttribute("data-lucide",name);e.setAttribute("aria-hidden","true");if(cls)e.className=cls;const fallback={"layout-dashboard":"▦",server:"▤","gamepad-2":"⌘","circle-check":"✓",package:"▣",globe:"◎",activity:"⌁","external-link":"↗","refresh-cw":"↻","alert-triangle":"!","chevron-down":"⌄",monitor:"▣",sun:"☼",moon:"☾"};e.textContent=fallback[name]||"•";return e}
+function iconNode(name,cls){const e=document.createElement("i");e.setAttribute("data-lucide",name);e.setAttribute("aria-hidden","true");if(cls)e.className=cls;const fallback={"layout-dashboard":"▦",server:"▤","gamepad-2":"⌘","circle-check":"✓",package:"▣",globe:"◎",activity:"⌁","external-link":"•","refresh-cw":"↻","alert-triangle":"!","chevron-down":"⌄",monitor:"▣",sun:"☼",moon:"☾"};e.textContent=fallback[name]||"•";return e}
 function renderIcons(){if(window.lucide&&typeof window.lucide.createIcons==="function")window.lucide.createIcons()}
 function bucket(s){if(s==='success')return'good';if(['failure','timed_out','action_required','startup_failure'].includes(s))return'bad';if(['in_progress','queued','requested','waiting'].includes(s))return'running';return'unknown'}
 function label(s){return({success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過'}[s]||s||'尚無紀錄')}
