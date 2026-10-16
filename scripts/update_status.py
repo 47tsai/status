@@ -314,6 +314,45 @@ def normalize_run_status(run):
         return run.get("conclusion") or "unknown"
     return run.get("status") or "unknown"
 
+def classify_claim_state(state, now=None, reset_hour=16):
+    """Classify one Brawl Stars claim record without trusting stale or malformed state."""
+    unknown = {"result": "本輪尚未確認", "tone": "normal"}
+    if not isinstance(state, dict):
+        return {**unknown, "time": "尚無紀錄"}
+
+    stamp = state.get("lastClaimAt")
+    if not stamp:
+        return {**unknown, "time": taipei_time(stamp)}
+
+    try:
+        claim_dt = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return {**unknown, "time": taipei_time(stamp)}
+
+    now_taipei = now or datetime.now(TAIPEI_TZ)
+    if now_taipei.tzinfo is not None:
+        now_taipei = now_taipei.astimezone(TAIPEI_TZ)
+    now_local = now_taipei.replace(tzinfo=None)
+
+    if claim_dt.tzinfo is not None:
+        claim_local = claim_dt.astimezone(TAIPEI_TZ).replace(tzinfo=None)
+    else:
+        claim_local = claim_dt
+
+    if claim_local > now_local:
+        return {**unknown, "time": taipei_time(stamp)}
+    if reset_cycle_date(claim_local, reset_hour) != reset_cycle_date(now_local, reset_hour):
+        return {**unknown, "time": taipei_time(stamp)}
+
+    success = state.get("success")
+    result_text = state.get("lastResult")
+    if success is True and result_text in (None, "", "成功"):
+        return {"result": "成功", "tone": "good", "time": taipei_time(stamp)}
+    if success is False and result_text in (None, "", "失敗"):
+        return {"result": "失敗", "tone": "bad", "time": taipei_time(stamp)}
+    return {**unknown, "time": taipei_time(stamp)}
+
+
 def business_data(repo_name, run):
     profile = PROFILES.get(repo_name, {})
     kind = profile.get("kind", "generic")
@@ -330,30 +369,17 @@ def business_data(repo_name, run):
         current_cycle = reset_cycle_date(now_taipei, 16)
         for account_id, account_label in [("A", "帳號 A"), ("B", "帳號 B")]:
             state = parse_json(raw(repo_name, f"claim_state_{account_id}.json"))
-            if state:
-                success = state.get("success")
-                result_text = state.get("lastResult") or ("成功" if success is True else "失敗" if success is False else "未知")
-                stamp = state.get("lastClaimAt")
-                claim_dt = None
-                if stamp:
-                    try:
-                        claim_dt = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
-                        if claim_dt.tzinfo:
-                            claim_dt = claim_dt.astimezone(taipei_tz).replace(tzinfo=None)
-                    except ValueError:
-                        claim_dt = None
-                claim_cycle = reset_cycle_date(claim_dt, 16) if claim_dt else None
-                if claim_cycle != current_cycle:
-                    result_text = "本輪尚未確認"
-                    tone = "normal"
-                else:
-                    tone = "good" if result_text == "成功" else "bad" if result_text == "失敗" else "normal"
-                states.append({"label": account_label, "result": result_text, "time": taipei_time(stamp), "tone": tone})
+            classified = classify_claim_state(state, now_taipei, 16)
+            states.append({"label": account_label, **classified})
         good = sum(1 for s in states if s["result"] == "成功")
         bad = sum(1 for s in states if s["result"] == "失敗")
         current = sum(1 for s in states if s["result"] in ("成功", "失敗"))
-        result["business_status"] = "success" if states and current == len(states) and bad == 0 and good == len(states) else "failure" if bad else "unknown"
-        result["business_label"] = f"{good}/{len(states)} 個帳號成功" if states and current == len(states) else "本輪領取結果待確認" if states else "找不到帳號狀態檔"
+        result["business_status"] = "success" if current == len(states) and bad == 0 and good == len(states) else "failure" if bad else "unknown"
+        result["business_label"] = (
+            f"{good}/{len(states)} 個帳號成功" if current == len(states) and good == len(states)
+            else f"{good}/{len(states)} 個帳號成功，{bad} 個失敗" if bad
+            else "本輪領取結果待確認"
+        )
         result["metrics"] = [metric("本輪成功帳號", f"{good}/{len(states)}", "good" if states and current == len(states) and good == len(states) else "normal"),
                              metric("最近領取", max((s["time"] for s in states), default="尚無紀錄"))]
         result["details"] = states
