@@ -212,6 +212,30 @@ class HealthCheckClassificationTests(unittest.TestCase):
         self.assertIs(result["protected"], True)
 
 
+    def test_failure_then_recovery_notifies_once(self):
+        failure = {
+            "name": "demo", "status": "failure",
+            "business": {"business_status": "failure", "business_label": "服務異常"},
+        }
+        success = {
+            "name": "demo", "status": "success",
+            "business": {"business_status": "success", "business_label": "正常"},
+        }
+        new, recovered, active = calculate_alert_changes({"demo": failure}, {})
+        self.assertEqual([item["name"] for item in new], ["demo"])
+        self.assertEqual(recovered, [])
+        self.assertIn("demo", active)
+
+        new, recovered, active = calculate_alert_changes({"demo": success}, active)
+        self.assertEqual(new, [])
+        self.assertEqual([item["name"] for item in recovered], ["demo"])
+        self.assertNotIn("demo", active)
+
+        new, recovered, active = calculate_alert_changes({"demo": success}, active)
+        self.assertEqual(new, [])
+        self.assertEqual(recovered, [])
+        self.assertEqual(active, {})
+
     def test_failed_discord_delivery_does_not_clear_recovery_state(self):
         with tempfile.TemporaryDirectory() as directory:
             status_path = Path(directory) / "status.json"
@@ -234,7 +258,7 @@ class HealthCheckClassificationTests(unittest.TestCase):
                  patch.object(notify_discord, "STATE_PATH", state_path), \
                  patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \
                  patch.object(notify_discord, "post_discord", side_effect=RuntimeError("temporary delivery error")):
-                self.assertEqual(notify_discord.main(), 0)
+                self.assertEqual(notify_discord.main(), 1)
             self.assertEqual(state_path.read_text(encoding="utf-8"), original_state)
 
             with patch.object(notify_discord, "STATUS_PATH", status_path), \
