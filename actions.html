@@ -87,7 +87,6 @@ function render() {
     return (!query || haystack.includes(query)) && (!group || item.group === group);
   });
   visible.sort((a,b) => (a.group || "其他").localeCompare(b.group || "其他", "zh-Hant") || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
-  visible.sort((a,b) => (a.group || "其他").localeCompare(b.group || "其他", "zh-Hant") || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
   $("count").textContent = `${visible.length} / ${workflows.length} 項`;
   const root = $("workflows");
   root.replaceChildren();
