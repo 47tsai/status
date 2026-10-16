@@ -1,11 +1,6 @@
 name: Update Actions status
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - "scripts/**"
-      - "tests/**"
-      - ".github/workflows/update-status.yml"
   schedule:
     - cron: "*/10 * * * *"
   push:
