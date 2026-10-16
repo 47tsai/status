@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T14:38:20.525723+00:00",
+  "generated_at": "2026-10-16T14:38:57.371949+00:00",
   "repository_count": 12,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-16T14:38:17.422569+00:00",
-      "created_at": "2026-10-16T14:38:17.422589+00:00",
+      "updated_at": "2026-10-16T14:38:55.015377+00:00",
+      "created_at": "2026-10-16T14:38:55.015392+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,19 +43,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 767 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 718 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1505 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1192 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 828 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 444 ms",
             "time": "",
             "tone": "good"
           }
@@ -68,16 +68,16 @@
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Deploy Cloudflare trigger Worker",
+      "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T14:30:51Z",
-      "created_at": "2026-10-16T14:30:19Z",
+      "updated_at": "2026-10-16T14:38:42Z",
+      "created_at": "2026-10-16T14:37:57Z",
       "event": "push",
-      "commit_message": "Use realistic-length tokens in Chi Auth Worker tests",
-      "duration_seconds": 32,
+      "commit_message": "Distinguish check-in source fetch errors from stale records",
+      "duration_seconds": 45,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38916291994",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38917329988",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -106,7 +106,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-16 22:30:51",
+            "time": "2026-10-16 22:38:42",
             "tone": "good"
           }
         ],
