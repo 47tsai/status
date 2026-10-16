@@ -52,7 +52,6 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           STATUS_WORKFLOW_TOKEN: ${{ secrets.STATUS_WORKFLOW_TOKEN }}
-          STATUS_TRIGGER_SECRET: ${{ secrets.STATUS_TRIGGER_SECRET }}
         run: |
           set -o pipefail
           npx --yes wrangler@4 deploy --config worker/wrangler.toml 2>&1 | tee /tmp/wrangler-deploy.log
