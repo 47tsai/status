@@ -99,20 +99,30 @@ export default {
       inputs[spec.name] = value;
     }
 
-    const response = await fetch(`https://api.github.com/repos/${repository}/actions/workflows/${workflow}/dispatches`, {
-      method: "POST",
-      headers: {
-        "Accept": "application/vnd.github+json",
-        "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "Chi-Status-Trigger",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ref, inputs }),
-    });
+    let response;
+    try {
+      response = await fetch(`https://api.github.com/repos/${repository}/actions/workflows/${workflow}/dispatches`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+          "User-Agent": "Chi-Status-Trigger",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ref, inputs }),
+        signal: AbortSignal.timeout(10_000),
+      });
+    } catch (error) {
+      console.error("GitHub dispatch request failed", repository, workflow, error?.name || "unknown");
+      return json({ ok: false, error: error?.name === "TimeoutError"
+        ? "GitHub API request timed out. Please try again."
+        : "Could not reach the GitHub API. Please try again." }, 502);
+    }
 
     if (response.status !== 204) {
-      const detail = (await response.text()).slice(0, 500);
+      let detail = "";
+      try { detail = (await response.text()).slice(0, 500); } catch {}
       console.error("GitHub dispatch failed", repository, workflow, response.status, detail);
       return json({ ok: false, error: response.status === 401 || response.status === 403
         ? "GitHub rejected the token or repository permission. Check token repository access and Actions: Read and write."
