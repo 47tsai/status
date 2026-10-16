@@ -11,7 +11,7 @@ Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀
 
 收集器只列入 `tsai97216` 底下非 fork、非封存的公開 Repo，並以最近一次 GitHub Actions 執行紀錄為基礎。沒有 Workflow 執行紀錄的 Repo 不會被當成成功；若既有 Repo 的 API 暫時失敗，會保留上次卡片並標記為未知／資料過期。
 
-「Actions 控制台」位於 https://status.chi.qzz.io/actions.html，可透過 Cloudflare Worker 觸發允許清單中的工作流程。使用前需輸入 `STATUS_TRIGGER_SECRET`；GitHub Token 保存在 Worker Secret，不會放進公開網頁。一般狀態資料仍每 10 分鐘自動更新，頁面也會定時重新讀取最新資料。
+「Actions 控制台」位於 https://status.chi.qzz.io/actions/，可透過 Cloudflare Worker 觸發允許清單中的工作流程。使用前需輸入 `STATUS_TRIGGER_SECRET`；GitHub Token 保存在 Worker Secret，不會放進公開網頁。一般狀態資料仍每 10 分鐘自動更新，頁面也會定時重新讀取最新資料。
 
 部分專案另有專屬業務判讀：
 
