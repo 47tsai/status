@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T07:32:09.607481+00:00",
+  "generated_at": "2026-10-16T07:46:22.875907+00:00",
   "repository_count": 12,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "failure",
       "branch": "OCI",
-      "updated_at": "2026-10-16T07:32:08.642839+00:00",
-      "created_at": "2026-10-16T07:32:08.642854+00:00",
+      "updated_at": "2026-10-16T07:46:21.968648+00:00",
+      "created_at": "2026-10-16T07:46:21.968667+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,19 +43,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "非 HTTP 200 · HTTP 530 · 169 ms",
+            "result": "非 HTTP 200 · HTTP 530 · 349 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "BiliTool",
-            "result": "非 HTTP 200 · HTTP 530 · 76 ms",
+            "result": "非 HTTP 200 · HTTP 530 · 47 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 717 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 509 ms",
             "time": "",
             "tone": "good"
           }
@@ -65,26 +65,77 @@
       }
     },
     {
+      "name": "sc-auto-claim",
+      "full_name": "tsai97216/sc-auto-claim",
+      "html_url": "https://github.com/tsai97216/sc-auto-claim",
+      "workflow": "daily-claim",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-16T07:37:42Z",
+      "created_at": "2026-10-16T07:36:30Z",
+      "event": "schedule",
+      "commit_message": "update claim status",
+      "duration_seconds": 72,
+      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38868292577",
+      "business": {
+        "kind": "claim",
+        "title": "荒野亂鬥自動領取",
+        "description": "兩個帳號的實際領取結果與最近成功時間",
+        "icon": "gamepad",
+        "business_status": "success",
+        "business_label": "2/2 個帳號成功",
+        "metrics": [
+          {
+            "label": "成功帳號",
+            "value": "2/2",
+            "tone": "good"
+          },
+          {
+            "label": "最近領取",
+            "value": "2026-10-15 20:15:57",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "帳號 A",
+            "result": "成功",
+            "time": "2026-10-15 20:15:32",
+            "tone": "good"
+          },
+          {
+            "label": "帳號 B",
+            "result": "成功",
+            "time": "2026-10-15 20:15:57",
+            "tone": "good"
+          }
+        ],
+        "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
+        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+      }
+    },
+    {
       "name": "chi-design-system",
       "full_name": "tsai97216/chi-design-system",
       "html_url": "https://github.com/tsai97216/chi-design-system",
       "workflow": "pages build and deployment",
-      "status": "queued",
+      "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T07:31:55Z",
-      "created_at": "2026-10-16T07:31:55Z",
+      "updated_at": "2026-10-16T07:37:30Z",
+      "created_at": "2026-10-16T07:36:48Z",
       "event": "dynamic",
-      "commit_message": "docs: define shared icon system and usage rules",
-      "duration_seconds": null,
+      "commit_message": "Remove circular outline from site hamburger",
+      "duration_seconds": 42,
       "runs_url": "https://github.com/tsai97216/chi-design-system/actions",
-      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/38867805440",
+      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/38868324355",
       "business": {
         "kind": "generic",
         "title": "chi-design-system",
         "description": "最近一次 Workflow 執行狀況",
         "icon": "◉",
-        "business_status": "queued",
-        "business_label": "最近 Workflow：queued",
+        "business_status": "success",
+        "business_label": "最近 Workflow：success",
         "metrics": [
           {
             "label": "Workflow",
@@ -109,13 +160,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T06:28:29Z",
-      "created_at": "2026-10-16T06:27:24Z",
-      "event": "schedule",
+      "updated_at": "2026-10-16T07:32:49Z",
+      "created_at": "2026-10-16T07:31:48Z",
+      "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 65,
+      "duration_seconds": 61,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38861299579",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38867792540",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -144,7 +195,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-16 14:28:29",
+            "time": "2026-10-16 15:32:49",
             "tone": "good"
           }
         ],
@@ -486,57 +537,6 @@
         ],
         "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
         "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
-      }
-    },
-    {
-      "name": "sc-auto-claim",
-      "full_name": "tsai97216/sc-auto-claim",
-      "html_url": "https://github.com/tsai97216/sc-auto-claim",
-      "workflow": "daily-claim",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T02:02:32Z",
-      "created_at": "2026-10-16T02:01:22Z",
-      "event": "schedule",
-      "commit_message": "update claim status",
-      "duration_seconds": 70,
-      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38838249075",
-      "business": {
-        "kind": "claim",
-        "title": "荒野亂鬥自動領取",
-        "description": "兩個帳號的實際領取結果與最近成功時間",
-        "icon": "gamepad",
-        "business_status": "success",
-        "business_label": "2/2 個帳號成功",
-        "metrics": [
-          {
-            "label": "成功帳號",
-            "value": "2/2",
-            "tone": "good"
-          },
-          {
-            "label": "最近領取",
-            "value": "2026-10-15 20:15:57",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "帳號 A",
-            "result": "成功",
-            "time": "2026-10-15 20:15:32",
-            "tone": "good"
-          },
-          {
-            "label": "帳號 B",
-            "result": "成功",
-            "time": "2026-10-15 20:15:57",
-            "tone": "good"
-          }
-        ],
-        "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
-        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
       }
     },
     {
