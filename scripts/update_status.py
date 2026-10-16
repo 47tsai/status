@@ -153,6 +153,14 @@ def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, sour
         # Source repositories publish Taiwan local wall-clock timestamps.
         recorded_local = recorded_at
     recorded_cycle = reset_cycle_date(recorded_local, reset_hour) if recorded_local else None
+    if timestamp and recorded_at is None:
+        return {
+            "business_status": "unknown",
+            "business_label": "時間戳記格式錯誤，無法確認今日結果",
+            "displayed_result": "簽到時間無法解析，請檢查來源紀錄格式",
+            "tone": "normal",
+        }
+
     if recorded_cycle != current_cycle:
         return {
             "business_status": "unknown",
