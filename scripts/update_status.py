@@ -98,14 +98,24 @@ def inspect_page_content(status, content_type, body, final_url):
             signals.append("app-root")
         if re.search(r"<meta\b[^>]*name=[^>]*viewport", text, re.IGNORECASE):
             signals.append("viewport")
-    if "html" in (content_type or "").lower() and not title:
-        # Treat a non-empty HTTP 2xx/3xx response as reachable even when a page omits <title>.
-        return {"ok": True, "protected": False, "title": title,
-                "reason": "HTTP 回應正常（HTML 無 title，略過標題檢查）", "signals": signals}
     error_titles = ("404", "not found", "access denied", "bad gateway", "service unavailable",
                     "internal server error", "just a moment", "attention required")
     if title and any(term in title.lower() for term in error_titles):
         return {"ok": False, "protected": False, "title": title, "reason": f"疑似錯誤／挑戰頁：{title}"}
+    # Some proxy/server error pages return HTTP 200 and omit <title>; catch
+    # recognizable standalone error headings without matching ordinary prose.
+    error_body_patterns = (
+        r"<h1\b[^>]*>\s*(?:404\s+not found|page not found|bad gateway|service unavailable|gateway timeout|internal server error)\s*</h1\s*>",
+        r"<title\b[^>]*>\s*(?:502|503|504)\s*</title\s*>",
+        r"<center>\s*nginx\s*</center>",
+        r"cloudflare\s+ray\s+id",
+    )
+    if any(re.search(pattern, lowered, re.IGNORECASE) for pattern in error_body_patterns):
+        return {"ok": False, "protected": False, "title": title, "reason": "疑似伺服器錯誤頁（HTTP 狀態碼未能反映內容）"}
+    if "html" in (content_type or "").lower() and not title:
+        # Treat a non-empty HTTP 2xx/3xx response as reachable even when a page omits <title>.
+        return {"ok": True, "protected": False, "title": title,
+                "reason": "HTTP 回應正常（HTML 無 title，略過標題檢查）", "signals": signals}
     return {"ok": True, "protected": False, "title": title, "reason": "HTTP 與基本頁面內容檢查通過"}
 
 
