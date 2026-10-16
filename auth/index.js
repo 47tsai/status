@@ -270,6 +270,9 @@ async function handle(request, env) {
   }
 
   if (request.method === "GET" && path === "/api/authorize") {
+    if (!(await enforceRateLimit(request, env, path, 30, 60))) {
+      return json({ ok: false, error: "授權請求太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
+    }
     const params = url.searchParams;
     const clientId = params.get("client_id") || "";
     const redirectUri = params.get("redirect_uri") || "";
@@ -356,7 +359,7 @@ async function handle(request, env) {
     await env.DB.prepare("INSERT INTO access_tokens (token_hash, client_id, created_at, expires_at) VALUES (?, ?, ?, ?)")
       .bind(await sha256(token), client.client_id, now, now + expiresIn).run();
     const headers = origin ? withCors({}, origin) : {};
-    return json({ access_token: token, token_type: "Bearer", expires_in: expiresIn, scope: "openid profile" }, 200, headers);
+    return json({ access_token: token, token_type: "Bearer", expires_in: expiresIn, scope: "chi:identity" }, 200, headers);
   }
 
   if (request.method === "GET" && path === "/api/userinfo") {
@@ -379,10 +382,11 @@ async function handle(request, env) {
 
   const protectedPostRoutes = new Set([
     "/api/register/options", "/api/register/verify",
-    "/api/login/options", "/api/login/verify", "/api/logout",
+    "/api/login/options", "/api/login/verify", "/api/logout", "/api/token",
+    "/api/clients",
   ]);
   if (request.method === "POST" && protectedPostRoutes.has(path)) {
-    const limit = path.startsWith("/api/register") ? 8 : 15;
+    const limit = path.startsWith("/api/register") ? 8 : path === "/api/token" ? 30 : 15;
     const windowSeconds = path === "/api/register/options" ? 300 : 60;
     if (!(await enforceRateLimit(request, env, path, limit, windowSeconds))) {
       return json({ ok: false, error: "操作太頻繁，請稍後再試。" }, 429, { "Retry-After": String(windowSeconds) });
