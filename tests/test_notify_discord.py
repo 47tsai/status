@@ -155,11 +155,14 @@ class DiscordAlertTests(unittest.TestCase):
             [{"title": "VPS-01", "reason": "端點異常", "url": "https://example.com"}],
             [{"title": "Chi Source"}],
         )
-        self.assertIn("https://status.chi.qzz.io/", message)
-        self.assertIn("VPS-01", message)
-        self.assertIn("已恢復正常", message)
-        self.assertNotIn("@everyone", message)
-        self.assertNotIn("@here", message)
+        self.assertIn("https://status.chi.qzz.io/", json.dumps(message, ensure_ascii=False))
+        self.assertEqual(len(message["embeds"]), 2)
+        self.assertIn("VPS-01", message["embeds"][0]["title"])
+        self.assertEqual(message["embeds"][0]["color"], 15158332)
+        self.assertIn("已恢復正常", message["embeds"][1]["title"])
+        self.assertEqual(message["embeds"][1]["color"], 3066993)
+        self.assertNotIn("@everyone", json.dumps(message, ensure_ascii=False))
+        self.assertNotIn("@here", json.dumps(message, ensure_ascii=False))
 
 
 class VpsAggregationTests(unittest.TestCase):
