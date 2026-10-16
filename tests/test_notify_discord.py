@@ -156,5 +156,28 @@ class DiscordAlertTests(unittest.TestCase):
         self.assertNotIn("@here", message)
 
 
+class HealthCheckClassificationTests(unittest.TestCase):
+    def test_nonempty_titleless_html_200_is_healthy(self):
+        result = inspect_page_content(200, "text/html", "<main>App ready</main>", "https://example.com/")
+        self.assertIs(result["ok"], True)
+
+    def test_titleless_http_200_nginx_error_page_is_failure(self):
+        body = "<html><body><h1>502 Bad Gateway</h1><center>nginx</center></body></html>"
+        result = inspect_page_content(200, "text/html", body, "https://example.com/")
+        self.assertIs(result["ok"], False)
+        self.assertIn("伺服器錯誤頁", result["reason"])
+
+    def test_ordinary_page_text_mentioning_not_found_is_not_rejected(self):
+        body = "<html><body><h1>Help</h1><p>If a page is not found, contact support.</p></body></html>"
+        result = inspect_page_content(200, "text/html", body, "https://example.com/")
+        self.assertIs(result["ok"], True)
+
+    def test_cloudflare_access_login_is_protected_not_failure(self):
+        body = "<html><title>Cloudflare Access</title><p>Email address</p><p>One-time PIN</p></html>"
+        result = inspect_page_content(200, "text/html", body, "https://example.com/cdn-cgi/access/login")
+        self.assertIsNone(result["ok"])
+        self.assertIs(result["protected"], True)
+
+
 if __name__ == "__main__":
     unittest.main()
