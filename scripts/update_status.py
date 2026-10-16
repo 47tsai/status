@@ -270,15 +270,51 @@ def business_data(repo_name, run):
                 m = re.search(r"\|[^|]+\|\s*(\d{4}[-/]\d{2}[-/]\d{2}[^|]*)\|", record)
                 if m:
                     timestamp = m.group(1).strip()
+
         status_line = unescape(status_line or "")
         success = bool(status_line and ("簽到成功" in status_line or "今日已簽到" in status_line))
         failure = bool(status_line and "簽到失敗" in status_line)
-        result["business_status"] = "success" if success else "failure" if failure else "unknown"
-        result["business_label"] = status_line or "紀錄格式無法判讀"
-        result["metrics"] = [metric("業務結果", "成功" if success else "失敗" if failure else "未知", "good" if success else "bad" if failure else "normal"),
+        # A successful/failed result only applies to the Taipei calendar day
+        # recorded by the source. Old README/activity files can remain readable
+        # after midnight, so never carry yesterday's outcome into a new cycle.
+        recorded_at = None
+        if timestamp:
+            normalized = timestamp.strip().replace("/", "-")
+            try:
+                recorded_at = datetime.fromisoformat(normalized)
+            except ValueError:
+                for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S"):
+                    try:
+                        recorded_at = datetime.strptime(normalized, fmt)
+                        break
+                    except ValueError:
+                        continue
+        taipei_tz = __import__("zoneinfo").ZoneInfo("Asia/Taipei")
+        today_taipei = datetime.now(taipei_tz).date()
+        if recorded_at and recorded_at.tzinfo:
+            recorded_date = recorded_at.astimezone(taipei_tz).date()
+        elif recorded_at:
+            # The source repositories publish local Taiwan wall-clock time.
+            recorded_date = recorded_at.date()
+        else:
+            recorded_date = None
+        fresh = recorded_date == today_taipei
+        if not fresh:
+            business_status = "unknown"
+            business_label = "紀錄過期，等待今日更新" if timestamp else "缺少簽到時間，無法確認今日結果"
+            displayed_result = "紀錄過期，尚未確認今日簽到" if timestamp else "缺少時間戳記，無法確認"
+            tone = "normal"
+        else:
+            business_status = "success" if success else "failure" if failure else "unknown"
+            business_label = status_line or "紀錄格式無法判讀"
+            displayed_result = status_line or "無法判讀"
+            tone = "good" if success else "bad" if failure else "normal"
+        result["business_status"] = business_status
+        result["business_label"] = business_label
+        result["metrics"] = [metric("業務結果", "成功" if business_status == "success" else "失敗" if business_status == "failure" else "待確認", tone),
                              metric("最近簽到", timestamp or "尚無紀錄")]
-        result["details"] = [{"label": "來源紀錄", "result": status_line or "無法判讀", "time": timestamp or "尚無紀錄", "tone": "good" if success else "bad" if failure else "normal"}]
-        result["note"] = "讀取專案自己更新的簽到紀錄；如果腳本只回報文字或格式改變，會標示未知而不是猜測成功。"
+        result["details"] = [{"label": "來源紀錄", "result": displayed_result, "time": timestamp or "尚無紀錄", "tone": tone}]
+        result["note"] = "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/README.md"
     elif kind == "dashboard":
         status = (run or {}).get("status")
