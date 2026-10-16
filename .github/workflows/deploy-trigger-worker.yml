@@ -28,21 +28,39 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Deploy Worker
+      - name: Validate required secrets
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          STATUS_WORKFLOW_TOKEN: ${{ secrets.STATUS_WORKFLOW_TOKEN }}
+          STATUS_TRIGGER_SECRET: ${{ secrets.STATUS_TRIGGER_SECRET }}
+        run: |
+          for name in CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_API_TOKEN STATUS_WORKFLOW_TOKEN STATUS_TRIGGER_SECRET; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing repository secret: $name"
+              exit 1
+            fi
+          done
+
+      - name: Deploy Worker and configure its secrets
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          STATUS_WORKFLOW_TOKEN: ${{ secrets.STATUS_WORKFLOW_TOKEN }}
+          STATUS_TRIGGER_SECRET: ${{ secrets.STATUS_TRIGGER_SECRET }}
         run: |
           set -o pipefail
           npx --yes wrangler@4 deploy --config worker/wrangler.toml 2>&1 | tee /tmp/wrangler-deploy.log
+          printf '%s' "$STATUS_WORKFLOW_TOKEN" | npx --yes wrangler@4 secret put GITHUB_TOKEN --config worker/wrangler.toml
+          printf '%s' "$STATUS_TRIGGER_SECRET" | npx --yes wrangler@4 secret put TRIGGER_SECRET --config worker/wrangler.toml
           WORKER_URL="$(grep -Eo 'https://[^[:space:]]+workers\.dev' /tmp/wrangler-deploy.log | tail -n 1 | sed 's/[),.]$//')"
           {
             echo "## Cloudflare Worker deployment"
             if [ -n "$WORKER_URL" ]; then
               echo "Deployment URL: $WORKER_URL"
               echo
-              echo "Next: add the `GITHUB_TOKEN` and `TRIGGER_SECRET` secrets to this Worker in Cloudflare, then configure this URL in the dashboard."
+              echo "Worker deployed and its secrets configured. Set this URL in index.html as TRIGGER_API_URL."
             else
-              echo "Worker deploy command completed, but the URL could not be parsed from Wrangler output. See the deployment logs."
+              echo "Worker deployed and secrets configured, but Wrangler's URL could not be parsed. See the deployment logs for the workers.dev URL."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
