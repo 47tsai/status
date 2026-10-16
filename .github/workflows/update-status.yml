@@ -15,16 +15,16 @@ on:
       - "tests/**"
       - ".github/workflows/update-status.yml"
 permissions:
-  contents: write
-  actions: read
-  pages: write
-  id-token: write
+  contents: read
 concurrency:
   group: update-actions-status
   cancel-in-progress: false
 jobs:
   update:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
     timeout-minutes: 10
     steps:
       - name: Check out latest status dashboard
@@ -62,6 +62,10 @@ jobs:
   deploy:
     needs: update
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Check out latest dashboard
         uses: actions/checkout@v7
