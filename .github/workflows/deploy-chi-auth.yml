@@ -52,9 +52,15 @@ jobs:
           npm test
 
       - name: Validate Worker bundle
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: npx --yes wrangler@4 deploy --dry-run --config auth/wrangler.toml
 
       - name: Apply remote D1 migrations
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: npx --yes wrangler@4 d1 migrations apply chi-auth --remote --config auth/wrangler.toml
 
       - name: Deploy Chi Auth Worker
