@@ -182,7 +182,7 @@ async function verifyChiAccessToken(token, expectedClientId) {
     });
     if (!response.ok) return false;
     const data = await response.json();
-    return data?.sub === "chi-owner";
+    return data?.sub === "chi-owner" && data?.aud === expectedClientId;
   } catch (error) {
     console.error("Chi Auth validation failed", error?.name || "unknown");
     return null;
