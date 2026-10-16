@@ -83,6 +83,56 @@ def taipei_time(value):
     except Exception:
         return str(value)
 
+
+def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0):
+    """Classify a check-in record against the current Taiwan reset cycle.
+
+    A readable old record is not evidence of today's outcome. Missing or
+    unparsable timestamps remain unknown rather than inheriting a prior result.
+    """
+    status_line = unescape(status_line or "")
+    success = bool(status_line and ("簽到成功" in status_line or "今日已簽到" in status_line))
+    failure = bool(status_line and "簽到失敗" in status_line)
+    recorded_at = None
+    if timestamp:
+        normalized = timestamp.strip().replace("/", "-")
+        try:
+            recorded_at = datetime.fromisoformat(normalized)
+        except ValueError:
+            for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S"):
+                try:
+                    recorded_at = datetime.strptime(normalized, fmt)
+                    break
+                except ValueError:
+                    continue
+
+    now_taipei = now or datetime.now(TAIPEI_TZ)
+    if now_taipei.tzinfo is not None:
+        now_taipei = now_taipei.astimezone(TAIPEI_TZ)
+    current_cycle = reset_cycle_date(now_taipei, reset_hour)
+    if recorded_at and recorded_at.tzinfo is not None:
+        recorded_local = recorded_at.astimezone(TAIPEI_TZ)
+    else:
+        # Source repositories publish Taiwan local wall-clock timestamps.
+        recorded_local = recorded_at
+    recorded_cycle = reset_cycle_date(recorded_local, reset_hour) if recorded_local else None
+    if recorded_cycle != current_cycle:
+        return {
+            "business_status": "unknown",
+            "business_label": "紀錄過期，等待今日更新" if timestamp else "缺少簽到時間，無法確認今日結果",
+            "displayed_result": "紀錄過期，尚未確認今日簽到" if timestamp else "缺少時間戳記，無法確認",
+            "tone": "normal",
+        }
+
+    business_status = "success" if success else "failure" if failure else "unknown"
+    return {
+        "business_status": business_status,
+        "business_label": status_line or "紀錄格式無法判讀",
+        "displayed_result": status_line or "無法判讀",
+        "tone": "good" if success else "bad" if failure else "normal",
+    }
+
+
 def metric(label, value, tone="normal"):
     return {"label": label, "value": str(value) if value is not None else "－", "tone": tone}
 
@@ -303,45 +353,11 @@ def business_data(repo_name, run):
                 if m:
                     timestamp = m.group(1).strip()
 
-        status_line = unescape(status_line or "")
-        success = bool(status_line and ("簽到成功" in status_line or "今日已簽到" in status_line))
-        failure = bool(status_line and "簽到失敗" in status_line)
-        # A successful/failed result only applies to the Taipei calendar day
-        # recorded by the source. Old README/activity files can remain readable
-        # after midnight, so never carry yesterday's outcome into a new cycle.
-        recorded_at = None
-        if timestamp:
-            normalized = timestamp.strip().replace("/", "-")
-            try:
-                recorded_at = datetime.fromisoformat(normalized)
-            except ValueError:
-                for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S"):
-                    try:
-                        recorded_at = datetime.strptime(normalized, fmt)
-                        break
-                    except ValueError:
-                        continue
-        taipei_tz = __import__("zoneinfo").ZoneInfo("Asia/Taipei")
-        now_taipei = datetime.now(taipei_tz)
-        reset_hour = 0  # APK.TW and Bahamut reset at midnight Taiwan time.
-        current_cycle = reset_cycle_date(now_taipei, reset_hour)
-        if recorded_at and recorded_at.tzinfo:
-            recorded_local = recorded_at.astimezone(taipei_tz).replace(tzinfo=None)
-        else:
-            # The source repositories publish local Taiwan wall-clock time.
-            recorded_local = recorded_at
-        recorded_cycle = reset_cycle_date(recorded_local, reset_hour) if recorded_local else None
-        fresh = recorded_cycle == current_cycle
-        if not fresh:
-            business_status = "unknown"
-            business_label = "紀錄過期，等待今日更新" if timestamp else "缺少簽到時間，無法確認今日結果"
-            displayed_result = "紀錄過期，尚未確認今日簽到" if timestamp else "缺少時間戳記，無法確認"
-            tone = "normal"
-        else:
-            business_status = "success" if success else "failure" if failure else "unknown"
-            business_label = status_line or "紀錄格式無法判讀"
-            displayed_result = status_line or "無法判讀"
-            tone = "good" if success else "bad" if failure else "normal"
+        classification = classify_checkin_result(timestamp, status_line, reset_hour=0)
+        business_status = classification["business_status"]
+        business_label = classification["business_label"]
+        displayed_result = classification["displayed_result"]
+        tone = classification["tone"]
         result["business_status"] = business_status
         result["business_label"] = business_label
         result["metrics"] = [metric("業務結果", "成功" if business_status == "success" else "失敗" if business_status == "failure" else "待確認", tone),
