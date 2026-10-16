@@ -1,10 +1,14 @@
+import json
+import os
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import update_status
+import notify_discord
 from notify_discord import (build_message, calculate_alert_changes, is_failed, is_recovered, normalize_active_failures)
 from update_status import normalize_run_status, stale_fallback, inspect_page_content, format_unknown_health_detail
 
@@ -208,6 +212,40 @@ class HealthCheckClassificationTests(unittest.TestCase):
         result = inspect_page_content(200, "text/html", body, "https://example.com/cdn-cgi/access/login")
         self.assertIsNone(result["ok"])
         self.assertIs(result["protected"], True)
+
+
+    def test_failed_discord_delivery_does_not_clear_recovery_state(self):
+        with tempfile.TemporaryDirectory() as directory:
+            status_path = Path(directory) / "status.json"
+            state_path = Path(directory) / "alert-state.json"
+            previous = {
+                "active_failures": {
+                    "demo": {"name": "demo", "title": "Demo", "reason": "之前異常", "url": ""}
+                }
+            }
+            status_path.write_text(json.dumps({
+                "repositories": [{
+                    "name": "demo", "status": "success",
+                    "business": {"business_status": "success", "business_label": "正常"}
+                }]
+            }), encoding="utf-8")
+            original_state = json.dumps(previous, ensure_ascii=False, indent=2) + "\n"
+            state_path.write_text(original_state, encoding="utf-8")
+
+            with patch.object(notify_discord, "STATUS_PATH", status_path), \
+                 patch.object(notify_discord, "STATE_PATH", state_path), \
+                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \
+                 patch.object(notify_discord, "post_discord", side_effect=RuntimeError("temporary delivery error")):
+                self.assertEqual(notify_discord.main(), 0)
+            self.assertEqual(state_path.read_text(encoding="utf-8"), original_state)
+
+            with patch.object(notify_discord, "STATUS_PATH", status_path), \
+                 patch.object(notify_discord, "STATE_PATH", state_path), \
+                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \
+                 patch.object(notify_discord, "post_discord") as post:
+                self.assertEqual(notify_discord.main(), 0)
+                post.assert_called_once()
+            self.assertEqual(json.loads(state_path.read_text(encoding="utf-8")), {"active_failures": {}})
 
 
 if __name__ == "__main__":
