@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T00:18:51.952507+00:00",
+  "generated_at": "2026-10-16T00:30:48.610681+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-16T00:18:40Z",
-      "created_at": "2026-10-16T00:18:30Z",
+      "updated_at": "2026-10-16T00:30:27Z",
+      "created_at": "2026-10-16T00:30:24Z",
       "event": "push",
-      "commit_message": "docs: explain manual status refresh trigger",
+      "commit_message": "feat: call Cloudflare Worker for direct status refresh",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38828742991",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38829856185",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +44,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-16 08:18:40",
+            "time": "2026-10-16 08:30:27",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-16T00:18:49.395922+00:00",
-      "created_at": "2026-10-16T00:18:49.395939+00:00",
+      "updated_at": "2026-10-16T00:30:40.406123+00:00",
+      "created_at": "2026-10-16T00:30:40.406137+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -93,19 +93,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 971 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 925 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 1384 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 1298 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 199 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200（僅確認 Access 回應） · 5978 ms",
             "time": "",
             "tone": "normal"
           }
