@@ -11,9 +11,10 @@ const env = {
 };
 const origin = "https://status.chi.qzz.io";
 
-function request(body, { method = "POST", key = "test-secret", requestOrigin = origin, url = "https://worker.example/" } = {}) {
+function request(body, { method = "POST", key = "test-secret", bearer = "", requestOrigin = origin, url = "https://worker.example/" } = {}) {
   const headers = new Headers({ Origin: requestOrigin, "CF-Connecting-IP": "203.0.113.10" });
   if (key !== null) headers.set("X-Trigger-Key", key);
+  if (bearer) headers.set("Authorization", "Bearer " + bearer);
   if (body !== undefined) headers.set("Content-Type", "application/json");
   return new Request(url, {
     method,
@@ -137,6 +138,7 @@ test("handles CORS preflight without requiring credentials or consuming rate lim
   assert.equal(response.status, 204);
   assert.equal(response.headers.get("Access-Control-Allow-Origin"), origin);
   assert.match(response.headers.get("Access-Control-Allow-Headers") || "", /X-Trigger-Key/);
+  assert.match(response.headers.get("Access-Control-Allow-Headers") || "", /Authorization/);
   assert.equal(ipLimitCalls, 0);
   assert.equal(dispatchLimitCalls, 0);
 });
@@ -183,6 +185,65 @@ test("returns a specific safe error when the GitHub API request times out", asyn
     assert.equal(result.body.ok, false);
     assert.match(result.body.error, /timed out/i);
     assert.doesNotMatch(JSON.stringify(result.body), /simulated timeout|test-token|test-secret/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("accepts a valid Chi Auth token without requiring the legacy trigger secret", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async url => {
+    assert.equal(String(url), "https://chi.qzz.io/auth/api/userinfo");
+    return Response.json({ sub: "chi-owner", name: "Chi Owner" });
+  };
+  try {
+    const response = await worker.fetch(request(undefined, {
+      method: "GET",
+      key: null,
+      bearer: "a".repeat(43),
+      url: "https://worker.example/?action=catalog",
+    }), { ...env, TRIGGER_SECRET: undefined });
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 200);
+    assert.equal(result.body.ok, true);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("does not fall back to the legacy key when a supplied Chi Auth token is invalid", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({ error: "invalid" }), {
+    status: 401,
+    headers: { "Content-Type": "application/json" },
+  });
+  try {
+    const response = await worker.fetch(request(undefined, {
+      method: "GET",
+      bearer: "a".repeat(43),
+      url: "https://worker.example/?action=catalog",
+    }), env);
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 401);
+    assert.match(result.body.error, /invalid or expired/i);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("fails closed when Chi Auth cannot be reached", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => { throw new TypeError("simulated auth outage"); };
+  try {
+    const response = await worker.fetch(request(undefined, {
+      method: "GET",
+      bearer: "a".repeat(43),
+      url: "https://worker.example/?action=catalog",
+    }), env);
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 503);
+    assert.match(result.body.error, /Chi Auth is temporarily unavailable/);
+    assert.doesNotMatch(JSON.stringify(result.body), /simulated auth outage/);
   } finally {
     globalThis.fetch = originalFetch;
   }
