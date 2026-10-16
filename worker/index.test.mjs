@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import worker from "./index.js";
@@ -247,4 +248,11 @@ test("fails closed when Chi Auth cannot be reached", async () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test("Actions console inline JavaScript parses", () => {
+  const html = readFileSync(new URL("../actions.html", import.meta.url), "utf8");
+  const inlineScript = html.match(/<script>\\s*([\\s\\S]*?)<\\/script>/);
+  assert.ok(inlineScript, "expected an inline application script");
+  assert.doesNotThrow(() => new Function(inlineScript[1]));
 });
