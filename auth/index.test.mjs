@@ -10,7 +10,7 @@ test("health endpoint reports the shared Chi RP ID without requiring database ac
     ok: true,
     service: "chi-auth",
     rpId: "chi.qzz.io",
-    phase: "passkey-core",
+    phase: "passkey-core+sso",
   });
 });
 
