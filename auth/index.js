@@ -34,6 +34,14 @@ button{width:100%;padding:12px 14px;border:0;border-radius:11px;background:#356a
 <button id="register" hidden>建立第一把 Passkey</button>
 <button id="login">使用 Passkey 登入</button>
 <button id="logout" class="secondary" hidden>登出</button>
+<section id="clientAdmin" hidden>
+<h2 style="font-size:18px;margin:26px 0 4px">已授權的 Chi 應用</h2>
+<p>新增應用時請填入該網站實際接收登入回呼的完整 HTTPS 網址。回呼網址會逐字比對。</p>
+<div class="field"><label for="clientName">應用名稱</label><input id="clientName" maxlength="60" placeholder="例如 Chi Status"></div>
+<div class="field"><label for="clientRedirectUris">允許的回呼網址，每行一個</label><textarea id="clientRedirectUris" rows="3" style="width:100%;padding:12px;border:1px solid color-mix(in srgb,CanvasText 22%,transparent);border-radius:11px;background:Canvas;color:CanvasText;font:inherit;resize:vertical" placeholder="https://status.chi.qzz.io/auth/callback"></textarea></div>
+<button id="addClient">註冊應用</button>
+<div id="clients" style="display:grid;gap:10px;margin-top:14px"></div>
+</section>
 <div id="status" role="status" aria-live="polite">正在檢查驗證服務…</div>
 <p class="muted">目前為驗證核心初版，尚未開放其他 Chi 專案的單一登入。請勿把此頁視為已完成的正式 SSO。</p>
 </main>
@@ -46,7 +54,9 @@ function encode(value){return btoa(String.fromCharCode(...new Uint8Array(value))
 async function api(path,body){const response=await fetch("/auth/api/"+path,{method:body===undefined?"GET":"POST",headers:body===undefined?{}:{"Content-Type":"application/json"},body:body===undefined?undefined:JSON.stringify(body),credentials:"same-origin",cache:"no-store"});const data=await response.json().catch(()=>({error:"伺服器回應格式錯誤"}));if(!response.ok)throw new Error(data.error||"請求失敗");return data}
 function registrationJSON(credential){return {id:credential.id,rawId:encode(credential.rawId),type:credential.type,authenticatorAttachment:credential.authenticatorAttachment,response:{clientDataJSON:encode(credential.response.clientDataJSON),attestationObject:encode(credential.response.attestationObject),transports:credential.response.getTransports?.()||[]},clientExtensionResults:credential.getClientExtensionResults()}}
 function authenticationJSON(credential){return {id:credential.id,rawId:encode(credential.rawId),type:credential.type,authenticatorAttachment:credential.authenticatorAttachment,response:{clientDataJSON:encode(credential.response.clientDataJSON),authenticatorData:encode(credential.response.authenticatorData),signature:encode(credential.response.signature),userHandle:credential.response.userHandle?encode(credential.response.userHandle):null},clientExtensionResults:credential.getClientExtensionResults()}}
-async function refresh(){try{const s=await api("session");$("setup").hidden=s.initialized;$("register").hidden=s.initialized&&!s.authenticated;$("register").textContent=s.initialized?"新增備用 Passkey":"建立第一把 Passkey";$("login").hidden=!s.initialized||s.authenticated;$("logout").hidden=!s.authenticated;say(s.authenticated?"已登入 Chi Auth。此登入目前只限驗證中心本身。":s.initialized?"尚未登入，請使用已註冊的 Passkey。":"尚未設定 Passkey，請先輸入首次設定碼。")}catch(e){say(e.message)}}
+async function loadClients(){const data=await api("clients");const list=$("clients");list.replaceChildren();if(!data.clients.length){const empty=document.createElement("p");empty.textContent="目前尚未註冊應用。";list.append(empty);return}for(const client of data.clients){const card=document.createElement("div");card.style.cssText="border:1px solid color-mix(in srgb,CanvasText 15%,transparent);border-radius:12px;padding:12px";const title=document.createElement("strong");title.textContent=client.name;const id=document.createElement("p");id.textContent="Client ID: "+client.client_id;id.style.overflowWrap="anywhere";const uris=document.createElement("p");uris.textContent=client.redirect_uris.join("\\n");uris.style.cssText="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px";const remove=document.createElement("button");remove.className="secondary";remove.textContent="移除此應用";remove.addEventListener("click",async()=>{if(!confirm("確定移除此應用並撤銷它的授權？"))return;try{await api("clients/"+encodeURIComponent(client.client_id),{});await loadClients();say("已移除應用。")}catch(e){say(e.message)}});card.append(title,id,uris,remove);list.append(card)}}
+async function refresh(){try{const s=await api("session");$("setup").hidden=s.initialized;$("register").hidden=s.initialized&&!s.authenticated;$("register").textContent=s.initialized?"新增備用 Passkey":"建立第一把 Passkey";$("login").hidden=!s.initialized||s.authenticated;$("logout").hidden=!s.authenticated;$("clientAdmin").hidden=!s.authenticated;say(s.authenticated?"已登入 Chi Auth。此登入目前只限驗證中心本身。":s.initialized?"尚未登入，請使用已註冊的 Passkey。":"尚未設定 Passkey，請先輸入首次設定碼。");if(s.authenticated){await loadClients();const returnTo=new URL(location.href).searchParams.get("return_to");if(returnTo&&returnTo.startsWith("/auth/api/authorize?"))location.replace(returnTo)}}catch(e){say(e.message)}}
+$("addClient").addEventListener("click",async()=>{const button=$("addClient");button.disabled=true;try{const redirectUris=$("clientRedirectUris").value.split("\\n").map(s=>s.trim()).filter(Boolean);const result=await api("clients",{name:$("clientName").value.trim(),redirectUris});$("clientName").value="";$("clientRedirectUris").value="";await loadClients();say("已註冊應用。Client ID: "+result.client_id)}catch(e){say(e.message)}finally{button.disabled=false}});
 $("register").addEventListener("click",async()=>{const button=$("register");button.disabled=true;try{if(!window.PublicKeyCredential)throw new Error("此瀏覽器不支援 WebAuthn");const setupSecret=$("setupSecret").value;const start=await api("register/options",setupSecret?{setupSecret}:{});const options={...start.options,challenge:decode(start.options.challenge),user:{...start.options.user,id:decode(start.options.user.id)},excludeCredentials:(start.options.excludeCredentials||[]).map(c=>({...c,id:decode(c.id)}))};const credential=await navigator.credentials.create({publicKey:options});if(!credential)throw new Error("Passkey 建立已取消");await api("register/verify",{ceremonyId:start.ceremonyId,credential:registrationJSON(credential)});$("setupSecret").value="";say("Passkey 已建立。");await refresh()}catch(e){say(e.message||"建立 Passkey 失敗")}finally{button.disabled=false}});
 $("login").addEventListener("click",async()=>{const button=$("login");button.disabled=true;try{if(!window.PublicKeyCredential)throw new Error("此瀏覽器不支援 WebAuthn");const start=await api("login/options",{});const options={...start.options,challenge:decode(start.options.challenge),allowCredentials:(start.options.allowCredentials||[]).map(c=>({...c,id:decode(c.id)}))};const credential=await navigator.credentials.get({publicKey:options});if(!credential)throw new Error("Passkey 登入已取消");await api("login/verify",{ceremonyId:start.ceremonyId,credential:authenticationJSON(credential)});say("登入成功。");await refresh()}catch(e){say(e.message||"Passkey 登入失敗")}finally{button.disabled=false}});
 $("logout").addEventListener("click",async()=>{try{await api("logout",{});await refresh()}catch(e){say(e.message)}});
@@ -164,6 +174,43 @@ async function requireSameOrigin(request) {
   return origin === ORIGIN;
 }
 
+function validRedirectUri(value) {
+  if (typeof value !== "string" || value.length > 2048) return false;
+  try {
+    const uri = new URL(value);
+    if (uri.username || uri.password || uri.hash) return false;
+    return uri.protocol === "https:" || (uri.protocol === "http:" && ["localhost", "127.0.0.1", "[::1]"].includes(uri.hostname));
+  } catch { return false; }
+}
+
+async function getClient(db, clientId) {
+  if (typeof clientId !== "string" || !/^[A-Za-z0-9_-]{20,80}$/.test(clientId)) return null;
+  const client = await db.prepare("SELECT client_id, name, redirect_uris_json, active FROM oauth_clients WHERE client_id = ?")
+    .bind(clientId).first();
+  if (!client || Number(client.active) !== 1) return null;
+  return { ...client, redirectUris: JSON.parse(client.redirect_uris_json || "[]") };
+}
+
+function clientAllowsOrigin(client, origin) {
+  if (!client || typeof origin !== "string") return false;
+  try {
+    return client.redirectUris.some(uri => new URL(uri).origin === origin);
+  } catch { return false; }
+}
+
+async function anyClientAllowsOrigin(db, origin) {
+  if (typeof origin !== "string" || origin.length > 512) return false;
+  const rows = await db.prepare("SELECT redirect_uris_json FROM oauth_clients WHERE active = 1").all();
+  return (rows.results || []).some(row => {
+    try { return JSON.parse(row.redirect_uris_json || "[]").some(uri => new URL(uri).origin === origin); }
+    catch { return false; }
+  });
+}
+
+function withCors(headers, origin) {
+  return { ...headers, "Access-Control-Allow-Origin": origin, "Vary": "Origin" };
+}
+
 async function enforceRateLimit(request, env, route, limit, windowSeconds = 60) {
   const ip = request.headers.get("CF-Connecting-IP") || "unknown";
   const ipHash = await sha256(ip);
@@ -184,13 +231,35 @@ async function handle(request, env) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/^\/auth(?=\/|$)/, "") || "/";
   if (request.method === "GET" && (path === "/" || path === "")) return noStoreHtml();
-  if (request.method === "GET" && path === "/api/health") return json({ ok: true, service: "chi-auth", rpId: RP_ID, phase: "passkey-core" });
+  if (request.method === "GET" && path === "/api/health") return json({ ok: true, service: "chi-auth", rpId: RP_ID, phase: "passkey-core+sso");
+
+  if (request.method === "OPTIONS" && path === "/api/token") {
+    const origin = request.headers.get("Origin");
+    const client = await getClient(env.DB, url.searchParams.get("client_id") || "");
+    if (!client || !clientAllowsOrigin(client, origin)) return json({ ok: false, error: "Origin not allowed." }, 403);
+    return new Response(null, { status: 204, headers: withCors({
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Max-Age": "600",
+      "Cache-Control": "no-store",
+    }, origin) });
+  }
+  if (request.method === "OPTIONS" && path === "/api/userinfo") {
+    const origin = request.headers.get("Origin");
+    if (!(await anyClientAllowsOrigin(env.DB, origin))) return json({ ok: false, error: "Origin not allowed." }, 403);
+    return new Response(null, { status: 204, headers: withCors({
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Authorization",
+      "Access-Control-Max-Age": "600",
+      "Cache-Control": "no-store",
+    }, origin) });
+  }
 
   if (path.startsWith("/api/") && request.method !== "GET" && request.method !== "POST") {
     return json({ ok: false, error: "Method not allowed." }, 405);
   }
 
-  if (request.method === "POST" && path.startsWith("/api/") && !(await requireSameOrigin(request))) {
+  if (request.method === "POST" && path.startsWith("/api/") && path !== "/api/token" && !(await requireSameOrigin(request))) {
     return json({ ok: false, error: "Origin not allowed." }, 403);
   }
 
@@ -199,6 +268,114 @@ async function handle(request, env) {
     const authenticated = initialized && await sessionIsValid(request, env.DB);
     return json({ ok: true, initialized, authenticated });
   }
+
+  if (request.method === "GET" && path === "/api/authorize") {
+    const params = url.searchParams;
+    const clientId = params.get("client_id") || "";
+    const redirectUri = params.get("redirect_uri") || "";
+    const challenge = params.get("code_challenge") || "";
+    const state = params.get("state") || "";
+    if (params.get("response_type") !== "code" || params.get("code_challenge_method") !== "S256" ||
+        !/^[A-Za-z0-9_-]{20,80}$/.test(clientId) || !/^[A-Za-z0-9_-]{43}$/.test(challenge) ||
+        state.length < 16 || state.length > 512 || !validRedirectUri(redirectUri)) {
+      return json({ ok: false, error: "授權請求格式不正確，必須使用 Authorization Code + PKCE (S256)。" }, 400);
+    }
+    const client = await getClient(env.DB, clientId);
+    if (!client || !client.redirectUris.includes(redirectUri)) return json({ ok: false, error: "未知的應用或未登記的回呼網址。" }, 400);
+    if (!(await sessionIsValid(request, env.DB))) {
+      return new Response(null, { status: 302, headers: {
+        "Location": "/auth/?return_to=" + encodeURIComponent(url.pathname + url.search),
+        "Cache-Control": "no-store",
+        "Referrer-Policy": "no-referrer",
+      }});
+    }
+    const code = randomToken(32);
+    const now = Math.floor(Date.now() / 1000);
+    await env.DB.prepare("DELETE FROM authorization_codes WHERE expires_at <= ?").bind(now).run();
+    await env.DB.prepare("INSERT INTO authorization_codes (code_hash, client_id, redirect_uri, code_challenge, state, created_at, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?)")
+      .bind(await sha256(code), clientId, redirectUri, challenge, state, now, now + 120).run();
+    const callback = new URL(redirectUri);
+    callback.searchParams.set("code", code);
+    callback.searchParams.set("state", state);
+    return new Response(null, { status: 302, headers: { "Location": callback.toString(), "Cache-Control": "no-store", "Referrer-Policy": "no-referrer" }});
+  }
+
+  if (request.method === "GET" && path === "/api/clients") {
+    if (!(await sessionIsValid(request, env.DB))) return json({ ok: false, error: "需要先登入。" }, 401);
+    const rows = await env.DB.prepare("SELECT client_id, name, redirect_uris_json, created_at FROM oauth_clients WHERE active = 1 ORDER BY created_at DESC").all();
+    return json({ ok: true, clients: (rows.results || []).map(row => ({
+      client_id: row.client_id, name: row.name, redirect_uris: JSON.parse(row.redirect_uris_json || "[]"), created_at: row.created_at
+    })) });
+  }
+
+  if (request.method === "POST" && path === "/api/clients") {
+    if (!(await sessionIsValid(request, env.DB))) return json({ ok: false, error: "需要先登入。" }, 401);
+    const body = await request.json().catch(() => null);
+    const name = typeof body?.name === "string" ? body.name.trim() : "";
+    const redirectUris = Array.isArray(body?.redirectUris) ? [...new Set(body.redirectUris)] : [];
+    if (!name || name.length > 60 || redirectUris.length < 1 || redirectUris.length > 10 ||
+        redirectUris.some(uri => !validRedirectUri(uri))) {
+      return json({ ok: false, error: "請提供應用名稱，以及 1 到 10 個有效的 HTTPS 回呼網址。" }, 400);
+    }
+    const clientId = randomToken(24);
+    const now = Math.floor(Date.now() / 1000);
+    await env.DB.prepare("INSERT INTO oauth_clients (client_id, name, redirect_uris_json, created_at, active) VALUES (?, ?, ?, ?, 1)")
+      .bind(clientId, name, JSON.stringify(redirectUris), now).run();
+    return json({ ok: true, client_id: clientId, name, redirect_uris: redirectUris }, 201);
+  }
+
+  if (request.method === "POST" && path.startsWith("/api/clients/")) {
+    if (!(await sessionIsValid(request, env.DB))) return json({ ok: false, error: "需要先登入。" }, 401);
+    const clientId = path.slice("/api/clients/".length);
+    if (!/^[A-Za-z0-9_-]{20,80}$/.test(clientId)) return json({ ok: false, error: "應用 ID 格式不正確。" }, 400);
+    await env.DB.prepare("DELETE FROM oauth_clients WHERE client_id = ?").bind(clientId).run();
+    await env.DB.prepare("DELETE FROM authorization_codes WHERE client_id = ?").bind(clientId).run();
+    await env.DB.prepare("DELETE FROM access_tokens WHERE client_id = ?").bind(clientId).run();
+    return json({ ok: true });
+  }
+
+  if (request.method === "POST" && path === "/api/token") {
+    const body = await request.json().catch(() => null);
+    const client = await getClient(env.DB, body?.client_id || "");
+    const origin = request.headers.get("Origin");
+    if (!client || typeof body?.code !== "string" || body.code.length > 256 ||
+        typeof body.redirect_uri !== "string" || !client.redirectUris.includes(body.redirect_uri) ||
+        typeof body.code_verifier !== "string" || !/^[A-Za-z0-9._~-]{43,128}$/.test(body.code_verifier)) {
+      return json({ ok: false, error: "授權碼交換請求無效。" }, 400);
+    }
+    if (origin && !clientAllowsOrigin(client, origin)) return json({ ok: false, error: "Origin not allowed." }, 403);
+    const challenge = await sha256(body.code_verifier);
+    const now = Math.floor(Date.now() / 1000);
+    const codeRow = await env.DB.prepare(
+      "DELETE FROM authorization_codes WHERE code_hash = ? AND client_id = ? AND redirect_uri = ? AND code_challenge = ? AND expires_at > ? RETURNING code_hash"
+    ).bind(await sha256(body.code), client.client_id, body.redirect_uri, challenge, now).first();
+    if (!codeRow) return json({ ok: false, error: "授權碼已失效、已使用或 PKCE 驗證不符。" }, 400);
+    const token = randomToken(32);
+    const expiresIn = 600;
+    await env.DB.prepare("DELETE FROM access_tokens WHERE expires_at <= ?").bind(now).run();
+    await env.DB.prepare("INSERT INTO access_tokens (token_hash, client_id, created_at, expires_at) VALUES (?, ?, ?, ?)")
+      .bind(await sha256(token), client.client_id, now, now + expiresIn).run();
+    const headers = origin ? withCors({}, origin) : {};
+    return json({ access_token: token, token_type: "Bearer", expires_in: expiresIn, scope: "openid profile" }, 200, headers);
+  }
+
+  if (request.method === "GET" && path === "/api/userinfo") {
+    const origin = request.headers.get("Origin");
+    const authorization = request.headers.get("Authorization") || "";
+    const match = authorization.match(/^Bearer ([A-Za-z0-9_-]{40,80})$/);
+    if (!match) return json({ ok: false, error: "Missing bearer token." }, 401);
+    const tokenHash = await sha256(match[1]);
+    const now = Math.floor(Date.now() / 1000);
+    const row = await env.DB.prepare(
+      "SELECT access_tokens.client_id FROM access_tokens JOIN oauth_clients ON oauth_clients.client_id = access_tokens.client_id WHERE access_tokens.token_hash = ? AND access_tokens.expires_at > ? AND oauth_clients.active = 1"
+    ).bind(tokenHash, now).first();
+    if (!row) return json({ ok: false, error: "Token expired or invalid." }, 401);
+    const client = await getClient(env.DB, row.client_id);
+    if (origin && !clientAllowsOrigin(client, origin)) return json({ ok: false, error: "Origin not allowed." }, 403);
+    const headers = origin ? withCors({}, origin) : {};
+    return json({ sub: "chi-owner", name: "Chi Owner" }, 200, headers);
+  }
+
 
   const protectedPostRoutes = new Set([
     "/api/register/options", "/api/register/verify",
