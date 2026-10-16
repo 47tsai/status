@@ -84,6 +84,35 @@ def taipei_time(value):
         return str(value)
 
 
+
+def parse_checkin_record(record):
+    """Extract a check-in timestamp and result from supported README formats."""
+    if not record:
+        return None, None
+    timestamp = None
+    status_line = None
+    status_markers = ("簽到成功", "今日已簽到", "簽到失敗", "執行完成，結果未知")
+    for line in record.splitlines():
+        if line.lower().startswith("last run:"):
+            timestamp = line.split(":", 1)[1].strip()
+        if any(marker in line for marker in status_markers):
+            cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+            if len(cells) >= 3 and re.search(r"\d{4}[-/]\d{2}[-/]\d{2}", cells[-2]):
+                timestamp = cells[-2]
+                status_line = cells[-1]
+            else:
+                status_line = re.sub(r"^[|\s#>*-]+", "", line).strip()
+            if status_line.startswith("Result:"):
+                status_line = status_line.split(":", 1)[1].strip()
+            if status_line:
+                break
+    if not timestamp:
+        match = re.search(r"\|[^|]+\|\s*(\d{4}[-/]\d{2}[-/]\d{2}[^|]*)\|", record)
+        if match:
+            timestamp = match.group(1).strip()
+    return timestamp, status_line
+
+
 def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0):
     """Classify a check-in record against the current Taiwan reset cycle.
 
@@ -332,27 +361,7 @@ def business_data(repo_name, run):
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/commits/main/data/processed.json"
     elif kind == "checkin":
         record = raw(repo_name, "activity.md") if repo_name == "apktwsign" else raw(repo_name, "README.md")
-        timestamp, status_line = None, None
-        if record:
-            for line in record.splitlines():
-                if line.lower().startswith("last run:"):
-                    timestamp = line.split(":", 1)[1].strip()
-                if "簽到成功" in line or "今日已簽到" in line or "簽到失敗" in line or "執行完成，結果未知" in line:
-                    cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-                    if len(cells) >= 3 and re.search(r"\d{4}[-/]\d{2}[-/]\d{2}", cells[-2]):
-                        timestamp = cells[-2]
-                        status_line = cells[-1]
-                    else:
-                        status_line = re.sub(r"^[|\s#>*-]+", "", line).strip()
-                    if status_line.startswith("Result:"):
-                        status_line = status_line.split(":", 1)[1].strip()
-                    if status_line:
-                        break
-            if not timestamp:
-                m = re.search(r"\|[^|]+\|\s*(\d{4}[-/]\d{2}[-/]\d{2}[^|]*)\|", record)
-                if m:
-                    timestamp = m.group(1).strip()
-
+        timestamp, status_line = parse_checkin_record(record)
         classification = classify_checkin_result(timestamp, status_line, reset_hour=0)
         business_status = classification["business_status"]
         business_label = classification["business_label"]
