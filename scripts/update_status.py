@@ -289,8 +289,8 @@ def business_data(repo_name, run):
         result["note"] = "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     elif kind == "vps":
-        # All three VPS-01 endpoints must pass. Twitch's Cloudflare Access
-        # login page is an expected successful response for this endpoint.
+        # VPS-01 is considered operational when at least two of its three
+        # public endpoints return HTTP 200. This is an HTTP-level threshold.
         services = [
             ("Alist", "https://alist.chi.qzz.io/"),
             ("BiliTool", "https://bili.chi.qzz.io/"),
@@ -300,36 +300,37 @@ def business_data(repo_name, run):
         for label, url in services:
             check = health_check(url)
             checks.append({"label": label, "url": url, "check": check})
-        def endpoint_ok(check):
-            return bool(check and (check.get("ok") is True or check.get("protected") is True))
-        healthy = sum(1 for item in checks if endpoint_ok(item["check"]))
-        failed = sum(1 for item in checks if item["check"] and item["check"].get("ok") is False)
-        unknown = sum(1 for item in checks if not item["check"] or (item["check"].get("ok") is None and not item["check"].get("protected")))
+        def endpoint_http_200(check):
+            return bool(check and check.get("status") == 200)
+        healthy = sum(1 for item in checks if endpoint_http_200(item["check"]))
+        failed = sum(1 for item in checks if item["check"] and item["check"].get("status") not in (None, 200))
+        unknown = sum(1 for item in checks if not item["check"] or item["check"].get("status") is None)
         total = len(checks)
-        if healthy == total:
+        threshold = 2
+        if healthy >= threshold:
             result["business_status"] = "success"
-            result["business_label"] = f"VPS-01 對外端點正常（3/3 HTTP 回應；不代表 VM/SSH 健康）"
+            result["business_label"] = f"VPS-01 正常運作（至少 {threshold}/{total} 個端點 HTTP 200）"
         elif failed:
             result["business_status"] = "failure"
-            result["business_label"] = f"VPS-01 異常（{healthy}/{total} 成功／{failed} 異常／{unknown} 未知）"
+            result["business_label"] = f"VPS-01 異常（{healthy}/{total} 個端點 HTTP 200）"
         else:
             result["business_status"] = "unknown"
-            result["business_label"] = f"VPS-01 狀態未能完全確認（{healthy}/{total} 成功／{unknown} 未知）"
+            result["business_label"] = f"VPS-01 狀態未確認（{healthy}/{total} 個端點 HTTP 200）"
         result["metrics"] = [
-            metric("成功端點", f"{healthy}/{total}", "good" if healthy == total else "bad" if failed else "normal"),
-            metric("異常端點", failed, "bad" if failed else "good"),
-            metric("未確認端點", unknown, "normal" if unknown else "good"),
+            metric("HTTP 200 端點", f"{healthy}/{total}", "good" if healthy >= threshold else "bad" if failed else "normal"),
+            metric("非 200 端點", failed, "bad" if failed else "good"),
+            metric("未取得狀態", unknown, "normal" if unknown else "good"),
         ]
         for item in checks:
             check = item["check"]
             if not check:
                 detail_result, tone = "未取得檢查結果", "normal"
-            elif check.get("protected"):
-                detail_result, tone = f"Cloudflare Access 登入頁可達 · HTTP {check['status']}（僅確認 Access 回應）", "normal"
-            elif check.get("ok") is True:
-                detail_result, tone = f"HTTP 與基本頁面內容檢查通過 · HTTP {check['status']}", "good"
-            elif check.get("ok") is False:
-                detail_result, tone = f"端點異常 · HTTP {check.get('status', '未知')}", "bad"
+            elif check.get("status") == 200 and check.get("protected"):
+                detail_result, tone = "Cloudflare Access 登入頁可達 · HTTP 200", "good"
+            elif check.get("status") == 200:
+                detail_result, tone = f"HTTP 200 · {check.get('content_reason') or '端點有回應'}", "good"
+            elif check.get("status") is not None:
+                detail_result, tone = f"非 HTTP 200 · HTTP {check.get('status')}", "bad"
             else:
                 detail_result, tone = format_unknown_health_detail(check), "normal"
             if check and check.get("latency_ms") is not None:
@@ -340,7 +341,7 @@ def business_data(repo_name, run):
                 "time": "",
                 "tone": tone,
             })
-        result["note"] = "此卡只驗證 Alist、BiliTool、Twitch Drops Miner 三個公開網址是否有 HTTP 回應，不等同於確認應用程式內部功能或 VPS 本身健康。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，只代表 Access 閘道有回應，不代表登入後的後端服務可用。任一端點明確異常即判定對外服務異常；此探測無法確認 VM、SSH、CPU、記憶體或磁碟狀態。"
+        result["note"] = "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。"
         result["evidence_url"] = None
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
@@ -454,8 +455,14 @@ def main():
             continue
         full_name = repo["full_name"]
         try:
-            data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page=1")
+            data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page=10")
             runs = data.get("workflow_runs", [])
+            if repo["name"] == "status":
+                # The collector sees its own current run as in_progress. Use the latest
+                # completed run for its card so the published snapshot does not stay running.
+                completed_runs = [candidate for candidate in runs if candidate.get("status") == "completed"]
+                if completed_runs:
+                    runs = completed_runs
             if not runs:
                 fallback = stale_fallback(repo, previous_by_name.get(repo["name"]), "此 Repo 尚無 Workflow 執行紀錄")
                 if fallback:
