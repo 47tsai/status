@@ -30,9 +30,10 @@ The Worker can additionally accept a short-lived Chi Auth bearer token and valid
 To enable the UI after the Chi Auth foundation is deployed:
 
 1. Register this exact callback URI in the Chi Auth client registry: `https://status.chi.qzz.io/actions.html?auth_callback=1`.
-2. Copy the generated client ID into `AUTH_CLIENT_ID` in `actions.html`.
-3. Deploy the updated Actions page and verify the authorization-code + PKCE flow on a real browser.
-4. Confirm both catalog loading and a safe workflow trigger work with the Passkey token before considering removal of the legacy secret.
+2. Set the same generated client ID as the non-secret Worker variable `CHI_AUTH_STATUS_CLIENT_ID` in the Cloudflare Worker configuration.
+3. Copy the generated client ID into `AUTH_CLIENT_ID` in `actions.html`.
+4. Deploy the updated Actions page and verify the authorization-code + PKCE flow on a real browser.
+5. Confirm the Worker validates the token for this exact client, then test catalog loading and a safe workflow trigger before considering removal of the legacy secret.
 
 The Passkey button remains disabled while `AUTH_CLIENT_ID` is blank. The short-lived access token stays in memory; PKCE state and verifier are kept in sessionStorage only for the sign-in round-trip. The legacy trigger secret remains available as a fallback until end-to-end tests and recovery procedures are complete.
 
