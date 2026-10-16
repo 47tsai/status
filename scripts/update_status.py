@@ -187,21 +187,40 @@ def business_data(repo_name, run):
               "metrics": [], "details": [], "note": "", "evidence_url": None}
     if kind == "claim":
         states = []
+        taipei_tz = __import__("zoneinfo").ZoneInfo("Asia/Taipei")
+        now_taipei = datetime.now(taipei_tz)
+        # Brawl Stars daily claim cycle resets at 16:00 Taiwan time.
+        current_cycle = (now_taipei.replace(tzinfo=None) - __import__("datetime").timedelta(hours=16)).date()
         for account_id, account_label in [("A", "帳號 A"), ("B", "帳號 B")]:
             state = parse_json(raw(repo_name, f"claim_state_{account_id}.json"))
             if state:
                 success = state.get("success")
                 result_text = state.get("lastResult") or ("成功" if success is True else "失敗" if success is False else "未知")
-                tone = "good" if result_text == "成功" else "bad" if result_text == "失敗" else "normal"
-                states.append({"label": account_label, "result": result_text, "time": taipei_time(state.get("lastClaimAt")), "tone": tone})
-        good = sum(s["result"] == "成功" for s in states)
-        bad = sum(s["result"] == "失敗" for s in states)
-        result["business_status"] = "success" if states and bad == 0 and good == len(states) else "failure" if bad else "unknown"
-        result["business_label"] = f"{good}/{len(states)} 個帳號成功" if states else "找不到帳號狀態檔"
-        result["metrics"] = [metric("成功帳號", f"{good}/{len(states)}", "good" if states and good == len(states) else "bad"),
+                stamp = state.get("lastClaimAt")
+                claim_dt = None
+                if stamp:
+                    try:
+                        claim_dt = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+                        if claim_dt.tzinfo:
+                            claim_dt = claim_dt.astimezone(taipei_tz).replace(tzinfo=None)
+                    except ValueError:
+                        claim_dt = None
+                claim_cycle = (claim_dt - __import__("datetime").timedelta(hours=16)).date() if claim_dt else None
+                if claim_cycle != current_cycle:
+                    result_text = "本輪尚未確認"
+                    tone = "normal"
+                else:
+                    tone = "good" if result_text == "成功" else "bad" if result_text == "失敗" else "normal"
+                states.append({"label": account_label, "result": result_text, "time": taipei_time(stamp), "tone": tone})
+        good = sum(1 for s in states if s["result"] == "成功")
+        bad = sum(1 for s in states if s["result"] == "失敗")
+        current = sum(1 for s in states if s["result"] in ("成功", "失敗"))
+        result["business_status"] = "success" if states and current == len(states) and bad == 0 and good == len(states) else "failure" if bad else "unknown"
+        result["business_label"] = f"{good}/{len(states)} 個帳號成功" if states and current == len(states) else "本輪領取結果待確認" if states else "找不到帳號狀態檔"
+        result["metrics"] = [metric("本輪成功帳號", f"{good}/{len(states)}", "good" if states and current == len(states) and good == len(states) else "normal"),
                              metric("最近領取", max((s["time"] for s in states), default="尚無紀錄"))]
         result["details"] = states
-        result["note"] = "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。"
+        result["note"] = "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/tree/main"
     elif kind == "freegame":
         processed = parse_json(raw(repo_name, "data/processed.json"))
@@ -290,15 +309,16 @@ def business_data(repo_name, run):
                     except ValueError:
                         continue
         taipei_tz = __import__("zoneinfo").ZoneInfo("Asia/Taipei")
-        today_taipei = datetime.now(taipei_tz).date()
+        now_taipei = datetime.now(taipei_tz)
+        reset_hour = 0  # APK.TW and Bahamut reset at midnight Taiwan time.
+        current_cycle = (now_taipei.replace(tzinfo=None) - __import__("datetime").timedelta(hours=reset_hour)).date()
         if recorded_at and recorded_at.tzinfo:
-            recorded_date = recorded_at.astimezone(taipei_tz).date()
-        elif recorded_at:
-            # The source repositories publish local Taiwan wall-clock time.
-            recorded_date = recorded_at.date()
+            recorded_local = recorded_at.astimezone(taipei_tz).replace(tzinfo=None)
         else:
-            recorded_date = None
-        fresh = recorded_date == today_taipei
+            # The source repositories publish local Taiwan wall-clock time.
+            recorded_local = recorded_at
+        recorded_cycle = (recorded_local - __import__("datetime").timedelta(hours=reset_hour)).date() if recorded_local else None
+        fresh = recorded_cycle == current_cycle
         if not fresh:
             business_status = "unknown"
             business_label = "紀錄過期，等待今日更新" if timestamp else "缺少簽到時間，無法確認今日結果"
