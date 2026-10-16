@@ -1,21 +1,71 @@
 {
-  "generated_at": "2026-10-16T04:15:04.930056+00:00",
+  "generated_at": "2026-10-16T04:15:42.246391+00:00",
   "repository_count": 11,
   "repositories": [
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Test Cloudflare trigger Worker",
+      "status": "failure",
+      "branch": "fix/alert-batching-and-monitor-fallback",
+      "updated_at": "2026-10-16T04:15:13Z",
+      "created_at": "2026-10-16T04:15:05Z",
+      "event": "pull_request",
+      "commit_message": "Run Python regression tests on pull requests",
+      "duration_seconds": 8,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38849651930",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "failure",
+        "business_label": "資料更新失敗",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "資料更新失敗",
+            "tone": "bad"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "資料更新失敗",
+            "time": "2026-10-16 12:15:13",
+            "tone": "bad"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
+      }
+    },
     {
       "name": "nav",
       "full_name": "tsai97216/nav",
       "html_url": "https://github.com/tsai97216/nav",
       "workflow": "pages build and deployment",
-      "status": "queued",
+      "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-16T04:14:54Z",
-      "created_at": "2026-10-16T04:14:54Z",
+      "updated_at": "2026-10-16T04:15:25Z",
+      "created_at": "2026-10-16T04:15:04Z",
       "event": "dynamic",
-      "commit_message": "style: polish NAV copy and refresh stylesheet cache",
+      "commit_message": "chore: auto bump version [skip ci]",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/38849634563",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/38849649963",
       "business": {
         "kind": "deploy",
         "title": "Chi 的工具箱",
@@ -26,7 +76,7 @@
         "metrics": [
           {
             "label": "部署結果",
-            "value": "queued",
+            "value": "in_progress",
             "tone": "normal"
           },
           {
@@ -49,7 +99,7 @@
           {
             "label": "最近部署",
             "result": "部署進行中",
-            "time": "2026-10-16 12:14:54",
+            "time": "2026-10-16 12:15:25",
             "tone": "normal"
           },
           {
@@ -70,14 +120,81 @@
       }
     },
     {
+      "name": "merch",
+      "full_name": "tsai97216/merch",
+      "html_url": "https://github.com/tsai97216/merch",
+      "workflow": "Verify",
+      "status": "in_progress",
+      "branch": "main",
+      "updated_at": "2026-10-16T04:15:07Z",
+      "created_at": "2026-10-16T04:15:04Z",
+      "event": "push",
+      "commit_message": "ci: pin Cloudflare Wrangler CLI version (#9)",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/merch/actions",
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/38849649857",
+      "business": {
+        "kind": "deploy",
+        "title": "周邊收藏網",
+        "description": "商品網站部署與實際 HTTP 健康檢查",
+        "icon": "▦",
+        "business_status": "running",
+        "business_label": "部署進行中",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "in_progress",
+            "tone": "normal"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "部署進行中",
+            "time": "2026-10-16 12:15:07",
+            "tone": "normal"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://merch.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi MERCH",
+            "tone": "good"
+          }
+        ],
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
+        "evidence_url": "https://github.com/tsai97216/merch/actions"
+      }
+    },
+    {
       "name": "vps-01",
       "full_name": "VPS-01 · Oracle Cloud Infrastructure",
       "html_url": "https://alist.chi.qzz.io/",
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-16T04:15:02.199824+00:00",
-      "created_at": "2026-10-16T04:15:02.199840+00:00",
+      "updated_at": "2026-10-16T04:15:40.113269+00:00",
+      "created_at": "2026-10-16T04:15:40.113283+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -110,142 +227,25 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 649 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 748 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1520 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1215 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 559 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 166 ms",
             "time": "",
             "tone": "good"
           }
         ],
         "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
         "evidence_url": null
-      }
-    },
-    {
-      "name": "merch",
-      "full_name": "tsai97216/merch",
-      "html_url": "https://github.com/tsai97216/merch",
-      "workflow": "Verify",
-      "status": "success",
-      "branch": "chore/pin-wrangler-cli",
-      "updated_at": "2026-10-16T04:14:47Z",
-      "created_at": "2026-10-16T04:13:54Z",
-      "event": "pull_request",
-      "commit_message": "fix: validate floating Wrangler version syntax",
-      "duration_seconds": 53,
-      "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/38849547926",
-      "business": {
-        "kind": "deploy",
-        "title": "周邊收藏網",
-        "description": "商品網站部署與實際 HTTP 健康檢查",
-        "icon": "▦",
-        "business_status": "success",
-        "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-16 12:14:47",
-            "tone": "good"
-          },
-          {
-            "label": "網站檢查",
-            "result": "https://merch.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi MERCH",
-            "tone": "good"
-          }
-        ],
-        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/merch/actions"
-      }
-    },
-    {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Test Cloudflare trigger Worker",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T04:05:20Z",
-      "created_at": "2026-10-16T04:05:05Z",
-      "event": "push",
-      "commit_message": "Security: harden status trigger Worker",
-      "duration_seconds": 15,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38848762651",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "資料更新成功",
-            "time": "2026-10-16 12:05:20",
-            "tone": "good"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
