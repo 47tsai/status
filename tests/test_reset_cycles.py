@@ -71,6 +71,20 @@ class CheckinFreshnessTests(unittest.TestCase):
         self.assertEqual(result["business_status"], "failure")
         self.assertEqual(result["tone"], "bad")
 
+    def test_future_timestamp_never_claims_success(self):
+        result = classify_checkin_result("2026-10-16 23:59:59", "簽到成功", self.now)
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["business_label"], "紀錄時間晚於目前時間，無法確認簽到結果")
+        self.assertEqual(result["tone"], "normal")
+
+    def test_conflicting_success_and_failure_markers_remain_unknown(self):
+        result = classify_checkin_result(
+            "2026-10-16 09:30:00", "簽到成功，但其他帳號簽到失敗", self.now
+        )
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["business_label"], "簽到結果文字互相矛盾，無法判讀")
+        self.assertEqual(result["tone"], "normal")
+
     def test_missing_timestamp_never_claims_success(self):
         result = classify_checkin_result(None, "簽到成功", self.now)
         self.assertEqual(result["business_status"], "unknown")
