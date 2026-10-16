@@ -157,3 +157,18 @@ test("catalog GET does not consume the workflow-dispatch quota", async () => {
   assert.ok(Array.isArray(result.body.workflows));
   assert.equal(dispatchLimitCalls, 0);
 });
+
+test("invalid authenticated POST requests do not consume the workflow-dispatch quota", async () => {
+  let dispatchLimitCalls = 0;
+  const testEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const response = await worker.fetch(request({
+    repository: "attacker/repo",
+    workflow: "deploy.yml",
+    ref: "main",
+  }), testEnv);
+  assert.equal(response.status, 403);
+  assert.equal(dispatchLimitCalls, 0);
+});
