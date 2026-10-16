@@ -5,7 +5,7 @@ const DEFAULT_WORKFLOW = "update-status.yml";
 // Keep this catalog aligned with the projects displayed in status.json.
 // Only these workflows can be triggered by this Worker.
 const WORKFLOWS = [
-  { repository: "tsai97216/status", workflow: "update-status.yml", name: "狀態總覽更新", project: "status", group: "維護", inputs: [] },
+  { repository: "tsai97216/status", workflow: "update-status.yml", name: "Status 狀態資料更新", project: "status", group: "Status 維護", inputs: [] },
   { repository: "tsai97216/chi-source", workflow: "main.yml", name: "Chi Source 更新", project: "chi-source", group: "來源更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
   { repository: "tsai97216/chi-source-personal", workflow: "main.yml", name: "Chi Source Personal 更新", project: "chi-source-personal", group: "來源更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
   { repository: "tsai97216/free-game", workflow: "free-game.yml", name: "限免遊戲通知更新", project: "free-game", group: "內容更新", inputs: [] },
