@@ -300,7 +300,7 @@ let currentTheme=savedTheme;
 setTheme(currentTheme);
 themeToggle.addEventListener('click',()=>{currentTheme=themeModes[(themeModes.indexOf(currentTheme)+1)%themeModes.length];setTheme(currentTheme,true)});
 systemTheme.addEventListener('change',()=>{if(currentTheme==='system')setTheme('system')});
-const TRIGGER_API_URL = '';
+const TRIGGER_API_URL = 'https://chi-status-trigger.tsai97216.workers.dev';
 const TRIGGER_KEY_STORAGE = 'chi-status-trigger-key';
 $('refresh').addEventListener('click',async()=>{
  if(loading)return;
