@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T07:46:22.875907+00:00",
+  "generated_at": "2026-10-16T07:53:13.846294+00:00",
   "repository_count": 12,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "failure",
       "branch": "OCI",
-      "updated_at": "2026-10-16T07:46:21.968648+00:00",
-      "created_at": "2026-10-16T07:46:21.968667+00:00",
+      "updated_at": "2026-10-16T07:53:12.625756+00:00",
+      "created_at": "2026-10-16T07:53:12.625775+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,25 +43,75 @@
         "details": [
           {
             "label": "Alist",
-            "result": "非 HTTP 200 · HTTP 530 · 349 ms",
+            "result": "非 HTTP 200 · HTTP 530 · 301 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "BiliTool",
-            "result": "非 HTTP 200 · HTTP 530 · 47 ms",
+            "result": "非 HTTP 200 · HTTP 530 · 177 ms",
             "time": "",
             "tone": "bad"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 509 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 740 ms",
             "time": "",
             "tone": "good"
           }
         ],
         "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
         "evidence_url": null
+      }
+    },
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Update Actions status",
+      "status": "cancelled",
+      "branch": "main",
+      "updated_at": "2026-10-16T07:53:01Z",
+      "created_at": "2026-10-16T07:52:58Z",
+      "event": "push",
+      "commit_message": "feat: rebuild Actions console with shared Chi Status design",
+      "duration_seconds": 3,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38870019991",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "unknown",
+        "business_label": "等待資料更新",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "等待資料更新",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "等待資料更新",
+            "time": "2026-10-16 15:53:01",
+            "tone": "normal"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
@@ -151,56 +201,6 @@
         "details": [],
         "note": "尚未配置專屬業務資料解析器。",
         "evidence_url": null
-      }
-    },
-    {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T07:32:49Z",
-      "created_at": "2026-10-16T07:31:48Z",
-      "event": "workflow_dispatch",
-      "commit_message": "chore: update project business status",
-      "duration_seconds": 61,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38867792540",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "資料更新成功",
-            "time": "2026-10-16 15:32:49",
-            "tone": "good"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
