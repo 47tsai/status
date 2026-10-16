@@ -366,11 +366,11 @@ async function handle(request, env) {
   }
 
   if (request.method === "GET" && path === "/api/userinfo") {
-    if (!(await enforceRateLimit(request, env, path, 60, 60))) return json({ ok: false, error: "請求太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
     const origin = request.headers.get("Origin");
     const authorization = request.headers.get("Authorization") || "";
     const match = authorization.match(/^Bearer ([A-Za-z0-9_-]{40,80})$/);
     if (!match) return json({ ok: false, error: "Missing bearer token." }, 401);
+    if (!(await enforceRateLimit(request, env, path, 60, 60))) return json({ ok: false, error: "請求太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
     const tokenHash = await sha256(match[1]);
     const now = Math.floor(Date.now() / 1000);
     const row = await env.DB.prepare(
