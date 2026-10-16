@@ -1,30 +1,36 @@
 # Chi Auth
 
-Chi Auth is the shared identity service planned for the Chi web ecosystem. Its WebAuthn relying-party ID is `chi.qzz.io`, allowing eligible Chi subdomains to use the same registered passkey once they integrate through the central sign-in flow.
+Chi Auth is the planned shared identity service for the Chi web ecosystem. Its WebAuthn relying-party ID is `chi.qzz.io`, so a Passkey enrolled here can be reused by eligible Chi subdomains after each application integrates with the central flow.
 
-## Current scope
+## Implemented in this branch
 
-This PR implements the Passkey identity core, not the finished single sign-on (SSO) rollout. Each application still needs to be registered as a client and integrated with a secure authorization-code flow using PKCE.
+- Passkey registration and server-side WebAuthn verification with SimpleWebAuthn.
+- First-use bootstrap protected by the high-entropy `CHI_AUTH_SETUP_SECRET`.
+- Additional backup Passkeys can be enrolled after authenticating with an existing Passkey.
+- Short-lived registration/authentication ceremonies bound to their initiating context.
+- Random session tokens stored as hashes, issued in a host-only `Secure; HttpOnly; SameSite=Lax` cookie.
+- Database-backed per-IP rate limits; IP addresses are hashed before being stored.
+- OAuth-style authorization-code + PKCE (S256) flow, exact redirect URI matching, one-time expiring authorization codes, short-lived opaque access tokens, and a minimal userinfo endpoint.
+- Authenticated client registry UI, with exact callback URL allowlists and app revocation.
 
-- The first Passkey is enrolled with a high-entropy `CHI_AUTH_SETUP_SECRET`.
-- Once initialized, public registration is closed. After signing in, the owner can add a backup Passkey.
-- Registration ceremonies are short-lived and bound to the authorizing setup or session context.
-- Passkey assertions and attestation are verified server-side using SimpleWebAuthn.
-- Session tokens are random, stored as hashes, and issued in a host-only `Secure; HttpOnly; SameSite=Lax` cookie.
-- Authentication endpoints have a database-backed per-IP rate limit; IP addresses are hashed before being stored in the rate-limit table.
-- Existing project authentication, including Chi Status `TRIGGER_SECRET`, remains unchanged until each integration is tested.
+This is not yet a complete production SSO rollout. Existing apps still need a callback handler and must exchange codes using PKCE, validate their own `state`, and establish their own local session. The Chi Status `TRIGGER_SECRET` is intentionally unchanged.
 
 ## Before deployment
 
 1. Create a Cloudflare D1 database named `chi-auth` and replace the placeholder `database_id` in `wrangler.toml`.
-2. Set the Worker secret `CHI_AUTH_SETUP_SECRET` using a password-manager-generated random value. Never commit or paste it into source code.
-3. Apply all D1 migrations with Wrangler, including `0002_security_hardening.sql`.
-4. Confirm the Cloudflare zone for `qzz.io` and explicitly configure only the route `chi.qzz.io/auth/*`. Do not route the whole root site to this Worker.
-5. Run the tests and a deployment dry run.
-6. Verify Passkey creation and login on a real browser/device, test rate-limit behavior, and document a recovery procedure before production use.
+2. Set `CHI_AUTH_SETUP_SECRET` as a Worker secret using a high-entropy random value from a password manager. Never commit it to source.
+3. Apply all D1 migrations, including `0002_security_hardening.sql` and `0003_oauth_clients.sql`.
+4. Confirm the Cloudflare zone for `qzz.io` and configure only the route `chi.qzz.io/auth/*`. Do not route the root site to this Worker.
+5. Run CI and a deployment dry run, then verify Passkey enrollment/login and OAuth PKCE using real browsers.
+6. Document a recovery procedure before production use.
 
-## SSO follow-up
+## Client integration requirements
 
-The next phase must add a strict client registry, exact redirect-URI allowlists, authorization-code + PKCE exchange, CSRF/state validation, one-time codes, and app-by-app permissions. Each application should validate its own callback and maintain its own session. Do not share a broad-domain session cookie or put bearer tokens in localStorage.
+- Register each app only after its real callback URL exists. The redirect URI is compared exactly.
+- Use Authorization Code + PKCE with `S256`; never use the implicit flow.
+- Generate a fresh unpredictable `state` per sign-in and validate it in the callback.
+- Keep access tokens in memory where possible; do not put bearer tokens in `localStorage`.
+- Treat the short-lived access token as proof of identity only. Every app must still enforce its own authorization rules.
+- The userinfo endpoint returns a stable owner subject (`chi-owner`) and display name, not personal account data.
 
-The service is not production-ready until D1 is configured, deployment and device tests pass, recovery is verified, and the SSO client flow has been reviewed.
+The service is not production-ready until D1 and the route are configured, device tests pass, rate limits and recovery are verified, and each client integration has been reviewed. No production deployment is included in this PR.
