@@ -143,17 +143,17 @@ def calculate_alert_changes(current, previous):
 def main():
     webhook_url = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
     if not webhook_url:
-        print("DISCORD_WEBHOOK_URL 未設定；略過 Discord 通知，且不更新告警狀態。")
-        return 0
+        print("DISCORD_WEBHOOK_URL 未設定；無法傳送告警。", file=sys.stderr)
+        return 1
 
     payload = read_json(STATUS_PATH, {})
     if not isinstance(payload, dict):
-        print("status.json 根資料格式錯誤；略過通知，保留告警狀態。", file=sys.stderr)
-        return 0
+        print("status.json 根資料格式錯誤；無法判斷告警，保留告警狀態。", file=sys.stderr)
+        return 1
     items = payload.get("repositories", [])
     if not isinstance(items, list):
-        print("status.json 的 repositories 格式錯誤；略過通知，保留告警狀態。", file=sys.stderr)
-        return 0
+        print("status.json 的 repositories 格式錯誤；無法判斷告警，保留告警狀態。", file=sys.stderr)
+        return 1
 
     current = {str(item.get("name") or item.get("full_name")): item for item in items
                if isinstance(item, dict) and (item.get("name") or item.get("full_name"))}
@@ -172,7 +172,7 @@ def main():
     except Exception as exc:
         # Do not advance the state on delivery failure. The next scheduled run retries.
         print(f"Discord 通知傳送失敗，保留告警狀態供下次重試：{type(exc).__name__}: {exc}", file=sys.stderr)
-        return 0
+        return 1
 
     STATE_PATH.write_text(json.dumps({"active_failures": next_active}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Discord 通知已送出：新異常 {len(new_failures)}，恢復 {len(recovered)}。")
