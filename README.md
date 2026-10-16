@@ -30,15 +30,25 @@ VPS-01 的狀態依三個公開端點的 HTTP 回應判定：至少兩個回傳 
 
 ```text
 .
-├── .github/workflows/update-status.yml  # 定時收集、測試、部署與失敗通知
+├── .github/workflows/
+│   ├── update-status.yml                # 定時收集、測試、部署與失敗通知
+│   ├── deploy-trigger-worker.yml        # 部署 Cloudflare Worker 與設定 Secrets
+│   └── worker-tests.yml                 # Worker 授權與觸發測試
+├── actions/
+│   └── index.html                       # Actions 控制台
+├── docs/
+│   └── discord-alerts.md                # Discord Webhook 設定與限制
 ├── scripts/
 │   ├── update_status.py                 # 收集 GitHub 與業務狀態
 │   └── notify_discord.py                # 異常／恢復通知及去重
 ├── tests/
-│   └── test_notify_discord.py           # 狀態分類與 Discord 通知測試
-├── docs/
-│   └── discord-alerts.md                # Discord Webhook 設定與限制
+│   └── test_notify_discord.py           # 狀態分類、健康檢查與告警測試
+├── worker/
+│   ├── index.js                         # 受允許清單保護的觸發 API
+│   ├── index.test.mjs                   # Worker 測試
+│   └── wrangler.toml                    # Cloudflare Worker 設定
 ├── index.html                           # 靜態儀表板
+├── actions.html                         # 舊網址轉址至 /actions/
 ├── status.json                          # 自動產生的最新狀態資料
 ├── alert-state.json                     # 自動維護的告警去重狀態
 └── CNAME                                # GitHub Pages 自訂網域
