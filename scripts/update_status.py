@@ -373,7 +373,8 @@ def business_data(repo_name, run):
                              metric("最近簽到", timestamp or "尚無紀錄")]
         result["details"] = [{"label": "來源紀錄", "result": displayed_result, "time": timestamp or "尚無紀錄", "tone": tone}]
         result["note"] = "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。"
-        result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/README.md"
+        evidence_file = "activity.md" if repo_name == "apktwsign" else "README.md"
+        result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/{evidence_file}"
     elif kind == "dashboard":
         status = (run or {}).get("status")
         result["business_status"] = "running" if status in ("in_progress", "queued", "waiting", "requested") else "success" if status == "success" else "failure" if status == "failure" else "unknown"
