@@ -51,8 +51,10 @@ def read_json(path, default):
         return default
 
 
-def post_discord(webhook_url, content):
-    payload = json.dumps({"content": content[:1900], "allowed_mentions": {"parse": []}}).encode("utf-8")
+def post_discord(webhook_url, payload):
+    payload = dict(payload)
+    payload["allowed_mentions"] = {"parse": []}
+    payload = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     headers = {"Content-Type": "application/json", "User-Agent": "ChiStatus/1.0"}
 
     # Ask Discord to return the created message, including its channel ID.
@@ -96,25 +98,41 @@ def post_discord(webhook_url, content):
                 raise
             time.sleep(2 ** attempt)
 def build_message(new_failures, recovered):
-    lines = ["**Chi Status 告警**"]
-    if new_failures:
-        lines.append("🔴 **新發現異常**")
-        for item in new_failures[:10]:
-            line = f"• **{item['title']}**：{item['reason']}"
-            if item.get("url"):
-                line += f"\n  {item['url']}"
-            lines.append(line)
-        if len(new_failures) > 10:
-            lines.append(f"另有 {len(new_failures) - 10} 個新異常，請查看儀表板。")
-    if recovered:
-        lines.append("🟢 **已恢復正常**")
-        for item in recovered[:10]:
-            lines.append(f"• **{item['title']}**")
-        if len(recovered) > 10:
-            lines.append(f"另有 {len(recovered) - 10} 個專案已恢復。")
-    lines.append("儀表板：https://status.chi.qzz.io/")
-    lines.append("時間：" + datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
-    return "\n".join(lines)
+    """Build compact, color-coded Discord embeds for incident transitions."""
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    embeds = []
+
+    for item in new_failures:
+        embed = {
+            "title": f"🔴 {item['title']}：偵測到異常"[:256],
+            "description": f"**狀態：** 異常\n**原因：** {item['reason']}"[:4096],
+            "color": 15158332,
+            "timestamp": now,
+            "footer": {"text": "Chi Status · 自動監控"},
+        }
+        if item.get("url", "").startswith(("https://", "http://")):
+            embed["url"] = item["url"]
+        embeds.append(embed)
+
+    for item in recovered:
+        embed = {
+            "title": f"🟢 {item.get('title') or item.get('name') or '專案'}：已恢復正常"[:256],
+            "description": "**狀態：** 已恢復正常\n監控結果已重新回到成功狀態。",
+            "color": 3066993,
+            "timestamp": now,
+            "footer": {"text": "Chi Status · 自動監控"},
+        }
+        if item.get("url", "").startswith(("https://", "http://")):
+            embed["url"] = item["url"]
+        embeds.append(embed)
+
+    payload = {
+        "content": "Chi Status｜監控事件通知",
+        "embeds": embeds[:10],
+    }
+    if len(embeds) > 10:
+        payload["content"] += f"（本次共 {len(embeds)} 件事件，Embed 顯示前 10 件）"
+    return payload
 
 
 def normalize_active_failures(state):
