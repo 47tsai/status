@@ -202,22 +202,32 @@ def main():
         STATE_PATH.write_text(json.dumps({"active_failures": next_active}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return 0
 
-    message = build_message(new_failures, recovered)
+    # Discord permits at most 10 embeds per message. Deliver every event in batches
+    # and only advance deduplication state after every batch succeeds.
+    events = [("failure", item) for item in new_failures] + [("recovered", item) for item in recovered]
+    deliveries = []
     try:
-        delivery = post_discord(webhook_url, message)
+        for offset in range(0, len(events), 10):
+            batch = events[offset:offset + 10]
+            batch_failures = [item for kind, item in batch if kind == "failure"]
+            batch_recovered = [item for kind, item in batch if kind == "recovered"]
+            delivery = post_discord(webhook_url, build_message(batch_failures, batch_recovered))
+            deliveries.append(delivery if isinstance(delivery, dict) else {})
     except Exception as exc:
-        # Do not advance the state on delivery failure. The next scheduled run retries.
+        # Do not advance the state on delivery failure. Earlier batches may be resent
+        # on the next run, preferring a possible duplicate over silently lost alerts.
         print(f"Discord 通知傳送失敗，保留告警狀態供下次重試：{type(exc).__name__}: {exc}", file=sys.stderr)
         return 1
 
     STATE_PATH.write_text(json.dumps({"active_failures": next_active}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    delivery = delivery if isinstance(delivery, dict) else {}
-    print(
-        f"Discord Webhook 已接受訊息：HTTP {delivery.get('http_status', '2xx')}；"
-        f"message_id={delivery.get('id', '未回傳')}；"
-        f"channel_id={delivery.get('channel_id', '未回傳')}。"
-    )
-    print(f"Discord 通知已送出：新異常 {len(new_failures)}，恢復 {len(recovered)}。")
+    for index, delivery in enumerate(deliveries, start=1):
+        print(
+            f"Discord Webhook 批次 {index}/{len(deliveries)} 已接受："
+            f"HTTP {delivery.get('http_status', '2xx')}；"
+            f"message_id={delivery.get('id', '未回傳')}；"
+            f"channel_id={delivery.get('channel_id', '未回傳')}。"
+        )
+    print(f"Discord 通知已送出：新異常 {len(new_failures)}，恢復 {len(recovered)}，共 {len(deliveries)} 則訊息。")
     return 0
 
 
