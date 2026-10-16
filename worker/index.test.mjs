@@ -196,7 +196,7 @@ test("accepts a valid Chi Auth token without requiring the legacy trigger secret
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async url => {
     assert.equal(String(url), "https://chi.qzz.io/auth/api/userinfo?client_id=test-status-client-id");
-    return Response.json({ sub: "chi-owner", name: "Chi Owner" });
+    return Response.json({ sub: "chi-owner", name: "Chi Owner", aud: "test-status-client-id" });
   };
   try {
     const response = await worker.fetch(request(undefined, {
