@@ -312,6 +312,7 @@ async function handle(request, env) {
   }
 
   if (request.method === "POST" && path === "/api/clients") {
+    if (!(await enforceRateLimit(request, env, path, 10, 60))) return json({ ok: false, error: "操作太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
     if (!(await sessionIsValid(request, env.DB))) return json({ ok: false, error: "需要先登入。" }, 401);
     const body = await request.json().catch(() => null);
     const name = typeof body?.name === "string" ? body.name.trim() : "";
@@ -328,6 +329,7 @@ async function handle(request, env) {
   }
 
   if (request.method === "POST" && path.startsWith("/api/clients/")) {
+    if (!(await enforceRateLimit(request, env, path, 10, 60))) return json({ ok: false, error: "操作太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
     if (!(await sessionIsValid(request, env.DB))) return json({ ok: false, error: "需要先登入。" }, 401);
     const clientId = path.slice("/api/clients/".length);
     if (!/^[A-Za-z0-9_-]{20,80}$/.test(clientId)) return json({ ok: false, error: "應用 ID 格式不正確。" }, 400);
@@ -338,6 +340,7 @@ async function handle(request, env) {
   }
 
   if (request.method === "POST" && path === "/api/token") {
+    if (!(await enforceRateLimit(request, env, path, 30, 60))) return json({ ok: false, error: "授權碼交換太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
     const body = await request.json().catch(() => null);
     const client = await getClient(env.DB, body?.client_id || "");
     const origin = request.headers.get("Origin");
@@ -363,6 +366,7 @@ async function handle(request, env) {
   }
 
   if (request.method === "GET" && path === "/api/userinfo") {
+    if (!(await enforceRateLimit(request, env, path, 60, 60))) return json({ ok: false, error: "請求太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
     const origin = request.headers.get("Origin");
     const authorization = request.headers.get("Authorization") || "";
     const match = authorization.match(/^Bearer ([A-Za-z0-9_-]{40,80})$/);
