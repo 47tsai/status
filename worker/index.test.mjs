@@ -194,7 +194,7 @@ test("returns a specific safe error when the GitHub API request times out", asyn
 test("accepts a valid Chi Auth token without requiring the legacy trigger secret", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async url => {
-    assert.equal(String(url), "https://chi.qzz.io/auth/api/userinfo");
+    assert.equal(String(url), "https://chi.qzz.io/auth/api/userinfo?client_id=test-status-client-id");
     return Response.json({ sub: "chi-owner", name: "Chi Owner" });
   };
   try {
@@ -203,7 +203,7 @@ test("accepts a valid Chi Auth token without requiring the legacy trigger secret
       key: null,
       bearer: "a".repeat(43),
       url: "https://worker.example/?action=catalog",
-    }), { ...env, TRIGGER_SECRET: undefined });
+    }), { ...env, TRIGGER_SECRET: undefined, CHI_AUTH_STATUS_CLIENT_ID: "test-status-client-id" });
     const result = await jsonResponse(response);
     assert.equal(response.status, 200);
     assert.equal(result.body.ok, true);
