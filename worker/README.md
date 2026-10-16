@@ -2,34 +2,32 @@
 
 This Worker securely calls GitHub's `workflow_dispatch` API for `tsai97216/status`. The GitHub token stays in a Cloudflare Worker secret and is never sent to the browser.
 
-## 1. Create the Worker
+## 1. Configure GitHub repository secrets
 
-In Cloudflare Dashboard, open **Workers & Pages → Create → Worker**, create a Worker named `chi-status-trigger`, then open its editor and replace the starter code with `worker/index.js` from this repository. Deploy it. Cloudflare will assign a `workers.dev` URL.
+The repository needs these four secrets in **Settings → Secrets and variables → Actions**:
 
-Alternatively, deploy this folder with Wrangler:
+- `CLOUDFLARE_ACCOUNT_ID`: your Cloudflare account ID.
+- `CLOUDFLARE_API_TOKEN`: a Cloudflare API token allowed to edit/deploy Workers for this account.
+- `STATUS_WORKFLOW_TOKEN`: a fine-grained GitHub personal access token restricted to the `tsai97216/status` repository, with **Actions: Read and write** permission.
+- `STATUS_TRIGGER_SECRET`: a separate long random key used to authorize manual trigger requests. Generate it with a password manager or locally using `openssl rand -hex 32`. Keep a copy because you will enter this key in the dashboard when asked. Never reuse your GitHub token.
 
-```sh
-npx wrangler deploy --config worker/wrangler.toml
-```
+Do not paste any of these values into chat or commit them to the repository.
 
-## 2. Add Worker secrets
+## 2. Deploy
 
-Open the Worker **Settings → Variables and Secrets** and add these as **Secret**, not plain-text variables:
+The workflow `.github/workflows/deploy-trigger-worker.yml` deploys this Worker and configures its two Worker secrets automatically. It runs when files under `worker/` change, or can be started manually from **Actions → Deploy Cloudflare trigger Worker → Run workflow**.
 
-- `GITHUB_TOKEN`: a fine-grained personal access token restricted to the `tsai97216/status` repository, with **Actions: Read and write** permission. Do not put this token in the dashboard or repository.
-- `TRIGGER_SECRET`: a separate, long random key used only to authorize manual trigger requests. Generate one locally, for example with a password manager or `openssl rand -hex 32`. Do not reuse your GitHub token.
-
-Save the secrets and redeploy if the dashboard asks you to.
+After a successful run, open the workflow run's **Summary** to see the `workers.dev` URL.
 
 ## 3. Connect the dashboard
 
-Copy the Worker URL from Cloudflare. In `index.html`, set `TRIGGER_API_URL` to that exact URL. Commit the change and wait for GitHub Pages to deploy.
+Set `TRIGGER_API_URL` in the dashboard's `index.html` to the exact Worker URL from the workflow summary, then commit the change and wait for GitHub Pages to deploy.
 
-On the dashboard, click **觸發更新** and enter the `TRIGGER_SECRET`. The dashboard stores only this trigger key in that browser's local storage; it is not in the public source. To remove it, clear the site's local storage. Anyone who knows this separate trigger key can invoke the refresh endpoint, so keep it private and rotate it if exposed.
+On the dashboard, click **觸發更新** and enter the value you saved as `STATUS_TRIGGER_SECRET`. The dashboard stores this key only in that browser's local storage. To remove it, clear the site's local storage. Anyone who knows this separate key can invoke the refresh endpoint, so keep it private and rotate it if exposed.
 
 ## Security notes
 
-- Only requests with the dashboard's exact origin are accepted by the Worker.
-- The Worker requires the separate `X-Trigger-Key` secret and only dispatches the `main` branch.
-- Browser-origin checks are not authentication by themselves. Keep `TRIGGER_SECRET` private.
-- The Worker never returns the GitHub token or raw GitHub API error body to the browser.
+- The Worker accepts browser requests only from `https://status.chi.qzz.io`.
+- The Worker requires the separate trigger key and only dispatches the `main` branch.
+- Origin checks are not authentication by themselves. Keep `STATUS_TRIGGER_SECRET` private.
+- The GitHub token is stored as a Cloudflare Worker secret, not in public frontend code.
