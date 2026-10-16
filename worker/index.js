@@ -64,13 +64,6 @@ export default {
     const suppliedKey = request.headers.get("X-Trigger-Key") || "";
     if (!constantTimeEqual(suppliedKey, env.TRIGGER_SECRET)) return json({ ok: false, error: "Invalid trigger key." }, 401);
 
-    // Only authenticated POST requests consume the workflow-dispatch quota.
-    if (request.method === "POST") {
-      const dispatchAllowed = await checkRateLimit(env.DISPATCH_RATE_LIMITER, "authenticated-workflow-dispatch");
-      if (dispatchAllowed === null) return json({ ok: false, error: "Rate limiter is unavailable." }, 503);
-      if (!dispatchAllowed) return json({ ok: false, error: "Workflow trigger limit reached. Wait one minute before trying again." }, 429);
-    }
-
     if (request.method === "GET") {
       const url = new URL(request.url);
       if (url.searchParams.get("action") !== "catalog") return json({ ok: false, error: "Unknown action." }, 400);
@@ -113,6 +106,11 @@ export default {
       }
       inputs[spec.name] = value;
     }
+
+    // Charge the dispatch quota only after the request passes validation.
+    const dispatchAllowed = await checkRateLimit(env.DISPATCH_RATE_LIMITER, "authenticated-workflow-dispatch");
+    if (dispatchAllowed === null) return json({ ok: false, error: "Rate limiter is unavailable." }, 503);
+    if (!dispatchAllowed) return json({ ok: false, error: "Workflow trigger limit reached. Wait one minute before trying again." }, 429);
 
     let response;
     try {
