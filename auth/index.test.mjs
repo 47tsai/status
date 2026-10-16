@@ -35,3 +35,14 @@ test("does not allow public GET access to state-changing registration endpoints"
   const response = await worker.fetch(new Request("https://chi.qzz.io/auth/api/register/options"), {});
   assert.equal(response.status, 404);
 });
+
+test("rejects OAuth authorization requests without PKCE and state", async () => {
+  const response = await worker.fetch(new Request("https://chi.qzz.io/auth/api/authorize"), {});
+  assert.equal(response.status, 400);
+  assert.match((await response.json()).error, /Authorization Code \+ PKCE/);
+});
+
+test("userinfo requires a bearer token", async () => {
+  const response = await worker.fetch(new Request("https://chi.qzz.io/auth/api/userinfo"), {});
+  assert.equal(response.status, 401);
+});
