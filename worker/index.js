@@ -51,6 +51,14 @@ export default {
     }
 
     if (!["GET", "POST"].includes(request.method)) return json({ ok: false, error: "Method not allowed." }, 405);
+
+    // Rate-limit requests by client IP before checking credentials to slow down key guessing.
+    // Cloudflare's limiter is approximate and scoped to a Cloudflare location.
+    const clientIp = request.headers.get("CF-Connecting-IP") || "missing-ip";
+    const ipAllowed = await checkRateLimit(env.IP_RATE_LIMITER, clientIp);
+    if (ipAllowed === null) return json({ ok: false, error: "Rate limiter is unavailable." }, 503);
+    if (!ipAllowed) return json({ ok: false, error: "Too many requests. Please wait and try again." }, 429);
+
     if (!env.GITHUB_TOKEN || !env.TRIGGER_SECRET) return json({ ok: false, error: "Worker secrets are not configured." }, 503);
 
     const suppliedKey = request.headers.get("X-Trigger-Key") || "";
@@ -99,20 +107,35 @@ export default {
       inputs[spec.name] = value;
     }
 
-    const response = await fetch(`https://api.github.com/repos/${repository}/actions/workflows/${workflow}/dispatches`, {
-      method: "POST",
-      headers: {
-        "Accept": "application/vnd.github+json",
-        "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "Chi-Status-Trigger",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ref, inputs }),
-    });
+    // Charge the dispatch quota only after the request passes validation.
+    const dispatchAllowed = await checkRateLimit(env.DISPATCH_RATE_LIMITER, "authenticated-workflow-dispatch");
+    if (dispatchAllowed === null) return json({ ok: false, error: "Rate limiter is unavailable." }, 503);
+    if (!dispatchAllowed) return json({ ok: false, error: "Workflow trigger limit reached. Wait one minute before trying again." }, 429);
+
+    let response;
+    try {
+      response = await fetch(`https://api.github.com/repos/${repository}/actions/workflows/${workflow}/dispatches`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+          "User-Agent": "Chi-Status-Trigger",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ref, inputs }),
+        signal: AbortSignal.timeout(10_000),
+      });
+    } catch (error) {
+      console.error("GitHub dispatch request failed", repository, workflow, error?.name || "unknown");
+      return json({ ok: false, error: error?.name === "TimeoutError"
+        ? "GitHub API request timed out. Please try again."
+        : "Could not reach the GitHub API. Please try again." }, 502);
+    }
 
     if (response.status !== 204) {
-      const detail = (await response.text()).slice(0, 500);
+      let detail = "";
+      try { detail = (await response.text()).slice(0, 500); } catch {}
       console.error("GitHub dispatch failed", repository, workflow, response.status, detail);
       return json({ ok: false, error: response.status === 401 || response.status === 403
         ? "GitHub rejected the token or repository permission. Check token repository access and Actions: Read and write."
@@ -122,6 +145,16 @@ export default {
     return json({ ok: true, message: "Workflow dispatch accepted.", repository, workflow, ref }, 202);
   },
 };
+
+async function checkRateLimit(limiter, key) {
+  try {
+    const result = await limiter.limit({ key });
+    return result?.success === true;
+  } catch (error) {
+    console.error("Rate limiter failed", error?.name || "unknown");
+    return null;
+  }
+}
 
 function constantTimeEqual(a, b) {
   if (a.length !== b.length) return false;

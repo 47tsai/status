@@ -2,3 +2,15 @@ name = "chi-status-trigger"
 main = "index.js"
 compatibility_date = "2026-10-16"
 workers_dev = true
+
+# Per-IP protection against repeated requests and credential guessing.
+[[ratelimits]]
+name = "IP_RATE_LIMITER"
+namespace_id = "826104161"
+simple = { limit = 20, period = 60 }
+
+# Limit authenticated workflow dispatches to reduce accidental or abusive runs.
+[[ratelimits]]
+name = "DISPATCH_RATE_LIMITER"
+namespace_id = "826104162"
+simple = { limit = 5, period = 60 }
