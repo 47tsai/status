@@ -164,31 +164,29 @@ class DiscordAlertTests(unittest.TestCase):
 
 class VpsAggregationTests(unittest.TestCase):
     @patch("update_status.health_check")
-    def test_one_failed_endpoint_marks_vps_failed_even_if_access_is_reachable(self, mock_health_check):
+    def test_two_http_200_endpoints_are_enough_for_vps_success(self, mock_health_check):
         mock_health_check.side_effect = [
             {"ok": True, "protected": False, "status": 200, "url": "https://alist.chi.qzz.io/", "latency_ms": 100},
             {"ok": False, "protected": False, "status": 502, "url": "https://bili.chi.qzz.io/", "latency_ms": 200},
             {"ok": None, "protected": True, "status": 200, "url": "https://twitch.chi.qzz.io/", "latency_ms": 150},
         ]
         result = update_status.business_data("vps-01", {"name": "vps-01"})
-        self.assertEqual(result["business_status"], "failure")
-        self.assertIn("1 異常", result["business_label"])
+        self.assertEqual(result["business_status"], "success")
+        self.assertIn("至少 2/3 個端點 HTTP 200", result["business_label"])
         details = {item["label"]: item for item in result["details"]}
         self.assertEqual(details["BiliTool"]["tone"], "bad")
-        self.assertEqual(details["Twitch Drops Miner"]["tone"], "normal")
-        self.assertIn("僅確認 Access 回應", details["Twitch Drops Miner"]["result"])
+        self.assertEqual(details["Twitch Drops Miner"]["tone"], "good")
 
     @patch("update_status.health_check")
-    def test_all_endpoints_reachable_with_access_gate_is_not_reported_as_vps_down(self, mock_health_check):
+    def test_fewer_than_two_http_200_endpoints_marks_vps_failed(self, mock_health_check):
         mock_health_check.side_effect = [
             {"ok": True, "protected": False, "status": 200, "url": "https://alist.chi.qzz.io/", "latency_ms": 100},
-            {"ok": True, "protected": False, "status": 200, "url": "https://bili.chi.qzz.io/", "latency_ms": 200},
-            {"ok": None, "protected": True, "status": 200, "url": "https://twitch.chi.qzz.io/", "latency_ms": 150},
+            {"ok": False, "protected": False, "status": 502, "url": "https://bili.chi.qzz.io/", "latency_ms": 200},
+            {"ok": False, "protected": False, "status": 503, "url": "https://twitch.chi.qzz.io/", "latency_ms": 150},
         ]
         result = update_status.business_data("vps-01", {"name": "vps-01"})
-        self.assertEqual(result["business_status"], "success")
-        self.assertIn("3/3 HTTP 回應", result["business_label"])
-        self.assertIn("不代表 VM/SSH 健康", result["business_label"])
+        self.assertEqual(result["business_status"], "failure")
+        self.assertIn("1/3 個端點 HTTP 200", result["business_label"])
 
 
 class HealthCheckClassificationTests(unittest.TestCase):
