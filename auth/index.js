@@ -388,8 +388,7 @@ async function handle(request, env) {
 
   const protectedPostRoutes = new Set([
     "/api/register/options", "/api/register/verify",
-    "/api/login/options", "/api/login/verify", "/api/logout", "/api/token",
-    "/api/clients",
+    "/api/login/options", "/api/login/verify", "/api/logout",
   ]);
   if (request.method === "POST" && protectedPostRoutes.has(path)) {
     const limit = path.startsWith("/api/register") ? 8 : path === "/api/token" ? 30 : 15;
