@@ -270,9 +270,6 @@ async function handle(request, env) {
   }
 
   if (request.method === "GET" && path === "/api/authorize") {
-    if (!(await enforceRateLimit(request, env, path, 30, 60))) {
-      return json({ ok: false, error: "授權請求太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
-    }
     const params = url.searchParams;
     const clientId = params.get("client_id") || "";
     const redirectUri = params.get("redirect_uri") || "";
@@ -282,6 +279,9 @@ async function handle(request, env) {
         !/^[A-Za-z0-9_-]{20,80}$/.test(clientId) || !/^[A-Za-z0-9_-]{43}$/.test(challenge) ||
         state.length < 16 || state.length > 512 || !validRedirectUri(redirectUri)) {
       return json({ ok: false, error: "授權請求格式不正確，必須使用 Authorization Code + PKCE (S256)。" }, 400);
+    }
+    if (!(await enforceRateLimit(request, env, path, 30, 60))) {
+      return json({ ok: false, error: "授權請求太頻繁，請稍後再試。" }, 429, { "Retry-After": "60" });
     }
     const client = await getClient(env.DB, clientId);
     if (!client || !client.redirectUris.includes(redirectUri)) return json({ ok: false, error: "未知的應用或未登記的回呼網址。" }, 400);
