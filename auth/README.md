@@ -10,7 +10,7 @@ Chi Auth is the planned shared identity service for the Chi web ecosystem. Its W
 - Short-lived registration/authentication ceremonies bound to their initiating context.
 - Random session tokens stored as hashes, issued in a host-only `Secure; HttpOnly; SameSite=Lax` cookie.
 - Database-backed per-IP rate limits; IP addresses are hashed before being stored.
-- OAuth-style authorization-code + PKCE (S256) flow, exact redirect URI matching, one-time expiring authorization codes, short-lived opaque access tokens, and a minimal userinfo endpoint.
+- OAuth-style authorization-code + PKCE (S256) flow, exact redirect URI matching, one-time expiring authorization codes, short-lived opaque access tokens, and a minimal userinfo endpoint that can enforce a client-specific audience.
 - Authenticated client registry UI, with exact callback URL allowlists and app revocation.
 
 This is not yet a complete production SSO rollout. Existing apps still need a callback handler and must exchange codes using PKCE, validate their own `state`, and establish their own local session. The Chi Status `TRIGGER_SECRET` is intentionally unchanged.
