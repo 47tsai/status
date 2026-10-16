@@ -7,6 +7,7 @@ const allowRateLimit = { async limit() { return { success: true }; } };
 const env = {
   GITHUB_TOKEN: "test-token",
   TRIGGER_SECRET: "test-secret",
+  CHI_AUTH_STATUS_CLIENT_ID: "test-status-client-id",
   IP_RATE_LIMITER: allowRateLimit,
   DISPATCH_RATE_LIMITER: allowRateLimit,
 };
