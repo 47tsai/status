@@ -273,5 +273,34 @@ class HealthCheckClassificationTests(unittest.TestCase):
             self.assertEqual(json.loads(state_path.read_text(encoding="utf-8")), {"active_failures": {}})
 
 
+
+class DiscordBatchDeliveryTests(unittest.TestCase):
+    def test_more_than_ten_events_are_delivered_in_multiple_messages(self):
+        with tempfile.TemporaryDirectory() as directory:
+            status_path = Path(directory) / "status.json"
+            state_path = Path(directory) / "alert-state.json"
+            repositories = [
+                {
+                    "name": f"demo-{index}",
+                    "status": "failure",
+                    "business": {"business_status": "failure", "business_label": "服務異常"},
+                }
+                for index in range(12)
+            ]
+            status_path.write_text(json.dumps({"repositories": repositories}), encoding="utf-8")
+            state_path.write_text('{"active_failures": {}}\n', encoding="utf-8")
+
+            with patch.object(notify_discord, "STATUS_PATH", status_path), \\
+                 patch.object(notify_discord, "STATE_PATH", state_path), \\
+                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \\
+                 patch.object(notify_discord, "post_discord", return_value={"http_status": 200}) as post:
+                self.assertEqual(notify_discord.main(), 0)
+
+            self.assertEqual(post.call_count, 2)
+            self.assertEqual([len(call.args[1]["embeds"]) for call in post.call_args_list], [10, 2])
+            saved = json.loads(state_path.read_text(encoding="utf-8"))
+            self.assertEqual(len(saved["active_failures"]), 12)
+
+
 if __name__ == "__main__":
     unittest.main()
