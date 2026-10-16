@@ -308,7 +308,7 @@ menuToggle.addEventListener("click", () => {
   menuToggle.setAttribute("aria-label", open ? "關閉導覽選單" : "開啟導覽選單");
 });
 nav.addEventListener("click", event => {
-  if (event.target.closest("a")) {
+  if (event.target.closest("a, .nav-action")) {
     nav.classList.remove("open");
     menuToggle.setAttribute("aria-expanded", "false");
   }
