@@ -2,11 +2,17 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import worker from "./index.js";
 
-const env = { GITHUB_TOKEN: "test-token", TRIGGER_SECRET: "test-secret" };
+const allowRateLimit = { async limit() { return { success: true }; } };
+const env = {
+  GITHUB_TOKEN: "test-token",
+  TRIGGER_SECRET: "test-secret",
+  IP_RATE_LIMITER: allowRateLimit,
+  DISPATCH_RATE_LIMITER: allowRateLimit,
+};
 const origin = "https://status.chi.qzz.io";
 
 function request(body, { method = "POST", key = "test-secret", requestOrigin = origin, url = "https://worker.example/" } = {}) {
-  const headers = new Headers({ Origin: requestOrigin });
+  const headers = new Headers({ Origin: requestOrigin, "CF-Connecting-IP": "203.0.113.10" });
   if (key !== null) headers.set("X-Trigger-Key", key);
   if (body !== undefined) headers.set("Content-Type", "application/json");
   return new Request(url, {
@@ -19,6 +25,40 @@ function request(body, { method = "POST", key = "test-secret", requestOrigin = o
 async function jsonResponse(response) {
   return { status: response.status, body: await response.json() };
 }
+
+
+test("blocks requests when the client IP rate limit is exceeded", async () => {
+  const blockedEnv = {
+    ...env,
+    IP_RATE_LIMITER: { async limit() { return { success: false }; } },
+  };
+  const response = await worker.fetch(request({}), blockedEnv);
+  const result = await jsonResponse(response);
+  assert.equal(response.status, 429);
+  assert.match(result.body.error, /Too many requests/);
+});
+
+test("blocks authenticated workflow dispatches over the dispatch quota", async () => {
+  const blockedEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { return { success: false }; } },
+  };
+  const response = await worker.fetch(request({}), blockedEnv);
+  const result = await jsonResponse(response);
+  assert.equal(response.status, 429);
+  assert.match(result.body.error, /Workflow trigger limit/);
+});
+
+test("fails closed if the rate limiter is unavailable", async () => {
+  const brokenEnv = {
+    ...env,
+    IP_RATE_LIMITER: { async limit() { throw new Error("private infrastructure detail"); } },
+  };
+  const response = await worker.fetch(request({}), brokenEnv);
+  const result = await jsonResponse(response);
+  assert.equal(response.status, 503);
+  assert.doesNotMatch(JSON.stringify(result.body), /private infrastructure detail/);
+});
 
 test("rejects requests with an unapproved Origin", async () => {
   const response = await worker.fetch(request({}, { requestOrigin: "https://evil.example" }), env);
