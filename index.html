@@ -16,7 +16,7 @@ main{max-width:1120px;margin:auto;padding:32px 22px 56px}.top{display:flex;align
 .toolbar{display:grid;grid-template-columns:minmax(180px,1fr) minmax(150px,210px);gap:9px;align-items:center;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:9px;margin-bottom:13px}.toolbar input,.toolbar select{width:100%;min-width:0;min-height:40px;padding:9px 11px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:inherit;font-size:13px}.toolbar .meta{grid-column:1/-1;color:var(--muted);font-size:12px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.project{--accent:var(--blue);min-width:0;padding:15px;background:var(--surface);border:1px solid var(--line);border-radius:9px;position:relative}.project:before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:2px;background:var(--accent);border-radius:2px}
 .project[data-kind="claim"]{--accent:#e5ad63}.project[data-kind="freegame"]{--accent:#a5cc83}.project[data-kind="checkin"]{--accent:#81c9b6}.project[data-kind="deploy"]{--accent:#8ab4f8}.project[data-kind="dashboard"]{--accent:#b8a1e3}.project[data-kind="vps"]{--accent:#e5ad63}.project[data-health="attention"]{border-color:#704148}.project[data-health="attention"]:before{background:var(--red)}.project[data-health="running"]:before,.project[data-health="warning"]:before{background:var(--amber)}
-.project-head{display:grid;grid-template-columns:38px minmax(0,1fr);gap:10px;align-items:start}.app-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:8px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}.app-svg{width:20px;height:20px;stroke-width:1.7}.title-wrap{min-width:0}.project-title{font-size:15px;font-weight:700;line-height:1.35;margin:1px 0 3px;overflow-wrap:anywhere}.repo{display:block;font-size:11px;color:var(--muted);text-decoration:none;overflow-wrap:anywhere}.repo:hover{color:var(--blue)}
+.project-head{display:grid;grid-template-columns:38px minmax(0,1fr);gap:10px;align-items:start}.project-head>.badges{grid-column:1/-1;margin:0}.app-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:8px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}.app-svg{width:20px;height:20px;stroke-width:1.7}.title-wrap{min-width:0}.project-title{font-size:15px;font-weight:700;line-height:1.35;margin:1px 0 3px;overflow-wrap:anywhere}.repo{display:block;font-size:11px;color:var(--muted);text-decoration:none;overflow-wrap:anywhere}.repo:hover{color:var(--blue)}
 .badges{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:11px 0 0}.badge{display:inline-flex;padding:3px 7px;border-radius:5px;background:var(--surface-2);color:#c6ccd6;font-size:11px;line-height:1.45;font-weight:650}.good{background:#193326;color:#a4e2b5}.bad{background:#3b2224;color:#ffb4ab}.running{background:#392f18;color:#fdd663}.unknown{background:#292e37;color:#c2c8d2}
 .metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:12px}.metric{min-width:0;padding:9px 10px;background:var(--surface-2);border:1px solid #2b3039;border-radius:6px}.metric span{display:block;color:var(--muted);font-size:10px}.metric strong{display:block;font-size:13px;line-height:1.4;margin-top:3px;overflow-wrap:anywhere}.good-text{color:var(--green)}.bad-text{color:var(--red)}
 .runline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}.runmeta{font-size:11px;color:var(--muted);overflow-wrap:anywhere}.runmeta strong{color:var(--text);font-weight:600}.links{display:flex;gap:6px;flex-wrap:wrap}.links .btn{min-height:33px;padding:6px 9px;font-size:11px}
@@ -24,7 +24,7 @@ details{margin-top:10px;border-top:1px solid var(--line);padding-top:9px}summary
 .detail-list{display:grid;gap:6px;margin-top:9px}.detail-row{display:flex;justify-content:space-between;gap:10px;padding:8px 9px;background:var(--surface-2);border-radius:5px;font-size:11px}.detail-row span{color:var(--muted)}.detail-row strong{text-align:right;overflow-wrap:anywhere}.note{font-size:12px;color:var(--muted);margin:9px 0 0}.monitor-warning{margin-top:10px;padding:9px 10px;border:1px solid #70562c;border-radius:6px;background:#292315;color:#ffdb9b;font-size:12px;overflow-wrap:anywhere}.button-icon{width:15px;height:15px;display:inline-block;vertical-align:-3px;margin-right:5px;stroke-width:1.8}
 .empty{padding:34px 18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:9px;grid-column:1/-1}.footer{margin-top:18px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.error{color:var(--red)}:focus-visible{outline:2px solid var(--blue);outline-offset:3px}#updated.stale{color:var(--red);font-weight:650}
 html[data-theme="light"]{color-scheme:light;--bg:#f5f6f8;--surface:#fff;--surface-2:#f0f2f5;--line:#d9dde4;--muted:#626b78;--text:#20242b;--blue:#245fba;--green:#187344;--red:#b42318;--amber:#8a5a00}html[data-theme="light"] .badge{background:#eceff3;color:#424a55}html[data-theme="light"] .good{background:#e6f4ea;color:#17663a}html[data-theme="light"] .bad{background:#fce8e6;color:#a32118}html[data-theme="light"] .running{background:#fef3c7;color:#854d0e}html[data-theme="light"] .unknown{background:#eceff3;color:#525b67}html[data-theme="light"] .monitor-warning{background:#fff7e8;border-color:#d8ad68;color:#704b12}html[data-theme="light"] .project[data-health="attention"]{border-color:#e5b7b7}
-@media(max-width:760px){main{padding:22px 14px 38px}.top{align-items:flex-start}.top-actions{width:100%}.top-actions>*{flex:1}.stats{margin:18px 0 14px;gap:8px}.stat{padding:12px}.stat strong{font-size:24px}.toolbar{grid-template-columns:1fr}.toolbar .meta{grid-column:auto}.grid{grid-template-columns:1fr}.project{padding:14px}}
+@media(max-width:760px){main{padding:22px 14px 38px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.top{align-items:flex-start}.top-actions{width:100%}.top-actions>*{flex:1}.stats{margin:18px 0 14px;gap:8px}.stat{padding:12px}.stat strong{font-size:24px}.toolbar{grid-template-columns:1fr}.toolbar .meta{grid-column:auto}.grid{grid-template-columns:1fr}.project{padding:14px}}
 @media(max-width:430px){.top-actions{display:grid;grid-template-columns:1fr 1fr}.top-actions>*{width:100%}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.runline{align-items:flex-start;flex-direction:column}.links{width:100%}.links .btn{flex:1}.detail-row{align-items:flex-start;flex-direction:column;gap:3px}.detail-row strong{text-align:left}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 </style>
@@ -33,8 +33,8 @@ html[data-theme="light"]{color-scheme:light;--bg:#f5f6f8;--surface:#fff;--surfac
 
 </head>
 <body><main>
-<header class="top"><div><div class="eyebrow">CHI · STATUS</div><h1>專案健康中心</h1><p class="subtitle">快速掌握追蹤專案、服務與自動化工作流程的狀態。</p></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="./actions.html"><i class="button-icon" data-lucide="workflow" aria-hidden="true"></i>Actions 控制台</a><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><i class="button-icon" data-lucide="external-link" aria-hidden="true"></i>更新紀錄</a><button id="refresh" type="button" title="觸發 Status 狀態更新"><i class="button-icon" data-lucide="refresh-cw" aria-hidden="true"></i><span id="refreshLabel" aria-live="polite">觸發更新</span></button></div></header>
-<section class="stats" aria-label="狀態摘要"><div class="stat"><span>追蹤專案</span><strong id="total">－</strong></div><div class="stat"><span>業務正常</span><strong id="bizok">－</strong></div><div class="stat"><span>需要注意</span><strong id="attention">－</strong></div><div class="stat"><span>正在執行</span><strong id="runningCount">－</strong></div></section>
+<header class="top"><div><div class="eyebrow">CHI · STATUS</div><h1>專案健康中心</h1><p class="subtitle">快速掌握追蹤專案、服務與自動化工作流程的狀態。</p></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="./actions.html"><i class="button-icon" data-lucide="workflow" aria-hidden="true"></i>Actions 控制台</a><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><i class="button-icon" data-lucide="external-link" aria-hidden="true"></i>更新紀錄</a><button id="refresh" type="button" title="重新讀取目前的狀態內容"><i class="button-icon" data-lucide="refresh-cw" aria-hidden="true"></i><span id="refreshLabel" aria-live="polite">重新整理</span></button></div></header>
+<section class="stats" aria-label="狀態摘要"><div class="stat"><span>追蹤專案</span><strong id="total">－</strong></div><div class="stat"><span>業務成功</span><strong id="bizok">－</strong></div><div class="stat"><span>需要注意</span><strong id="attention">－</strong></div><div class="stat"><span>正在執行</span><strong id="runningCount">－</strong></div></section>
 <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
 
@@ -120,44 +120,6 @@ let currentTheme=savedTheme;
 setTheme(currentTheme);
 themeToggle.addEventListener('click',()=>{currentTheme=themeModes[(themeModes.indexOf(currentTheme)+1)%themeModes.length];setTheme(currentTheme,true)});
 systemTheme.addEventListener('change',()=>{if(currentTheme==='system')setTheme('system')});
-const TRIGGER_API_URL = 'https://chi-status-trigger.tsai97216.workers.dev';
-const TRIGGER_KEY_STORAGE = 'chi-status-trigger-key';
-$('refresh').addEventListener('click',async()=>{
- if(loading)return;
- if(!TRIGGER_API_URL){
-  $('updated').textContent='觸發 API 尚未設定：請先部署 Cloudflare Worker，並將其網址填入 TRIGGER_API_URL。';
-  $('updated').classList.remove('stale');
-  return;
- }
- let key=localStorage.getItem(TRIGGER_KEY_STORAGE)||'';
- if(!key){
-  key=prompt('請輸入 Cloudflare Worker 的 TRIGGER_SECRET：');
-  if(!key)return;
-  key=key.trim();
-  if(!key)return;
-  localStorage.setItem(TRIGGER_KEY_STORAGE,key);
- }
- const button=$('refresh'),label=$('refreshLabel');
- loading=true;button.disabled=true;label.textContent='正在觸發…';
- $('updated').textContent='正在向 Cloudflare Worker 發送請求…';
- $('updated').classList.remove('stale');
- try{
-  const response=await fetch(TRIGGER_API_URL,{
-   method:'POST',
-   headers:{'Content-Type':'application/json','X-Trigger-Key':key},
-   body:JSON.stringify({ref:'main'})
-  });
-  const result=await response.json().catch(()=>({}));
-  if(!response.ok||!result.ok){
-   if(response.status===401){localStorage.removeItem(TRIGGER_KEY_STORAGE);}
-   throw new Error(result.error||('HTTP '+response.status));
-  }
-  $('updated').textContent='已成功送出更新工作流程，請稍候幾分鐘再重新整理狀態。';
- }catch(error){
-  $('updated').textContent='觸發失敗：'+(error.message||'連線錯誤')+'。請確認 Worker 網址、Secret 與網路連線。';
-  $('updated').classList.add('stale');
- }finally{
-  loading=false;button.disabled=false;label.textContent='觸發更新';
- }
-});$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
+$('refresh').addEventListener('click',load);
+$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
 </script></body></html>
