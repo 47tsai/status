@@ -21,7 +21,7 @@ After a successful run, open the workflow run's **Summary** to see the workers.d
 
 ## 3. Connect the control panel
 
-The Worker URL is configured in actions.html (`API_URL`). Open https://status.chi.qzz.io/actions.html, enter the STATUS_TRIGGER_SECRET, and use the controls to trigger a workflow from the status dashboard's project list. The key is stored in that browser's local storage; use **清除授權金鑰** to remove it.
+The Worker URL is configured in actions/index.html (`API_URL`). Open https://status.chi.qzz.io/actions/, enter the STATUS_TRIGGER_SECRET, and use the controls to trigger a workflow from the status dashboard's project list. The key is stored in that browser's local storage; use **清除儲存的金鑰** to remove it.
 
 ## Project scope and safety
 
