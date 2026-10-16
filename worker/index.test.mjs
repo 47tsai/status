@@ -12,7 +12,7 @@ const origin = "https://status.chi.qzz.io";
 
 const clientId = "DZT0NzjdlmwxReZ47kOVdNVV42YOtCV1";
 
-function request(body, { method = "POST", token = "test-access-token", requestOrigin = origin, url = "https://worker.example/" } = {}) {
+function request(body, { method = "POST", token = "test-access-token-1234567890123456789012345678", requestOrigin = origin, url = "https://worker.example/" } = {}) {
   const headers = new Headers({ Origin: requestOrigin, "CF-Connecting-IP": "203.0.113.10" });
   if (token !== null) headers.set("Authorization", "Bearer " + token);
   if (body !== undefined) headers.set("Content-Type", "application/json");
@@ -29,7 +29,7 @@ async function runWorker(req, testEnv) {
   globalThis.fetch = async (url, options) => {
     if (String(url).startsWith("https://auth.chi.qzz.io/api/userinfo?")) {
       const token = options?.headers?.Authorization || "";
-      if (token === "Bearer test-access-token") {
+      if (token === "Bearer test-access-token-1234567890123456789012345678") {
         return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
           status: 200, headers: { "Content-Type": "application/json" },
         });
@@ -85,9 +85,9 @@ test("rejects requests with an unapproved Origin", async () => {
   assert.equal(response.status, 403);
 });
 
-test("rejects a missing or incorrect trigger key", async () => {
+test("rejects a missing or invalid Chi Auth access token", async () => {
   const missing = await runWorker(request({}, { token: null }), env);
-  const incorrect = await runWorker(request({}, { token: "invalid-access-token" }), env);
+  const incorrect = await runWorker(request({}, { token: "invalid-access-token-1234567890123456789012345" }), env);
   assert.equal(missing.status, 401);
   assert.equal(incorrect.status, 401);
 });
@@ -139,7 +139,7 @@ test("returns a generic gateway error when GitHub API cannot be reached", async 
     assert.equal(response.status, 502);
     assert.equal(result.body.ok, false);
     assert.match(result.body.error, /Could not reach/);
-    assert.doesNotMatch(JSON.stringify(result.body), /test-token|test-access-token/);
+    assert.doesNotMatch(JSON.stringify(result.body), /test-token|test-access-token-1234567890123456789012345678/);
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -202,7 +202,7 @@ test("returns a specific safe error when the GitHub API request times out", asyn
     assert.equal(response.status, 502);
     assert.equal(result.body.ok, false);
     assert.match(result.body.error, /timed out/i);
-    assert.doesNotMatch(JSON.stringify(result.body), /simulated timeout|test-token|test-access-token/);
+    assert.doesNotMatch(JSON.stringify(result.body), /simulated timeout|test-token|test-access-token-1234567890123456789012345678/);
   } finally {
     globalThis.fetch = originalFetch;
   }
