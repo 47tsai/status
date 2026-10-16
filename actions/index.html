@@ -130,7 +130,7 @@ async function finishAuthCallback() {
       !Number.isFinite(pending.createdAt) || Date.now() - pending.createdAt > 5 * 60 * 1000) {
     throw new Error("登入回呼驗證失敗或已逾時，請重新登入。");
   }
-  const response = await fetch(AUTH_URL + "/api/token", {
+  const response = await fetch(AUTH_URL + "/api/token?client_id=" + encodeURIComponent(CLIENT_ID), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     cache: "no-store",
