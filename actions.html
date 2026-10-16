@@ -87,6 +87,7 @@ function render() {
     return (!query || haystack.includes(query)) && (!group || item.group === group);
   });
   visible.sort((a,b) => (a.group || "其他").localeCompare(b.group || "其他", "zh-Hant") || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
+  visible.sort((a,b) => (a.group || "其他").localeCompare(b.group || "其他", "zh-Hant") || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
   $("count").textContent = `${visible.length} / ${workflows.length} 項`;
   const root = $("workflows");
   root.replaceChildren();
@@ -94,7 +95,20 @@ function render() {
     root.append(create("div", "empty", "沒有符合條件的工作流程。"));
     return;
   }
+  let activeGroup = null;
+  let activeGrid = null;
   for (const item of visible) {
+    const groupName = item.group || "其他";
+    if (groupName !== activeGroup) {
+      activeGroup = groupName;
+      const section = create("section", "workflow-group");
+      const heading = create("div", "group-heading");
+      const groupTotal = visible.filter(entry => (entry.group || "其他") === groupName).length;
+      heading.append(create("h2", "group-title", groupName), create("span", "group-count", `${groupTotal} 項`));
+      activeGrid = create("div", "group-grid");
+      section.append(heading, activeGrid);
+      root.append(section);
+    }
     const card = create("article", "card");
     const head = create("div", "head");
     const info = create("div");
@@ -117,7 +131,7 @@ function render() {
         foot.append(link);
       }
       card.append(foot);
-      root.append(card);
+      activeGrid.append(card);
       continue;
     }
     if (item.danger) card.append(create("div", "warning", item.danger));
@@ -201,7 +215,7 @@ function render() {
       }
     });
     card.append(form);
-    root.append(card);
+    activeGrid.append(card);
   }
 }
 async function load() {
