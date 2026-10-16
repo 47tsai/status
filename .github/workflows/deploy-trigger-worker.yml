@@ -59,7 +59,7 @@ jobs:
             if [ -n "$WORKER_URL" ]; then
               echo "Deployment URL: $WORKER_URL"
               echo
-              echo "Worker deployed and its secrets configured. Set this URL in index.html as TRIGGER_API_URL."
+              echo "Worker deployed and its secrets configured. If the Worker URL changes, update API_URL in actions.html."
             else
               echo "Worker deployed and secrets configured, but Wrangler's URL could not be parsed. See the deployment logs for the workers.dev URL."
             fi
