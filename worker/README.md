@@ -29,6 +29,7 @@ The Worker URL is configured in actions.html (`API_URL`). Open https://status.ch
 - Only supported manual workflows are triggerable. NAV is shown as unavailable because its version workflow depends on real push commit metadata; VPS-01 is an external health check, not a GitHub Actions workflow.
 - The Worker only dispatches the main branch and validates workflow inputs against the allowlist schema.
 - GitHub API dispatch requests time out after 10 seconds; network and timeout errors return a generic 502 response without exposing credentials.
+- Cloudflare Rate Limiting bindings throttle requests from the same client IP at 20 requests per 60 seconds, and authenticated workflow dispatches at 5 per 60 seconds. These limits are approximate per Cloudflare location, not a globally exact counter. The Worker fails closed with HTTP 503 if the limiter is unavailable.
 - Origin checks are not authentication by themselves. Keep STATUS_TRIGGER_SECRET private and rotate it if exposed.
 - The GitHub token is stored as a Cloudflare Worker secret, not in public frontend code.
 - A successful trigger response means GitHub accepted the request, not that the workflow completed successfully. Use each card's **執行紀錄** link to inspect the run.
