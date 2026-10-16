@@ -172,9 +172,10 @@ async function checkRateLimit(limiter, key) {
   }
 }
 
-async function verifyChiAccessToken(token) {
+async function verifyChiAccessToken(token, expectedClientId) {
   try {
-    const response = await fetch("https://chi.qzz.io/auth/api/userinfo", {
+    const endpoint = "https://chi.qzz.io/auth/api/userinfo?client_id=" + encodeURIComponent(expectedClientId);
+    const response = await fetch(endpoint, {
       method: "GET",
       headers: { "Accept": "application/json", "Authorization": `Bearer ${token}` },
       signal: AbortSignal.timeout(5_000),
