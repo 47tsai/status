@@ -231,7 +231,7 @@ async function handle(request, env) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/^\/auth(?=\/|$)/, "") || "/";
   if (request.method === "GET" && (path === "/" || path === "")) return noStoreHtml();
-  if (request.method === "GET" && path === "/api/health") return json({ ok: true, service: "chi-auth", rpId: RP_ID, phase: "passkey-core+sso");
+  if (request.method === "GET" && path === "/api/health") return json({ ok: true, service: "chi-auth", rpId: RP_ID, phase: "passkey-core+sso" });
 
   if (request.method === "OPTIONS" && path === "/api/token") {
     const origin = request.headers.get("Origin");
