@@ -102,15 +102,15 @@ class CheckinRecordParsingTests(unittest.TestCase):
             "| --- | --- | --- |\n"
             "| 帳號 | 2026-10-15 23:58:00 | ✅ 簽到成功 |\n"
         )
-        self.assertEqual(update_status.parse_checkin_record(record), ("2026-10-15 23:58:00", "✅ 簽到成功"))
+        self.assertEqual(parse_checkin_record(record), ("2026-10-15 23:58:00", "✅ 簽到成功"))
 
     def test_empty_or_unrecognized_record_does_not_invent_result(self):
-        self.assertEqual(update_status.parse_checkin_record(""), (None, None))
-        self.assertEqual(update_status.parse_checkin_record("# no status here"), (None, None))
+        self.assertEqual(parse_checkin_record(""), (None, None))
+        self.assertEqual(parse_checkin_record("# no status here"), (None, None))
 
     def test_failure_row_is_parsed(self):
         record = "| 帳號 | 上次簽到時間 | 簽到結果 |\n|---|---|---|\n| A | 2026-10-16 08:00:00 | ❌ 簽到失敗 |"
-        self.assertEqual(update_status.parse_checkin_record(record), ("2026-10-16 08:00:00", "❌ 簽到失敗"))
+        self.assertEqual(parse_checkin_record(record), ("2026-10-16 08:00:00", "❌ 簽到失敗"))
 
 
 if __name__ == "__main__":
