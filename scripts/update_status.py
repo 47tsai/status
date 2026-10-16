@@ -25,14 +25,14 @@ PROFILES = {
     "status": {"kind": "dashboard", "title": "監控中心", "description": "儀表板自身的資料更新與部署", "icon": "◈"},
     "vps-01": {"kind": "vps", "title": "VPS-01 · Oracle Cloud", "description": "透過公開服務端點檢查 VPS 對外可用性", "icon": "▣"},
     "sc-auto-claim": {"kind": "claim", "title": "荒野亂鬥自動領取", "description": "兩個帳號的實際領取結果與最近成功時間", "icon": "gamepad"},
-    "free-game": {"kind": "freegame", "title": "免費遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "gamepad"},
+    "free-game": {"kind": "freegame", "title": "限免遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "gamepad"},
     "apktwsign": {"kind": "checkin", "title": "APK.TW 自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
     "bahasign": {"kind": "checkin", "title": "巴哈姆特自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
     "chi-source": {"kind": "source", "title": "Chi Source", "description": "AltStore 來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipa.chi.qzz.io/"},
     "chi-source-personal": {"kind": "source", "title": "Chi Source Personal", "description": "個人來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipap.chi.qzz.io/"},
-    "h": {"kind": "deploy", "title": "H 連結工具", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "↗", "health_url": "https://h.chi.qzz.io/"},
-    "nav": {"kind": "deploy", "title": "Chi 導航站", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
-    "merch": {"kind": "deploy", "title": "Merch 商品資料", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
+    "h": {"kind": "deploy", "title": "H", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "↗", "health_url": "https://h.chi.qzz.io/"},
+    "nav": {"kind": "deploy", "title": "Chi 的工具箱", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
+    "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 
