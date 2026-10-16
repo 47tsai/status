@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from scripts.update_status import classify_checkin_result, reset_cycle_date
+from scripts.update_status import classify_checkin_result, parse_checkin_record, reset_cycle_date
 
 
 class ResetCycleDateTests(unittest.TestCase):
@@ -92,7 +92,7 @@ class CheckinFreshnessTests(unittest.TestCase):
 class CheckinRecordParsingTests(unittest.TestCase):
     def test_apktw_activity_format_parses_last_run_and_result(self):
         record = "# APK.TW Check-in Activity\n\nLast run: 2026-10-16 16:45:07\n\nResult: ✅ 簽到成功\n"
-        self.assertEqual(update_status.parse_checkin_record(record), ("2026-10-16 16:45:07", "✅ 簽到成功"))
+        self.assertEqual(parse_checkin_record(record), ("2026-10-16 16:45:07", "✅ 簽到成功"))
 
     def test_bahamut_row_timestamp_overrides_unrelated_last_run(self):
         record = (
