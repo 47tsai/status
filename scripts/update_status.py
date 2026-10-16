@@ -128,8 +128,11 @@ def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, sour
         }
 
     status_line = unescape(status_line or "")
-    success = bool(status_line and ("簽到成功" in status_line or "今日已簽到" in status_line))
-    failure = bool(status_line and "簽到失敗" in status_line)
+    has_success_marker = bool(status_line and ("簽到成功" in status_line or "今日已簽到" in status_line))
+    has_failure_marker = bool(status_line and "簽到失敗" in status_line)
+    conflicting_result = has_success_marker and has_failure_marker
+    success = has_success_marker and not has_failure_marker
+    failure = has_failure_marker and not has_success_marker
     recorded_at = None
     if timestamp:
         normalized = timestamp.strip().replace("/", "-")
@@ -148,7 +151,7 @@ def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, sour
         now_taipei = now_taipei.astimezone(TAIPEI_TZ)
     current_cycle = reset_cycle_date(now_taipei, reset_hour)
     if recorded_at and recorded_at.tzinfo is not None:
-        recorded_local = recorded_at.astimezone(TAIPEI_TZ)
+        recorded_local = recorded_at.astimezone(TAIPEI_TZ).replace(tzinfo=None)
     else:
         # Source repositories publish Taiwan local wall-clock timestamps.
         recorded_local = recorded_at
@@ -161,11 +164,28 @@ def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, sour
             "tone": "normal",
         }
 
+    now_local = now_taipei.replace(tzinfo=None)
+    if recorded_local and recorded_local > now_local:
+        return {
+            "business_status": "unknown",
+            "business_label": "紀錄時間晚於目前時間，無法確認簽到結果",
+            "displayed_result": "來源紀錄時間在未來，請檢查來源時區或時間格式",
+            "tone": "normal",
+        }
+
     if recorded_cycle != current_cycle:
         return {
             "business_status": "unknown",
             "business_label": "紀錄過期，等待今日更新" if timestamp else "缺少簽到時間，無法確認今日結果",
             "displayed_result": "紀錄過期，尚未確認今日簽到" if timestamp else "缺少時間戳記，無法確認",
+            "tone": "normal",
+        }
+
+    if conflicting_result:
+        return {
+            "business_status": "unknown",
+            "business_label": "簽到結果文字互相矛盾，無法判讀",
+            "displayed_result": "來源紀錄同時包含成功與失敗標記，請檢查原始紀錄",
             "tone": "normal",
         }
 
