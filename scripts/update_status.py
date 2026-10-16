@@ -30,7 +30,7 @@ PROFILES = {
     "bahasign": {"kind": "checkin", "title": "巴哈姆特自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
     "chi-source": {"kind": "source", "title": "Chi Source", "description": "AltStore 來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipa.chi.qzz.io/"},
     "chi-source-personal": {"kind": "source", "title": "Chi Source Personal", "description": "個人來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipap.chi.qzz.io/"},
-    "h": {"kind": "deploy", "title": "H", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "↗", "health_url": "https://h.chi.qzz.io/"},
+    "h": {"kind": "deploy", "title": "H", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "▣", "health_url": "https://h.chi.qzz.io/"},
     "nav": {"kind": "deploy", "title": "Chi 的工具箱", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
     "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
 }
