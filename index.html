@@ -300,5 +300,44 @@ let currentTheme=savedTheme;
 setTheme(currentTheme);
 themeToggle.addEventListener('click',()=>{currentTheme=themeModes[(themeModes.indexOf(currentTheme)+1)%themeModes.length];setTheme(currentTheme,true)});
 systemTheme.addEventListener('change',()=>{if(currentTheme==='system')setTheme('system')});
-$('refresh').addEventListener('click',()=>{const url='https://github.com/tsai97216/status/actions/workflows/update-status.yml';window.open(url,'_blank','noopener,noreferrer');$('updated').textContent='已開啟 GitHub Actions，請在頁面點選 Run workflow 執行更新。';$('updated').classList.remove('stale');});$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
+const TRIGGER_API_URL = '';
+const TRIGGER_KEY_STORAGE = 'chi-status-trigger-key';
+$('refresh').addEventListener('click',async()=>{
+ if(loading)return;
+ if(!TRIGGER_API_URL){
+  $('updated').textContent='觸發 API 尚未設定：請先部署 Cloudflare Worker，並將其網址填入 TRIGGER_API_URL。';
+  $('updated').classList.remove('stale');
+  return;
+ }
+ let key=localStorage.getItem(TRIGGER_KEY_STORAGE)||'';
+ if(!key){
+  key=prompt('請輸入 Cloudflare Worker 的 TRIGGER_SECRET：');
+  if(!key)return;
+  key=key.trim();
+  if(!key)return;
+  localStorage.setItem(TRIGGER_KEY_STORAGE,key);
+ }
+ const button=$('refresh'),label=$('refreshLabel');
+ loading=true;button.disabled=true;label.textContent='正在觸發…';
+ $('updated').textContent='正在向 Cloudflare Worker 發送請求…';
+ $('updated').classList.remove('stale');
+ try{
+  const response=await fetch(TRIGGER_API_URL,{
+   method:'POST',
+   headers:{'Content-Type':'application/json','X-Trigger-Key':key},
+   body:JSON.stringify({ref:'main'})
+  });
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok||!result.ok){
+   if(response.status===401){localStorage.removeItem(TRIGGER_KEY_STORAGE);}
+   throw new Error(result.error||('HTTP '+response.status));
+  }
+  $('updated').textContent='已成功送出更新工作流程，請稍候幾分鐘再重新整理狀態。';
+ }catch(error){
+  $('updated').textContent='觸發失敗：'+(error.message||'連線錯誤')+'。請確認 Worker 網址、Secret 與網路連線。';
+  $('updated').classList.add('stale');
+ }finally{
+  loading=false;button.disabled=false;label.textContent='觸發更新';
+ }
+});$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
 </script></body></html>
