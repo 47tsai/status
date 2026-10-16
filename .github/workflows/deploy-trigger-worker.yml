@@ -31,6 +31,9 @@ jobs:
       - name: Test Worker authorization and dispatch
         run: node --experimental-default-type=module --test worker/index.test.mjs
 
+      - name: Validate Wrangler configuration and bundle
+        run: npx --yes wrangler@4 deploy --dry-run --config worker/wrangler.toml
+
       - name: Validate required secrets
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -56,7 +59,7 @@ jobs:
           npx --yes wrangler@4 deploy --config worker/wrangler.toml 2>&1 | tee /tmp/wrangler-deploy.log
           printf '%s' "$STATUS_WORKFLOW_TOKEN" | npx --yes wrangler@4 secret put GITHUB_TOKEN --config worker/wrangler.toml
           printf '%s' "$STATUS_TRIGGER_SECRET" | npx --yes wrangler@4 secret put TRIGGER_SECRET --config worker/wrangler.toml
-          WORKER_URL="$(grep -Eo 'https://[^[:space:]]+workers\.dev' /tmp/wrangler-deploy.log | tail -n 1 | sed 's/[),.]$//')"
+          WORKER_URL="$(grep -Eo 'https://[^[:space:]]+workers\.workers\.dev' /tmp/wrangler-deploy.log | tail -n 1 | sed 's/[),.]$//')"
           {
             echo "## Cloudflare Worker deployment"
             if [ -n "$WORKER_URL" ]; then
