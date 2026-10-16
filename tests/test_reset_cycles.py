@@ -89,5 +89,29 @@ class CheckinFreshnessTests(unittest.TestCase):
         self.assertEqual(result["business_status"], "success")
 
 
+class CheckinRecordParsingTests(unittest.TestCase):
+    def test_apktw_activity_format_parses_last_run_and_result(self):
+        record = "# APK.TW Check-in Activity\n\nLast run: 2026-10-16 16:45:07\n\nResult: ✅ 簽到成功\n"
+        self.assertEqual(update_status.parse_checkin_record(record), ("2026-10-16 16:45:07", "✅ 簽到成功"))
+
+    def test_bahamut_row_timestamp_overrides_unrelated_last_run(self):
+        record = (
+            "# 巴哈姆特自動簽到\n"
+            "Last run: 2026-10-16 23:59:59\n"
+            "| 帳號 | 上次簽到時間 | 簽到結果 |\n"
+            "| --- | --- | --- |\n"
+            "| 帳號 | 2026-10-15 23:58:00 | ✅ 簽到成功 |\n"
+        )
+        self.assertEqual(update_status.parse_checkin_record(record), ("2026-10-15 23:58:00", "✅ 簽到成功"))
+
+    def test_empty_or_unrecognized_record_does_not_invent_result(self):
+        self.assertEqual(update_status.parse_checkin_record(""), (None, None))
+        self.assertEqual(update_status.parse_checkin_record("# no status here"), (None, None))
+
+    def test_failure_row_is_parsed(self):
+        record = "| 帳號 | 上次簽到時間 | 簽到結果 |\n|---|---|---|\n| A | 2026-10-16 08:00:00 | ❌ 簽到失敗 |"
+        self.assertEqual(update_status.parse_checkin_record(record), ("2026-10-16 08:00:00", "❌ 簽到失敗"))
+
+
 if __name__ == "__main__":
     unittest.main()
