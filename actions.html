@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f1115">
-<meta name="description" content="Chi Actions 控制台，集中觸發已核准的 GitHub Actions 工作流程。">
-<title>Chi Actions · 工作流程控制台</title>
+<meta name="description" content="Chi Status 工作流程控制台，集中管理已核准的 GitHub Actions 工作流程。">
+<title>Chi Status · Actions 控制台</title>
 <style>
 :root{color-scheme:dark;--bg:#101216;--surface:#191c22;--surface-2:#20242c;--line:#303640;--text:#eceff4;--muted:#a0a7b3;--blue:#8ab4f8;--green:#81c995;--red:#f28b82;--amber:#fdd663}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:1080px;margin:auto;padding:30px 22px 54px}.top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}.eyebrow{font-size:11px;letter-spacing:.14em;font-weight:800;color:var(--blue)}h1{font-size:clamp(27px,4vw,35px);letter-spacing:-.035em;line-height:1.2;margin:5px 0 8px}.sub{color:var(--muted);font-size:13px;max-width:650px;margin:0}
+main{max-width:1120px;margin:auto;padding:32px 22px 56px}.top{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;flex-wrap:wrap}.brand{min-width:0}.eyebrow{font-size:11px;letter-spacing:.14em;font-weight:800;color:var(--blue);text-transform:uppercase}h1{font-size:clamp(27px,4vw,35px);letter-spacing:-.035em;font-weight:700;line-height:1.2;margin:5px 0 7px}.sub{color:var(--muted);font-size:13px;max-width:650px;margin:0}
+.top-actions{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-wrap:wrap}.header-tools{display:flex;gap:8px;flex-wrap:wrap}.page-nav{display:flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:9px}.page-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:6px 11px;border-radius:6px;color:var(--muted);font-size:12px;font-weight:650;text-decoration:none;white-space:nowrap}.page-nav a:hover{color:var(--text);background:var(--surface-2)}.page-nav a[aria-current="page"]{background:var(--surface-2);border:1px solid var(--line);color:var(--text)}
 .actions{display:flex;gap:8px;flex-wrap:wrap}button,.btn{display:inline-flex;align-items:center;justify-content:center;min-height:39px;padding:8px 11px;border:1px solid var(--line);border-radius:7px;background:var(--surface-2);color:var(--text);font:inherit;font-size:13px;text-decoration:none;cursor:pointer}button:hover,.btn:hover{border-color:var(--blue)}button:disabled{opacity:.6;cursor:wait}
 .toolbar{display:grid;grid-template-columns:minmax(180px,1fr) minmax(150px,210px) auto;gap:9px;align-items:center;margin:23px 0 13px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:9px}.toolbar input,.toolbar select{width:100%;min-width:0;min-height:40px;padding:9px 11px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:inherit;font-size:13px}.hint{font-size:11px;color:var(--muted);white-space:nowrap}
 #message{margin:12px 0;padding:11px 13px;border-radius:7px;background:var(--surface);border:1px solid var(--line);color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}#message:empty{display:none}#message[data-kind="ok"]{color:var(--green)}#message[data-kind="error"]{color:var(--red)}#message[data-kind="warn"]{color:var(--amber)}
@@ -18,21 +19,22 @@ main{max-width:1080px;margin:auto;padding:30px 22px 54px}.top{display:flex;justi
 .fields{display:grid;gap:10px;margin-top:13px}.field{display:grid;gap:5px}.field label{font-size:11px;color:var(--muted)}.field input[type="text"],.field input[type="url"],.field select{width:100%;min-width:0;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:9px 10px;font:inherit;font-size:13px}.check{display:flex;align-items:center;gap:9px;color:var(--text);font-size:13px}.check input{width:17px;height:17px;accent-color:var(--blue)}
 .foot{display:flex;gap:9px;justify-content:space-between;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:11px;margin-top:13px}.foot .btn,.foot button{font-size:11px;min-height:34px;padding:6px 9px}.foot .actions{gap:6px}.empty{padding:30px;border:1px dashed var(--line);border-radius:8px;text-align:center;color:var(--muted)}
 :focus-visible{outline:2px solid var(--blue);outline-offset:3px}html[data-theme="light"]{color-scheme:light;--bg:#f5f6f8;--surface:#fff;--surface-2:#f0f2f5;--line:#d9dde4;--text:#20242b;--muted:#626b78;--blue:#245fba;--green:#187344;--red:#b42318;--amber:#8a5a00}html[data-theme="light"] .warning{background:#fff7e8;border-color:#d8ad68;color:#704b12}
-@media(max-width:760px){main{padding:22px 14px 38px}.top{align-items:flex-start}.top .actions{width:100%}.top .actions>*{flex:1}.toolbar{grid-template-columns:1fr}.hint{white-space:normal}.group-grid{grid-template-columns:1fr}}
-@media(max-width:430px){.top .actions{display:grid;grid-template-columns:1fr 1fr}.top .actions>*{width:100%}.head{gap:8px}.group{white-space:normal;text-align:right}.foot{align-items:flex-start}.foot>.actions{width:100%}.foot>.actions>*{flex:1}}
+@media(max-width:760px){main{padding:22px 14px 38px}.top{align-items:flex-start}.top-actions{width:100%;align-items:stretch}.header-tools{width:100%}.header-tools>*{flex:1}.page-nav{width:100%}.page-nav a{flex:1}.toolbar{grid-template-columns:1fr}.hint{white-space:normal}.group-grid{grid-template-columns:1fr}}
+@media(max-width:430px){.header-tools{display:grid;grid-template-columns:1fr 1fr}.header-tools>*{width:100%}.head{gap:8px}.group{white-space:normal;text-align:right}.foot{align-items:flex-start}.foot>.actions{width:100%}.foot>.actions>*{flex:1}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <main>
   <header class="top">
-    <div><div class="eyebrow">CHI · AUTOMATION</div><h1>工作流程控制台</h1><p class="sub">只顯示狀態總覽追蹤的專案。首頁「重新整理」只會重讀現有資料；要重新產生狀態資料，請在下方觸發「Status 狀態資料更新」。觸發成功代表 GitHub 已接受請求，執行結果請查看工作流程紀錄。</p></div>
-    <div class="actions"><a class="btn" href="./">返回狀態總覽</a><button id="reload" type="button">重新載入</button><button id="forget" type="button">清除授權金鑰</button></div>
+    <div class="brand"><div class="eyebrow">CHI · STATUS</div><h1>Actions 控制台</h1><p class="sub">管理狀態總覽追蹤的自動化工作流程。首頁重新整理只會讀取現有資料；需要重新產生狀態資料時，請觸發「Status 狀態資料更新」。</p></div>
+    <div class="top-actions"><nav class="page-nav" aria-label="Chi Status 導覽"><a href="./">狀態總覽</a><a href="./actions.html" aria-current="page">Actions 控制台</a></nav><div class="header-tools"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><button id="reload" type="button">重新載入清單</button><button id="forget" type="button">清除授權金鑰</button></div></div>
   </header>
   <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋"><select id="group" aria-label="依類型篩選"><option value="">全部類型</option></select><span id="count" class="hint">讀取中…</span></section>
   <div id="message" role="status" aria-live="polite"></div>
   <section id="workflows" class="grid"><div class="empty">正在讀取工作流程清單…</div></section>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 <script>
 const API_URL = "https://chi-status-trigger.tsai97216.workers.dev";
 const KEY_STORAGE = "chi-status-trigger-key";
@@ -243,6 +245,42 @@ async function load() {
     $("reload").disabled = false;
   }
 }
+
+function themeIconNode(name) {
+  const el = document.createElement("i");
+  el.className = "button-icon";
+  el.setAttribute("aria-hidden", "true");
+  el.setAttribute("data-lucide", name);
+  return el;
+}
+function renderThemeIcon() {
+  if (window.lucide && typeof window.lucide.createIcons === "function") window.lucide.createIcons();
+}
+const themeToggle = $("themeToggle"), themeIcon = $("themeIcon"), themeLabel = $("themeLabel");
+const themeModes = ["system", "light", "dark"];
+const themeNames = { system: "跟隨系統", light: "淺色模式", dark: "深色模式" };
+const systemTheme = window.matchMedia("(prefers-color-scheme: light)");
+function setTheme(mode, save=false) {
+  const resolved = mode === "system" ? (systemTheme.matches ? "light" : "dark") : mode;
+  document.documentElement.dataset.theme = resolved;
+  themeIcon.replaceChildren(themeIconNode(mode === "system" ? "monitor" : mode === "light" ? "sun" : "moon"));
+  renderThemeIcon();
+  themeLabel.textContent = themeNames[mode];
+  themeToggle.setAttribute("aria-label", "色彩模式：" + themeNames[mode] + "，點擊切換");
+  themeToggle.title = "色彩模式：" + themeNames[mode];
+  document.querySelector('meta[name="theme-color"]').content = resolved === "light" ? "#f5f6f8" : "#0f1115";
+  if (save) { try { localStorage.setItem("chi-status-theme", mode); } catch {} }
+}
+let currentTheme = "system";
+try { currentTheme = localStorage.getItem("chi-status-theme") || "system"; } catch {}
+if (!themeModes.includes(currentTheme)) currentTheme = "system";
+setTheme(currentTheme);
+themeToggle.addEventListener("click", () => {
+  currentTheme = themeModes[(themeModes.indexOf(currentTheme) + 1) % themeModes.length];
+  setTheme(currentTheme, true);
+});
+systemTheme.addEventListener("change", () => { if (currentTheme === "system") setTheme("system"); });
+
 $("reload").addEventListener("click", load);
 $("search").addEventListener("input", render);
 $("group").addEventListener("change", render);
