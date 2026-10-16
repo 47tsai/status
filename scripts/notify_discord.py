@@ -8,6 +8,7 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 STATUS_PATH = Path("status.json")
 STATE_PATH = Path("alert-state.json")
@@ -53,12 +54,29 @@ def read_json(path, default):
 def post_discord(webhook_url, content):
     payload = json.dumps({"content": content[:1900], "allowed_mentions": {"parse": []}}).encode("utf-8")
     headers = {"Content-Type": "application/json", "User-Agent": "ChiStatus/1.0"}
+
+    # Ask Discord to return the created message, including its channel ID.
+    # This distinguishes an accepted message from an unknown destination.
+    parts = urlsplit(webhook_url)
+    query = [(key, value) for key, value in parse_qsl(parts.query, keep_blank_values=True)
+             if key != "wait"]
+    query.append(("wait", "true"))
+    verified_url = urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment))
+
     for attempt in range(3):
-        request = urllib.request.Request(webhook_url, data=payload, headers=headers, method="POST")
+        request = urllib.request.Request(verified_url, data=payload, headers=headers, method="POST")
         try:
             with urllib.request.urlopen(request, timeout=15) as response:
                 if 200 <= response.status < 300:
-                    return
+                    body = response.read().decode("utf-8", errors="replace").strip()
+                    try:
+                        result = json.loads(body) if body else {}
+                    except json.JSONDecodeError:
+                        result = {}
+                    if not isinstance(result, dict):
+                        result = {}
+                    result["http_status"] = response.status
+                    return result
                 raise RuntimeError(f"Discord webhook returned HTTP {response.status}")
         except urllib.error.HTTPError as exc:
             # Retry rate limits and transient server errors, but fail fast for
@@ -77,8 +95,6 @@ def post_discord(webhook_url, content):
             if attempt == 2:
                 raise
             time.sleep(2 ** attempt)
-
-
 def build_message(new_failures, recovered):
     lines = ["**Chi Status 告警**"]
     if new_failures:
@@ -168,13 +184,19 @@ def main():
 
     message = build_message(new_failures, recovered)
     try:
-        post_discord(webhook_url, message)
+        delivery = post_discord(webhook_url, message)
     except Exception as exc:
         # Do not advance the state on delivery failure. The next scheduled run retries.
         print(f"Discord 通知傳送失敗，保留告警狀態供下次重試：{type(exc).__name__}: {exc}", file=sys.stderr)
         return 1
 
     STATE_PATH.write_text(json.dumps({"active_failures": next_active}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    delivery = delivery if isinstance(delivery, dict) else {}
+    print(
+        f"Discord Webhook 已接受訊息：HTTP {delivery.get('http_status', '2xx')}；"
+        f"message_id={delivery.get('id', '未回傳')}；"
+        f"channel_id={delivery.get('channel_id', '未回傳')}。"
+    )
     print(f"Discord 通知已送出：新異常 {len(new_failures)}，恢復 {len(recovered)}。")
     return 0
 
