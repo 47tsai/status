@@ -378,9 +378,11 @@ async function handle(request, env) {
     ).bind(tokenHash, now).first();
     if (!row) return json({ ok: false, error: "Token expired or invalid." }, 401);
     const client = await getClient(env.DB, row.client_id);
+    const expectedClientId = url.searchParams.get("client_id");
+    if (expectedClientId && expectedClientId !== row.client_id) return json({ ok: false, error: "Token audience mismatch." }, 403);
     if (origin && !clientAllowsOrigin(client, origin)) return json({ ok: false, error: "Origin not allowed." }, 403);
     const headers = origin ? withCors({}, origin) : {};
-    return json({ sub: "chi-owner", name: "Chi Owner" }, 200, headers);
+    return json({ sub: "chi-owner", name: "Chi Owner", aud: row.client_id }, 200, headers);
   }
 
 
