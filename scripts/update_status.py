@@ -128,7 +128,16 @@ def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, sour
         }
 
     status_line = unescape(status_line or "")
-    has_success_marker = bool(status_line and ("簽到成功" in status_line or "今日已簽到" in status_line))
+    # Do not treat a positive phrase embedded in an explicit negation as success.
+    negated_success = any(marker in status_line for marker in (
+        "未簽到成功", "尚未簽到成功", "並未簽到成功",
+        "未成功", "尚未成功", "並未成功",
+    ))
+    has_success_marker = bool(
+        status_line
+        and not negated_success
+        and ("簽到成功" in status_line or "今日已簽到" in status_line)
+    )
     has_failure_marker = bool(status_line and "簽到失敗" in status_line)
     conflicting_result = has_success_marker and has_failure_marker
     success = has_success_marker and not has_failure_marker
