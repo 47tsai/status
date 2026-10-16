@@ -6,8 +6,9 @@ import copy
 import re
 import urllib.request
 import urllib.error
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from html import unescape
+from zoneinfo import ZoneInfo
 
 OWNER = "tsai97216"
 EXCLUDED_REPOS = {"chi-brand", "merch-old", "nav-n"}
@@ -35,6 +36,18 @@ PROFILES = {
     "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
+TAIPEI_TZ = ZoneInfo("Asia/Taipei")
+
+
+def reset_cycle_date(value, reset_hour):
+    """Return the service cycle date for a datetime, using Taiwan local time.
+
+    Naive datetimes are interpreted as Taiwan wall-clock time; aware datetimes
+    are converted to Asia/Taipei before applying the reset boundary.
+    """
+    if value.tzinfo is not None:
+        value = value.astimezone(TAIPEI_TZ).replace(tzinfo=None)
+    return (value - timedelta(hours=reset_hour)).date()
 
 def get_json(url):
     req = urllib.request.Request(url, headers=HEADERS)
@@ -66,7 +79,7 @@ def taipei_time(value):
         return "尚無紀錄"
     try:
         dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
-        return dt.astimezone(__import__("zoneinfo").ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d %H:%M:%S")
+        return dt.astimezone(TAIPEI_TZ).strftime("%Y-%m-%d %H:%M:%S")
     except Exception:
         return str(value)
 
@@ -190,7 +203,7 @@ def business_data(repo_name, run):
         taipei_tz = __import__("zoneinfo").ZoneInfo("Asia/Taipei")
         now_taipei = datetime.now(taipei_tz)
         # Brawl Stars daily claim cycle resets at 16:00 Taiwan time.
-        current_cycle = (now_taipei.replace(tzinfo=None) - __import__("datetime").timedelta(hours=16)).date()
+        current_cycle = reset_cycle_date(now_taipei, 16)
         for account_id, account_label in [("A", "帳號 A"), ("B", "帳號 B")]:
             state = parse_json(raw(repo_name, f"claim_state_{account_id}.json"))
             if state:
@@ -205,7 +218,7 @@ def business_data(repo_name, run):
                             claim_dt = claim_dt.astimezone(taipei_tz).replace(tzinfo=None)
                     except ValueError:
                         claim_dt = None
-                claim_cycle = (claim_dt - __import__("datetime").timedelta(hours=16)).date() if claim_dt else None
+                claim_cycle = reset_cycle_date(claim_dt, 16) if claim_dt else None
                 if claim_cycle != current_cycle:
                     result_text = "本輪尚未確認"
                     tone = "normal"
@@ -311,13 +324,13 @@ def business_data(repo_name, run):
         taipei_tz = __import__("zoneinfo").ZoneInfo("Asia/Taipei")
         now_taipei = datetime.now(taipei_tz)
         reset_hour = 0  # APK.TW and Bahamut reset at midnight Taiwan time.
-        current_cycle = (now_taipei.replace(tzinfo=None) - __import__("datetime").timedelta(hours=reset_hour)).date()
+        current_cycle = reset_cycle_date(now_taipei, reset_hour)
         if recorded_at and recorded_at.tzinfo:
             recorded_local = recorded_at.astimezone(taipei_tz).replace(tzinfo=None)
         else:
             # The source repositories publish local Taiwan wall-clock time.
             recorded_local = recorded_at
-        recorded_cycle = (recorded_local - __import__("datetime").timedelta(hours=reset_hour)).date() if recorded_local else None
+        recorded_cycle = reset_cycle_date(recorded_local, reset_hour) if recorded_local else None
         fresh = recorded_cycle == current_cycle
         if not fresh:
             business_status = "unknown"
