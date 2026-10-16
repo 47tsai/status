@@ -85,6 +85,11 @@ class CheckinFreshnessTests(unittest.TestCase):
         self.assertEqual(result["business_label"], "簽到結果文字互相矛盾，無法判讀")
         self.assertEqual(result["tone"], "normal")
 
+    def test_negated_success_phrase_never_claims_success(self):
+        result = classify_checkin_result("2026-10-16 09:30:00", "未簽到成功", self.now)
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["tone"], "normal")
+
     def test_missing_timestamp_never_claims_success(self):
         result = classify_checkin_result(None, "簽到成功", self.now)
         self.assertEqual(result["business_status"], "unknown")
