@@ -67,12 +67,11 @@ main{padding:0 0 3.5rem}.content{padding-top:1.2rem}.section-head{display:flex;a
 <a class="brand" href="../" aria-label="Chi Status 首頁"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13h4l3-9 4 16 3-7h2"/></svg></span><span class="brand-text">CHI STATUS<small>PROJECT HEALTH CENTER</small></span></a>
 <div class="nav-wrap"><nav class="nav" id="siteNav" aria-label="主要導覽"><a href="../">狀態總覽</a><a href="./" aria-current="page">Actions 控制台</a><a href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">GitHub 執行紀錄</a>
 <button class="nav-action" id="reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 17 5l3 2M4 17l3 2a7 7 0 0 0 11.4-4"/></svg>重新載入清單</button>
-<button class="nav-action" id="forget" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8.2-8.2 2 2-2 2 1.5 1.5-2 2-1.5-1.5-3.4 3.4"/></svg>清除儲存的金鑰</button>
 </nav><div class="head-tools">
 <button class="button icon-button" id="themeToggle" type="button" aria-label="色彩模式：跟隨系統，點擊切換" title="色彩模式：跟隨系統"><span id="themeIcon" class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></span><span class="label" id="themeLabel">跟隨系統</span></button>
 <button class="button icon-button menu-button" id="menuToggle" type="button" aria-label="開啟導覽選單" aria-expanded="false" aria-controls="siteNav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></div></div></header>
-<section class="hero"><div class="container hero-inner"><div><p class="eyebrow"><span class="eyebrow-dot"></span> CHI · STATUS</p><h1>Actions 控制台</h1><p class="hero-desc">瀏覽已核准的工作流程、填寫執行參數，並直接送出觸發請求。</p><p class="hero-meta">送出請求代表 GitHub 已接受觸發，不代表工作流程已成功完成。</p></div><div class="hero-actions"><a class="button" href="../">← 返回狀態總覽</a><a class="button" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">查看 GitHub 執行紀錄</a></div></div></section>
+<section class="hero"><div class="container hero-inner"><div><p class="eyebrow"><span class="eyebrow-dot"></span> CHI · STATUS</p><h1>Actions 控制台</h1><p class="hero-desc">瀏覽已核准的工作流程、填寫執行參數，並直接送出觸發請求。</p><p class="hero-meta">送出請求代表 GitHub 已接受觸發，不代表工作流程已成功完成。</p></div><div class="hero-actions"><button class="button primary" id="authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="authLogout" type="button" hidden>結束本次登入</button><a class="button" href="../">← 返回狀態總覽</a><a class="button" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">查看 GitHub 執行紀錄</a></div></div></section>
 <main><div class="container content">
 <div class="section-head"><div><h2>工作流程</h2><p>搜尋專案或依類型篩選。只有清單中允許觸發的工作流程會顯示執行表單。</p></div><span id="count" class="hint">讀取中…</span></div>
 <section class="toolbar" aria-label="工作流程篩選"><input class="field" id="search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋專案或工作流程"><select class="field" id="group" aria-label="依類型篩選"><option value="">全部類型</option></select><span class="hint">參數將依工作流程設定顯示</span></section>
@@ -82,35 +81,94 @@ main{padding:0 0 3.5rem}.content{padding-top:1.2rem}.section-head{display:flex;a
 <footer class="site-footer"><div class="container footer-inner"><div><div class="footer-brand">CHI <span>STATUS</span></div><p class="footer-copy">工作流程控制台 · 觸發前請確認目標與參數</p></div><div class="footer-links"><a href="../">狀態總覽</a><a href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">GitHub Actions</a></div></div></footer>
 <script>
 const API_URL = "https://chi-status-trigger.tsai97216.workers.dev";
-const KEY_STORAGE = "chi-status-trigger-key";
+const AUTH_URL = "https://auth.chi.qzz.io";
+const CLIENT_ID = "DZT0NzjdlmwxReZ47kOVdNVV42YOtCV1";
+const REDIRECT_URI = "https://status.chi.qzz.io/actions/";
 const $ = id => document.getElementById(id);
 let workflows = [];
 let busy = false;
+let accessToken = null;
+let accessTokenExpiresAt = 0;
 
 function message(text, kind="") {
   const el = $("message");
   el.textContent = text;
   el.dataset.kind = kind;
 }
-function getKey() {
-  let key = "";
-  try { key = localStorage.getItem(KEY_STORAGE) || ""; } catch {}
-  if (!key) {
-    key = prompt("請輸入 Status Worker 的 TRIGGER_SECRET：") || "";
-    key = key.trim();
-    if (key) {
-      try { localStorage.setItem(KEY_STORAGE, key); } catch {}
-    }
+function base64url(value) {
+  return btoa(String.fromCharCode(...new Uint8Array(value)))
+    .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+function randomVerifier() {
+  return base64url(crypto.getRandomValues(new Uint8Array(32)));
+}
+async function beginAuth() {
+  const verifier = randomVerifier();
+  const challenge = base64url(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier)));
+  const state = randomVerifier();
+  sessionStorage.setItem("chi-status-auth-pkce", JSON.stringify({ verifier, state, createdAt: Date.now() }));
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: CLIENT_ID,
+    redirect_uri: REDIRECT_URI,
+    code_challenge: challenge,
+    code_challenge_method: "S256",
+    state
+  });
+  location.assign(AUTH_URL + "/api/authorize?" + params.toString());
+}
+async function finishAuthCallback() {
+  const params = new URLSearchParams(location.search);
+  const code = params.get("code");
+  const returnedState = params.get("state");
+  if (!code && !returnedState) return false;
+  history.replaceState(null, "", location.pathname + location.hash);
+  let pending;
+  try { pending = JSON.parse(sessionStorage.getItem("chi-status-auth-pkce") || "null"); } catch {}
+  sessionStorage.removeItem("chi-status-auth-pkce");
+  if (!code || !returnedState || !pending || pending.state !== returnedState ||
+      !Number.isFinite(pending.createdAt) || Date.now() - pending.createdAt > 5 * 60 * 1000) {
+    throw new Error("登入回呼驗證失敗或已逾時，請重新登入。");
   }
-  return key;
+  const response = await fetch(AUTH_URL + "/api/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    cache: "no-store",
+    body: JSON.stringify({
+      client_id: CLIENT_ID,
+      code,
+      redirect_uri: REDIRECT_URI,
+      code_verifier: pending.verifier
+    })
+  });
+  const tokenData = await response.json().catch(() => ({}));
+  if (!response.ok || !tokenData.access_token) throw new Error(tokenData.error || "無法完成 Chi Auth 授權碼交換。");
+  const identityResponse = await fetch(AUTH_URL + "/api/userinfo?client_id=" + encodeURIComponent(CLIENT_ID), {
+    headers: { Authorization: "Bearer " + tokenData.access_token },
+    cache: "no-store"
+  });
+  if (!identityResponse.ok) throw new Error("Chi Auth 身分確認失敗，請重新登入。");
+  const identity = await identityResponse.json();
+  if (identity.sub !== "chi-owner" || identity.aud !== CLIENT_ID) throw new Error("Chi Auth 回傳的身分或應用識別不符。");
+  accessToken = tokenData.access_token;
+  accessTokenExpiresAt = Date.now() + Number(tokenData.expires_in || 0) * 1000;
+  $("authLogin").hidden = true;
+  $("authLogout").hidden = false;
+  message("已透過 Chi Auth 完成 Passkey 身分驗證。", "ok");
+  return true;
 }
 async function api(path, options={}) {
-  if (!API_URL) throw new Error("API 網址尚未設定。請先部署 Worker，並確認 actions/index.html 的 API_URL。");
-  const key = getKey();
-  if (!key) throw new Error("未輸入授權金鑰。");
+  if (!API_URL) throw new Error("API 網址尚未設定。");
+  if (!accessToken || Date.now() >= accessTokenExpiresAt) {
+    accessToken = null;
+    $("authLogin").hidden = false;
+    $("authLogout").hidden = true;
+    throw new Error("登入已失效，請重新使用 Chi Auth 登入。");
+  }
   const response = await fetch(API_URL + path, {
     ...options,
-    headers: { "X-Trigger-Key": key, ...(options.headers || {}) }
+    headers: { Authorization: "Bearer " + accessToken, ...(options.headers || {}) },
+    cache: "no-store"
   });
   let data = {};
   try { data = await response.json(); } catch {}
@@ -267,6 +325,15 @@ function render() {
 }
 async function load() {
   $("reload").disabled = true;
+  if (!accessToken || Date.now() >= accessTokenExpiresAt) {
+    workflows = [];
+    $("workflows").replaceChildren(create("div", "empty", "請先使用 Chi Auth 登入，驗證身分後才能查看及觸發工作流程。"));
+    $("count").textContent = "尚未登入";
+    message("此控制台不再使用瀏覽器儲存的 TRIGGER_SECRET。請使用 Chi Auth 的 Passkey 登入。");
+    $("reload").disabled = false;
+    return;
+  }
+  $("reload").disabled = true;
   message("正在讀取狀態總覽專案清單…");
   try {
     const data = await api("?action=catalog");
@@ -335,11 +402,34 @@ systemTheme.addEventListener("change", () => { if (currentTheme === "system") se
 $("reload").addEventListener("click", load);
 $("search").addEventListener("input", render);
 $("group").addEventListener("change", render);
-$("forget").addEventListener("click", () => {
-  try { localStorage.removeItem(KEY_STORAGE); } catch {}
-  message("已清除此瀏覽器儲存的授權金鑰。", "ok");
+$("authLogin").addEventListener("click", async () => {
+  $("authLogin").disabled = true;
+  try { await beginAuth(); } catch (error) { message("無法開始登入：" + error.message, "error"); $("authLogin").disabled = false; }
 });
-load();
+$("authLogout").addEventListener("click", () => {
+  accessToken = null;
+  accessTokenExpiresAt = 0;
+  workflows = [];
+  $("authLogin").hidden = false;
+  $("authLogin").disabled = false;
+  $("authLogout").hidden = true;
+  $("workflows").replaceChildren(create("div", "empty", "已結束本次登入。"));
+  $("count").textContent = "尚未登入";
+  message("已清除本頁的存取權杖。再次操作時需要重新使用 Chi Auth 登入。", "ok");
+});
+(async () => {
+  try {
+    const completed = await finishAuthCallback();
+    if (!completed) {
+      $("authLogin").hidden = false;
+      $("authLogout").hidden = true;
+      message("請使用 Chi Auth 的 Passkey 登入後再管理工作流程。");
+    }
+  } catch (error) {
+    message("登入失敗：" + error.message, "error");
+  }
+  await load();
+})();
 const menuToggle = $("menuToggle"), nav = $("siteNav");
 menuToggle.addEventListener("click", () => {
   const open = nav.classList.toggle("open");
