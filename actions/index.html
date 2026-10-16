@@ -18,6 +18,40 @@ main{padding:0 0 3.5rem}.content{padding-top:1.2rem}.section-head{display:flex;a
 @media(max-width:900px){.hero-inner{align-items:flex-start;flex-direction:column;gap:1.1rem}.hero-actions{justify-content:flex-start}.toolbar{grid-template-columns:minmax(0,1fr) minmax(0,200px)}.toolbar .hint{grid-column:1/-1}.group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.container{width:min(calc(100% - 1.5rem),var(--content))}.header-inner{min-height:62px;gap:.5rem}.brand-mark{width:33px;height:33px}.brand-text small{font-size:9px}.brand-text{font-size:13px}.nav-wrap{position:relative}.nav{position:absolute;right:0;top:calc(100% + 12px);display:none;min-width:235px;max-width:calc(100vw - 24px);padding:.5rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-md)}.nav.open{display:grid}.nav a{padding:.75rem}.head-tools{gap:5px;flex-wrap:nowrap}.head-tools .label{display:none}.head-tools #themeToggle,.icon-button{width:38px;min-width:38px;padding:0}.menu-button{display:inline-flex}.hero{padding:2.4rem 0 1.6rem}.hero h1{font-size:2.15rem}.hero-desc{font-size:13px}.hero-actions{width:100%}.hero-actions .button{flex:1}.content{padding-top:.9rem}.section-head{align-items:flex-start;flex-direction:column;gap:.5rem}.toolbar{grid-template-columns:1fr;padding:.55rem;gap:.5rem}.toolbar .hint{grid-column:auto;white-space:normal}.group-grid{grid-template-columns:1fr}.card{padding:1rem}.head{gap:.5rem;flex-direction:column}.group{white-space:normal}.foot{align-items:flex-start;flex-direction:column}.foot>.actions{width:100%}.foot>.actions>*{flex:1}.footer-inner{align-items:flex-start;flex-direction:column;gap:1rem}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Refinements: keep the console dense enough for scanning without tiny controls. */
+:root{--shadow-sm:0 2px 8px rgb(35 48 80 / 5%);--shadow-md:0 8px 22px rgb(35 48 80 / 9%)}
+.section{margin-top:2.6rem}
+.section-head{margin-bottom:1.1rem}
+.toolbar{padding:.8rem;gap:.75rem}
+.toolbar .field,.toolbar input,.toolbar select{min-height:46px;font-size:14px}
+.group-heading{margin-bottom:1rem}
+.group-title{font-size:1.05rem}
+.group-count,.group{font-size:11px}
+.group-grid{gap:16px}
+.card{padding:1.25rem;box-shadow:0 1px 3px rgb(35 48 80 / 3%)}
+.card:hover{box-shadow:var(--shadow-md)}
+.name{font-size:16px;line-height:1.5}
+.repo{font-size:12px;line-height:1.65}
+.warning{font-size:12px;line-height:1.75}
+.field label{font-size:13px}
+.field input,.field select{min-height:44px;font-size:14px}
+.field .check{font-size:13px;line-height:1.65}
+.btn{min-height:40px;padding:.5rem .8rem;font-size:12px}
+.empty{font-size:14px;line-height:1.8}
+#message{font-size:13px;line-height:1.7}
+@media(max-width:900px){
+ .group-grid{gap:12px}
+ .card{padding:1.1rem}
+}
+@media(max-width:680px){
+ .group-grid{grid-template-columns:1fr}
+ .card{padding:1rem}
+ .name{font-size:16px}
+ .field input,.field select{min-height:46px}
+ .foot>.actions>*{min-height:42px}
+}
+
 </style>
 </head>
 <body>
