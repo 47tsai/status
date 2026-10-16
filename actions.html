@@ -26,7 +26,7 @@ main{max-width:1080px;margin:auto;padding:30px 22px 54px}.top{display:flex;justi
 <body>
 <main>
   <header class="top">
-    <div><div class="eyebrow">CHI · AUTOMATION</div><h1>工作流程控制台</h1><p class="sub">只顯示狀態總覽追蹤的專案。觸發成功代表 GitHub 已接受請求，執行結果請查看工作流程紀錄。</p></div>
+    <div><div class="eyebrow">CHI · AUTOMATION</div><h1>工作流程控制台</h1><p class="sub">只顯示狀態總覽追蹤的專案。首頁「重新整理」只會重讀現有資料；要重新產生狀態資料，請在下方觸發「Status 狀態資料更新」。觸發成功代表 GitHub 已接受請求，執行結果請查看工作流程紀錄。</p></div>
     <div class="actions"><a class="btn" href="./">返回狀態總覽</a><button id="reload" type="button">重新載入</button><button id="forget" type="button">清除授權金鑰</button></div>
   </header>
   <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋"><select id="group" aria-label="依類型篩選"><option value="">全部類型</option></select><span id="count" class="hint">讀取中…</span></section>
@@ -86,7 +86,8 @@ function render() {
     const haystack = [item.name, item.repository, item.workflow, item.group].join(" ").toLowerCase();
     return (!query || haystack.includes(query)) && (!group || item.group === group);
   });
-  visible.sort((a,b) => (a.group || "其他").localeCompare(b.group || "其他", "zh-Hant") || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
+  const groupOrder = {"Status 維護":0,"來源更新":1,"內容更新":2,"自動化":3,"驗證":4,"部署":5,"暫不可觸發":6,"外部監控":7};
+  visible.sort((a,b) => (groupOrder[a.group] ?? 99) - (groupOrder[b.group] ?? 99) || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
   $("count").textContent = `${visible.length} / ${workflows.length} 項`;
   const root = $("workflows");
   root.replaceChildren();
