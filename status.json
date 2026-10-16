@@ -1,7 +1,80 @@
 {
-  "generated_at": "2026-10-16T10:53:53.308894+00:00",
+  "generated_at": "2026-10-16T10:57:29.484883+00:00",
   "repository_count": 12,
   "repositories": [
+    {
+      "name": "chi-source-personal",
+      "full_name": "tsai97216/chi-source-personal",
+      "html_url": "https://github.com/tsai97216/chi-source-personal",
+      "workflow": "pages build and deployment",
+      "status": "in_progress",
+      "branch": "main",
+      "updated_at": "2026-10-16T10:56:17Z",
+      "created_at": "2026-10-16T10:55:50Z",
+      "event": "dynamic",
+      "commit_message": "auto: sync Chi Source",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
+      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38890447943",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source Personal",
+        "description": "個人來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站內容檢查通過",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "9",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "1",
+            "tone": "good"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-16 18:55:47",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-16 02:55:35",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "1 個 App 更新、8 個未變更",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "更新的 App",
+            "result": "StikDebug",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
+      }
+    },
     {
       "name": "vps-01",
       "full_name": "VPS-01 · Oracle Cloud Infrastructure",
@@ -9,8 +82,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-16T10:53:51.500505+00:00",
-      "created_at": "2026-10-16T10:53:51.500520+00:00",
+      "updated_at": "2026-10-16T10:57:22.106945+00:00",
+      "created_at": "2026-10-16T10:57:22.106961+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,25 +116,75 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 424 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 5727 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 769 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1143 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 613 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 505 ms",
             "time": "",
             "tone": "good"
           }
         ],
         "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
         "evidence_url": null
+      }
+    },
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Update Actions status",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-16T10:54:32Z",
+      "created_at": "2026-10-16T10:53:29Z",
+      "event": "workflow_dispatch",
+      "commit_message": "chore: update project business status",
+      "duration_seconds": 63,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38890193192",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "success",
+        "business_label": "資料更新成功",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "資料更新成功",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "資料更新成功",
+            "time": "2026-10-16 18:54:32",
+            "tone": "good"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
@@ -135,56 +258,6 @@
         ],
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
-      }
-    },
-    {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T09:54:05Z",
-      "created_at": "2026-10-16T09:53:22Z",
-      "event": "push",
-      "commit_message": "Remove asterisk from footer branding",
-      "duration_seconds": 43,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38883535050",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "資料更新成功",
-            "time": "2026-10-16 17:54:05",
-            "tone": "good"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
@@ -487,79 +560,6 @@
         ],
         "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/nav/actions"
-      }
-    },
-    {
-      "name": "chi-source-personal",
-      "full_name": "tsai97216/chi-source-personal",
-      "html_url": "https://github.com/tsai97216/chi-source-personal",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T05:35:05Z",
-      "created_at": "2026-10-16T05:34:03Z",
-      "event": "dynamic",
-      "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 62,
-      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38856447462",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source Personal",
-        "description": "個人來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "來源網站內容檢查通過",
-        "metrics": [
-          {
-            "label": "App 數量",
-            "value": "9",
-            "tone": "normal"
-          },
-          {
-            "label": "本次標示更新",
-            "value": "2",
-            "tone": "good"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "自動檢查",
-            "result": "2026-10-16 13:33:56",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "內容更新",
-            "result": "2026-10-16 02:55:35",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "版本狀態",
-            "result": "2 個 App 更新、7 個未變更",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "更新的 App",
-            "result": "StikDebug、MiniWatts",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
-        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       }
     },
     {
