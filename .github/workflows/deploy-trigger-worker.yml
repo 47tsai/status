@@ -39,16 +39,15 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           STATUS_WORKFLOW_TOKEN: ${{ secrets.STATUS_WORKFLOW_TOKEN }}
-          STATUS_TRIGGER_SECRET: ${{ secrets.STATUS_TRIGGER_SECRET }}
         run: |
-          for name in CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_API_TOKEN STATUS_WORKFLOW_TOKEN STATUS_TRIGGER_SECRET; do
+          for name in CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_API_TOKEN STATUS_WORKFLOW_TOKEN; do
             if [ -z "${!name}" ]; then
               echo "::error::Missing repository secret: $name"
               exit 1
             fi
           done
 
-      - name: Deploy Worker and configure its secrets
+      - name: Deploy Worker and configure GitHub API token
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -58,15 +57,14 @@ jobs:
           set -o pipefail
           npx --yes wrangler@4 deploy --config worker/wrangler.toml 2>&1 | tee /tmp/wrangler-deploy.log
           printf '%s' "$STATUS_WORKFLOW_TOKEN" | npx --yes wrangler@4 secret put GITHUB_TOKEN --config worker/wrangler.toml
-          printf '%s' "$STATUS_TRIGGER_SECRET" | npx --yes wrangler@4 secret put TRIGGER_SECRET --config worker/wrangler.toml
           WORKER_URL="$(grep -Eo 'https://[^[:space:]]+workers\.dev' /tmp/wrangler-deploy.log | tail -n 1 | sed 's/[),.]$//')"
           {
             echo "## Cloudflare Worker deployment"
             if [ -n "$WORKER_URL" ]; then
               echo "Deployment URL: $WORKER_URL"
               echo
-              echo "Worker deployed and its secrets configured. If the Worker URL changes, update API_URL in actions/index.html."
+              echo "Worker deployed and GitHub API token configured. If the Worker URL changes, update API_URL in actions/index.html."
             else
-              echo "Worker deployed and secrets configured, but Wrangler's URL could not be parsed. See the deployment logs for the workers.dev URL."
+              echo "Worker deployed and GitHub API token configured, but Wrangler's URL could not be parsed. See the deployment logs for the workers.dev URL."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
