@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f1115">
+<meta name="description" content="Chi Actions 控制台，集中觸發已核准的 GitHub Actions 工作流程。">
+<title>Chi Actions · 工作流程控制台</title>
+<style>
+:root{color-scheme:dark;--bg:#0f1115;--panel:#171a21;--panel2:#20242c;--line:#303640;--text:#e7eaf0;--muted:#a0a8b5;--blue:#8ab4f8;--green:#81c995;--red:#f28b82;--amber:#fdd663}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:1180px;margin:auto;padding:26px 18px 48px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:800;color:var(--blue)}h1{font-size:clamp(26px,4vw,34px);letter-spacing:-.03em;margin:6px 0}.sub{color:var(--muted);max-width:680px;margin:0}
+.actions{display:flex;gap:8px;flex-wrap:wrap}button,.btn{font:inherit;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:9px 12px;text-decoration:none;cursor:pointer}button:hover,.btn:hover{border-color:var(--blue)}button:disabled{opacity:.6;cursor:wait}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:22px 0 14px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:8px}.toolbar input,.toolbar select{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:9px 11px}.toolbar input{flex:1;min-width:190px}
+#message{margin:12px 0;padding:12px 14px;border-radius:7px;background:var(--panel);border:1px solid var(--line);color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}#message:empty{display:none}#message[data-kind="ok"]{color:var(--green)}#message[data-kind="error"]{color:var(--red)}#message[data-kind="warn"]{color:var(--amber)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:15px;min-width:0}.head{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}.name{font-weight:700;font-size:16px}.repo{font-size:12px;color:var(--muted);overflow-wrap:anywhere;margin-top:3px}.group{font-size:11px;padding:3px 7px;background:var(--panel2);border:1px solid var(--line);border-radius:5px;white-space:nowrap}.warning{font-size:12px;color:var(--amber);background:#292315;border:1px solid #554321;border-radius:6px;padding:8px 10px;margin:11px 0}
+.fields{display:grid;gap:10px;margin-top:13px}.field{display:grid;gap:5px}.field label{font-size:12px;color:var(--muted)}.field input[type="text"],.field input[type="url"],.field select{width:100%;min-width:0;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:9px 10px;font:inherit}.check{display:flex;align-items:center;gap:9px;color:var(--text);font-size:13px}.check input{width:17px;height:17px;accent-color:var(--blue)}
+.foot{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px;margin-top:14px}.hint{font-size:11px;color:var(--muted)}.foot .btn,.foot button{font-size:12px;padding:7px 10px}.empty{grid-column:1/-1;padding:30px;border:1px dashed var(--line);border-radius:8px;text-align:center;color:var(--muted)}
+@media(max-width:760px){main{padding:20px 13px 35px}.grid{grid-template-columns:1fr}.toolbar{display:grid;grid-template-columns:1fr}.toolbar input,.toolbar select{width:100%;min-width:0}.top .actions{width:100%}.top .actions>*{flex:1;text-align:center}}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div><div class="eyebrow">CHI · AUTOMATION</div><h1>GitHub Actions 控制台</h1><p class="sub">集中觸發已核准的工作流程。觸發成功只代表 GitHub 接受請求，實際執行結果請到該工作流程的紀錄查看。</p></div>
+    <div class="actions"><a class="btn" href="./">返回狀態總覽</a><button id="reload" type="button">重新載入</button><button id="forget" type="button">清除授權金鑰</button></div>
+  </header>
+  <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋"><select id="group" aria-label="依類型篩選"><option value="">全部類型</option></select><span id="count" class="hint">讀取中…</span></section>
+  <div id="message" role="status" aria-live="polite"></div>
+  <section id="workflows" class="grid"><div class="empty">正在讀取工作流程清單…</div></section>
+</main>
+<script>
+const API_URL = "";
+const KEY_STORAGE = "chi-status-trigger-key";
+const $ = id => document.getElementById(id);
+let workflows = [];
+let busy = false;
+
+function message(text, kind="") {
+  const el = $("message");
+  el.textContent = text;
+  el.dataset.kind = kind;
+}
+function getKey() {
+  let key = "";
+  try { key = localStorage.getItem(KEY_STORAGE) || ""; } catch {}
+  if (!key) {
+    key = prompt("請輸入 Status Worker 的 TRIGGER_SECRET：") || "";
+    key = key.trim();
+    if (key) {
+      try { localStorage.setItem(KEY_STORAGE, key); } catch {}
+    }
+  }
+  return key;
+}
+async function api(path, options={}) {
+  if (!API_URL) throw new Error("API 網址尚未設定。請先部署 Worker，並把網址填入 actions.html 的 API_URL。");
+  const key = getKey();
+  if (!key) throw new Error("未輸入授權金鑰。");
+  const response = await fetch(API_URL + path, {
+    ...options,
+    headers: { "X-Trigger-Key": key, ...(options.headers || {}) }
+  });
+  let data = {};
+  try { data = await response.json(); } catch {}
+  if (!response.ok || !data.ok) throw new Error(data.error || `HTTP ${response.status}`);
+  return data;
+}
+function create(tag, cls, text) {
+  const el = document.createElement(tag);
+  if (cls) el.className = cls;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+function workflowUrl(item) {
+  return `https://github.com/${item.repository}/actions/workflows/${encodeURIComponent(item.workflow)}`;
+}
+function render() {
+  const query = $("search").value.trim().toLowerCase();
+  const group = $("group").value;
+  const visible = workflows.filter(item => {
+    const haystack = [item.name, item.repository, item.workflow, item.group].join(" ").toLowerCase();
+    return (!query || haystack.includes(query)) && (!group || item.group === group);
+  });
+  $("count").textContent = `${visible.length} / ${workflows.length} 個工作流程`;
+  const root = $("workflows");
+  root.replaceChildren();
+  if (!visible.length) {
+    root.append(create("div", "empty", "沒有符合條件的工作流程。"));
+    return;
+  }
+  for (const item of visible) {
+    const card = create("article", "card");
+    const head = create("div", "head");
+    const info = create("div");
+    info.append(create("div", "name", item.name), create("div", "repo", `${item.repository} · ${item.workflow}`));
+    head.append(info, create("span", "group", item.group || "其他"));
+    card.append(head);
+    if (item.danger) card.append(create("div", "warning", item.danger));
+    const form = create("form", "fields");
+    for (const spec of item.inputs || []) {
+      const wrap = create("div", "field");
+      const id = "f-" + item.repository.replace(/[^a-z0-9]/gi,"-") + "-" + item.workflow.replace(/[^a-z0-9]/gi,"-") + "-" + spec.name;
+      if (spec.type === "boolean") {
+        const label = create("label", "check");
+        const input = create("input");
+        input.type = "checkbox";
+        input.name = spec.name;
+        input.checked = spec.default === true;
+        label.append(input, document.createTextNode(spec.label + (spec.required ? "（必填）" : "")));
+        wrap.append(label);
+      } else {
+        const label = create("label", "", spec.label + (spec.required ? "（必填）" : ""));
+        label.htmlFor = id;
+        let input;
+        if (spec.type === "choice") {
+          input = create("select");
+          for (const option of spec.options || []) {
+            const opt = create("option", "", option);
+            opt.value = option;
+            input.append(opt);
+          }
+          input.value = spec.default || (spec.options || [])[0] || "";
+        } else {
+          input = create("input");
+          input.type = "text";
+          input.value = spec.default || "";
+          input.placeholder = spec.required ? "請填寫必要參數" : "可留空";
+        }
+        input.id = id;
+        input.name = spec.name;
+        input.required = !!spec.required;
+        wrap.append(label, input);
+      }
+      form.append(wrap);
+    }
+    const foot = create("div", "foot");
+    foot.append(create("span", "hint", "分支：main"));
+    const buttons = create("div", "actions");
+    const history = create("a", "btn", "執行紀錄");
+    history.href = workflowUrl(item);
+    history.target = "_blank";
+    history.rel = "noopener noreferrer";
+    const run = create("button", "", "立即觸發");
+    run.type = "submit";
+    buttons.append(history, run);
+    foot.append(buttons);
+    form.append(foot);
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (busy) return;
+      const inputs = {};
+      for (const spec of item.inputs || []) {
+        const field = form.elements.namedItem(spec.name);
+        if (spec.type === "boolean") inputs[spec.name] = field.checked;
+        else if (field.value !== "") inputs[spec.name] = field.value;
+      }
+      const confirmText = item.danger ? `確認執行「${item.name}」？\n\n${item.danger}\n\n此操作會使用 main 分支。` : `確認觸發「${item.name}」？`;
+      if (!confirm(confirmText)) return;
+      busy = true;
+      run.disabled = true;
+      run.textContent = "提交中…";
+      message(`正在提交：${item.repository} / ${item.workflow}`);
+      try {
+        const result = await api("", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ repository: item.repository, workflow: item.workflow, ref: "main", inputs })
+        });
+        message(`GitHub 已接受觸發請求：${result.repository} / ${result.workflow}\n這不代表工作流程已成功完成，請開啟「執行紀錄」查看結果。`, "ok");
+      } catch (error) {
+        message(`觸發失敗：${error.message}`, "error");
+      } finally {
+        busy = false;
+        run.disabled = false;
+        run.textContent = "立即觸發";
+      }
+    });
+    card.append(form);
+    root.append(card);
+  }
+}
+async function load() {
+  $("reload").disabled = true;
+  message("正在讀取核准的工作流程清單…");
+  try {
+    const data = await api("?action=catalog");
+    workflows = data.workflows || [];
+    const groups = [...new Set(workflows.map(item => item.group).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"zh-Hant"));
+    const select = $("group");
+    select.replaceChildren(create("option", "", "全部類型"));
+    select.firstChild.value = "";
+    for (const name of groups) {
+      const option = create("option", "", name);
+      option.value = name;
+      select.append(option);
+    }
+    message("");
+    render();
+  } catch (error) {
+    $("workflows").replaceChildren(create("div", "empty", "無法載入工作流程清單。"));
+    message(error.message, "error");
+    $("count").textContent = "載入失敗";
+  } finally {
+    $("reload").disabled = false;
+  }
+}
+$("reload").addEventListener("click", load);
+$("search").addEventListener("input", render);
+$("group").addEventListener("change", render);
+$("forget").addEventListener("click", () => {
+  try { localStorage.removeItem(KEY_STORAGE); } catch {}
+  message("已清除此瀏覽器儲存的授權金鑰。", "ok");
+});
+load();
+</script>
+</body>
+</html>
