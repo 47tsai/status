@@ -161,6 +161,21 @@ class CheckinRecordParsingTests(unittest.TestCase):
         record = "| 帳號 | 上次簽到時間 | 簽到結果 |\n|---|---|---|\n| A | 2026-10-16 08:00:00 | ❌ 簽到失敗 |"
         self.assertEqual(parse_checkin_record(record), ("2026-10-16 08:00:00", "❌ 簽到失敗"))
 
+    def test_result_line_with_today_already_checked_in_is_parsed(self):
+        record = "# Activity\n\nLast run: 2026-10-16 09:30:00\n\nResult: 今日已簽到\n"
+        timestamp, status_line = parse_checkin_record(record)
+        self.assertEqual(timestamp, "2026-10-16 09:30:00")
+        self.assertEqual(status_line, "今日已簽到")
+        result = classify_checkin_result(timestamp, status_line, datetime(2026, 10, 16, 10, 0))
+        self.assertEqual(result["business_status"], "success")
+
+    def test_negated_success_is_preserved_by_parser_and_classified_unknown(self):
+        record = "# Activity\n\nLast run: 2026-10-16 09:30:00\n\nResult: 未簽到成功\n"
+        timestamp, status_line = parse_checkin_record(record)
+        self.assertEqual(status_line, "未簽到成功")
+        result = classify_checkin_result(timestamp, status_line, datetime(2026, 10, 16, 10, 0))
+        self.assertEqual(result["business_status"], "unknown")
+
 
 if __name__ == "__main__":
     unittest.main()
