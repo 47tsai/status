@@ -252,7 +252,7 @@ test("fails closed when Chi Auth cannot be reached", async () => {
 
 test("Actions console inline JavaScript parses", () => {
   const html = readFileSync(new URL("../actions.html", import.meta.url), "utf8");
-  const inlineScript = html.match(/<script>\\s*([\\s\\S]*?)<\\/script>/);
+  const inlineScript = html.match(/<script>([\s\S]*?)<\/script>/);
   assert.ok(inlineScript, "expected an inline application script");
   assert.doesNotThrow(() => new Function(inlineScript[1]));
 });
