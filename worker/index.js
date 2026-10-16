@@ -51,10 +51,25 @@ export default {
     }
 
     if (!["GET", "POST"].includes(request.method)) return json({ ok: false, error: "Method not allowed." }, 405);
+
+    // Rate-limit requests by client IP before checking credentials to slow down key guessing.
+    // Cloudflare's limiter is approximate and scoped to a Cloudflare location.
+    const clientIp = request.headers.get("CF-Connecting-IP") || "missing-ip";
+    const ipAllowed = await checkRateLimit(env.IP_RATE_LIMITER, clientIp);
+    if (ipAllowed === null) return json({ ok: false, error: "Rate limiter is unavailable." }, 503);
+    if (!ipAllowed) return json({ ok: false, error: "Too many requests. Please wait and try again." }, 429);
+
     if (!env.GITHUB_TOKEN || !env.TRIGGER_SECRET) return json({ ok: false, error: "Worker secrets are not configured." }, 503);
 
     const suppliedKey = request.headers.get("X-Trigger-Key") || "";
     if (!constantTimeEqual(suppliedKey, env.TRIGGER_SECRET)) return json({ ok: false, error: "Invalid trigger key." }, 401);
+
+    // Only authenticated POST requests consume the workflow-dispatch quota.
+    if (request.method === "POST") {
+      const dispatchAllowed = await checkRateLimit(env.DISPATCH_RATE_LIMITER, "authenticated-workflow-dispatch");
+      if (dispatchAllowed === null) return json({ ok: false, error: "Rate limiter is unavailable." }, 503);
+      if (!dispatchAllowed) return json({ ok: false, error: "Workflow trigger limit reached. Wait one minute before trying again." }, 429);
+    }
 
     if (request.method === "GET") {
       const url = new URL(request.url);
@@ -132,6 +147,16 @@ export default {
     return json({ ok: true, message: "Workflow dispatch accepted.", repository, workflow, ref }, 202);
   },
 };
+
+async function checkRateLimit(limiter, key) {
+  try {
+    const result = await limiter.limit({ key });
+    return result?.success === true;
+  } catch (error) {
+    console.error("Rate limiter failed", error?.name || "unknown");
+    return null;
+  }
+}
 
 function constantTimeEqual(a, b) {
   if (a.length !== b.length) return false;
