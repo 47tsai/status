@@ -28,6 +28,9 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Test Worker authorization and dispatch
+        run: node --experimental-default-type=module --test worker/index.test.mjs
+
       - name: Validate required secrets
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
