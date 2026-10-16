@@ -175,12 +175,14 @@ class DiscordAlertTests(unittest.TestCase):
                 for i in range(12)
             ]
             status_path.write_text(json.dumps({"repositories": items}), encoding="utf-8")
-            state_path.write_text('{"active_failures": {}}\\n', encoding="utf-8")
+            state_path.write_text(json.dumps({"active_failures": {}}) + "\n", encoding="utf-8")
 
-            with patch.object(notify_discord, "STATUS_PATH", status_path), \\
-                 patch.object(notify_discord, "STATE_PATH", state_path), \\
-                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \\
-                 patch.object(notify_discord, "post_discord", return_value={"http_status": 200}) as post:
+            with (
+                patch.object(notify_discord, "STATUS_PATH", status_path),
+                patch.object(notify_discord, "STATE_PATH", state_path),
+                patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}),
+                patch.object(notify_discord, "post_discord", return_value={"http_status": 200}) as post,
+            ):
                 self.assertEqual(notify_discord.main(), 0)
 
             self.assertEqual([len(call.args[1]["embeds"]) for call in post.call_args_list], [10, 2])
@@ -197,14 +199,18 @@ class DiscordAlertTests(unittest.TestCase):
                 for i in range(12)
             ]
             status_path.write_text(json.dumps({"repositories": items}), encoding="utf-8")
-            original_state = '{"active_failures": {}}\\n'
+            original_state = json.dumps({"active_failures": {}}) + "\n"
             state_path.write_text(original_state, encoding="utf-8")
 
-            with patch.object(notify_discord, "STATUS_PATH", status_path), \\
-                 patch.object(notify_discord, "STATE_PATH", state_path), \\
-                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \\
-                 patch.object(notify_discord, "post_discord",
-                              side_effect=[{"http_status": 200}, RuntimeError("temporary delivery error")]) as post:
+            with (
+                patch.object(notify_discord, "STATUS_PATH", status_path),
+                patch.object(notify_discord, "STATE_PATH", state_path),
+                patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}),
+                patch.object(
+                    notify_discord, "post_discord",
+                    side_effect=[{"http_status": 200}, RuntimeError("temporary delivery error")],
+                ) as post,
+            ):
                 self.assertEqual(notify_discord.main(), 1)
 
             self.assertEqual(post.call_count, 2)
