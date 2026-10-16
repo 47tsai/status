@@ -1,4 +1,6 @@
 const ALLOWED_ORIGIN = "https://status.chi.qzz.io";
+const CHI_AUTH_CLIENT_ID = "DZT0NzjdlmwxReZ47kOVdNVV42YOtCV1";
+const CHI_AUTH_USERINFO_URL = "https://auth.chi.qzz.io/api/userinfo";
 const DEFAULT_REPOSITORY = "tsai97216/status";
 const DEFAULT_WORKFLOW = "update-status.yml";
 
@@ -29,7 +31,7 @@ function json(body, status = 200) {
       "Cache-Control": "no-store",
       "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, X-Trigger-Key",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Vary": "Origin",
     },
   });
@@ -44,7 +46,7 @@ export default {
       return new Response(null, { status: 204, headers: {
         "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, X-Trigger-Key",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
         "Access-Control-Max-Age": "86400",
         "Vary": "Origin",
       }});
@@ -59,10 +61,27 @@ export default {
     if (ipAllowed === null) return json({ ok: false, error: "Rate limiter is unavailable." }, 503);
     if (!ipAllowed) return json({ ok: false, error: "Too many requests. Please wait and try again." }, 429);
 
-    if (!env.GITHUB_TOKEN || !env.TRIGGER_SECRET) return json({ ok: false, error: "Worker secrets are not configured." }, 503);
+    if (!env.GITHUB_TOKEN) return json({ ok: false, error: "Worker secrets are not configured." }, 503);
 
-    const suppliedKey = request.headers.get("X-Trigger-Key") || "";
-    if (!constantTimeEqual(suppliedKey, env.TRIGGER_SECRET)) return json({ ok: false, error: "Invalid trigger key." }, 401);
+    const authorization = request.headers.get("Authorization") || "";
+    const tokenMatch = authorization.match(/^Bearer ([A-Za-z0-9_-]{40,80})$/);
+    if (!tokenMatch) return json({ ok: false, error: "Chi Auth login is required." }, 401);
+    let identity;
+    try {
+      const identityResponse = await fetch(CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID), {
+        headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
+        cache: "no-store",
+        signal: AbortSignal.timeout(5000),
+      });
+      if (!identityResponse.ok) return json({ ok: false, error: "Chi Auth token is invalid or expired." }, 401);
+      identity = await identityResponse.json();
+    } catch (error) {
+      console.error("Chi Auth identity check failed", error?.name || "unknown");
+      return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please retry." }, 503);
+    }
+    if (identity?.sub !== "chi-owner" || identity?.aud !== CHI_AUTH_CLIENT_ID) {
+      return json({ ok: false, error: "Chi Auth identity or audience check failed." }, 403);
+    }
 
     if (request.method === "GET") {
       const url = new URL(request.url);
