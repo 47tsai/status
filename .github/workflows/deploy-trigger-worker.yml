@@ -1,0 +1,48 @@
+name: Deploy Cloudflare trigger Worker
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "worker/**"
+      - ".github/workflows/deploy-trigger-worker.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-chi-status-trigger
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Deploy Worker
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -o pipefail
+          npx --yes wrangler@4 deploy --config worker/wrangler.toml 2>&1 | tee /tmp/wrangler-deploy.log
+          WORKER_URL="$(grep -Eo 'https://[^[:space:]]+workers\.dev' /tmp/wrangler-deploy.log | tail -n 1 | sed 's/[),.]$//')"
+          {
+            echo "## Cloudflare Worker deployment"
+            if [ -n "$WORKER_URL" ]; then
+              echo "Deployment URL: $WORKER_URL"
+              echo
+              echo "Next: add the `GITHUB_TOKEN` and `TRIGGER_SECRET` secrets to this Worker in Cloudflare, then configure this URL in the dashboard."
+            else
+              echo "Worker deploy command completed, but the URL could not be parsed from Wrangler output. See the deployment logs."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
