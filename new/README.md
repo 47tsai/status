@@ -4,7 +4,7 @@
 
 ## 預覽方式
 
-部署後開啟 `https://status.chi.qzz.io/new/`。新版讀取上一層的 `../status.json`，並連結既有的 `../actions.html` 控制台；不會修改資料收集、告警、Worker 驗證或 Actions 觸發流程。
+部署後開啟 `https://status.chi.qzz.io/new/`。新版讀取上一層的 `../status.json`，並連結共用版面中的 `./actions/` 控制台；不會修改資料收集、告警、Worker 驗證或 Actions 觸發流程。
 
 ## 設計原則
 
@@ -19,5 +19,5 @@
 - [ ] 確認 `../status.json` 能讀取且更新時間合理。
 - [ ] 比對摘要數字、專案排序、狀態標籤、詳細資料與舊版一致。
 - [ ] 測試搜尋、所有篩選、重新整理、深色模式及手機漢堡選單。
-- [ ] 確認 Actions 控制台連結、GitHub 外連與鍵盤操作正常。
+- [ ] 確認 `/new/actions/` 控制台、舊網址 `/actions.html` 導向、GitHub 外連與鍵盤操作正常。
 - [ ] 桌面及手機實測通過後，再規劃搬移至根目錄；此預覽不會自動覆寫正式版。
