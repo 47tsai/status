@@ -94,6 +94,15 @@ class CheckinFreshnessTests(unittest.TestCase):
         self.assertEqual(result["business_status"], "unknown")
         self.assertEqual(result["tone"], "normal")
 
+    def test_unavailable_source_has_distinct_message_from_expired_record(self):
+        result = classify_checkin_result(
+            None, None, self.now, source_available=False
+        )
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["business_label"], "來源紀錄讀取失敗，無法確認簽到結果")
+        self.assertIn("無法讀取來源檔", result["displayed_result"])
+        self.assertEqual(result["tone"], "normal")
+
     def test_unavailable_source_record_never_claims_success(self):
         timestamp, status_line = parse_checkin_record(None)
         result = classify_checkin_result(timestamp, status_line, self.now)
