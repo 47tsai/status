@@ -84,7 +84,7 @@ function render() {
     const haystack = [item.name, item.repository, item.workflow, item.group].join(" ").toLowerCase();
     return (!query || haystack.includes(query)) && (!group || item.group === group);
   });
-  $("count").textContent = `${visible.length} / ${workflows.length} 個工作流程`;
+  $("count").textContent = `${visible.length} / ${workflows.length} 個工作流程／監控項目`;
   const root = $("workflows");
   root.replaceChildren();
   if (!visible.length) {
@@ -98,6 +98,25 @@ function render() {
     info.append(create("div", "name", item.name), create("div", "repo", `${item.repository} · ${item.workflow}`));
     head.append(info, create("span", "group", item.group || "其他"));
     card.append(head);
+    if (item.available === false) {
+      card.append(create("div", "warning", item.reason || "目前無法從控制台觸發。"));
+      const foot = create("div", "foot");
+      foot.append(create("span", "hint", "僅供狀態參考"));
+      if (item.repository.startsWith("tsai97216/")) {
+        const link = create("a", "btn", "查看專案");
+        link.href = `https://github.com/${item.repository}/actions`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        foot.append(link);
+      } else {
+        const link = create("a", "btn", "查看狀態總覽");
+        link.href = "./";
+        foot.append(link);
+      }
+      card.append(foot);
+      root.append(card);
+      continue;
+    }
     if (item.danger) card.append(create("div", "warning", item.danger));
     const form = create("form", "fields");
     for (const spec of item.inputs || []) {
@@ -184,7 +203,7 @@ function render() {
 }
 async function load() {
   $("reload").disabled = true;
-  message("正在讀取核准的工作流程清單…");
+  message("正在讀取狀態總覽專案清單…");
   try {
     const data = await api("?action=catalog");
     workflows = data.workflows || [];
