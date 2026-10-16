@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from scripts.update_status import classify_checkin_result, parse_checkin_record, reset_cycle_date
+from scripts.update_status import classify_checkin_result, classify_claim_state, parse_checkin_record, reset_cycle_date
 
 
 class ResetCycleDateTests(unittest.TestCase):
@@ -48,6 +48,50 @@ class ResetCycleDateTests(unittest.TestCase):
             reset_cycle_date(datetime(2026, 10, 16, 7, 59, tzinfo=timezone.utc), 16),
             datetime(2026, 10, 15).date(),
         )
+
+
+class ClaimStateClassificationTests(unittest.TestCase):
+    def setUp(self):
+        self.now = datetime(2026, 10, 16, 17, 0, tzinfo=timezone.utc)  # 01:00 next day in Taiwan
+
+    def test_success_from_current_cycle_is_success(self):
+        result = classify_claim_state({
+            "success": True,
+            "lastResult": "成功",
+            "lastClaimAt": "2026-10-16T12:49:40.969Z",
+        }, self.now)
+        self.assertEqual(result["result"], "成功")
+        self.assertEqual(result["tone"], "good")
+
+    def test_future_claim_timestamp_is_unknown(self):
+        result = classify_claim_state({
+            "success": True,
+            "lastResult": "成功",
+            "lastClaimAt": "2026-10-17T12:00:00Z",
+        }, self.now)
+        self.assertEqual(result["result"], "本輪尚未確認")
+        self.assertEqual(result["tone"], "normal")
+
+    def test_missing_account_state_is_unknown(self):
+        result = classify_claim_state(None, self.now)
+        self.assertEqual(result["result"], "本輪尚未確認")
+        self.assertEqual(result["time"], "尚無紀錄")
+
+    def test_success_flag_conflicting_with_result_text_is_unknown(self):
+        result = classify_claim_state({
+            "success": True,
+            "lastResult": "失敗",
+            "lastClaimAt": "2026-10-16T12:49:40Z",
+        }, self.now)
+        self.assertEqual(result["result"], "本輪尚未確認")
+
+    def test_previous_reset_cycle_is_unknown(self):
+        result = classify_claim_state({
+            "success": True,
+            "lastResult": "成功",
+            "lastClaimAt": "2026-10-16T07:00:00Z",
+        }, self.now)
+        self.assertEqual(result["result"], "本輪尚未確認")
 
 
 class CheckinFreshnessTests(unittest.TestCase):
