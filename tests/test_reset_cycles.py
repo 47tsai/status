@@ -89,6 +89,19 @@ class CheckinFreshnessTests(unittest.TestCase):
         self.assertEqual(result["business_status"], "success")
 
 
+    def test_malformed_timestamp_never_claims_success(self):
+        result = classify_checkin_result("not-a-date", "簽到成功", self.now)
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["tone"], "normal")
+
+    def test_unavailable_source_record_never_claims_success(self):
+        timestamp, status_line = parse_checkin_record(None)
+        result = classify_checkin_result(timestamp, status_line, self.now)
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["tone"], "normal")
+        self.assertIn("缺少", result["displayed_result"])
+
+
 class CheckinRecordParsingTests(unittest.TestCase):
     def test_apktw_activity_format_parses_last_run_and_result(self):
         record = "# APK.TW Check-in Activity\n\nLast run: 2026-10-16 16:45:07\n\nResult: ✅ 簽到成功\n"
