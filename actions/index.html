@@ -105,7 +105,7 @@ function getKey() {
   return key;
 }
 async function api(path, options={}) {
-  if (!API_URL) throw new Error("API 網址尚未設定。請先部署 Worker，並把網址填入 actions.html 的 API_URL。");
+  if (!API_URL) throw new Error("API 網址尚未設定。請先部署 Worker，並確認 actions/index.html 的 API_URL。");
   const key = getKey();
   if (!key) throw new Error("未輸入授權金鑰。");
   const response = await fetch(API_URL + path, {
@@ -308,7 +308,6 @@ function themeIconNode(name) {
   svg.innerHTML = paths[name] || paths.monitor;
   return svg;
 }
-function renderThemeIcon() {}
 const themeToggle = $("themeToggle"), themeIcon = $("themeIcon"), themeLabel = $("themeLabel");
 const themeModes = ["system", "light", "dark"];
 const themeNames = { system: "跟隨系統", light: "淺色模式", dark: "深色模式" };
@@ -317,7 +316,6 @@ function setTheme(mode, save=false) {
   const resolved = mode === "system" ? (systemTheme.matches ? "light" : "dark") : mode;
   document.documentElement.dataset.chiTheme = resolved;
   themeIcon.replaceChildren(themeIconNode(mode === "system" ? "monitor" : mode === "light" ? "sun" : "moon"));
-  renderThemeIcon();
   themeLabel.textContent = themeNames[mode];
   themeToggle.setAttribute("aria-label", "色彩模式：" + themeNames[mode] + "，點擊切換");
   themeToggle.title = "色彩模式：" + themeNames[mode];
