@@ -213,7 +213,7 @@ html[data-theme="light"] .bad-text{color:#a32118}
 
 </head>
 <body><main>
-<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><i class="button-icon" data-lucide="external-link" aria-hidden="true"></i>更新紀錄</a><button id="refresh"><i class="button-icon" data-lucide="refresh-cw" aria-hidden="true"></i><span id="refreshLabel" aria-live="polite">重新整理</span></button></div></header>
+<header class="top"><div><h1>專案健康中心</h1></div><div class="top-actions"><button id="themeToggle" type="button" aria-label="切換色彩模式"><span id="themeIcon" class="button-icon" aria-hidden="true"></span><span id="themeLabel">跟隨系統</span></button><a class="btn" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer"><i class="button-icon" data-lucide="external-link" aria-hidden="true"></i>更新紀錄</a><button id="refresh" type="button" title="開啟 GitHub Actions 手動觸發頁面"><i class="button-icon" data-lucide="refresh-cw" aria-hidden="true"></i><span id="refreshLabel" aria-live="polite">觸發更新</span></button></div></header>
 <section class="stats"><div class="stat"><span>專案</span><strong id="total">－</strong></div><div class="stat"><span>業務成功</span><strong id="bizok">－</strong></div><div class="stat"><span>需注意</span><strong id="attention">－</strong></div><div class="stat"><span>執行中</span><strong id="runningCount">－</strong></div></section>
 <section class="toolbar"><input id="search" type="search" placeholder="搜尋專案、工作流程或業務結果…" aria-label="搜尋專案"><select id="filter" aria-label="狀態篩選"><option value="all">全部專案</option><option value="attention">需要注意</option><option value="business-failure">業務失敗</option><option value="workflow-failure">Workflow 失敗</option><option value="success">業務成功</option><option value="running">執行中</option><option value="deploy">網站與部署</option><option value="vps">VPS 主機</option></select><span id="updated" class="runmeta" role="status" aria-live="polite">讀取資料中…</span></section>
 <section id="projects" class="grid"><div class="empty">正在載入專案資料…</div></section>
@@ -300,5 +300,5 @@ let currentTheme=savedTheme;
 setTheme(currentTheme);
 themeToggle.addEventListener('click',()=>{currentTheme=themeModes[(themeModes.indexOf(currentTheme)+1)%themeModes.length];setTheme(currentTheme,true)});
 systemTheme.addEventListener('change',()=>{if(currentTheme==='system')setTheme('system')});
-$('refresh').addEventListener('click',load);$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
+$('refresh').addEventListener('click',()=>{const url='https://github.com/tsai97216/status/actions/workflows/update-status.yml';window.open(url,'_blank','noopener,noreferrer');$('updated').textContent='已開啟 GitHub Actions，請在頁面點選 Run workflow 執行更新。';$('updated').classList.remove('stale');});$('search').addEventListener('input',render);$('filter').addEventListener('change',render);load();
 </script></body></html>
