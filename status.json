@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T00:13:39.098496+00:00",
+  "generated_at": "2026-10-16T00:18:15.033872+00:00",
   "repository_count": 11,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Update Actions status",
       "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-16T00:13:25Z",
-      "created_at": "2026-10-16T00:13:22Z",
+      "updated_at": "2026-10-16T00:18:02Z",
+      "created_at": "2026-10-16T00:17:59Z",
       "event": "push",
-      "commit_message": "test: preserve alert state when Discord delivery fails",
+      "commit_message": "chore: update dashboard project names",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38828240755",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38828695885",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -44,7 +44,7 @@
           {
             "label": "最近更新流程",
             "result": "儀表板正在更新",
-            "time": "2026-10-16 08:13:25",
+            "time": "2026-10-16 08:18:02",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-16T00:13:33.680223+00:00",
-      "created_at": "2026-10-16T00:13:33.680240+00:00",
+      "updated_at": "2026-10-16T00:18:12.058416+00:00",
+      "created_at": "2026-10-16T00:18:12.058432+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -93,13 +93,13 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 1479 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 1181 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 3342 ms",
+            "result": "HTTP 與基本頁面內容檢查通過 · HTTP 200 · 1197 ms",
             "time": "",
             "tone": "good"
           },
@@ -112,6 +112,79 @@
         ],
         "note": "此卡只驗證 Alist、BiliTool、Twitch Drops Miner 三個公開網址是否有 HTTP 回應，不等同於確認應用程式內部功能或 VPS 本身健康。Twitch Drops Miner 若回應預期的 Cloudflare Access 登入頁，只代表 Access 閘道有回應，不代表登入後的後端服務可用。任一端點明確異常即判定對外服務異常；此探測無法確認 VM、SSH、CPU、記憶體或磁碟狀態。",
         "evidence_url": null
+      }
+    },
+    {
+      "name": "chi-source-personal",
+      "full_name": "tsai97216/chi-source-personal",
+      "html_url": "https://github.com/tsai97216/chi-source-personal",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-16T00:18:06Z",
+      "created_at": "2026-10-16T00:17:28Z",
+      "event": "dynamic",
+      "commit_message": "auto: sync Chi Source",
+      "duration_seconds": 38,
+      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
+      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38828646757",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source Personal",
+        "description": "個人來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站內容檢查通過",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "9",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "2",
+            "tone": "good"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-16 08:17:25",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-16 02:55:35",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "2 個 App 更新、7 個未變更",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "更新的 App",
+            "result": "StikDebug、MiniWatts",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       }
     },
     {
@@ -203,7 +276,7 @@
       "run_url": "https://github.com/tsai97216/free-game/actions/runs/38826258096",
       "business": {
         "kind": "freegame",
-        "title": "免費遊戲通知",
+        "title": "限免遊戲通知",
         "description": "RSS 掃描、已處理遊戲與文章去重狀態",
         "icon": "gamepad",
         "business_status": "success",
@@ -292,79 +365,6 @@
         ],
         "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
         "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
-      }
-    },
-    {
-      "name": "chi-source-personal",
-      "full_name": "tsai97216/chi-source-personal",
-      "html_url": "https://github.com/tsai97216/chi-source-personal",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-15T22:01:05Z",
-      "created_at": "2026-10-15T21:59:54Z",
-      "event": "dynamic",
-      "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 71,
-      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38813996524",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source Personal",
-        "description": "個人來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "來源網站內容檢查通過",
-        "metrics": [
-          {
-            "label": "App 數量",
-            "value": "9",
-            "tone": "normal"
-          },
-          {
-            "label": "本次標示更新",
-            "value": "3",
-            "tone": "good"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "自動檢查",
-            "result": "2026-10-16 05:59:51",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "內容更新",
-            "result": "2026-10-16 02:55:35",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "版本狀態",
-            "result": "3 個 App 更新、6 個未變更",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "更新的 App",
-            "result": "SpooferPro Pokemon GO、StikDebug、MiniWatts",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
-        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       }
     },
     {
@@ -473,7 +473,7 @@
       "run_url": "https://github.com/tsai97216/h/actions/runs/38421704440",
       "business": {
         "kind": "deploy",
-        "title": "H 連結工具",
+        "title": "H",
         "description": "工具網站部署與實際 HTTP 健康檢查",
         "icon": "↗",
         "business_status": "success",
@@ -540,7 +540,7 @@
       "run_url": "https://github.com/tsai97216/nav/actions/runs/38209999973",
       "business": {
         "kind": "deploy",
-        "title": "Chi 導航站",
+        "title": "Chi 的工具箱",
         "description": "導航網站部署與實際 HTTP 健康檢查",
         "icon": "⌖",
         "business_status": "success",
@@ -607,7 +607,7 @@
       "run_url": "https://github.com/tsai97216/merch/actions/runs/37083130601",
       "business": {
         "kind": "deploy",
-        "title": "Merch 商品資料",
+        "title": "周邊收藏網",
         "description": "商品網站部署與實際 HTTP 健康檢查",
         "icon": "▦",
         "business_status": "success",
