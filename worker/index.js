@@ -68,7 +68,8 @@ export default {
     if (authorization) {
       const match = authorization.match(/^Bearer ([A-Za-z0-9_-]{40,80})$/);
       if (!match) return json({ ok: false, error: "Invalid Chi Auth access token." }, 401);
-      const authResult = await verifyChiAccessToken(match[1]);
+      if (!env.CHI_AUTH_STATUS_CLIENT_ID) return json({ ok: false, error: "Chi Auth Status client is not configured." }, 503);
+      const authResult = await verifyChiAccessToken(match[1], env.CHI_AUTH_STATUS_CLIENT_ID);
       if (authResult === null) return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please try again." }, 503);
       if (!authResult) return json({ ok: false, error: "Invalid or expired Chi Auth access token." }, 401);
       authenticated = true;
