@@ -1,7 +1,58 @@
 {
-  "generated_at": "2026-10-16T11:50:46.242880+00:00",
+  "generated_at": "2026-10-16T12:21:50.228726+00:00",
   "repository_count": 12,
   "repositories": [
+    {
+      "name": "sc-auto-claim",
+      "full_name": "tsai97216/sc-auto-claim",
+      "html_url": "https://github.com/tsai97216/sc-auto-claim",
+      "workflow": "daily-claim",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-16T07:37:42Z",
+      "created_at": "2026-10-16T07:36:30Z",
+      "event": "schedule",
+      "commit_message": "update claim status",
+      "duration_seconds": 72,
+      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38868292577",
+      "business": {
+        "kind": "claim",
+        "title": "荒野亂鬥自動領取",
+        "description": "兩個帳號的實際領取結果與最近成功時間",
+        "icon": "gamepad",
+        "business_status": "unknown",
+        "business_label": "本輪領取結果待確認",
+        "metrics": [
+          {
+            "label": "本輪成功帳號",
+            "value": "0/2",
+            "tone": "normal"
+          },
+          {
+            "label": "最近領取",
+            "value": "2026-10-15 20:15:57",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "帳號 A",
+            "result": "本輪尚未確認",
+            "time": "2026-10-15 20:15:32",
+            "tone": "normal"
+          },
+          {
+            "label": "帳號 B",
+            "result": "本輪尚未確認",
+            "time": "2026-10-15 20:15:57",
+            "tone": "normal"
+          }
+        ],
+        "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
+        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+      }
+    },
     {
       "name": "vps-01",
       "full_name": "VPS-01 · Oracle Cloud Infrastructure",
@@ -9,8 +60,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-16T11:50:44.618148+00:00",
-      "created_at": "2026-10-16T11:50:44.618164+00:00",
+      "updated_at": "2026-10-16T12:21:48.233221+00:00",
+      "created_at": "2026-10-16T12:21:48.233238+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,19 +94,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 437 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 692 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 540 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 704 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 645 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 596 ms",
             "time": "",
             "tone": "good"
           }
@@ -71,13 +122,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T11:31:02Z",
-      "created_at": "2026-10-16T11:30:11Z",
-      "event": "push",
-      "commit_message": "Treat stale check-in records as unknown after midnight",
-      "duration_seconds": 51,
+      "updated_at": "2026-10-16T11:51:11Z",
+      "created_at": "2026-10-16T11:50:24Z",
+      "event": "schedule",
+      "commit_message": "chore: update project business status",
+      "duration_seconds": 47,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38894193869",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38896432518",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -106,7 +157,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-16 19:31:02",
+            "time": "2026-10-16 19:51:11",
             "tone": "good"
           }
         ],
@@ -404,57 +455,6 @@
         ],
         "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
         "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
-      }
-    },
-    {
-      "name": "sc-auto-claim",
-      "full_name": "tsai97216/sc-auto-claim",
-      "html_url": "https://github.com/tsai97216/sc-auto-claim",
-      "workflow": "daily-claim",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T07:37:42Z",
-      "created_at": "2026-10-16T07:36:30Z",
-      "event": "schedule",
-      "commit_message": "update claim status",
-      "duration_seconds": 72,
-      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38868292577",
-      "business": {
-        "kind": "claim",
-        "title": "荒野亂鬥自動領取",
-        "description": "兩個帳號的實際領取結果與最近成功時間",
-        "icon": "gamepad",
-        "business_status": "success",
-        "business_label": "2/2 個帳號成功",
-        "metrics": [
-          {
-            "label": "成功帳號",
-            "value": "2/2",
-            "tone": "good"
-          },
-          {
-            "label": "最近領取",
-            "value": "2026-10-15 20:15:57",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "帳號 A",
-            "result": "成功",
-            "time": "2026-10-15 20:15:32",
-            "tone": "good"
-          },
-          {
-            "label": "帳號 B",
-            "result": "成功",
-            "time": "2026-10-15 20:15:57",
-            "tone": "good"
-          }
-        ],
-        "note": "以 claim_state_A/B.json 的實際結果判斷，不以 Actions 綠勾代替領取成功。",
-        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
       }
     },
     {
