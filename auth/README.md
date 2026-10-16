@@ -18,11 +18,11 @@ This is not yet a complete production SSO rollout. Existing apps still need a ca
 ## Before deployment
 
 1. Create a Cloudflare D1 database named `chi-auth` and replace the placeholder `database_id` in `wrangler.toml`.
-2. Set `CHI_AUTH_SETUP_SECRET` as a Worker secret using a high-entropy random value from a password manager. Never commit it to source.
-3. Apply all D1 migrations, including `0002_security_hardening.sql` and `0003_oauth_clients.sql`.
-4. Confirm the Cloudflare zone for `qzz.io` and configure only the route `chi.qzz.io/auth/*`. Do not route the root site to this Worker.
-5. Run CI and a deployment dry run, then verify Passkey enrollment/login and OAuth PKCE using real browsers.
-6. Document a recovery procedure before production use.
+2. Add a repository Actions secret named `CHI_AUTH_SETUP_SECRET`, generated as a high-entropy random value by a password manager. Never commit or paste it into source.
+3. Confirm the Cloudflare zone for `qzz.io` and configure only the route `chi.qzz.io/auth/*`. Do not route the root site to this Worker.
+4. After creating the D1 database, replace the placeholder `database_id` in `auth/wrangler.toml`.
+5. Run **Actions → Deploy Chi Auth Worker → Run workflow**. The workflow refuses to deploy while the database ID or exact route is unconfigured, then applies the migrations, tests, deploys, and sets the setup secret.
+6. Verify Passkey enrollment/login and OAuth PKCE using real browsers, and document a recovery procedure before production use.
 
 ## Client integration requirements
 
