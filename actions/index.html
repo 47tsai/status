@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-Hant" data-chi-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f8fc">
+<meta name="description" content="Chi Status 工作流程控制台，集中管理已核准的 GitHub Actions 工作流程。">
+<title>Chi Status · Actions 控制台</title>
+<style>:root{color-scheme:light;--page:#f6f8fc;--page-soft:#f0f3fa;--surface:#fff;--surface-glass:rgb(255 255 255 / 88%);--surface-muted:#edf2fc;--text:#33343a;--text-strong:#202127;--muted:#686f7d;--subtle:#9299a7;--border:#e8ebf2;--border-strong:#d4dae6;--accent:#4f46e5;--accent-hover:#4338ca;--blue:#3b82f6;--success:#237a50;--warning:#8a5b13;--danger:#b93843;--focus:#818cf8;--footer:#111113;--footer-text:#d1d5db;--sans:"Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--shadow-sm:0 4px 14px rgb(59 82 145 / 8%);--shadow-md:0 10px 25px -5px rgb(220 226 240 / 65%),0 8px 10px -6px rgb(220 226 240 / 42%);--shadow-accent:0 4px 14px rgb(59 130 246 / 20%);--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:22px;--content:1080px;--ease:180ms ease}
+[data-chi-theme=dark]{color-scheme:dark;--page:#17191f;--page-soft:#1b1e27;--surface:#20232c;--surface-glass:rgb(32 35 44 / 92%);--surface-muted:#282c38;--text:#e8eaf1;--text-strong:#f7f8fc;--muted:#b2b8c7;--subtle:#8c94a6;--border:#353a49;--border-strong:#4b5265;--accent:#a5a1ff;--accent-hover:#c0bdff;--blue:#7daeff;--success:#7ed6a7;--warning:#edc071;--danger:#ff969e;--focus:#a5a1ff;--footer:#101116;--footer-text:#d1d5df;--shadow-sm:0 4px 16px rgb(0 0 0 / 18%);--shadow-md:0 10px 28px rgb(0 0 0 / 24%);--shadow-accent:0 4px 14px rgb(80 105 220 / 22%)}
+*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--page);color:var(--text);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}a{color:inherit}button,input,select{font:inherit}button,a,input,select{outline-offset:3px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--focus)}.skip{position:absolute;left:1rem;top:-5rem;z-index:99;padding:.7rem 1rem;background:var(--surface);border-radius:var(--radius-md)}.skip:focus{top:1rem}.container{width:min(calc(100% - 2.5rem),var(--content));margin-inline:auto}
+.site-header{position:sticky;top:0;z-index:20;border-bottom:1px solid color-mix(in srgb,var(--border) 85%,transparent);background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(18px)}.header-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:1rem}.brand{display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--text-strong);font-weight:800;letter-spacing:.015em;white-space:nowrap}.brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:linear-gradient(145deg,#818cf8,#60a5fa);color:white;box-shadow:var(--shadow-accent);flex:none}.brand-mark svg{width:21px;height:21px}.brand-text{display:grid;line-height:1.15}.brand-text small{margin-top:4px;color:var(--subtle);font-size:10px;font-weight:650;letter-spacing:.13em}.nav-wrap{display:flex;align-items:center;gap:1rem}.nav{display:flex;align-items:center;gap:5px}.nav a{padding:.55rem .85rem;border-radius:9px;color:var(--muted);font-size:13px;font-weight:650;text-decoration:none;transition:background var(--ease),color var(--ease)}.nav a:hover,.nav a[aria-current=page]{background:var(--surface-muted);color:var(--accent)}.nav-action{display:inline-flex;width:auto;min-height:36px;justify-content:flex-start;padding:.4rem .6rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--muted);font-size:12px;font-weight:650;white-space:nowrap}.nav-action svg{width:15px;height:15px;flex:none}.nav-action:hover{background:var(--surface-muted);color:var(--accent)}.head-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.button,.btn,button{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:42px;padding:.55rem .9rem;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--surface);color:var(--text);font-size:13px;font-weight:650;text-decoration:none;cursor:pointer;transition:transform var(--ease),background var(--ease),border-color var(--ease),box-shadow var(--ease)}.button:hover,.btn:hover,button:hover{background:var(--surface-muted);border-color:var(--accent)}.button:active,.btn:active,button:active{transform:translateY(1px)}.button.primary{border-color:transparent;background:linear-gradient(100deg,#4f46e5,#3b82f6);color:#fff;box-shadow:var(--shadow-accent)}.button:disabled,button:disabled{opacity:.6;cursor:wait}.button svg,button svg,.theme-icon svg{width:16px;height:16px;flex:none}.theme-icon{display:inline-flex;align-items:center;justify-content:center}.icon-button{width:42px;padding:0}.menu-button{display:none}
+.hero{position:relative;isolation:isolate;overflow:hidden;padding:3rem 0 2.25rem;background:linear-gradient(180deg,#edf2fc 0%,#f7f9ff 50%,var(--page) 100%)}.hero:before{content:"";position:absolute;z-index:-1;top:-12rem;left:50%;width:min(120%,900px);height:28rem;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(165,180,252,.28) 0%,rgba(219,234,254,.2) 45%,transparent 75%);pointer-events:none}[data-chi-theme=dark] .hero{background:linear-gradient(180deg,#222638 0%,#1b1e29 54%,var(--page) 100%)}[data-chi-theme=dark] .hero:before{background:radial-gradient(ellipse,rgba(99,102,241,.2) 0%,rgba(59,130,246,.08) 50%,transparent 78%)}.hero-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}.hero h1{margin:0;color:var(--text-strong);font-size:clamp(2rem,4vw,2.8rem);line-height:1.15;letter-spacing:-.05em}.hero-desc{max-width:640px;margin:.8rem 0 0;color:var(--muted);font-size:14px;line-height:1.8}.eyebrow{display:flex;align-items:center;gap:.55rem;margin:0 0 .7rem;color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#34a875;box-shadow:0 0 0 4px rgb(52 168 117 / 12%)}.hero-actions{display:flex;align-items:center;justify-content:flex-end;gap:.6rem;flex-wrap:wrap}.hero-meta{color:var(--subtle);font-size:11px;margin-top:.6rem}
+main{padding:0 0 3.5rem}.content{padding-top:1.2rem}.section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:1rem}.section-head h2{margin:0;color:var(--text-strong);font-size:1.3rem;line-height:1.35;letter-spacing:-.03em}.section-head p{margin:.35rem 0 0;color:var(--muted);font-size:13px}.toolbar{display:grid;grid-template-columns:minmax(180px,1fr) minmax(165px,220px) auto;align-items:center;gap:.65rem;padding:.7rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-sm)}.field{width:100%;min-width:0;min-height:44px;padding:.65rem .85rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--page);color:var(--text);font-size:13px}.field::placeholder{color:var(--subtle)}.hint{color:var(--subtle);font-size:11px;white-space:nowrap}.toolbar .hint{padding:0 .3rem}
+#message{display:none;white-space:pre-line;margin-top:1rem;padding:.85rem 1rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--muted);font-size:12px;overflow-wrap:anywhere}#message:not(:empty){display:block}#message[data-kind=ok]{border-color:color-mix(in srgb,var(--success) 35%,var(--border));background:color-mix(in srgb,var(--success) 7%,var(--surface));color:var(--success)}#message[data-kind=error]{border-color:color-mix(in srgb,var(--danger) 35%,var(--border));background:color-mix(in srgb,var(--danger) 7%,var(--surface));color:var(--danger)}
+#workflows{display:grid;gap:2rem;margin-top:1.5rem}.workflow-group{min-width:0}.group-heading{display:flex;align-items:center;gap:.65rem;margin-bottom:.8rem}.group-title{margin:0;color:var(--text-strong);font-size:1rem;font-weight:750}.group-count{padding:.2rem .5rem;border-radius:var(--radius-sm);background:var(--surface-muted);color:var(--muted);font-size:10px}.group-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{display:flex;flex-direction:column;min-width:0;padding:1.1rem;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:var(--shadow-sm);transition:border-color var(--ease),box-shadow var(--ease)}.card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-md)}.head{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}.name{color:var(--text-strong);font-size:15px;line-height:1.45;font-weight:750;overflow-wrap:anywhere}.repo{margin-top:.3rem;color:var(--subtle);font-size:11px;line-height:1.6;overflow-wrap:anywhere}.group{display:inline-flex;align-items:center;flex:none;padding:.25rem .5rem;border:1px solid var(--border);border-radius:7px;background:var(--page-soft);color:var(--muted);font-size:10px;white-space:nowrap}.warning{margin-top:.85rem;padding:.7rem .8rem;border:1px solid color-mix(in srgb,var(--warning) 28%,var(--border));border-radius:9px;background:color-mix(in srgb,var(--warning) 7%,var(--surface));color:var(--warning);font-size:11px;line-height:1.65;overflow-wrap:anywhere}.fields{display:grid;gap:.8rem;margin-top:1rem}.field{display:grid;gap:.35rem}.field label{color:var(--muted);font-size:12px;font-weight:650}.field input,.field select{width:100%;min-width:0;min-height:42px;padding:.55rem .7rem;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--page);color:var(--text);font-size:13px}.field input::placeholder{color:var(--subtle)}.field .check{display:flex;align-items:flex-start;gap:.6rem;padding:.2rem 0;color:var(--muted);font-size:12px}.check input{width:17px;height:17px;min-height:17px;margin:.1rem 0 0;accent-color:var(--accent);flex:none}.foot{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:auto;padding-top:1rem}.actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}.btn{min-height:36px;padding:.4rem .65rem;font-size:11px}.btn.primary{border-color:transparent;background:linear-gradient(100deg,#4f46e5,#3b82f6);color:white}.empty{grid-column:1/-1;padding:2.5rem 1rem;border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:var(--surface);color:var(--muted);text-align:center}.site-footer{padding:1.4rem 0;background:var(--footer);color:var(--footer-text)}.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem}.footer-brand{font-weight:800;letter-spacing:.05em}.footer-brand span{color:#a5a1ff}.footer-copy{margin:.25rem 0 0;color:#9297a5;font-size:11px}.footer-links{display:flex;gap:1rem;flex-wrap:wrap}.footer-links a{color:#c3c7d2;font-size:11px;text-decoration:none}.footer-links a:hover{color:#fff}
+@media(max-width:1280px){.nav-wrap{position:relative}.nav{position:absolute;right:0;top:calc(100% + 12px);display:none;min-width:235px;max-width:min(290px,calc(100vw - 24px));padding:.5rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-md)}.nav.open{display:grid}.nav a{padding:.75rem}.menu-button{display:inline-flex}.header-inner{gap:.6rem}.brand{gap:.5rem}.head-tools{gap:6px;flex-wrap:nowrap}.head-tools #themeToggle{width:40px;min-width:40px}.head-tools #themeLabel{display:none}.nav-action{display:flex;width:100%;min-height:42px;padding:.65rem .85rem;border:0;background:transparent;font-size:13px}.nav-action:hover{border-color:transparent}}
+@media(max-width:900px){.hero-inner{align-items:flex-start;flex-direction:column;gap:1.1rem}.hero-actions{justify-content:flex-start}.toolbar{grid-template-columns:minmax(0,1fr) minmax(0,200px)}.toolbar .hint{grid-column:1/-1}.group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.container{width:min(calc(100% - 1.5rem),var(--content))}.header-inner{min-height:62px;gap:.5rem}.brand-mark{width:33px;height:33px}.brand-text small{font-size:9px}.brand-text{font-size:13px}.nav-wrap{position:relative}.nav{position:absolute;right:0;top:calc(100% + 12px);display:none;min-width:235px;max-width:calc(100vw - 24px);padding:.5rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-md)}.nav.open{display:grid}.nav a{padding:.75rem}.head-tools{gap:5px;flex-wrap:nowrap}.head-tools .label{display:none}.head-tools #themeToggle,.icon-button{width:38px;min-width:38px;padding:0}.menu-button{display:inline-flex}.hero{padding:2.4rem 0 1.6rem}.hero h1{font-size:2.15rem}.hero-desc{font-size:13px}.hero-actions{width:100%}.hero-actions .button{flex:1}.content{padding-top:.9rem}.section-head{align-items:flex-start;flex-direction:column;gap:.5rem}.toolbar{grid-template-columns:1fr;padding:.55rem;gap:.5rem}.toolbar .hint{grid-column:auto;white-space:normal}.group-grid{grid-template-columns:1fr}.card{padding:1rem}.head{gap:.5rem;flex-direction:column}.group{white-space:normal}.foot{align-items:flex-start;flex-direction:column}.foot>.actions{width:100%}.foot>.actions>*{flex:1}.footer-inner{align-items:flex-start;flex-direction:column;gap:1rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#workflows">跳至工作流程清單</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="../" aria-label="Chi Status 首頁"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13h4l3-9 4 16 3-7h2"/></svg></span><span class="brand-text">CHI STATUS<small>PROJECT HEALTH CENTER</small></span></a>
+<div class="nav-wrap"><nav class="nav" id="siteNav" aria-label="主要導覽"><a href="../">狀態總覽</a><a href="./" aria-current="page">Actions 控制台</a><a href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">GitHub 執行紀錄</a>
+<button class="nav-action" id="reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 17 5l3 2M4 17l3 2a7 7 0 0 0 11.4-4"/></svg>重新載入清單</button>
+<button class="nav-action" id="forget" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8.2-8.2 2 2-2 2 1.5 1.5-2 2-1.5-1.5-3.4 3.4"/></svg>清除儲存的金鑰</button>
+</nav><div class="head-tools">
+<button class="button icon-button" id="themeToggle" type="button" aria-label="色彩模式：跟隨系統，點擊切換" title="色彩模式：跟隨系統"><span id="themeIcon" class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></span><span class="label" id="themeLabel">跟隨系統</span></button>
+<button class="button icon-button menu-button" id="menuToggle" type="button" aria-label="開啟導覽選單" aria-expanded="false" aria-controls="siteNav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></div></div></header>
+<section class="hero"><div class="container hero-inner"><div><p class="eyebrow"><span class="eyebrow-dot"></span> CHI · STATUS</p><h1>Actions 控制台</h1><p class="hero-desc">瀏覽已核准的工作流程、填寫執行參數，並直接送出觸發請求。</p><p class="hero-meta">送出請求代表 GitHub 已接受觸發，不代表工作流程已成功完成。</p></div><div class="hero-actions"><a class="button" href="../">← 返回狀態總覽</a><a class="button" href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">查看 GitHub 執行紀錄</a></div></div></section>
+<main><div class="container content">
+<div class="section-head"><div><h2>工作流程</h2><p>搜尋專案或依類型篩選。只有清單中允許觸發的工作流程會顯示執行表單。</p></div><span id="count" class="hint">讀取中…</span></div>
+<section class="toolbar" aria-label="工作流程篩選"><input class="field" id="search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋專案或工作流程"><select class="field" id="group" aria-label="依類型篩選"><option value="">全部類型</option></select><span class="hint">參數將依工作流程設定顯示</span></section>
+<div id="message" role="status" aria-live="polite"></div>
+<section id="workflows" aria-label="工作流程清單"><div class="empty">正在讀取工作流程清單…</div></section>
+</div></main>
+<footer class="site-footer"><div class="container footer-inner"><div><div class="footer-brand">CHI <span>STATUS</span></div><p class="footer-copy">工作流程控制台 · 觸發前請確認目標與參數</p></div><div class="footer-links"><a href="../">狀態總覽</a><a href="https://github.com/tsai97216/status/actions" target="_blank" rel="noopener noreferrer">GitHub Actions</a></div></div></footer>
+<script>
+const API_URL = "https://chi-status-trigger.tsai97216.workers.dev";
+const KEY_STORAGE = "chi-status-trigger-key";
+const $ = id => document.getElementById(id);
+let workflows = [];
+let busy = false;
+
+function message(text, kind="") {
+  const el = $("message");
+  el.textContent = text;
+  el.dataset.kind = kind;
+}
+function getKey() {
+  let key = "";
+  try { key = localStorage.getItem(KEY_STORAGE) || ""; } catch {}
+  if (!key) {
+    key = prompt("請輸入 Status Worker 的 TRIGGER_SECRET：") || "";
+    key = key.trim();
+    if (key) {
+      try { localStorage.setItem(KEY_STORAGE, key); } catch {}
+    }
+  }
+  return key;
+}
+async function api(path, options={}) {
+  if (!API_URL) throw new Error("API 網址尚未設定。請先部署 Worker，並把網址填入 actions.html 的 API_URL。");
+  const key = getKey();
+  if (!key) throw new Error("未輸入授權金鑰。");
+  const response = await fetch(API_URL + path, {
+    ...options,
+    headers: { "X-Trigger-Key": key, ...(options.headers || {}) }
+  });
+  let data = {};
+  try { data = await response.json(); } catch {}
+  if (!response.ok || !data.ok) throw new Error(data.error || `HTTP ${response.status}`);
+  return data;
+}
+function create(tag, cls, text) {
+  const el = document.createElement(tag);
+  if (cls) el.className = cls;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+function workflowUrl(item) {
+  return `https://github.com/${item.repository}/actions/workflows/${encodeURIComponent(item.workflow)}`;
+}
+function render() {
+  const query = $("search").value.trim().toLowerCase();
+  const group = $("group").value;
+  const visible = workflows.filter(item => {
+    const haystack = [item.name, item.repository, item.workflow, item.group].join(" ").toLowerCase();
+    return (!query || haystack.includes(query)) && (!group || item.group === group);
+  });
+  const groupOrder = {"Status 維護":0,"來源更新":1,"內容更新":2,"自動化":3,"驗證":4,"部署":5,"暫不可觸發":6,"外部監控":7};
+  visible.sort((a,b) => (groupOrder[a.group] ?? 99) - (groupOrder[b.group] ?? 99) || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
+  $("count").textContent = `${visible.length} / ${workflows.length} 項`;
+  const root = $("workflows");
+  root.replaceChildren();
+  if (!visible.length) {
+    root.append(create("div", "empty", "沒有符合條件的工作流程。"));
+    return;
+  }
+  let activeGroup = null;
+  let activeGrid = null;
+  for (const item of visible) {
+    const groupName = item.group || "其他";
+    if (groupName !== activeGroup) {
+      activeGroup = groupName;
+      const section = create("section", "workflow-group");
+      const heading = create("div", "group-heading");
+      const groupTotal = visible.filter(entry => (entry.group || "其他") === groupName).length;
+      heading.append(create("h2", "group-title", groupName), create("span", "group-count", `${groupTotal} 項`));
+      activeGrid = create("div", "group-grid");
+      section.append(heading, activeGrid);
+      root.append(section);
+    }
+    const card = create("article", "card");
+    const head = create("div", "head");
+    const info = create("div");
+    info.append(create("div", "name", item.name), create("div", "repo", `${item.repository} · ${item.workflow}`));
+    head.append(info, create("span", "group", item.group || "其他"));
+    card.append(head);
+    if (item.available === false) {
+      card.append(create("div", "warning", item.reason || "目前無法從控制台觸發。"));
+      const foot = create("div", "foot");
+      foot.append(create("span", "hint", "僅供狀態參考"));
+      if (item.repository.startsWith("tsai97216/")) {
+        const link = create("a", "btn", "查看專案");
+        link.href = `https://github.com/${item.repository}/actions`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        foot.append(link);
+      } else {
+        const link = create("a", "btn", "查看狀態總覽");
+        link.href = "../";
+        foot.append(link);
+      }
+      card.append(foot);
+      activeGrid.append(card);
+      continue;
+    }
+    if (item.danger) card.append(create("div", "warning", item.danger));
+    const form = create("form", "fields");
+    for (const spec of item.inputs || []) {
+      const wrap = create("div", "field");
+      const id = "f-" + item.repository.replace(/[^a-z0-9]/gi,"-") + "-" + item.workflow.replace(/[^a-z0-9]/gi,"-") + "-" + spec.name;
+      if (spec.type === "boolean") {
+        const label = create("label", "check");
+        const input = create("input");
+        input.type = "checkbox";
+        input.name = spec.name;
+        input.checked = spec.default === true;
+        label.append(input, document.createTextNode(spec.label + (spec.required ? "（必填）" : "")));
+        wrap.append(label);
+      } else {
+        const label = create("label", "", spec.label + (spec.required ? "（必填）" : ""));
+        label.htmlFor = id;
+        let input;
+        if (spec.type === "choice") {
+          input = create("select");
+          for (const option of spec.options || []) {
+            const opt = create("option", "", option);
+            opt.value = option;
+            input.append(opt);
+          }
+          input.value = spec.default || (spec.options || [])[0] || "";
+        } else {
+          input = create("input");
+          input.type = "text";
+          input.value = spec.default || "";
+          input.placeholder = spec.required ? "請填寫必要參數" : "可留空";
+        }
+        input.id = id;
+        input.name = spec.name;
+        input.required = !!spec.required;
+        wrap.append(label, input);
+      }
+      form.append(wrap);
+    }
+    const foot = create("div", "foot");
+    foot.append(create("span", "hint", "分支：main"));
+    const buttons = create("div", "actions");
+    const history = create("a", "btn", "執行紀錄");
+    history.href = workflowUrl(item);
+    history.target = "_blank";
+    history.rel = "noopener noreferrer";
+    const run = create("button", "", "立即觸發");
+    run.type = "submit";
+    buttons.append(history, run);
+    foot.append(buttons);
+    form.append(foot);
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (busy) return;
+      const inputs = {};
+      for (const spec of item.inputs || []) {
+        const field = form.elements.namedItem(spec.name);
+        if (spec.type === "boolean") inputs[spec.name] = field.checked;
+        else if (field.value !== "") inputs[spec.name] = field.value;
+      }
+      const confirmText = item.danger ? `確認執行「${item.name}」？\n\n${item.danger}\n\n此操作會使用 main 分支。` : `確認觸發「${item.name}」？`;
+      if (!confirm(confirmText)) return;
+      busy = true;
+      run.disabled = true;
+      run.textContent = "提交中…";
+      message(`正在提交：${item.repository} / ${item.workflow}`);
+      try {
+        const result = await api("", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ repository: item.repository, workflow: item.workflow, ref: "main", inputs })
+        });
+        message(`GitHub 已接受觸發請求：${result.repository} / ${result.workflow}\n這不代表工作流程已成功完成，請開啟「執行紀錄」查看結果。`, "ok");
+      } catch (error) {
+        message(`觸發失敗：${error.message}`, "error");
+      } finally {
+        busy = false;
+        run.disabled = false;
+        run.textContent = "立即觸發";
+      }
+    });
+    card.append(form);
+    activeGrid.append(card);
+  }
+}
+async function load() {
+  $("reload").disabled = true;
+  message("正在讀取狀態總覽專案清單…");
+  try {
+    const data = await api("?action=catalog");
+    workflows = data.workflows || [];
+    const groups = [...new Set(workflows.map(item => item.group).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"zh-Hant"));
+    const select = $("group");
+    select.replaceChildren(create("option", "", "全部類型"));
+    select.firstChild.value = "";
+    for (const name of groups) {
+      const option = create("option", "", name);
+      option.value = name;
+      select.append(option);
+    }
+    message("");
+    render();
+  } catch (error) {
+    $("workflows").replaceChildren(create("div", "empty", "無法載入工作流程清單。"));
+    message(error.message, "error");
+    $("count").textContent = "載入失敗";
+  } finally {
+    $("reload").disabled = false;
+  }
+}
+
+function themeIconNode(name) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox","0 0 24 24");
+  svg.setAttribute("fill","none");
+  svg.setAttribute("stroke","currentColor");
+  svg.setAttribute("stroke-width","1.8");
+  svg.setAttribute("stroke-linecap","round");
+  svg.setAttribute("stroke-linejoin","round");
+  svg.setAttribute("aria-hidden","true");
+  const paths = {
+    monitor:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>',
+    moon:'<path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"/>'
+  };
+  svg.innerHTML = paths[name] || paths.monitor;
+  return svg;
+}
+function renderThemeIcon() {}
+const themeToggle = $("themeToggle"), themeIcon = $("themeIcon"), themeLabel = $("themeLabel");
+const themeModes = ["system", "light", "dark"];
+const themeNames = { system: "跟隨系統", light: "淺色模式", dark: "深色模式" };
+const systemTheme = window.matchMedia("(prefers-color-scheme: light)");
+function setTheme(mode, save=false) {
+  const resolved = mode === "system" ? (systemTheme.matches ? "light" : "dark") : mode;
+  document.documentElement.dataset.chiTheme = resolved;
+  themeIcon.replaceChildren(themeIconNode(mode === "system" ? "monitor" : mode === "light" ? "sun" : "moon"));
+  renderThemeIcon();
+  themeLabel.textContent = themeNames[mode];
+  themeToggle.setAttribute("aria-label", "色彩模式：" + themeNames[mode] + "，點擊切換");
+  themeToggle.title = "色彩模式：" + themeNames[mode];
+  document.querySelector('meta[name="theme-color"]').content = resolved === "light" ? "#f6f8fc" : "#17191f";
+  if (save) { try { localStorage.setItem("chi-status-theme", mode); } catch {} }
+}
+let currentTheme = "system";
+try { currentTheme = localStorage.getItem("chi-status-theme") || "system"; } catch {}
+if (!themeModes.includes(currentTheme)) currentTheme = "system";
+setTheme(currentTheme);
+themeToggle.addEventListener("click", () => {
+  currentTheme = themeModes[(themeModes.indexOf(currentTheme) + 1) % themeModes.length];
+  setTheme(currentTheme, true);
+});
+systemTheme.addEventListener("change", () => { if (currentTheme === "system") setTheme("system"); });
+
+$("reload").addEventListener("click", load);
+$("search").addEventListener("input", render);
+$("group").addEventListener("change", render);
+$("forget").addEventListener("click", () => {
+  try { localStorage.removeItem(KEY_STORAGE); } catch {}
+  message("已清除此瀏覽器儲存的授權金鑰。", "ok");
+});
+load();
+const menuToggle = $("menuToggle"), nav = $("siteNav");
+menuToggle.addEventListener("click", () => {
+  const open = nav.classList.toggle("open");
+  menuToggle.setAttribute("aria-expanded", String(open));
+  menuToggle.setAttribute("aria-label", open ? "關閉導覽選單" : "開啟導覽選單");
+});
+nav.addEventListener("click", event => {
+  if (event.target.closest("a, .nav-action")) {
+    nav.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+  }
+});
+document.addEventListener("click", event => {
+  if (!event.target.closest(".nav-wrap")) {
+    nav.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+  }
+});
+
+</script>
+</body>
+</html>
