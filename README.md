@@ -11,12 +11,12 @@ Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀
 
 收集器只列入 `tsai97216` 底下非 fork、非封存的公開 Repo，並以最近一次 GitHub Actions 執行紀錄為基礎。沒有 Workflow 執行紀錄的 Repo 不會被當成成功；若既有 Repo 的 API 暫時失敗，會保留上次卡片並標記為未知／資料過期。
 
-部分專案另有專屬業務判讀：
+儀表板右上角的「觸發更新」會開啟 GitHub Actions 手動執行頁；需登入具備該 Repo Actions 執行權限的 GitHub 帳號，再按 **Run workflow**。由於儀表板是公開靜態網站，不能安全地把可寫入 Repo 的 Token 放在瀏覽器，因此無法在網頁端直接代送 `workflow_dispatch` 請求。一般狀態資料仍每 10 分鐘自動更新，頁面也會定時重新讀取最新資料。\n\n部分專案另有專屬業務判讀：
 
 - **VPS-01：** 檢查 Alist、BiliTool、Twitch Drops Miner 三個公開端點。Cloudflare Access 登入頁只代表 Access 閘道有回應，不代表登入後的服務正常。
 - **Chi Source / Chi Source Personal：** 讀取來源 Repo README 的 App 更新摘要，並檢查來源網站的基本頁面內容。
-- **H 連結工具、Chi 導航站、Merch 商品資料：** 結合最近部署結果與公開網站檢查。
-- **自動領取、免費遊戲通知、自動簽到：** 優先讀取專案產生的業務紀錄，不以 Actions 綠勾直接推定業務成功。
+- **H、Chi 的工具箱、周邊收藏網：** 結合最近部署結果與公開網站檢查。
+- **自動領取、限免遊戲通知、自動簽到：** 優先讀取專案產生的業務紀錄，不以 Actions 綠勾直接推定業務成功。
 
 ### 健康狀態的限制
 
