@@ -113,12 +113,20 @@ def parse_checkin_record(record):
     return timestamp, status_line
 
 
-def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0):
+def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, source_available=True):
     """Classify a check-in record against the current Taiwan reset cycle.
 
     A readable old record is not evidence of today's outcome. Missing or
     unparsable timestamps remain unknown rather than inheriting a prior result.
     """
+    if not source_available:
+        return {
+            "business_status": "unknown",
+            "business_label": "來源紀錄讀取失敗，無法確認簽到結果",
+            "displayed_result": "監控端無法讀取來源檔，請檢查來源 Repo 或連線",
+            "tone": "normal",
+        }
+
     status_line = unescape(status_line or "")
     success = bool(status_line and ("簽到成功" in status_line or "今日已簽到" in status_line))
     failure = bool(status_line and "簽到失敗" in status_line)
@@ -362,7 +370,7 @@ def business_data(repo_name, run):
     elif kind == "checkin":
         record = raw(repo_name, "activity.md") if repo_name == "apktwsign" else raw(repo_name, "README.md")
         timestamp, status_line = parse_checkin_record(record)
-        classification = classify_checkin_result(timestamp, status_line, reset_hour=0)
+        classification = classify_checkin_result(timestamp, status_line, reset_hour=0, source_available=record is not None)
         business_status = classification["business_status"]
         business_label = classification["business_label"]
         displayed_result = classification["displayed_result"]
