@@ -124,3 +124,36 @@ test("returns a generic gateway error when GitHub API cannot be reached", async 
     globalThis.fetch = originalFetch;
   }
 });
+
+test("handles CORS preflight without requiring credentials or consuming rate limits", async () => {
+  let ipLimitCalls = 0;
+  let dispatchLimitCalls = 0;
+  const testEnv = {
+    ...env,
+    IP_RATE_LIMITER: { async limit() { ipLimitCalls++; return { success: true }; } },
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const response = await worker.fetch(request(undefined, { method: "OPTIONS", key: null }), testEnv);
+  assert.equal(response.status, 204);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), origin);
+  assert.match(response.headers.get("Access-Control-Allow-Headers") || "", /X-Trigger-Key/);
+  assert.equal(ipLimitCalls, 0);
+  assert.equal(dispatchLimitCalls, 0);
+});
+
+test("catalog GET does not consume the workflow-dispatch quota", async () => {
+  let dispatchLimitCalls = 0;
+  const testEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const response = await worker.fetch(request(undefined, {
+    method: "GET",
+    url: "https://worker.example/?action=catalog",
+  }), testEnv);
+  const result = await jsonResponse(response);
+  assert.equal(response.status, 200);
+  assert.equal(result.body.ok, true);
+  assert.ok(Array.isArray(result.body.workflows));
+  assert.equal(dispatchLimitCalls, 0);
+});
