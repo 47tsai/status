@@ -172,3 +172,18 @@ test("invalid authenticated POST requests do not consume the workflow-dispatch q
   assert.equal(response.status, 403);
   assert.equal(dispatchLimitCalls, 0);
 });
+
+test("returns a specific safe error when the GitHub API request times out", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => { throw new DOMException("simulated timeout", "TimeoutError"); };
+  try {
+    const response = await worker.fetch(request({}), env);
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 502);
+    assert.equal(result.body.ok, false);
+    assert.match(result.body.error, /timed out/i);
+    assert.doesNotMatch(JSON.stringify(result.body), /simulated timeout|test-token|test-secret/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
