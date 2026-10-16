@@ -13,7 +13,7 @@ Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀
 
 儀表板右上角的「觸發更新」會開啟 GitHub Actions 手動執行頁；需登入具備該 Repo Actions 執行權限的 GitHub 帳號，再按 **Run workflow**。由於儀表板是公開靜態網站，不能安全地把可寫入 Repo 的 Token 放在瀏覽器，因此無法在網頁端直接代送 `workflow_dispatch` 請求。一般狀態資料仍每 10 分鐘自動更新，頁面也會定時重新讀取最新資料。\n\n部分專案另有專屬業務判讀：
 
-- **VPS-01：** 檢查 Alist、BiliTool、Twitch Drops Miner 三個公開端點。Cloudflare Access 登入頁只代表 Access 閘道有回應，不代表登入後的服務正常。
+- **VPS-01：** 檢查 Alist、BiliTool、Twitch Drops Miner 三個公開端點；至少兩個端點回傳 HTTP 200 即判定正常運作。
 - **Chi Source / Chi Source Personal：** 讀取來源 Repo README 的 App 更新摘要，並檢查來源網站的基本頁面內容。
 - **H、Chi 的工具箱、周邊收藏網：** 結合最近部署結果與公開網站檢查。
 - **自動領取、限免遊戲通知、自動簽到：** 優先讀取專案產生的業務紀錄，不以 Actions 綠勾直接推定業務成功。
@@ -22,7 +22,7 @@ Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀
 
 網站探測會檢查 HTTP 狀態、回應內容是否為空、HTML 標題及部分常見錯誤／挑戰頁。這是基本探測，不是完整端對端測試，無法單憑它確認登入、資料庫、內部 API 或所有頁面功能正常。
 
-VPS-01 的外部探測也無法判斷 VM、SSH、CPU、記憶體、磁碟或 Docker 容器本身的健康狀態。若端點受 Access 保護，系統會將無法判讀的狀態標示為未知，而非冒充成功。
+VPS-01 的狀態依三個公開端點的 HTTP 回應判定：至少兩個回傳 HTTP 200 即為正常。此規則衡量的是端點回應，不會額外驗證頁面內的所有功能。
 
 ## 專案結構
 
