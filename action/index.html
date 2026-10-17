@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f6f8fc">
-<meta name="description" content="登入 Chi Auth 後，管理允許觸發的 GitHub Actions 工作流程。">
+<meta name="description" content="透過 Chi Auth 安全管理與觸發 Chi Status 允許的 GitHub Actions 工作流程。">
 <title>Chi Status · Actions 控制台</title>
 <style>
 :root{color-scheme:light;--chi-color-page:#f6f8fc;--chi-color-page-soft:#f0f3fa;--chi-color-surface:#fff;--chi-color-surface-raised:#fff;--chi-color-surface-muted:#edf2fc;--chi-color-text:#33343a;--chi-color-text-strong:#202127;--chi-color-text-muted:#686f7d;--chi-color-text-subtle:#9299a7;--chi-color-accent:#4a88fc;--chi-color-accent-hover:#3476ed;--chi-color-border:#e8ebf2;--chi-color-border-strong:#d4dae6;--chi-color-focus:#4a88fc;--chi-color-success:#237a50;--chi-color-warning:#8a5b13;--chi-color-danger:#b93843;--chi-font-sans:"Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--chi-font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--chi-radius-sm:6px;--chi-radius-md:10px;--chi-radius-lg:16px;--chi-shadow-subtle:0 2px 8px rgb(35 48 80 / 5%);--content:1180px}
@@ -21,91 +21,105 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 @media(max-width:900px){.header-inner{gap:12px}.nav{display:none;position:absolute;top:calc(100% + 1px);right:20px;min-width:210px;padding:8px;border:1px solid var(--chi-color-border);border-radius:var(--chi-radius-lg);background:var(--chi-color-surface);box-shadow:var(--chi-shadow-subtle)}.nav.open{display:grid}.nav a{padding:10px}.menu{display:inline-flex}.filters{grid-template-columns:minmax(0,1fr) minmax(0,190px)}.projects{gap:10px}.project{padding:14px}}
 @media(max-width:620px){.container{width:calc(100% - 28px)}.header-inner{min-height:60px;gap:8px}.brand{gap:8px;font-size:14px}.brand-mark{width:32px;height:32px}.brand small{font-size:9px}.tools{margin-left:auto;gap:5px}.tools .button{min-height:38px;padding:7px 9px}.tools .button .label{display:none}.menu{width:38px}.nav{right:14px}.page-heading{padding:27px 0 18px}.heading-row{align-items:flex-start;flex-direction:column;gap:15px}.page-heading h1{font-size:30px}.heading-actions{width:100%}.heading-actions .button{flex:1}.intro{font-size:13px}.updated{font-size:11px}main{padding-top:18px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:13px 14px}.stat:nth-child(3){border-left:0;border-top:1px solid var(--chi-color-border)}.stat:nth-child(4){border-top:1px solid var(--chi-color-border)}.stat-value{font-size:26px}.section{margin-top:26px}.section-head{align-items:flex-start;flex-direction:column;gap:5px}.filters{grid-template-columns:1fr;padding:9px}.projects{grid-template-columns:1fr}.project{padding:14px}.project-top{gap:8px}.project-title h3{font-size:16px}.metrics{gap:5px}.metric{padding:8px}.metric span{font-size:10px}.metric strong{font-size:12px}.card-footer{align-items:flex-start;flex-direction:column}.links{width:100%}.links .button{flex:1}.detail-row{grid-template-columns:1fr;gap:2px}.detail-row strong{text-align:left}.result-count{white-space:normal}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-</style>
-<style>
-#actions-panel{--page:var(--chi-color-page);--page-soft:var(--chi-color-page-soft);--surface:var(--chi-color-surface);--surface-glass:var(--chi-color-surface);--surface-muted:var(--chi-color-surface-muted);--text:var(--chi-color-text);--text-strong:var(--chi-color-text-strong);--muted:var(--chi-color-text-muted);--subtle:var(--chi-color-text-subtle);--border:var(--chi-color-border);--border-strong:var(--chi-color-border-strong);--accent:var(--chi-color-accent);--accent-hover:var(--chi-color-accent-hover);--blue:var(--chi-color-accent);--success:var(--chi-color-success);--warning:var(--chi-color-warning);--danger:var(--chi-color-danger);--focus:var(--chi-color-focus);--footer:var(--chi-color-surface);--footer-text:var(--chi-color-text);--sans:var(--chi-font-sans);--mono:var(--chi-font-mono);--shadow-sm:var(--chi-shadow-subtle);--shadow-md:var(--chi-shadow-subtle);--shadow-accent:0 3px 10px rgb(74 136 252 / 18%);--radius-sm:var(--chi-radius-sm);--radius-md:var(--chi-radius-md);--radius-lg:var(--chi-radius-lg);--radius-xl:var(--chi-radius-lg);--content:1180px;color:var(--chi-color-text);background:transparent}
-#actions-panel .actions-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
-#actions-panel .hero{background:transparent;padding:0;margin:0}
-#actions-panel .hero:before{display:none}
-#actions-panel .hero-inner{display:block}
-#actions-panel .hero h1{font-size:1.2rem}
-#actions-panel .hero-actions{display:flex;justify-content:flex-start;margin-top:14px}
-#actions-panel .content{padding-top:0}
-#actions-panel .section-head{align-items:center}
-#actions-panel .button.primary{background:var(--chi-color-accent);color:#071a36;border-color:var(--chi-color-accent);box-shadow:none}
-#actions-panel .brand-mark{background:var(--chi-color-accent);color:#071a36;box-shadow:none}
-#actions-panel .site-footer{background:transparent;color:var(--chi-color-text-muted);border-top:1px solid var(--chi-color-border)}
-#actions-panel .footer-copy,#actions-panel .footer-links a{color:var(--chi-color-text-muted)}
-#actions-panel .footer-brand span{color:var(--chi-color-accent)}
-#actions-panel .toolbar{grid-template-columns:minmax(180px,1fr) minmax(165px,220px);box-shadow:none}
-#actions-panel .toolbar .hint{grid-column:1/-1}
-#actions-panel .group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-#actions-panel .skip{display:none}
-@media(max-width:680px){#actions-panel .actions-toolbar{justify-content:flex-start}#actions-panel .group-grid{grid-template-columns:1fr}#actions-panel .toolbar{grid-template-columns:1fr}}
 
-#actions-panel{color-scheme:light;--page:#f6f8fc;--page-soft:#f0f3fa;--surface:#fff;--surface-glass:rgb(255 255 255 / 88%);--surface-muted:#edf2fc;--text:#33343a;--text-strong:#202127;--muted:#686f7d;--subtle:#9299a7;--border:#e8ebf2;--border-strong:#d4dae6;--accent:#4a88fc;--accent-hover:#3476ed;--blue:#4a88fc;--success:#237a50;--warning:#8a5b13;--danger:#b93843;--focus:#4a88fc;--footer:#111113;--footer-text:#d1d5db;--sans:"Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--shadow-sm:0 4px 14px rgb(59 82 145 / 8%);--shadow-md:0 10px 25px -5px rgb(220 226 240 / 65%),0 8px 10px -6px rgb(220 226 240 / 42%);--shadow-accent:0 4px 14px rgb(59 130 246 / 20%);--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:22px;--content:1080px;--ease:180ms ease}html[data-chi-theme=dark] #actions-panel{color-scheme:dark;--page:#17191f;--page-soft:#1b1e27;--surface:#20232c;--surface-glass:rgb(32 35 44 / 92%);--surface-muted:#282c38;--text:#e8eaf1;--text-strong:#f7f8fc;--muted:#b2b8c7;--subtle:#8c94a6;--border:#353a49;--border-strong:#4b5265;--accent:#4a88fc;--accent-hover:#79a8ff;--blue:#7daeff;--success:#7ed6a7;--warning:#edc071;--danger:#ff969e;--focus:#4a88fc;--footer:#101116;--footer-text:#d1d5df;--shadow-sm:0 4px 16px rgb(0 0 0 / 18%);--shadow-md:0 10px 28px rgb(0 0 0 / 24%);--shadow-accent:0 4px 14px rgb(80 105 220 / 22%)}#actions-panel *,#actions-panel *::before,#actions-panel *::after{box-sizing:border-box}#actions-panel{scroll-behavior:smooth;scroll-padding-top:90px}#actions-panel{margin:0;background:var(--page);color:var(--text);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}#actions-panel a{color:inherit}#actions-panel button,#actions-panel input,#actions-panel select{font:inherit}#actions-panel button,#actions-panel a,#actions-panel input,#actions-panel select{outline-offset:3px}#actions-panel button:focus-visible,#actions-panel a:focus-visible,#actions-panel input:focus-visible,#actions-panel select:focus-visible{outline:3px solid var(--focus)}#actions-panel .skip{position:absolute;left:1rem;top:-5rem;z-index:99;padding:.7rem 1rem;background:var(--surface);border-radius:var(--radius-md)}#actions-panel .skip:focus{top:1rem}#actions-panel .container{width:calc(100% - 2.5rem);max-width:var(--content,1200px);margin-inline:auto}#actions-panel .site-header{position:sticky;top:0;z-index:20;border-bottom:1px solid color-mix(in srgb,var(--border) 85%,transparent);background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(18px)}#actions-panel .header-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:1rem}#actions-panel .brand{display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--text-strong);font-weight:800;letter-spacing:.015em;white-space:nowrap}#actions-panel .brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:linear-gradient(145deg,#4a88fc,#79a8ff);color:white;box-shadow:var(--shadow-accent);flex:none}#actions-panel .brand-mark svg{width:21px;height:21px}#actions-panel .brand-text{display:grid;line-height:1.15}#actions-panel .brand-text small{margin-top:4px;color:var(--subtle);font-size:10px;font-weight:650;letter-spacing:.13em}#actions-panel .nav-wrap{display:flex;align-items:center;gap:1rem}#actions-panel .nav{display:flex;align-items:center;gap:5px}#actions-panel .nav a{padding:.55rem .85rem;border-radius:9px;color:var(--muted);font-size:13px;font-weight:650;text-decoration:none;transition:background var(--ease),color var(--ease)}#actions-panel .nav a:hover,#actions-panel .nav a[aria-current=page]{background:var(--surface-muted);color:var(--accent)}#actions-panel .nav-action{display:inline-flex;width:auto;min-height:36px;justify-content:flex-start;padding:.4rem .6rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--muted);font-size:12px;font-weight:650;white-space:nowrap}#actions-panel .nav-action svg{width:15px;height:15px;flex:none}#actions-panel .nav-action:hover{background:var(--surface-muted);color:var(--accent)}#actions-panel .head-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#actions-panel .button,#actions-panel .btn,#actions-panel button{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:42px;padding:.55rem .9rem;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--surface);color:var(--text);font-size:13px;font-weight:650;text-decoration:none;cursor:pointer;transition:transform var(--ease),background var(--ease),border-color var(--ease),box-shadow var(--ease)}#actions-panel .button:hover,#actions-panel .btn:hover,#actions-panel button:hover{background:var(--surface-muted);border-color:var(--accent)}#actions-panel .button:active,#actions-panel .btn:active,#actions-panel button:active{transform:translateY(1px)}#actions-panel .button.primary{border-color:transparent;background:linear-gradient(100deg,#4a88fc,#4a88fc);color:#fff;box-shadow:var(--shadow-accent)}#actions-panel .button:disabled,#actions-panel button:disabled{opacity:.6;cursor:wait}#actions-panel .button svg,#actions-panel button svg,#actions-panel .theme-icon svg{width:16px;height:16px;flex:none}#actions-panel .theme-icon{display:inline-flex;align-items:center;justify-content:center}#actions-panel .icon-button{width:42px;padding:0}#actions-panel .menu-button{display:none}#actions-panel .hero{position:relative;isolation:isolate;overflow:hidden;padding:3rem 0 2.25rem;background:linear-gradient(180deg,#edf2fc 0%,#f7f9ff 50%,var(--page) 100%)}#actions-panel .hero:before{content:"";position:absolute;z-index:-1;top:-12rem;left:50%;width:min(120%,900px);height:28rem;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(165,180,252,.28) 0%,rgba(219,234,254,.2) 45%,transparent 75%);pointer-events:none}html[data-chi-theme=dark] #actions-panel .hero{background:linear-gradient(180deg,#222638 0%,#1b1e29 54%,var(--page) 100%)}html[data-chi-theme=dark] #actions-panel .hero:before{background:radial-gradient(ellipse,rgba(99,102,241,.2) 0%,rgba(59,130,246,.08) 50%,transparent 78%)}#actions-panel .hero-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}#actions-panel .hero h1{margin:0;color:var(--text-strong);font-size:clamp(2rem,4vw,2.8rem);line-height:1.15;letter-spacing:-.05em}#actions-panel .hero-desc{max-width:640px;margin:.8rem 0 0;color:var(--muted);font-size:14px;line-height:1.8}#actions-panel .eyebrow{display:flex;align-items:center;gap:.55rem;margin:0 0 .7rem;color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}#actions-panel .eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#34a875;box-shadow:0 0 0 4px rgb(52 168 117 / 12%)}#actions-panel .hero-actions{display:flex;align-items:center;justify-content:flex-end;gap:.6rem;flex-wrap:wrap}#actions-panel .hero-meta{color:var(--subtle);font-size:11px;margin-top:.6rem}#actions-panel main{padding:0 0 3.5rem}#actions-panel .content{padding-top:1.2rem}#actions-panel .section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:1rem}#actions-panel .section-head h2{margin:0;color:var(--text-strong);font-size:1.3rem;line-height:1.35;letter-spacing:-.03em}#actions-panel .section-head p{margin:.35rem 0 0;color:var(--muted);font-size:13px}#actions-panel .toolbar{display:grid;grid-template-columns:minmax(180px,1fr) minmax(165px,220px) auto;align-items:center;gap:.65rem;padding:.7rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-sm)}#actions-panel .field{width:100%;min-width:0;min-height:44px;padding:.65rem .85rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--page);color:var(--text);font-size:13px}#actions-panel .field::placeholder{color:var(--subtle)}#actions-panel .hint{color:var(--subtle);font-size:11px;white-space:nowrap}#actions-panel .toolbar .hint{padding:0 .3rem}#actions-panel #act-message{display:none;white-space:pre-line;margin-top:1rem;padding:.85rem 1rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--muted);font-size:12px;overflow-wrap:anywhere}#actions-panel #act-message:not(:empty){display:block}#actions-panel #act-message[data-kind=ok]{border-color:color-mix(in srgb,var(--success) 35%,var(--border));background:color-mix(in srgb,var(--success) 7%,var(--surface));color:var(--success)}#actions-panel #act-message[data-kind=error]{border-color:color-mix(in srgb,var(--danger) 35%,var(--border));background:color-mix(in srgb,var(--danger) 7%,var(--surface));color:var(--danger)}#actions-panel #act-workflows{display:grid;gap:2rem;margin-top:1.5rem}#actions-panel .workflow-group{min-width:0}#actions-panel .group-heading{display:flex;align-items:center;gap:.65rem;margin-bottom:.8rem}#actions-panel .group-title{margin:0;color:var(--text-strong);font-size:1rem;font-weight:750}#actions-panel .group-count{padding:.2rem .5rem;border-radius:var(--radius-sm);background:var(--surface-muted);color:var(--muted);font-size:10px}#actions-panel .group-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}#actions-panel .card{display:flex;flex-direction:column;min-width:0;padding:1.1rem;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:var(--shadow-sm);transition:border-color var(--ease),box-shadow var(--ease)}#actions-panel .card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-md)}#actions-panel .head{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}#actions-panel .name{color:var(--text-strong);font-size:15px;line-height:1.45;font-weight:750;overflow-wrap:anywhere}#actions-panel .repo{margin-top:.3rem;color:var(--subtle);font-size:11px;line-height:1.6;overflow-wrap:anywhere}#actions-panel .group{display:inline-flex;align-items:center;flex:none;padding:.25rem .5rem;border:1px solid var(--border);border-radius:7px;background:var(--page-soft);color:var(--muted);font-size:10px;white-space:nowrap}#actions-panel .warning{margin-top:.85rem;padding:.7rem .8rem;border:1px solid color-mix(in srgb,var(--warning) 28%,var(--border));border-radius:9px;background:color-mix(in srgb,var(--warning) 7%,var(--surface));color:var(--warning);font-size:11px;line-height:1.65;overflow-wrap:anywhere}#actions-panel .fields{display:grid;gap:.8rem;margin-top:1rem}#actions-panel .field{display:grid;gap:.35rem}#actions-panel .field label{color:var(--muted);font-size:12px;font-weight:650}#actions-panel .field input,#actions-panel .field select{width:100%;min-width:0;min-height:42px;padding:.55rem .7rem;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--page);color:var(--text);font-size:13px}#actions-panel .field input::placeholder{color:var(--subtle)}#actions-panel .field .check{display:flex;align-items:flex-start;gap:.6rem;padding:.2rem 0;color:var(--muted);font-size:12px}#actions-panel .check input{width:17px;height:17px;min-height:17px;margin:.1rem 0 0;accent-color:var(--accent);flex:none}#actions-panel .foot{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:auto;padding-top:1rem}#actions-panel .actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}#actions-panel .btn{min-height:36px;padding:.4rem .65rem;font-size:11px}#actions-panel .btn.primary{border-color:transparent;background:linear-gradient(100deg,#4a88fc,#4a88fc);color:white}#actions-panel .empty{grid-column:1/-1;padding:2.5rem 1rem;border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:var(--surface);color:var(--muted);text-align:center}#actions-panel .site-footer{padding:1.4rem 0;background:var(--footer);color:var(--footer-text)}#actions-panel .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem}#actions-panel .footer-brand{font-weight:800;letter-spacing:.05em}#actions-panel .footer-brand span{color:#4a88fc}#actions-panel .footer-copy{margin:.25rem 0 0;color:#9297a5;font-size:11px}#actions-panel .footer-links{display:flex;gap:1rem;flex-wrap:wrap}#actions-panel .footer-links a{color:#c3c7d2;font-size:11px;text-decoration:none}#actions-panel .footer-links a:hover{color:#fff}@media(max-width:1280px){#actions-panel .nav-wrap{position:relative}#actions-panel .nav{position:absolute;right:0;top:calc(100% + 12px);display:none;min-width:235px;max-width:min(290px,calc(100vw - 24px));padding:.5rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-md)}#actions-panel .nav.open{display:grid}#actions-panel .nav a{padding:.75rem}#actions-panel .menu-button{display:inline-flex}#actions-panel .header-inner{gap:.6rem}#actions-panel .brand{gap:.5rem}#actions-panel .head-tools{gap:6px;flex-wrap:nowrap}#actions-panel .head-tools #act-themeToggle{width:40px;min-width:40px}#actions-panel .head-tools #act-themeLabel{display:none}#actions-panel .nav-action{display:flex;width:100%;min-height:42px;padding:.65rem .85rem;border:0;background:transparent;font-size:13px}#actions-panel .nav-action:hover{border-color:transparent}}@media(max-width:900px){#actions-panel .hero-inner{align-items:flex-start;flex-direction:column;gap:1.1rem}#actions-panel .hero-actions{justify-content:flex-start}#actions-panel .toolbar{grid-template-columns:minmax(0,1fr) minmax(0,200px)}#actions-panel .toolbar .hint{grid-column:1/-1}#actions-panel .group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:680px){#actions-panel .container{width:calc(100% - 2.5rem);max-width:var(--content,1200px)}#actions-panel .header-inner{min-height:62px;gap:.5rem}#actions-panel .brand-mark{width:33px;height:33px}#actions-panel .brand-text small{font-size:9px}#actions-panel .brand-text{font-size:13px}#actions-panel .nav-wrap{position:relative}#actions-panel .nav{position:absolute;right:0;top:calc(100% + 12px);display:none;min-width:235px;max-width:calc(100vw - 24px);padding:.5rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-md)}#actions-panel .nav.open{display:grid}#actions-panel .nav a{padding:.75rem}#actions-panel .head-tools{gap:5px;flex-wrap:nowrap}#actions-panel .head-tools .label{display:none}#actions-panel .head-tools #act-themeToggle,#actions-panel .icon-button{width:38px;min-width:38px;padding:0}#actions-panel .menu-button{display:inline-flex}#actions-panel .hero{padding:2.4rem 0 1.6rem}#actions-panel .hero h1{font-size:2.15rem}#actions-panel .hero-desc{font-size:13px}#actions-panel .hero-actions{width:100%}#actions-panel .hero-actions .button{flex:1}#actions-panel .content{padding-top:.9rem}#actions-panel .section-head{align-items:flex-start;flex-direction:column;gap:.5rem}#actions-panel .toolbar{grid-template-columns:1fr;padding:.55rem;gap:.5rem}#actions-panel .toolbar .hint{grid-column:auto;white-space:normal}#actions-panel .group-grid{grid-template-columns:1fr}#actions-panel .card{padding:1rem}#actions-panel .head{gap:.5rem;flex-direction:column}#actions-panel .group{white-space:normal}#actions-panel .foot{align-items:flex-start;flex-direction:column}#actions-panel .foot>.actions{width:100%}#actions-panel .foot>.actions>*{flex:1}#actions-panel .footer-inner{align-items:flex-start;flex-direction:column;gap:1rem}}@media(prefers-reduced-motion:reduce){#actions-panel *,#actions-panel *::before,#actions-panel *::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}#actions-panel /* Refinements: keep the console dense enough for scanning without tiny controls. */
-#actions-panel{--shadow-sm:0 2px 8px rgb(35 48 80 / 5%);--shadow-md:0 8px 22px rgb(35 48 80 / 9%)}#actions-panel .section{margin-top:2.6rem}#actions-panel .section-head{margin-bottom:1.1rem}#actions-panel .toolbar{padding:.8rem;gap:.75rem}#actions-panel .toolbar .field,#actions-panel .toolbar input,#actions-panel .toolbar select{min-height:46px;font-size:14px}#actions-panel .group-heading{margin-bottom:1rem}#actions-panel .group-title{font-size:1.05rem}#actions-panel .group-count,#actions-panel .group{font-size:11px}#actions-panel .group-grid{gap:16px}#actions-panel .card{padding:1.25rem;box-shadow:0 1px 3px rgb(35 48 80 / 3%)}#actions-panel .card:hover{box-shadow:var(--shadow-md)}#actions-panel .name{font-size:16px;line-height:1.5}#actions-panel .repo{font-size:12px;line-height:1.65}#actions-panel .warning{font-size:12px;line-height:1.75}#actions-panel .field label{font-size:13px}#actions-panel .field input,#actions-panel .field select{min-height:44px;font-size:14px}#actions-panel .field .check{font-size:13px;line-height:1.65}#actions-panel .btn{min-height:40px;padding:.5rem .8rem;font-size:12px}#actions-panel .empty{font-size:14px;line-height:1.8}#actions-panel #act-message{font-size:13px;line-height:1.7}@media(max-width:900px){#actions-panel .group-grid{gap:12px}#actions-panel .card{padding:1.1rem}
-}@media(max-width:680px){#actions-panel .group-grid{grid-template-columns:1fr}#actions-panel .card{padding:1rem}#actions-panel .name{font-size:16px}#actions-panel .field input,#actions-panel .field select{min-height:46px}#actions-panel .foot>.actions>*{min-height:42px}
-}#actions-panel /* Mobile layout fix: keep page content inset and anchor the dropdown to the full header. */
-@media(max-width:680px){
-  .header-inner{position:relative}
-  .header-inner>.nav-wrap{position:static;flex:0 0 auto}
-  .nav{right:0;top:calc(100% + 8px);min-width:min(235px,calc(100vw - 40px));max-width:calc(100vw - 40px)}
+
+/* Actions console components, aligned with the main status dashboard */
+.page-heading .heading-row{align-items:flex-end}
+.heading-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.heading-actions .button{white-space:nowrap}
+.console-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:30px}
+.console-toolbar .section-head{margin:0}
+.console-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:12px;border:1px solid var(--chi-color-border);border-radius:var(--chi-radius-lg);background:var(--chi-color-surface)}
+.console-count{color:var(--chi-color-text-muted);font-size:12px;font-variant-numeric:tabular-nums}
+.actions-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.toolbar{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,240px);gap:9px;padding:12px;border:1px solid var(--chi-color-border);border-radius:var(--chi-radius-lg);background:var(--chi-color-surface)}
+#act-message{display:none;white-space:pre-line;margin-top:12px;padding:12px 14px;border:1px solid var(--chi-color-border);border-radius:var(--chi-radius-md);background:var(--chi-color-surface);font-size:13px;overflow-wrap:anywhere}
+#act-message:not(:empty){display:block}
+#act-message[data-kind=error]{border-color:var(--chi-color-danger);color:var(--chi-color-danger)}
+#act-message[data-kind=ok]{border-color:var(--chi-color-success);color:var(--chi-color-success)}
+#act-workflows{margin-top:16px}
+.workflow-group{margin-top:26px}
+.workflow-group:first-child{margin-top:0}
+.group-heading{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.group-title{margin:0;color:var(--chi-color-text-strong);font-size:17px;letter-spacing:-.02em}
+.group-count{padding:3px 8px;border:1px solid var(--chi-color-border);border-radius:6px;color:var(--chi-color-text-subtle);font-size:11px}
+.group-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{display:flex;flex-direction:column;min-width:0;padding:17px;border:1px solid var(--chi-color-border);border-radius:var(--chi-radius-lg);background:var(--chi-color-surface);box-shadow:var(--chi-shadow-subtle)}
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.name{color:var(--chi-color-text-strong);font-size:16px;font-weight:700;line-height:1.45;overflow-wrap:anywhere}
+.repo{margin-top:4px;color:var(--chi-color-text-muted);font-size:11px;overflow-wrap:anywhere}
+.group{flex:none;padding:3px 7px;border:1px solid var(--chi-color-border);border-radius:5px;color:var(--chi-color-text-muted);font-size:10px}
+.fields{display:grid;gap:12px;margin-top:15px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{color:var(--chi-color-text-muted);font-size:12px;font-weight:650}
+.field input,.field select{width:100%;min-width:0;min-height:42px;padding:9px 11px;border:1px solid var(--chi-color-border-strong);border-radius:var(--chi-radius-md);background:var(--chi-color-page);color:var(--chi-color-text);font-size:13px}
+.check{display:flex;align-items:center;gap:9px;color:var(--chi-color-text-muted);font-size:12px}
+.check input{width:16px;height:16px;accent-color:var(--chi-color-accent)}
+.warning{margin-top:12px;padding:10px 12px;border-left:3px solid var(--chi-color-warning);background:var(--chi-color-page-soft);color:var(--chi-color-warning);font-size:12px;overflow-wrap:anywhere}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:14px}
+.fields .foot{margin-top:2px;border-top:1px solid var(--chi-color-border)}
+.hint{color:var(--chi-color-text-subtle);font-size:11px}
+.actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:6px 10px;border:1px solid var(--chi-color-border-strong);border-radius:var(--chi-radius-md);background:var(--chi-color-surface);color:var(--chi-color-text);font-size:11px;font-weight:650;text-decoration:none;cursor:pointer}
+.actions .btn:hover{border-color:var(--chi-color-accent);background:var(--chi-color-surface-muted)}
+.actions button.btn{font:inherit;font-size:11px}
+.actions button:not(.btn){min-height:34px;padding:6px 10px;border:1px solid var(--chi-color-accent);border-radius:var(--chi-radius-md);background:var(--chi-color-accent);color:#071a36;font-size:11px;font-weight:700;cursor:pointer}
+.actions button:disabled{opacity:.6;cursor:wait}
+.empty{grid-column:1/-1;padding:36px 16px;border:1px dashed var(--chi-color-border-strong);border-radius:var(--chi-radius-lg);background:var(--chi-color-surface);color:var(--chi-color-text-muted);text-align:center}
+@media(max-width:900px){.group-grid{gap:10px}.card{padding:14px}}
+@media(max-width:620px){
+ .page-heading{padding:27px 0 18px}
+ .page-heading .heading-row{align-items:flex-start;flex-direction:column;gap:15px}
+ .heading-actions{width:100%}
+ .heading-actions .button{flex:1}
+ main{padding-top:18px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .stat{padding:13px 14px}
+ .stat:nth-child(3){border-left:0;border-top:1px solid var(--chi-color-border)}
+ .stat:nth-child(4){border-top:1px solid var(--chi-color-border)}
+ .stat-value{font-size:26px}
+ .console-toolbar{align-items:flex-start;flex-direction:column;gap:7px;margin-top:24px}
+ .console-actions{align-items:flex-start;flex-direction:column}
+ .actions-toolbar{width:100%}
+ .actions-toolbar .button{flex:1}
+ .toolbar{grid-template-columns:1fr;padding:9px}
+ .group-grid{grid-template-columns:1fr}
+ .head{gap:8px}
+ .foot{align-items:flex-start;flex-direction:column}
+ .actions{width:100%}
+ .actions .btn,.actions button{flex:1}
 }
-</style>
 
-<style>
-/* Actions console header: separate page context, workflow heading, controls and filters. */
-#actions-panel .section-head{align-items:flex-end;margin-bottom:12px}
-#actions-panel .section-head p{margin-top:4px}
-#actions-panel .console-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;padding:10px 12px;border:1px solid var(--chi-color-border);border-radius:12px;background:var(--chi-color-surface)}
-#actions-panel .console-count{color:var(--chi-color-text-muted);font-size:12px;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
-#actions-panel .actions-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
-#actions-panel .actions-toolbar .button{min-height:38px;padding:7px 11px}
-#actions-panel .actions-toolbar .button svg{width:15px;height:15px;flex:none}
-#actions-panel .toolbar{margin-top:0}
-@media(max-width:680px){
-  #actions-panel .section-head{margin-bottom:10px}
-  #actions-panel .console-actions{align-items:stretch;flex-direction:column;gap:9px;padding:10px}
-  #actions-panel .console-count{padding:0 2px}
-  #actions-panel .actions-toolbar{display:grid;grid-template-columns:1fr 1.35fr;gap:7px}
-  #actions-panel .actions-toolbar .button{width:100%;min-width:0;min-height:42px;padding:7px;font-size:12px}
-  #actions-panel .actions-toolbar #act-authLogout{grid-column:1/-1}
-}
-</style>
-
-<style>
-.page-heading{padding:16px 0 10px}
-.page-heading h1{font-size:clamp(23px,3vw,30px)}
-.page-heading .heading-row{align-items:center}
-.home-button{flex:none}
-#actions-panel.section{margin-top:16px}
-#actions-panel .section-head{margin-bottom:8px}
-@media(max-width:680px){.page-heading{padding:12px 0 8px}#actions-panel.section{margin-top:12px}}
-@media(max-width:420px){.page-heading .heading-row{gap:10px}.page-heading h1{font-size:22px}.home-button{min-height:38px;padding:7px 9px;font-size:12px}}
 </style>
 </head>
+
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
 <header class="header"><div class="container header-inner">
-<a class="brand" href="/" aria-label="Chi Status 狀態總覽"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><span>Chi Status</span></a>
+<a class="brand" href="/" aria-label="Chi Status 狀態總覽"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><span>Chi Status<small>PROJECT HEALTH</small></span></a>
 <nav class="nav" id="nav" aria-label="主要導覽"><a href="/">狀態總覽</a><a href="/action/" aria-current="page">Actions 控制台</a><a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
 <div class="tools"><button class="button" id="theme" type="button" aria-label="切換色彩模式"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span class="label">外觀</span></button><button class="button menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="開啟導覽選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
 </div></header>
-<section class="page-heading"><div class="container"><div class="heading-row"><div><h1>Actions 控制台</h1></div><a class="button home-button" href="/" aria-label="返回主頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7"/><path d="M5 9v12h14V9M9 21v-7h6v7"/></svg>返回主頁</a></div></div></section>
-<main id="main">
-<section id="actions-panel" class="section" aria-labelledby="actions-heading"><div class="container content">
-<div class="section-head"><h2>工作流程</h2></div>
-<div class="console-actions" aria-label="控制台操作"><span id="act-count" class="console-count" role="status">讀取中…</span><div class="actions-toolbar"><button class="button" id="act-reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4.9 9A8 8 0 0 1 18.5 6L20 12M4 17v-5h5"/><path d="M19.1 15A8 8 0 0 1 5.5 18L4 12"/></svg>重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>結束本次登入</button></div></div>
-<section class="toolbar" aria-label="工作流程篩選"><input class="field" id="act-search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋專案或工作流程"><select class="field" id="act-group" aria-label="依類型篩選"><option value="">全部類型</option></select></section>
+<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> ACTIONS CONSOLE</p><h1>Actions 控制台</h1><p class="intro">透過 Chi Auth 驗證身分，安全管理允許觸發的 GitHub Actions 工作流程。</p><p class="updated">僅觸發已列入允許清單的工作流程，所有執行皆使用 main 分支。</p></div><div class="heading-actions"><a class="button" href="/" aria-label="返回主頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7"/><path d="M5 9v12h14V9M9 21v-7h6v7"/></svg>返回主頁</a></div></div></div></section>
+<main id="main"><div class="container">
+<section class="stats" aria-label="控制台摘要">
+<div class="stat"><span class="stat-label">工作流程</span><strong class="stat-value" id="act-total">－</strong><span class="stat-note">允許清單項目</span></div>
+<div class="stat"><span class="stat-label">可觸發</span><strong class="stat-value" id="act-available">－</strong><span class="stat-note">可由此控制台執行</span></div>
+<div class="stat"><span class="stat-label">不可觸發</span><strong class="stat-value" id="act-unavailable">－</strong><span class="stat-note">僅供查看或依賴條件</span></div>
+<div class="stat"><span class="stat-label">登入狀態</span><strong class="stat-value" id="act-auth-state">未登入</strong><span class="stat-note">Chi Auth Passkey</span></div>
+</section>
+<section class="console-toolbar" aria-labelledby="actions-heading"><div class="section-head"><div><h2 id="actions-heading">工作流程</h2><p>搜尋、篩選並執行已核准的自動化任務。</p></div><span class="result-count" id="act-count" role="status">尚未登入</span></div></section>
+<div class="console-actions" aria-label="控制台操作"><span class="console-count">需要登入後才能載入工作流程。</span><div class="actions-toolbar"><button class="button" id="act-reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4.9 9A8 8 0 0 1 18.5 6L20 12M4 17v-5h5"/><path d="M19.1 15A8 8 0 0 1 5.5 18L4 12"/></svg>重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>結束本次登入</button></div></div>
+<section class="toolbar" aria-label="工作流程篩選"><input class="field" id="act-search" type="search" placeholder="搜尋專案、工作流程或類型…" aria-label="搜尋專案或工作流程"><select class="field" id="act-group" aria-label="依類型篩選"><option value="">全部類型</option></select></section>
 <div id="act-message" role="status" aria-live="polite"></div>
-<section id="act-workflows" aria-label="工作流程清單"><div class="empty">正在讀取工作流程清單…</div></section>
-</div></section>
-</main>
+<section id="act-workflows" aria-label="工作流程清單"><div class="empty">請先使用 Chi Auth 登入。</div></section>
+</div></main>
+<footer class="footer"><div class="container footer-inner"><span>Chi Status · Actions 控制台</span><span><a href="/">狀態總覽</a>　·　<a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></footer>
 
 <script>
 const root=document.documentElement,systemTheme=window.matchMedia('(prefers-color-scheme: dark)');let theme='system';try{theme=localStorage.getItem('chi-status-theme')||'system'}catch(e){}if(!['system','light','dark'].includes(theme))theme='system';function applyTheme(){root.dataset.chiTheme=theme==='system'?(systemTheme.matches?'dark':'light'):theme;const themeButton=document.getElementById('theme');themeButton.innerHTML=(root.dataset.chiTheme==='dark'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg>')+'<span class="label">外觀</span>';themeButton.setAttribute('aria-label','目前色彩模式：'+(theme==='system'?'跟隨系統':theme==='light'?'淺色':'深色')+'，點擊切換');const meta=document.querySelector('meta[name=theme-color]');meta.content=root.dataset.chiTheme==='dark'?'#17191f':'#f6f8fc'}applyTheme();document.getElementById('theme').addEventListener('click',()=>{theme=['system','light','dark'][(['system','light','dark'].indexOf(theme)+1)%3];try{localStorage.setItem('chi-status-theme',theme)}catch(e){}applyTheme()});systemTheme.addEventListener('change',()=>{if(theme==='system')applyTheme()});
 document.getElementById('menu').addEventListener('click',()=>{const open=document.getElementById('nav').classList.toggle('open');document.getElementById('menu').setAttribute('aria-expanded',String(open));document.getElementById('menu').setAttribute('aria-label',open?'關閉導覽選單':'開啟導覽選單')});document.addEventListener('click',e=>{if(!e.target.closest('#nav')&&!e.target.closest('#menu')){document.getElementById('nav').classList.remove('open');document.getElementById('menu').setAttribute('aria-expanded','false')}});
+
 </script>
 <script>(function(){
 
@@ -183,6 +197,7 @@ async function finishAuthCallback() {
   accessTokenExpiresAt = Date.now() + Number(tokenData.expires_in || 0) * 1000;
   $("authLogin").hidden = true;
   $("authLogout").hidden = false;
+  const authState = document.getElementById("act-auth-state"); if (authState) authState.textContent = "已登入";
   message("已透過 Chi Auth 完成 Passkey 身分驗證。", "ok");
   return true;
 }
@@ -223,6 +238,12 @@ function render() {
   const groupOrder = {"Status 維護":0,"來源更新":1,"內容更新":2,"自動化":3,"驗證":4,"部署":5,"暫不可觸發":6,"外部監控":7};
   visible.sort((a,b) => (groupOrder[a.group] ?? 99) - (groupOrder[b.group] ?? 99) || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
   $("count").textContent = `${visible.length} / ${workflows.length} 項`;
+  const totalEl = document.getElementById("act-total");
+  const availableEl = document.getElementById("act-available");
+  const unavailableEl = document.getElementById("act-unavailable");
+  if (totalEl) totalEl.textContent = workflows.length;
+  if (availableEl) availableEl.textContent = workflows.filter(item => item.available !== false).length;
+  if (unavailableEl) unavailableEl.textContent = workflows.filter(item => item.available === false).length;
   const root = $("workflows");
   root.replaceChildren();
   if (!visible.length) {
@@ -408,6 +429,7 @@ $("authLogout").addEventListener("click", () => {
   $("authLogout").hidden = true;
   $("workflows").replaceChildren(create("div", "empty", "已結束本次登入。"));
   $("count").textContent = "尚未登入";
+  const authState = document.getElementById("act-auth-state"); if (authState) authState.textContent = "未登入";
   message("已清除本頁的存取權杖。再次操作時需要重新使用 Chi Auth 登入。", "ok");
 });
 (async () => {
@@ -424,6 +446,7 @@ $("authLogout").addEventListener("click", () => {
   await load();
 })();
 
-})();</script>
+})();
+</script>
 </body>
 </html>
