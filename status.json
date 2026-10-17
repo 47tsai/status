@@ -1,33 +1,33 @@
 {
-  "generated_at": "2026-10-17T10:39:09.207655+00:00",
+  "generated_at": "2026-10-17T10:46:22.757316+00:00",
   "repository_count": 13,
   "repositories": [
     {
-      "name": "nav",
-      "full_name": "tsai97216/nav",
-      "html_url": "https://github.com/tsai97216/nav",
-      "workflow": "pages build and deployment",
-      "status": "in_progress",
-      "branch": "main",
-      "updated_at": "2026-10-17T10:38:53Z",
-      "created_at": "2026-10-17T10:38:45Z",
-      "event": "dynamic",
-      "commit_message": "chore: auto bump version [skip ci]",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/39025684247",
+      "name": "merch",
+      "full_name": "tsai97216/merch",
+      "html_url": "https://github.com/tsai97216/merch",
+      "workflow": "Verify",
+      "status": "failure",
+      "branch": "refactor/home-page-chi-components",
+      "updated_at": "2026-10-17T10:45:44Z",
+      "created_at": "2026-10-17T10:44:31Z",
+      "event": "pull_request",
+      "commit_message": "style(home): align dashboard with Chi component standards",
+      "duration_seconds": 73,
+      "runs_url": "https://github.com/tsai97216/merch/actions",
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/39026048858",
       "business": {
         "kind": "deploy",
-        "title": "Chi 的工具箱",
-        "description": "導航網站部署與實際 HTTP 健康檢查",
-        "icon": "⌖",
-        "business_status": "running",
-        "business_label": "部署進行中",
+        "title": "周邊收藏網",
+        "description": "商品網站部署與實際 HTTP 健康檢查",
+        "icon": "▦",
+        "business_status": "failure",
+        "business_label": "最近部署失敗",
         "metrics": [
           {
             "label": "部署結果",
-            "value": "in_progress",
-            "tone": "normal"
+            "value": "failure",
+            "tone": "bad"
           },
           {
             "label": "分支",
@@ -48,25 +48,25 @@
         "details": [
           {
             "label": "最近部署",
-            "result": "部署進行中",
-            "time": "2026-10-17 18:38:53",
-            "tone": "normal"
+            "result": "最近部署失敗",
+            "time": "2026-10-17 18:45:44",
+            "tone": "bad"
           },
           {
             "label": "網站檢查",
-            "result": "https://nav.chi.qzz.io/ · HTTP 200",
+            "result": "https://merch.chi.qzz.io/ · HTTP 200",
             "time": "",
             "tone": "good"
           },
           {
             "label": "頁面內容",
             "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi NAV · 個人導航",
+            "time": "Chi MERCH",
             "tone": "good"
           }
         ],
         "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/nav/actions"
+        "evidence_url": "https://github.com/tsai97216/merch/actions"
       }
     },
     {
@@ -127,8 +127,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-17T10:39:08.580875+00:00",
-      "created_at": "2026-10-17T10:39:08.580888+00:00",
+      "updated_at": "2026-10-17T10:46:22.305186+00:00",
+      "created_at": "2026-10-17T10:46:22.305197+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -154,7 +154,7 @@
           },
           {
             "label": "回應時間",
-            "value": "626 ms",
+            "value": "451 ms",
             "tone": "normal"
           }
         ],
@@ -177,8 +177,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-17T10:39:06.236990+00:00",
-      "created_at": "2026-10-17T10:39:06.237004+00:00",
+      "updated_at": "2026-10-17T10:46:20.507685+00:00",
+      "created_at": "2026-10-17T10:46:20.507699+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -211,19 +211,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 570 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 503 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1261 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 945 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 509 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 346 ms",
             "time": "",
             "tone": "good"
           }
@@ -236,16 +236,16 @@
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
+      "workflow": "Test Cloudflare trigger Worker",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T10:35:30Z",
-      "created_at": "2026-10-17T10:34:55Z",
+      "updated_at": "2026-10-17T10:46:06Z",
+      "created_at": "2026-10-17T10:45:50Z",
       "event": "push",
-      "commit_message": "Improve mobile Actions console and require authentication before catalog display",
-      "duration_seconds": 35,
+      "commit_message": "Limit Actions catalog to maintenance updates and automation",
+      "duration_seconds": 16,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39025441216",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39026133545",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -274,7 +274,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-17 18:35:30",
+            "time": "2026-10-17 18:46:06",
             "tone": "good"
           }
         ],
@@ -283,24 +283,24 @@
       }
     },
     {
-      "name": "merch",
-      "full_name": "tsai97216/merch",
-      "html_url": "https://github.com/tsai97216/merch",
-      "workflow": "Deploy",
+      "name": "nav",
+      "full_name": "tsai97216/nav",
+      "html_url": "https://github.com/tsai97216/nav",
+      "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T10:35:21Z",
-      "created_at": "2026-10-17T10:34:28Z",
-      "event": "workflow_run",
-      "commit_message": "style: align loading animation with MERCH purple palette",
+      "updated_at": "2026-10-17T10:39:38Z",
+      "created_at": "2026-10-17T10:38:45Z",
+      "event": "dynamic",
+      "commit_message": "chore: auto bump version [skip ci]",
       "duration_seconds": 53,
-      "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/39025412943",
+      "runs_url": "https://github.com/tsai97216/nav/actions",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/39025684247",
       "business": {
         "kind": "deploy",
-        "title": "周邊收藏網",
-        "description": "商品網站部署與實際 HTTP 健康檢查",
-        "icon": "▦",
+        "title": "Chi 的工具箱",
+        "description": "導航網站部署與實際 HTTP 健康檢查",
+        "icon": "⌖",
         "business_status": "success",
         "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
         "metrics": [
@@ -329,24 +329,24 @@
           {
             "label": "最近部署",
             "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-17 18:35:21",
+            "time": "2026-10-17 18:39:38",
             "tone": "good"
           },
           {
             "label": "網站檢查",
-            "result": "https://merch.chi.qzz.io/ · HTTP 200",
+            "result": "https://nav.chi.qzz.io/ · HTTP 200",
             "time": "",
             "tone": "good"
           },
           {
             "label": "頁面內容",
             "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi MERCH",
+            "time": "Chi NAV · 個人導航",
             "tone": "good"
           }
         ],
         "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/merch/actions"
+        "evidence_url": "https://github.com/tsai97216/nav/actions"
       }
     },
     {
