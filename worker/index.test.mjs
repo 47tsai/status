@@ -24,10 +24,11 @@ function request(body, { method = "POST", token = "test-access-token-12345678901
 }
 
 
-async function runWorker(req, testEnv) {
+async function runWorker(req, testEnv, { authHandler } = {}) {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (url, options) => {
     if (String(url).startsWith("https://auth.chi.qzz.io/api/userinfo?")) {
+      if (authHandler) return authHandler(url, options);
       const token = options?.headers?.Authorization || "";
       if (token === "Bearer test-access-token-1234567890123456789012345678") {
         return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
@@ -90,6 +91,59 @@ test("rejects a missing or invalid Chi Auth access token", async () => {
   const incorrect = await runWorker(request({}, { token: "invalid-access-token-1234567890123456789012345" }), env);
   assert.equal(missing.status, 401);
   assert.equal(incorrect.status, 401);
+});
+
+test("fails closed when Chi Auth is unavailable without consuming dispatch quota", async () => {
+  let dispatchLimitCalls = 0;
+  let githubCalls = 0;
+  const testEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    githubCalls++;
+    return new Response(null, { status: 204 });
+  };
+  try {
+    const response = await runWorker(request({}), testEnv, {
+      authHandler: async () => { throw new TypeError("private auth outage detail"); },
+    });
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 503);
+    assert.match(result.body.error, /Chi Auth is temporarily unavailable/);
+    assert.doesNotMatch(JSON.stringify(result.body), /private auth outage detail/);
+    assert.equal(dispatchLimitCalls, 0);
+    assert.equal(githubCalls, 0);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("rejects an unexpected Chi Auth identity before dispatch", async () => {
+  let dispatchLimitCalls = 0;
+  let githubCalls = 0;
+  const testEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    githubCalls++;
+    return new Response(null, { status: 204 });
+  };
+  try {
+    const response = await runWorker(request({}), testEnv, {
+      authHandler: async () => new Response(JSON.stringify({ sub: "someone-else", aud: clientId }), {
+        status: 200, headers: { "Content-Type": "application/json" },
+      }),
+    });
+    assert.equal(response.status, 403);
+    assert.equal(dispatchLimitCalls, 0);
+    assert.equal(githubCalls, 0);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });
 
 test("rejects dispatch to a workflow outside the allowlist", async () => {
