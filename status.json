@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T11:21:24.845220+00:00",
+  "generated_at": "2026-10-17T11:24:04.715399+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -7,26 +7,26 @@
       "full_name": "tsai97216/nav",
       "html_url": "https://github.com/tsai97216/nav",
       "workflow": "pages build and deployment",
-      "status": "queued",
+      "status": "pending",
       "branch": "main",
-      "updated_at": "2026-10-17T11:21:11Z",
-      "created_at": "2026-10-17T11:20:32Z",
+      "updated_at": "2026-10-17T11:23:51Z",
+      "created_at": "2026-10-17T11:23:49Z",
       "event": "dynamic",
       "commit_message": "chore: auto bump version [skip ci]",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/39028327793",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/39028534084",
       "business": {
         "kind": "deploy",
         "title": "Chi 的工具箱",
         "description": "導航網站部署與實際 HTTP 健康檢查",
         "icon": "⌖",
-        "business_status": "running",
-        "business_label": "部署進行中",
+        "business_status": "unknown",
+        "business_label": "部署狀態未知",
         "metrics": [
           {
             "label": "部署結果",
-            "value": "queued",
+            "value": "pending",
             "tone": "normal"
           },
           {
@@ -48,8 +48,8 @@
         "details": [
           {
             "label": "最近部署",
-            "result": "部署進行中",
-            "time": "2026-10-17 19:21:11",
+            "result": "部署狀態未知",
+            "time": "2026-10-17 19:23:51",
             "tone": "normal"
           },
           {
@@ -76,8 +76,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-17T11:21:24.462925+00:00",
-      "created_at": "2026-10-17T11:21:24.462938+00:00",
+      "updated_at": "2026-10-17T11:24:04.183242+00:00",
+      "created_at": "2026-10-17T11:24:04.183255+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -103,7 +103,7 @@
           },
           {
             "label": "回應時間",
-            "value": "382 ms",
+            "value": "532 ms",
             "tone": "normal"
           }
         ],
@@ -126,8 +126,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-17T11:21:22.431986+00:00",
-      "created_at": "2026-10-17T11:21:22.432002+00:00",
+      "updated_at": "2026-10-17T11:24:02.232871+00:00",
+      "created_at": "2026-10-17T11:24:02.232887+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -160,19 +160,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 462 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 588 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 816 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 829 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 750 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 531 ms",
             "time": "",
             "tone": "good"
           }
@@ -182,19 +182,86 @@
       }
     },
     {
+      "name": "chi-source",
+      "full_name": "tsai97216/chi-source",
+      "html_url": "https://github.com/tsai97216/chi-source",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-17T11:22:27Z",
+      "created_at": "2026-10-17T11:21:42Z",
+      "event": "dynamic",
+      "commit_message": "auto: sync Chi Source",
+      "duration_seconds": 45,
+      "runs_url": "https://github.com/tsai97216/chi-source/actions",
+      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/39028400741",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source",
+        "description": "AltStore 來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站內容檢查通過",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "7",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-17 19:21:38",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-16 08:05:56",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "0 個 App 更新、7 個未變更",
+            "time": "",
+            "tone": "normal"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
+      }
+    },
+    {
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Test Cloudflare trigger Worker",
+      "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T11:20:34Z",
-      "created_at": "2026-10-17T11:20:19Z",
+      "updated_at": "2026-10-17T11:21:43Z",
+      "created_at": "2026-10-17T11:21:04Z",
       "event": "push",
-      "commit_message": "Test workflow input length validation",
-      "duration_seconds": 15,
+      "commit_message": "Reflect workflow input limits in Actions console",
+      "duration_seconds": 39,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39028313011",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39028359374",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -223,7 +290,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-17 19:20:34",
+            "time": "2026-10-17 19:21:43",
             "tone": "good"
           }
         ],
@@ -420,73 +487,6 @@
         ],
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
-      }
-    },
-    {
-      "name": "chi-source",
-      "full_name": "tsai97216/chi-source",
-      "html_url": "https://github.com/tsai97216/chi-source",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-17T10:50:27Z",
-      "created_at": "2026-10-17T10:49:52Z",
-      "event": "dynamic",
-      "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 35,
-      "runs_url": "https://github.com/tsai97216/chi-source/actions",
-      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/39026385207",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source",
-        "description": "AltStore 來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "來源網站內容檢查通過",
-        "metrics": [
-          {
-            "label": "App 數量",
-            "value": "7",
-            "tone": "normal"
-          },
-          {
-            "label": "本次標示更新",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "自動檢查",
-            "result": "2026-10-17 18:49:49",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "內容更新",
-            "result": "2026-10-16 08:05:56",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "版本狀態",
-            "result": "0 個 App 更新、7 個未變更",
-            "time": "",
-            "tone": "normal"
-          }
-        ],
-        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
-        "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
       }
     },
     {
