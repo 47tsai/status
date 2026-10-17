@@ -9,12 +9,12 @@
 (function () {
   const params = new URLSearchParams(window.location.search);
   const hasOAuthCallback = params.has("code") || params.has("state");
-  const destination = "/new/action/" + (hasOAuthCallback ? window.location.search : "");
+  const destination = "/action/" + (hasOAuthCallback ? window.location.search : "");
   window.location.replace(destination);
 })();
 </script>
 </head>
 <body>
-<p>正在前往 <a href="/new/action/">Chi Status Actions 控制台</a>…</p>
+<p>正在前往 <a href="/action/">Chi Status Actions 控制台</a>…</p>
 </body>
 </html>
