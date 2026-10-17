@@ -62,7 +62,7 @@ jobs:
             if [ -n "$WORKER_URL" ]; then
               echo "Deployment URL: $WORKER_URL"
               echo
-              echo "Worker deployed and GitHub API token configured. If the Worker URL changes, update API_URL in actions/index.html."
+              echo "Worker deployed and GitHub API token configured. If the Worker URL changes, update API_URL in action/index.html."
             else
               echo "Worker deployed and GitHub API token configured, but Wrangler's URL could not be parsed. See the deployment logs for the workers.dev URL."
             fi
