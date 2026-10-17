@@ -47,7 +47,7 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 .group-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .card{display:flex;flex-direction:column;min-width:0;padding:17px;border:1px solid var(--chi-color-border);border-radius:var(--chi-radius-lg);background:var(--chi-color-surface);box-shadow:var(--chi-shadow-subtle)}
 .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.name{color:var(--chi-color-text-strong);font-size:16px;font-weight:700;line-height:1.45;overflow-wrap:anywhere}
+.name{color:var(--chi-color-text-strong);font-size:16px;font-weight:700;line-height:1.45;overflow-wrap:anywhere}.description{margin-top:5px;color:var(--chi-color-text-muted);font-size:12px;line-height:1.6;overflow-wrap:anywhere}
 .repo{margin-top:4px;color:var(--chi-color-text-muted);font-size:11px;overflow-wrap:anywhere}
 .group{flex:none;padding:3px 7px;border:1px solid var(--chi-color-border);border-radius:5px;color:var(--chi-color-text-muted);font-size:10px}
 .fields{display:grid;gap:12px;margin-top:15px}
@@ -235,7 +235,7 @@ function workflowUrl(item) {
 function render() {
   const query = $("search").value.trim().toLowerCase();
   const visible = workflows.filter(item => {
-    const haystack = [item.name, item.repository, item.workflow, item.group].join(" ").toLowerCase();
+    const haystack = [item.name, item.description, item.repository, item.workflow, item.group].join(" ").toLowerCase();
     return !query || haystack.includes(query);
   });
   const groupOrder = {"維護":0,"更新":1,"自動化":2};
@@ -269,7 +269,7 @@ function render() {
     const card = create("article", "card");
     const head = create("div", "head");
     const info = create("div");
-    info.append(create("div", "name", item.name), create("div", "repo", `${item.repository} · ${item.workflow}`));
+    info.append(create("div", "name", item.name), create("div", "description", item.description || ""), create("div", "repo", `${item.repository} · ${item.workflow}`));
     head.append(info, create("span", "group", item.group || "其他"));
     card.append(head);
     if (item.danger) card.append(create("div", "warning", item.danger));
@@ -368,7 +368,7 @@ async function load() {
     return;
   }
   $("reload").disabled = true;
-  message("正在讀取狀態總覽專案清單…");
+  message("正在載入工作流程清單…");
   try {
     const data = await api("?action=catalog");
     workflows = data.workflows || [];
