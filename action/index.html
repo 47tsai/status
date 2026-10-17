@@ -345,7 +345,10 @@ function render() {
       const confirmText = item.danger ? `確認執行「${item.name}」？\n\n${item.danger}\n\n此操作會使用 main 分支。` : `確認觸發「${item.name}」？`;
       if (!confirm(confirmText)) return;
       busy = true;
-      run.disabled = true;
+      const runButtons = [...$("workflows").querySelectorAll('button[type="submit"]')];
+      for (const button of runButtons) button.disabled = true;
+      $("reload").disabled = true;
+      $("search").disabled = true;
       run.textContent = "提交中…";
       message(`正在提交：${item.repository} / ${item.workflow}`);
       try {
@@ -359,7 +362,9 @@ function render() {
         message(`觸發失敗：${error.message}`, "error");
       } finally {
         busy = false;
-        run.disabled = false;
+        for (const button of runButtons) button.disabled = false;
+        $("reload").disabled = false;
+        $("search").disabled = false;
         run.textContent = "立即觸發";
       }
     });
