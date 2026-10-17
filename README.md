@@ -8,7 +8,7 @@ Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀
 - **更新頻率：** GitHub Actions 每 10 分鐘執行一次，程式碼更新也會觸發更新。
 - **架構：** GitHub Actions 收集狀態並產生 `status.json`，GitHub Pages 發佈靜態儀表板。
 
-新版介面已正式移至網站根路徑。狀態總覽與 Actions 控制台使用同一套 Chi Design System 配色、字體、導覽列與深淺色模式。Actions 控制台透過 Chi Auth Passkey 登入後，才能查看及觸發允許清單中的工作流程；GitHub Token 保存在 Worker Secret，不會放進公開網頁。OAuth 回呼仍使用既有的 `/actions/` 路徑，授權完成後會轉回 `/action/`。舊版主站保存在 `/legacy/` 以供需要時比對。
+Actions 控制台需透過 Chi Auth Passkey 登入，才可查看及觸發允許清單中的工作流程。OAuth 回呼使用 `/actions/`，完成後轉回 `/action/`。
 
 ## 監控範圍
 
@@ -26,8 +26,6 @@ Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀
 ### 健康狀態的限制
 
 網站探測會檢查 HTTP 狀態、回應內容是否為空、HTML 標題及部分常見錯誤／挑戰頁。這是基本探測，不是完整端對端測試，無法單憑它確認登入、資料庫、內部 API 或所有頁面功能正常。
-
-VPS-01 的狀態依三個公開端點的 HTTP 回應判定：至少兩個回傳 HTTP 200 即為正常。此規則衡量的是端點回應，不會額外驗證頁面內的所有功能。
 
 ## 專案結構
 
