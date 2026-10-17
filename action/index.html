@@ -378,8 +378,10 @@ function render() {
           if (authState) authState.textContent = "未登入";
           $("count").textContent = "登入已失效";
           $("workflows").replaceChildren(create("div", "empty", "登入已失效，請重新使用 Chi Auth 登入。"));
+        } else if (/status is unknown/i.test(error?.message || "")) {
+          message(`無法確認 GitHub 是否已收到觸發請求。請先查看「執行紀錄」，確認沒有已啟動或執行中的工作流程，再決定是否重試。\n\n詳細訊息：${error.message}`, "error");
         } else {
-          message(`觸發失敗：${error.message}`, "error");
+          message(`觸發失敗：${error?.message || "發生未知錯誤"}`, "error");
         }
       } finally {
         busy = false;
