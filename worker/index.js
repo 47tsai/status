@@ -94,7 +94,7 @@ export default {
     const entry = WORKFLOWS.find(item => item.available !== false && item.repository === repository && item.workflow === workflow);
     if (!entry) return json({ ok: false, error: "This workflow is not in the approved status-project allowlist." }, 403);
 
-    const suppliedInputs = body?.inputs ?? {};
+    const suppliedInputs = body && Object.prototype.hasOwnProperty.call(body, "inputs") ? body.inputs : {};
     if (!suppliedInputs || typeof suppliedInputs !== "object" || Array.isArray(suppliedInputs)) {
       return json({ ok: false, error: "Inputs must be an object." }, 400);
     }
@@ -147,9 +147,8 @@ export default {
     }
 
     if (response.status !== 204) {
-      let detail = "";
-      try { detail = (await response.text()).slice(0, 500); } catch {}
-      console.error("GitHub dispatch failed", repository, workflow, response.status, detail);
+      // Log only stable metadata; never copy upstream response bodies into logs.
+      console.error("GitHub dispatch failed", repository, workflow, response.status);
       return json({ ok: false, error: response.status === 401 || response.status === 403
         ? "GitHub rejected the token or repository permission. Check token repository access and Actions: Read and write."
         : `GitHub API returned HTTP ${response.status}.` }, 502);
