@@ -7,13 +7,13 @@ const DEFAULT_WORKFLOW = "update-status.yml";
 // Keep this catalog aligned with the projects displayed in status.json.
 // Only these workflows can be triggered by this Worker.
 const WORKFLOWS = [
-  { repository: "tsai97216/status", workflow: "update-status.yml", name: "Status 狀態資料更新", project: "status", group: "維護", inputs: [] },
-  { repository: "tsai97216/chi-source", workflow: "main.yml", name: "Chi Source 更新", project: "chi-source", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
-  { repository: "tsai97216/chi-source-personal", workflow: "main.yml", name: "Chi Source Personal 更新", project: "chi-source-personal", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
-  { repository: "tsai97216/free-game", workflow: "free-game.yml", name: "限免遊戲通知更新", project: "free-game", group: "更新", inputs: [] },
-  { repository: "tsai97216/sc-auto-claim", workflow: "daily.yml", name: "荒野亂鬥自動領取", project: "sc-auto-claim", group: "自動化", inputs: [] },
-  { repository: "tsai97216/bahasign", workflow: "actions.yml", name: "巴哈姆特自動簽到", project: "bahasign", group: "自動化", inputs: [] },
-  { repository: "tsai97216/apktwsign", workflow: "checkin.yml", name: "APK.TW 自動簽到", project: "apktwsign", group: "自動化", inputs: [] },
+  { repository: "tsai97216/status", workflow: "update-status.yml", name: "Status 狀態資料更新", description: "更新狀態總覽使用的專案資料。", project: "status", group: "維護", inputs: [] },
+  { repository: "tsai97216/chi-source", workflow: "main.yml", name: "Chi Source 更新", description: "更新主來源的 App 資料；all 代表全部項目。", project: "chi-source", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
+  { repository: "tsai97216/chi-source-personal", workflow: "main.yml", name: "Chi Source Personal 更新", description: "更新個人來源的 App 資料；all 代表全部項目。", project: "chi-source-personal", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
+  { repository: "tsai97216/free-game", workflow: "free-game.yml", name: "限免遊戲通知更新", description: "手動重新執行限免遊戲資料與通知流程。", project: "free-game", group: "更新", inputs: [] },
+  { repository: "tsai97216/sc-auto-claim", workflow: "daily.yml", name: "荒野亂鬥自動領取", description: "手動執行設定好的自動領取流程。", project: "sc-auto-claim", group: "自動化", inputs: [] },
+  { repository: "tsai97216/bahasign", workflow: "actions.yml", name: "巴哈姆特自動簽到", description: "手動執行巴哈姆特簽到流程。", project: "bahasign", group: "自動化", inputs: [] },
+  { repository: "tsai97216/apktwsign", workflow: "checkin.yml", name: "APK.TW 自動簽到", description: "手動執行 APK.TW 簽到流程。", project: "apktwsign", group: "自動化", inputs: [] },
 ];
 
 function json(body, status = 200) {
