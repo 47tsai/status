@@ -517,7 +517,7 @@ def business_data(repo_name, run):
         health_path = profile.get("health_path") or "/"
         if health and health.get("ok") is True:
             result["business_status"] = "success"
-            result["business_label"] = f"{service_name} 端點檢查通過"
+            result["business_label"] = "Vaultwarden 存活檢查通過" if repo_name == "vaultwarden-service" else f"{service_name} 端點檢查通過"
         elif health and health.get("ok") is False:
             result["business_status"] = "failure"
             result["business_label"] = f"{service_name} 端點異常"
