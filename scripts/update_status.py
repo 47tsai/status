@@ -34,7 +34,8 @@ PROFILES = {
     "h": {"kind": "deploy", "title": "H", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "▣", "health_url": "https://h.chi.qzz.io/"},
     "nav": {"kind": "deploy", "title": "Chi 的工具箱", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
     "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
-    "vaultwarden-service": {"kind": "website", "title": "Vaultwarden", "description": "密碼管理服務存活端點檢查", "icon": "▣", "health_url": "https://vault.chi.qzz.io/alive"},
+    "vaultwarden-service": {"kind": "website", "title": "Vaultwarden", "description": "密碼管理服務存活端點檢查", "icon": "▣", "health_url": "https://vault.chi.qzz.io/alive", "service_name": "Vaultwarden", "health_path": "/alive"},
+    "chi-auth-service": {"kind": "website", "title": "Chi Auth", "description": "Passkey／SSO 驗證服務首頁可用性檢查", "icon": "⌑", "health_url": "https://auth.chi.qzz.io/", "service_name": "Chi Auth", "health_path": "/"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 TAIPEI_TZ = ZoneInfo("Asia/Taipei")
@@ -512,27 +513,32 @@ def business_data(repo_name, run):
         result["evidence_url"] = None
     elif kind == "website":
         health = health_check(profile.get("health_url"))
+        service_name = profile.get("service_name") or profile.get("title") or repo_name
+        health_path = profile.get("health_path") or "/"
         if health and health.get("ok") is True:
             result["business_status"] = "success"
-            result["business_label"] = "Vaultwarden 存活檢查通過"
+            result["business_label"] = f"{service_name} 端點檢查通過"
         elif health and health.get("ok") is False:
             result["business_status"] = "failure"
-            result["business_label"] = "Vaultwarden 端點異常"
+            result["business_label"] = f"{service_name} 端點異常"
         else:
             result["business_status"] = "unknown"
-            result["business_label"] = "Vaultwarden 狀態未確認"
+            result["business_label"] = f"{service_name} 狀態未確認"
         result["metrics"] = [
-            metric("存活端點", "/alive"),
+            metric("檢查端點", health_path),
             metric("HTTP 狀態", str(health.get("status")) if health and health.get("status") is not None else "未取得",
                    "good" if health and health.get("ok") is True else "bad" if health and health.get("ok") is False else "normal"),
             metric("回應時間", f'{health.get("latency_ms")} ms' if health and health.get("latency_ms") is not None else "未取得"),
         ]
         if health:
             result["details"] = [
-                {"label": "存活檢查", "result": health.get("content_reason") or "未取得內容判讀",
+                {"label": "端點檢查", "result": health.get("content_reason") or "未取得內容判讀",
                  "time": f'HTTP {health.get("status", "未知")}', "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"},
             ]
-        result["note"] = "使用 Vaultwarden 的公開 /alive 存活端點，每 10 分鐘檢查 HTTP 與非空回應。這只確認服務端點可回應，不代表資料庫、登入或同步等所有功能都已完整驗證。"
+        if repo_name == "vaultwarden-service":
+            result["note"] = "使用 Vaultwarden 的公開 /alive 存活端點，每 10 分鐘檢查 HTTP 與非空回應。這只確認服務端點可回應，不代表資料庫、登入或同步等所有功能都已完整驗證。"
+        else:
+            result["note"] = f"每 10 分鐘檢查 {service_name} 的公開首頁（HTTP 狀態、回應內容與回應時間）。這是基本可用性探測，不代表 Passkey、SSO 或所有驗證流程均已完成端對端驗證。"
         result["evidence_url"] = profile.get("health_url")
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
