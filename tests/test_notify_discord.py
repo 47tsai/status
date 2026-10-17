@@ -13,6 +13,33 @@ from notify_discord import (build_message, calculate_alert_changes, is_failed, i
 from update_status import normalize_run_status, stale_fallback, inspect_page_content, format_unknown_health_detail
 
 
+class VaultwardenMonitorTests(unittest.TestCase):
+    def test_vaultwarden_profile_uses_public_alive_endpoint(self):
+        profile = update_status.PROFILES["vaultwarden-service"]
+        self.assertEqual(profile["kind"], "website")
+        self.assertEqual(profile["health_url"], "https://vault.chi.qzz.io/alive")
+
+    @patch("update_status.health_check")
+    def test_vaultwarden_monitor_reports_alive_success(self, health_check):
+        health_check.return_value = {
+            "ok": True, "status": 200, "latency_ms": 42,
+            "content_reason": "HTTP 與基本頁面內容檢查通過",
+        }
+        result = update_status.business_data("vaultwarden-service", {})
+        self.assertEqual(result["business_status"], "success")
+        self.assertIn("存活檢查通過", result["business_label"])
+        health_check.assert_called_once_with("https://vault.chi.qzz.io/alive")
+
+    @patch("update_status.health_check")
+    def test_vaultwarden_monitor_reports_endpoint_failure(self, health_check):
+        health_check.return_value = {
+            "ok": False, "status": 502, "latency_ms": 30,
+            "content_reason": "HTTP 502",
+        }
+        result = update_status.business_data("vaultwarden-service", {})
+        self.assertEqual(result["business_status"], "failure")
+
+
 class DiscordAlertTests(unittest.TestCase):
     def test_malformed_alert_state_is_ignored_safely(self):
         self.assertEqual(normalize_active_failures(None), {})
