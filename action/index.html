@@ -408,13 +408,24 @@ $("authLogout").addEventListener("click", () => {
     if (!completed) {
       syncAuthUI(false);
       $("authLogin").hidden = false;
+      $("authLogin").disabled = false;
       $("authLogout").hidden = true;
-      message("請使用 Chi Auth 的 Passkey 登入後再管理工作流程。");
+      await load();
+      return;
     }
+    await load();
   } catch (error) {
+    accessToken = null;
+    accessTokenExpiresAt = 0;
+    workflows = [];
+    syncAuthUI(false);
+    $("authLogin").hidden = false;
+    $("authLogin").disabled = false;
+    $("authLogout").hidden = true;
+    $("workflows").replaceChildren(create("div", "empty", "登入未完成，請重新使用 Chi Auth 登入。"));
+    $("count").textContent = "登入失敗";
     message("登入失敗：" + error.message, "error");
   }
-  await load();
 })();
 
 })();
