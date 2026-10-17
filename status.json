@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T00:36:05.367885+00:00",
+  "generated_at": "2026-10-17T05:00:04.065118+00:00",
   "repository_count": 12,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-17T00:36:00.174786+00:00",
-      "created_at": "2026-10-17T00:36:00.174803+00:00",
+      "updated_at": "2026-10-17T05:00:00.222524+00:00",
+      "created_at": "2026-10-17T05:00:00.222540+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,19 +43,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 1760 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 721 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 2306 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 2409 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 1123 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 710 ms",
             "time": "",
             "tone": "good"
           }
@@ -71,13 +71,13 @@
       "workflow": "Deploy GitHub Pages",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T00:34:27Z",
-      "created_at": "2026-10-17T00:34:06Z",
+      "updated_at": "2026-10-17T02:49:54Z",
+      "created_at": "2026-10-17T02:49:23Z",
       "event": "push",
-      "commit_message": "Remove remaining purple accent tint from shared tokens",
-      "duration_seconds": 21,
+      "commit_message": "Use opaque background for sticky catalogue toolbar",
+      "duration_seconds": 31,
       "runs_url": "https://github.com/tsai97216/chi-design-system/actions",
-      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/38986967896",
+      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/38996413222",
       "business": {
         "kind": "generic",
         "title": "chi-design-system",
@@ -103,69 +103,19 @@
       }
     },
     {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T23:49:02Z",
-      "created_at": "2026-10-16T23:48:14Z",
-      "event": "workflow_dispatch",
-      "commit_message": "chore: update project business status",
-      "duration_seconds": 48,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38983318115",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "資料更新成功",
-            "time": "2026-10-17 07:49:02",
-            "tone": "good"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
-      }
-    },
-    {
       "name": "sc-auto-claim",
       "full_name": "tsai97216/sc-auto-claim",
       "html_url": "https://github.com/tsai97216/sc-auto-claim",
       "workflow": "daily-claim",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T23:06:35Z",
-      "created_at": "2026-10-16T23:05:24Z",
+      "updated_at": "2026-10-17T01:56:46Z",
+      "created_at": "2026-10-17T01:55:42Z",
       "event": "schedule",
       "commit_message": "update claim status",
-      "duration_seconds": 71,
+      "duration_seconds": 64,
       "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38979514569",
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38992885993",
       "business": {
         "kind": "claim",
         "title": "荒野亂鬥自動領取",
@@ -204,19 +154,92 @@
       }
     },
     {
+      "name": "chi-source-personal",
+      "full_name": "tsai97216/chi-source-personal",
+      "html_url": "https://github.com/tsai97216/chi-source-personal",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-17T01:09:31Z",
+      "created_at": "2026-10-17T01:08:51Z",
+      "event": "dynamic",
+      "commit_message": "auto: sync Chi Source",
+      "duration_seconds": 40,
+      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
+      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38989597384",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source Personal",
+        "description": "個人來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站內容檢查通過",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "9",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "1",
+            "tone": "good"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-17 09:08:48",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-17 06:38:51",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "1 個 App 更新、8 個未變更",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "更新的 App",
+            "result": "Aidoku",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
+      }
+    },
+    {
       "name": "free-game",
       "full_name": "tsai97216/free-game",
       "html_url": "https://github.com/tsai97216/free-game",
       "workflow": "Free Game Notifier",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T22:51:58Z",
-      "created_at": "2026-10-16T22:51:47Z",
+      "updated_at": "2026-10-17T01:05:03Z",
+      "created_at": "2026-10-17T01:04:52Z",
       "event": "schedule",
       "commit_message": "chore: update processed state",
       "duration_seconds": 11,
       "runs_url": "https://github.com/tsai97216/free-game/actions",
-      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38978233200",
+      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38989302495",
       "business": {
         "kind": "freegame",
         "title": "限免遊戲通知",
@@ -260,92 +283,19 @@
       }
     },
     {
-      "name": "chi-source-personal",
-      "full_name": "tsai97216/chi-source-personal",
-      "html_url": "https://github.com/tsai97216/chi-source-personal",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T22:39:31Z",
-      "created_at": "2026-10-16T22:38:54Z",
-      "event": "dynamic",
-      "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 37,
-      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38976991869",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source Personal",
-        "description": "個人來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "來源網站內容檢查通過",
-        "metrics": [
-          {
-            "label": "App 數量",
-            "value": "9",
-            "tone": "normal"
-          },
-          {
-            "label": "本次標示更新",
-            "value": "1",
-            "tone": "good"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "自動檢查",
-            "result": "2026-10-17 06:38:51",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "內容更新",
-            "result": "2026-10-17 06:38:51",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "版本狀態",
-            "result": "1 個 App 更新、8 個未變更",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "更新的 App",
-            "result": "Aidoku",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
-        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
-      }
-    },
-    {
       "name": "chi-source",
       "full_name": "tsai97216/chi-source",
       "html_url": "https://github.com/tsai97216/chi-source",
       "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T22:32:29Z",
-      "created_at": "2026-10-16T22:31:25Z",
+      "updated_at": "2026-10-17T01:03:52Z",
+      "created_at": "2026-10-17T01:03:12Z",
       "event": "dynamic",
       "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 64,
+      "duration_seconds": 40,
       "runs_url": "https://github.com/tsai97216/chi-source/actions",
-      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38976256582",
+      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38989172159",
       "business": {
         "kind": "source",
         "title": "Chi Source",
@@ -361,8 +311,8 @@
           },
           {
             "label": "本次標示更新",
-            "value": "1",
-            "tone": "good"
+            "value": "0",
+            "tone": "normal"
           },
           {
             "label": "網站 HTTP",
@@ -378,7 +328,7 @@
         "details": [
           {
             "label": "自動檢查",
-            "result": "2026-10-17 06:31:22",
+            "result": "2026-10-17 09:03:08",
             "time": "",
             "tone": "normal"
           },
@@ -390,19 +340,63 @@
           },
           {
             "label": "版本狀態",
-            "result": "1 個 App 更新、6 個未變更",
+            "result": "0 個 App 更新、7 個未變更",
             "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "更新的 App",
-            "result": "Facebook",
-            "time": "",
-            "tone": "good"
+            "tone": "normal"
           }
         ],
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
+      }
+    },
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Update Actions status",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-17T00:36:29Z",
+      "created_at": "2026-10-17T00:35:43Z",
+      "event": "schedule",
+      "commit_message": "chore: update project business status",
+      "duration_seconds": 46,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/38987092806",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "success",
+        "business_label": "資料更新成功",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "資料更新成功",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "資料更新成功",
+            "time": "2026-10-17 08:36:29",
+            "tone": "good"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
