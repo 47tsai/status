@@ -8,7 +8,7 @@ The tsai97216/status repository needs these three secrets in **Settings → Secr
 
 - CLOUDFLARE_ACCOUNT_ID: your Cloudflare account ID.
 - CLOUDFLARE_API_TOKEN: a Cloudflare API token allowed to edit/deploy Workers for this account.
-- STATUS_WORKFLOW_TOKEN: a fine-grained GitHub personal access token with **Actions: Read and write** for only the repositories that need manual workflow dispatch: status, chi-source, chi-source-personal, free-game, sc-auto-claim, bahasign, apktwsign, h, and merch. Do not grant access to unrelated repositories.
+- STATUS_WORKFLOW_TOKEN: a fine-grained GitHub personal access token with **Actions: Read and write** for only these currently enabled repositories: `status`, `chi-source`, `chi-source-personal`, `free-game`, `sc-auto-claim`, `bahasign`, and `apktwsign`. Do not grant access to unrelated repositories. If the allowlist changes, review and update this token's repository access deliberately.
 
 Do not paste any of these values into chat or commit them to the repository.
 
@@ -24,11 +24,13 @@ The Worker URL is configured in action/index.html (`API_URL`). The control panel
 
 ## Project scope and safety
 
-- The allowlist is limited to projects shown in status.json: status, chi-source, chi-source-personal, free-game, sc-auto-claim, bahasign, apktwsign, h, merch, nav, and the synthetic VPS-01 monitor.
-- Only supported manual workflows are triggerable. NAV is shown as unavailable because its version workflow depends on real push commit metadata; VPS-01 is an external health check, not a GitHub Actions workflow.
-- The Worker only dispatches the main branch and validates workflow inputs against the allowlist schema.
-- GitHub API dispatch requests time out after 10 seconds; network and timeout errors return a generic 502 response without exposing credentials.
+- The current trigger catalog contains seven workflows: `status`, `chi-source`, `chi-source-personal`, `free-game`, `sc-auto-claim`, `bahasign`, and `apktwsign`. A project appearing on the dashboard does not automatically make its workflow triggerable.
+- `h`, `merch`, and `nav` are not currently enabled in this Worker catalog. NAV's version workflow depends on real push commit metadata; VPS-01 is an external health check, not a GitHub Actions workflow.
+- The Worker only dispatches the `main` branch and validates repository, workflow, ref, input names, input types, and input lengths against the allowlist schema. Request bodies are capped at 16 KiB; malformed JSON and non-JSON content types are rejected before dispatch.
+- Chi Auth userinfo requests time out after 5 seconds; GitHub API dispatch requests time out after 10 seconds. Both upstream requests disable automatic redirects. Network errors and timeouts return a safe 502 response without exposing credentials or upstream response bodies. A network error or timeout can leave the dispatch outcome unknown, so inspect the target repository's Actions run history before retrying to avoid accidentally launching a duplicate run.
 - Cloudflare Rate Limiting bindings throttle requests from the same client IP at 20 requests per 60 seconds, and validated workflow dispatches at 5 per 60 seconds. Invalid/rejected POST requests do not consume the dispatch quota. These limits are approximate per Cloudflare location, not a globally exact counter. The Worker fails closed with HTTP 503 if the limiter is unavailable.
-- Origin checks are not authentication by themselves. The Worker validates the Chi Auth access token on every request and fails closed if Chi Auth is unavailable.
+- Origin checks are not authentication by themselves. The Worker validates the Chi Auth access token on every request, requires the expected `sub` and client `aud`, and fails closed if Chi Auth is unavailable or returns an invalid response.
+- JSON responses use `Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, and `Referrer-Policy: no-referrer`. CORS is restricted to `https://status.chi.qzz.io`.
+- Rate limits reduce bursts but are not idempotency: the current Worker does not persist idempotency keys or guarantee deduplication across tabs, retries, or uncertain network outcomes.
 - The GitHub token is stored as a Cloudflare Worker secret, not in public frontend code. The previous `TRIGGER_SECRET` is no longer used by the application; it can be removed from Worker secrets after the new deployment is verified.
 - A successful trigger response means GitHub accepted the request, not that the workflow completed successfully. Use each card's **執行紀錄** link to inspect the run.
