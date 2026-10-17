@@ -299,6 +299,7 @@ function render() {
         const input = create("input");
         input.type = "checkbox";
         input.name = spec.name;
+        input.required = !!spec.required;
         input.checked = spec.default === true;
         label.append(input, document.createTextNode(spec.label + (spec.required ? "（必填）" : "")));
         wrap.append(label);
