@@ -407,9 +407,21 @@ async function load() {
     message("");
     render();
   } catch (error) {
-    $("workflows").replaceChildren(create("div", "empty", "無法載入工作流程清單。"));
-    message(error.message, "error");
-    $("count").textContent = "載入失敗";
+    if (!accessToken && error.message === "登入已失效，請重新使用 Chi Auth 登入。") {
+      workflows = [];
+      syncAuthUI(false);
+      $("authLogin").hidden = false;
+      $("authLogin").disabled = false;
+      $("authLogout").hidden = true;
+      const authState = $("auth-state");
+      if (authState) authState.textContent = "未登入";
+      $("workflows").replaceChildren(create("div", "empty", "登入已失效，請重新使用 Chi Auth 登入。"));
+      $("count").textContent = "登入已失效";
+    } else {
+      $("workflows").replaceChildren(create("div", "empty", "無法載入工作流程清單。"));
+      message(error.message, "error");
+      $("count").textContent = "載入失敗";
+    }
   } finally {
     $("reload").disabled = false;
   }
