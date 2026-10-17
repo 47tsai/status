@@ -500,15 +500,17 @@ test("disables automatic redirects for Chi Auth and GitHub API requests", async 
   const optionsSeen = [];
   globalThis.fetch = async (url, options) => {
     optionsSeen.push({ url: String(url), redirect: options?.redirect });
-    if (String(url).startsWith("https://auth.chi.qzz.io/api/userinfo?")) {
-      return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
-        status: 200, headers: { "Content-Type": "application/json" },
-      });
-    }
     return new Response(null, { status: 204 });
   };
   try {
-    const response = await runWorker(request({}), env);
+    const response = await runWorker(request({}), env, {
+      authHandler: async (url, options) => {
+        optionsSeen.push({ url: String(url), redirect: options?.redirect });
+        return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
+          status: 200, headers: { "Content-Type": "application/json" },
+        });
+      },
+    });
     assert.equal(response.status, 202);
     assert.equal(optionsSeen.length, 2);
     assert.ok(optionsSeen.every(item => item.redirect === "error"));
