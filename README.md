@@ -2,20 +2,21 @@
 
 Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀態儀表板。
 
-- **正式網址：** https://status.chi.qzz.io/new/（新版整合介面）
+- **正式網址：** https://status.chi.qzz.io/（新版統一介面）
+- **Actions 控制台：** https://status.chi.qzz.io/action/
+- **舊版備份：** https://status.chi.qzz.io/legacy/
 - **更新頻率：** GitHub Actions 每 10 分鐘執行一次，程式碼更新也會觸發更新。
 - **架構：** GitHub Actions 收集狀態並產生 `status.json`，GitHub Pages 發佈靜態儀表板。
-- **維運成本：** 不需要常駐伺服器；網站端只讀取靜態 JSON。
+
+新版介面已正式移至網站根路徑。狀態總覽與 Actions 控制台使用同一套 Chi Design System 配色、字體、導覽列與深淺色模式。Actions 控制台透過 Chi Auth Passkey 登入後，才能查看及觸發允許清單中的工作流程；GitHub Token 保存在 Worker Secret，不會放進公開網頁。OAuth 回呼仍使用既有的 `/actions/` 路徑，授權完成後會轉回 `/action/`。舊版主站保存在 `/legacy/` 以供需要時比對。
 
 ## 監控範圍
 
 收集器只列入 `tsai97216` 底下非 fork、非封存的公開 Repo，並以最近一次 GitHub Actions 執行紀錄為基礎。沒有 Workflow 執行紀錄的 Repo 不會被當成成功；若既有 Repo 的 API 暫時失敗，會保留上次卡片並標記為未知／資料過期。
 
-「Actions 控制台」已整合進新版儀表板 https://status.chi.qzz.io/new/#actions-panel，可透過 Cloudflare Worker 觸發允許清單中的工作流程。使用 Chi Auth 的 Passkey 登入後才能查看及觸發工作流程；GitHub Token 保存在 Worker Secret，不會放進公開網頁。舊 OAuth 回呼路徑 `/actions/` 只負責將授權回應轉回新版頁面。一般狀態資料仍每 10 分鐘自動更新，頁面也會定時重新讀取最新資料。
-
 部分專案另有專屬業務判讀：
 
-- **VPS-01：** 檢查 Alist、BiliTool、Twitch Drops Miner 三個公開端點；至少兩個端點回傳 HTTP 200 即判定正常運作。
+- **VPS-01：** 檢查 Alist、BiliTool、Twitch Drops Miner 三個公開端點；至少兩個端點回傳 HTTP 200 即判定正常。
 - **Vaultwarden：** 每 10 分鐘檢查 `https://vault.chi.qzz.io/alive` 存活端點。
 - **Chi Auth：** 每 10 分鐘檢查 `https://auth.chi.qzz.io/` 首頁的 HTTP 狀態與基本回應；這不等於完整驗證 Passkey／SSO 流程。
 - **Chi Source / Chi Source Personal：** 讀取來源 Repo README 的 App 更新摘要，並檢查來源網站的基本頁面內容。
@@ -33,27 +34,15 @@ VPS-01 的狀態依三個公開端點的 HTTP 回應判定：至少兩個回傳 
 ```text
 .
 ├── .github/workflows/
-│   ├── update-status.yml                # 定時收集、測試、部署與失敗通知
-│   ├── deploy-trigger-worker.yml        # 部署 Cloudflare Worker 與設定 Secrets
-│   └── worker-tests.yml                 # Worker 授權與觸發測試
-├── actions/
-│   └── index.html                       # Actions 控制台
-├── docs/
-│   └── discord-alerts.md                # Discord Webhook 設定與限制
-├── scripts/
-│   ├── update_status.py                 # 收集 GitHub 與業務狀態
-│   └── notify_discord.py                # 異常／恢復通知及去重
-├── tests/
-│   └── test_notify_discord.py           # 狀態分類、健康檢查與告警測試
-├── worker/
-│   ├── index.js                         # 受允許清單保護的觸發 API
-│   ├── index.test.mjs                   # Worker 測試
-│   └── wrangler.toml                    # Cloudflare Worker 設定
-├── index.html                           # 靜態儀表板
-├── actions.html                         # 舊網址轉址至 /actions/
-├── status.json                          # 自動產生的最新狀態資料
-├── alert-state.json                     # 自動維護的告警去重狀態
-└── CNAME                                # GitHub Pages 自訂網域
+├── action/index.html              # 新版 Actions 控制台
+├── actions/index.html             # OAuth 回呼轉址
+├── legacy/index.html              # 舊版主站備份
+├── new/index.html                 # 舊新版網址轉址
+├── new/action/index.html          # 舊控制台網址轉址
+├── index.html                     # 正式主站
+├── status.json                    # 自動產生的最新狀態資料
+├── scripts/                       # 狀態收集與 Discord 通知
+└── worker/                        # 工作流程觸發 API
 ```
 
 ## 本機執行測試
@@ -70,14 +59,8 @@ python -m unittest discover -s tests -v
 python scripts/update_status.py
 ```
 
-若要在本機測試 Discord 通知，請先設定環境變數 `DISCORD_WEBHOOK_URL`。不要把 Webhook URL 寫進程式碼或提交到 Git。
-
-## 工作流程與告警
-
-工作流程位於 [update-status.yml](.github/workflows/update-status.yml)。它會先執行單元測試，再收集資料、嘗試發送 Discord 異常通知、提交狀態 JSON，最後部署 GitHub Pages。工作流程失敗時會另外嘗試通知 Discord。
-
-Discord 設定、去重規則與已知限制請見 [docs/discord-alerts.md](docs/discord-alerts.md)。
+不要把 Discord Webhook URL 寫進程式碼或提交到 Git。工作流程會先執行單元測試，再收集資料、嘗試發送 Discord 異常通知、提交狀態 JSON，最後部署 GitHub Pages。工作流程失敗時會另外嘗試通知 Discord。
 
 ## 自訂網域
 
-根目錄的 `CNAME` 指向 `status.chi.qzz.io`。若更改網域，請同步更新 GitHub Pages 設定、此檔案、`index.html` 的 canonical URL，以及 Discord 通知中的儀表板連結。
+根目錄的 `CNAME` 指向 `status.chi.qzz.io`。若更改網域，請同步更新 GitHub Pages 設定、此檔案與 Discord 通知中的儀表板連結。
