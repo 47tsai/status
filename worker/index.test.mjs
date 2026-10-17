@@ -161,6 +161,40 @@ test("rejects non-main refs and unsupported inputs", async () => {
   assert.match((await oversizedInput.json()).error, /at most 100 characters/);
 });
 
+test("rejects request bodies larger than 16 KiB before parsing or dispatch", async () => {
+  let dispatchLimitCalls = 0;
+  let githubCalls = 0;
+  const testEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    githubCalls++;
+    return new Response(null, { status: 204 });
+  };
+  try {
+    const oversized = new Request("https://worker.example/", {
+      method: "POST",
+      headers: {
+        Origin: origin,
+        "CF-Connecting-IP": "203.0.113.10",
+        Authorization: "Bearer test-access-token-1234567890123456789012345678",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ padding: "x".repeat(16_384) }),
+    });
+    const response = await runWorker(oversized, testEnv);
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 413);
+    assert.match(result.body.error, /too large/i);
+    assert.equal(dispatchLimitCalls, 0);
+    assert.equal(githubCalls, 0);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("rejects non-object request bodies instead of triggering the default workflow", async () => {
   const cases = [null, [], "unexpected", 123];
   for (const body of cases) {
