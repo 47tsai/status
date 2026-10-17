@@ -207,9 +207,13 @@ async function api(path, options={}) {
   if (!API_URL) throw new Error("API 網址尚未設定。");
   if (!accessToken || Date.now() >= accessTokenExpiresAt) {
     accessToken = null;
+    accessTokenExpiresAt = 0;
     syncAuthUI(false);
     $("authLogin").hidden = false;
+    $("authLogin").disabled = false;
     $("authLogout").hidden = true;
+    const authState = $("auth-state");
+    if (authState) authState.textContent = "未登入";
     throw new Error("登入已失效，請重新使用 Chi Auth 登入。");
   }
   const response = await fetch(API_URL + path, {
@@ -378,8 +382,15 @@ function render() {
 async function load() {
   $("reload").disabled = true;
   if (!accessToken || Date.now() >= accessTokenExpiresAt) {
+    accessToken = null;
+    accessTokenExpiresAt = 0;
     syncAuthUI(false);
     workflows = [];
+    $("authLogin").hidden = false;
+    $("authLogin").disabled = false;
+    $("authLogout").hidden = true;
+    const authState = $("auth-state");
+    if (authState) authState.textContent = "未登入";
     $("workflows").replaceChildren(create("div", "empty", "請先使用 Chi Auth 登入，驗證身分後才能查看及觸發工作流程。"));
     $("count").textContent = "尚未登入";
     message("請使用 Chi Auth 的 Passkey 登入。");
