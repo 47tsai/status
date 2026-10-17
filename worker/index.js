@@ -8,8 +8,8 @@ const DEFAULT_WORKFLOW = "update-status.yml";
 // Only these workflows can be triggered by this Worker.
 const WORKFLOWS = [
   { repository: "tsai97216/status", workflow: "update-status.yml", name: "Status 狀態資料更新", description: "更新狀態總覽使用的專案資料。", project: "status", group: "維護", inputs: [] },
-  { repository: "tsai97216/chi-source", workflow: "main.yml", name: "Chi Source 更新", description: "更新主來源的 App 資料；all 代表全部項目。", project: "chi-source", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
-  { repository: "tsai97216/chi-source-personal", workflow: "main.yml", name: "Chi Source Personal 更新", description: "更新個人來源的 App 資料；all 代表全部項目。", project: "chi-source-personal", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
+  { repository: "tsai97216/chi-source", workflow: "main.yml", name: "Chi Source 更新", description: "更新主來源的 App 資料；all 代表全部項目。", project: "chi-source", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all", maxLength: 100 }] },
+  { repository: "tsai97216/chi-source-personal", workflow: "main.yml", name: "Chi Source Personal 更新", description: "更新個人來源的 App 資料；all 代表全部項目。", project: "chi-source-personal", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all", maxLength: 100 }] },
   { repository: "tsai97216/free-game", workflow: "free-game.yml", name: "限免遊戲通知更新", description: "手動重新執行限免遊戲資料與通知流程。", project: "free-game", group: "更新", inputs: [] },
   { repository: "tsai97216/sc-auto-claim", workflow: "daily.yml", name: "荒野亂鬥自動領取", description: "手動執行設定好的自動領取流程。", project: "sc-auto-claim", group: "自動化", inputs: [] },
   { repository: "tsai97216/bahasign", workflow: "actions.yml", name: "巴哈姆特自動簽到", description: "手動執行巴哈姆特簽到流程。", project: "bahasign", group: "自動化", inputs: [] },
@@ -114,6 +114,7 @@ export default {
         if (typeof value !== "boolean") return json({ ok: false, error: `Input ${spec.name} must be boolean.` }, 400);
       } else {
         if (typeof value !== "string") return json({ ok: false, error: `Input ${spec.name} must be text.` }, 400);
+        if (Number.isInteger(spec.maxLength) && value.length > spec.maxLength) return json({ ok: false, error: `Input ${spec.name} must be at most ${spec.maxLength} characters.` }, 400);
         if (spec.type === "choice" && !spec.options.includes(value)) return json({ ok: false, error: `Invalid option for ${spec.name}.` }, 400);
       }
       inputs[spec.name] = value;
