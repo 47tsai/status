@@ -107,6 +107,31 @@ test("rejects non-main refs and unsupported inputs", async () => {
   assert.match((await oversizedInput.json()).error, /at most 100 characters/);
 });
 
+test("rejects malformed and wrongly typed workflow inputs", async () => {
+  const wrongType = await runWorker(request({
+    repository: "tsai97216/chi-source",
+    workflow: "main.yml",
+    inputs: { app: 123 },
+  }), env);
+  const arrayInputs = await runWorker(request({
+    repository: "tsai97216/chi-source",
+    workflow: "main.yml",
+    inputs: ["all"],
+  }), env);
+  const nullInputs = await runWorker(request({
+    repository: "tsai97216/chi-source",
+    workflow: "main.yml",
+    inputs: null,
+  }), env);
+
+  assert.equal(wrongType.status, 400);
+  assert.match((await wrongType.json()).error, /must be text/);
+  assert.equal(arrayInputs.status, 400);
+  assert.match((await arrayInputs.json()).error, /object/);
+  assert.equal(nullInputs.status, 400);
+  assert.match((await nullInputs.json()).error, /object/);
+});
+
 test("dispatches an approved workflow with only validated inputs", async () => {
   const originalFetch = globalThis.fetch;
   let captured;
