@@ -51,8 +51,8 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 .group{flex:none;padding:3px 7px;border:1px solid var(--chi-color-border);border-radius:5px;color:var(--chi-color-text-muted);font-size:10px}
 .fields{display:grid;gap:12px;margin-top:15px}
 .field{display:flex;flex-direction:column;gap:5px}
-.field label{color:var(--chi-color-text-muted);font-size:12px;font-weight:650}
-.field input,.field select{width:100%;min-width:0;min-height:42px;padding:9px 11px;border:1px solid var(--chi-color-border-strong);border-radius:var(--chi-radius-md);background:var(--chi-color-page);color:var(--chi-color-text);font-size:13px}
+.workflow-field label{color:var(--chi-color-text-muted);font-size:12px;font-weight:650}
+.workflow-field input,.workflow-field select{width:100%;min-width:0;min-height:42px;padding:9px 11px;border:1px solid var(--chi-color-border-strong);border-radius:var(--chi-radius-md);background:var(--chi-color-page);color:var(--chi-color-text);font-size:13px}
 .check{display:flex;align-items:center;gap:9px;color:var(--chi-color-text-muted);font-size:12px}
 .check input{width:16px;height:16px;accent-color:var(--chi-color-accent)}
 .warning{margin-top:12px;padding:10px 12px;border-left:3px solid var(--chi-color-warning);background:var(--chi-color-page-soft);color:var(--chi-color-warning);font-size:12px;overflow-wrap:anywhere}
@@ -297,7 +297,7 @@ function render() {
     if (item.danger) card.append(create("div", "warning", item.danger));
     const form = create("form", "fields");
     for (const spec of item.inputs || []) {
-      const wrap = create("div", "field");
+      const wrap = create("div", "workflow-field");
       const id = "f-" + item.repository.replace(/[^a-z0-9]/gi,"-") + "-" + item.workflow.replace(/[^a-z0-9]/gi,"-") + "-" + spec.name;
       if (spec.type === "boolean") {
         const label = create("label", "check");
