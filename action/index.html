@@ -239,7 +239,7 @@ function render() {
     return !query || haystack.includes(query);
   });
   const groupOrder = {"維護":0,"更新":1,"自動化":2};
-  visible.sort((a,b) => (groupOrder[a.group] ?? 99) - (groupOrder[b.group] ?? 99) || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
+  visible.sort((a,b) => (groupOrder[a.group] ?? 99) - (groupOrder[b.group] ?? 99) || a.name.localeCompare(b.name, "zh-Hant"));
   $("count").textContent = `${visible.length} / ${workflows.length} 項`;
   const totalEl = document.getElementById("act-total");
   const availableEl = document.getElementById("act-available");
