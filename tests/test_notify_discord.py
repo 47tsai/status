@@ -39,6 +39,32 @@ class VaultwardenMonitorTests(unittest.TestCase):
         result = update_status.business_data("vaultwarden-service", {})
         self.assertEqual(result["business_status"], "failure")
 
+    def test_chi_auth_profile_uses_public_homepage(self):
+        profile = update_status.PROFILES["chi-auth-service"]
+        self.assertEqual(profile["kind"], "website")
+        self.assertEqual(profile["health_url"], "https://auth.chi.qzz.io/")
+        self.assertEqual(profile["health_path"], "/")
+
+    @patch("update_status.health_check")
+    def test_chi_auth_monitor_reports_homepage_success(self, health_check):
+        health_check.return_value = {
+            "ok": True, "status": 200, "latency_ms": 35,
+            "content_reason": "HTTP 與基本頁面內容檢查通過",
+        }
+        result = update_status.business_data("chi-auth-service", {})
+        self.assertEqual(result["business_status"], "success")
+        self.assertIn("Chi Auth", result["business_label"])
+        health_check.assert_called_once_with("https://auth.chi.qzz.io/")
+
+    @patch("update_status.health_check")
+    def test_chi_auth_monitor_reports_homepage_failure(self, health_check):
+        health_check.return_value = {
+            "ok": False, "status": 503, "latency_ms": 28,
+            "content_reason": "HTTP 503",
+        }
+        result = update_status.business_data("chi-auth-service", {})
+        self.assertEqual(result["business_status"], "failure")
+
 
 class DiscordAlertTests(unittest.TestCase):
     def test_malformed_alert_state_is_ignored_safely(self):
