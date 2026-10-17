@@ -431,6 +431,22 @@ test("invalid authenticated POST requests do not consume the workflow-dispatch q
   assert.equal(dispatchLimitCalls, 0);
 });
 
+test("warns that a connection failure may have an unknown dispatch outcome", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => { throw new TypeError("simulated connection reset"); };
+  try {
+    const response = await runWorker(request({}), env);
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 502);
+    assert.equal(result.body.ok, false);
+    assert.match(result.body.error, /status is unknown/i);
+    assert.match(result.body.error, /check the GitHub Actions run history before retrying/i);
+    assert.doesNotMatch(JSON.stringify(result.body), /simulated connection reset|test-token|test-access-token-1234567890123456789012345678/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("returns a specific safe error when the GitHub API request times out", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async () => { throw new DOMException("simulated timeout", "TimeoutError"); };
@@ -440,6 +456,8 @@ test("returns a specific safe error when the GitHub API request times out", asyn
     assert.equal(response.status, 502);
     assert.equal(result.body.ok, false);
     assert.match(result.body.error, /timed out/i);
+    assert.match(result.body.error, /status is unknown/i);
+    assert.match(result.body.error, /check the GitHub Actions run history before retrying/i);
     assert.doesNotMatch(JSON.stringify(result.body), /simulated timeout|test-token|test-access-token-1234567890123456789012345678/);
   } finally {
     globalThis.fetch = originalFetch;
