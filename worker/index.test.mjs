@@ -100,8 +100,11 @@ test("rejects dispatch to a workflow outside the allowlist", async () => {
 test("rejects non-main refs and unsupported inputs", async () => {
   const wrongRef = await runWorker(request({ ref: "feature" }), env);
   const wrongInput = await runWorker(request({ repository: "tsai97216/status", workflow: "update-status.yml", inputs: { arbitrary: "value" } }), env);
+  const oversizedInput = await runWorker(request({ repository: "tsai97216/chi-source", workflow: "main.yml", inputs: { app: "x".repeat(101) } }), env);
   assert.equal(wrongRef.status, 400);
   assert.equal(wrongInput.status, 400);
+  assert.equal(oversizedInput.status, 400);
+  assert.match((await oversizedInput.json()).error, /at most 100 characters/);
 });
 
 test("dispatches an approved workflow with only validated inputs", async () => {
