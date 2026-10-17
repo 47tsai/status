@@ -116,6 +116,47 @@ test("rejects non-object request bodies instead of triggering the default workfl
   }
 });
 
+test("rejects non-text dispatch selectors before consuming quota", async () => {
+  let dispatchLimitCalls = 0;
+  const testEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const cases = [
+    { repository: { name: "tsai97216/status" } },
+    { workflow: ["update-status.yml"] },
+    { ref: { branch: "main" } },
+  ];
+
+  for (const body of cases) {
+    const response = await runWorker(request(body), testEnv);
+    assert.equal(response.status, 400);
+    assert.match((await response.json()).error, /must be text/);
+  }
+  assert.equal(dispatchLimitCalls, 0);
+});
+
+test("does not expose or log GitHub upstream response bodies", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalError = console.error;
+  const secretLikeBody = "upstream-private-detail ghp_example-secret-value";
+  const logged = [];
+  globalThis.fetch = async () => new Response(secretLikeBody, { status: 500 });
+  console.error = (...args) => logged.push(args.join(" "));
+  try {
+    const response = await runWorker(request({}), env);
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 502);
+    assert.match(result.body.error, /HTTP 500/);
+    assert.doesNotMatch(JSON.stringify(result.body), /upstream-private-detail|ghp_example-secret-value/);
+    assert.doesNotMatch(logged.join(" "), /upstream-private-detail|ghp_example-secret-value/);
+    assert.match(logged.join(" "), /GitHub dispatch failed/);
+  } finally {
+    globalThis.fetch = originalFetch;
+    console.error = originalError;
+  }
+});
+
 test("rejects malformed and wrongly typed workflow inputs", async () => {
   const wrongType = await runWorker(request({
     repository: "tsai97216/chi-source",
