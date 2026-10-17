@@ -82,6 +82,11 @@ export default {
       return json({ ok: true, workflows: WORKFLOWS });
     }
 
+    const contentType = request.headers.get("Content-Type") || "";
+    if (!/^application\/json(?:\s*;|\s*$)/i.test(contentType)) {
+      return json({ ok: false, error: "Content-Type must be application/json." }, 415);
+    }
+
     const parsedBody = await readJsonBody(request, 16_384);
     if (parsedBody.tooLarge) return json({ ok: false, error: "Request body is too large." }, 413);
     if (!parsedBody.ok) return json({ ok: false, error: "Invalid JSON body." }, 400);
