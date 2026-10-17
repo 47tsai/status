@@ -27,6 +27,7 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 .page-heading .heading-row{align-items:flex-end}
 .heading-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .heading-actions .button{white-space:nowrap}
+.auth-required[hidden]{display:none!important}
 .console-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:30px}
 .console-toolbar .section-head{margin:0}
 .console-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:12px;border:1px solid var(--chi-color-border);border-radius:var(--chi-radius-lg);background:var(--chi-color-surface)}
@@ -80,8 +81,10 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
  .stat-value{font-size:26px}
  .console-toolbar{align-items:flex-start;flex-direction:column;gap:7px;margin-top:24px}
  .console-actions{align-items:flex-start;flex-direction:column}
- .actions-toolbar{width:100%}
- .actions-toolbar .button{flex:1}
+ .actions-toolbar{display:grid;width:100%;grid-template-columns:1fr;gap:8px}
+ .actions-toolbar .button{width:100%;min-height:44px;flex:none}
+ .console-count{line-height:1.6}
+ .console-actions{padding:12px}
  .toolbar{grid-template-columns:1fr;padding:9px}
  .group-grid{grid-template-columns:1fr}
  .head{gap:8px}
@@ -102,17 +105,11 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 </div></header>
 <section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> ACTIONS CONSOLE</p><h1>Actions 控制台</h1><p class="intro">透過 Chi Auth 驗證身分，安全管理允許觸發的 GitHub Actions 工作流程。</p><p class="updated">僅觸發已列入允許清單的工作流程，所有執行皆使用 main 分支。</p></div><div class="heading-actions"><a class="button" href="/" aria-label="返回主頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7"/><path d="M5 9v12h14V9M9 21v-7h6v7"/></svg>返回主頁</a></div></div></div></section>
 <main id="main"><div class="container">
-<section class="stats" aria-label="控制台摘要">
-<div class="stat"><span class="stat-label">工作流程</span><strong class="stat-value" id="act-total">－</strong><span class="stat-note">允許清單項目</span></div>
-<div class="stat"><span class="stat-label">可觸發</span><strong class="stat-value" id="act-available">－</strong><span class="stat-note">可由此控制台執行</span></div>
-<div class="stat"><span class="stat-label">不可觸發</span><strong class="stat-value" id="act-unavailable">－</strong><span class="stat-note">僅供查看或依賴條件</span></div>
-<div class="stat"><span class="stat-label">登入狀態</span><strong class="stat-value" id="act-auth-state">未登入</strong><span class="stat-note">Chi Auth Passkey</span></div>
-</section>
-<section class="console-toolbar" aria-labelledby="actions-heading"><div class="section-head"><div><h2 id="actions-heading">工作流程</h2><p>搜尋、篩選並執行已核准的自動化任務。</p></div><span class="result-count" id="act-count" role="status">尚未登入</span></div></section>
+<section class="console-toolbar auth-required" id="act-workflow-heading" aria-labelledby="actions-heading"><div class="section-head"><div><h2 id="actions-heading">工作流程</h2><p>搜尋、篩選並執行已核准的自動化任務。</p></div><span class="result-count" id="act-count" role="status">尚未登入</span></div></section>
 <div class="console-actions" aria-label="控制台操作"><span class="console-count">需要登入後才能載入工作流程。</span><div class="actions-toolbar"><button class="button" id="act-reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4.9 9A8 8 0 0 1 18.5 6L20 12M4 17v-5h5"/><path d="M19.1 15A8 8 0 0 1 5.5 18L4 12"/></svg>重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>結束本次登入</button></div></div>
-<section class="toolbar" aria-label="工作流程篩選"><input class="field" id="act-search" type="search" placeholder="搜尋專案、工作流程或類型…" aria-label="搜尋專案或工作流程"><select class="field" id="act-group" aria-label="依類型篩選"><option value="">全部類型</option></select></section>
+<section class="toolbar auth-required" id="act-workflow-filters" aria-label="工作流程篩選"><input class="field" id="act-search" type="search" placeholder="搜尋專案、工作流程或類型…" aria-label="搜尋專案或工作流程"><select class="field" id="act-group" aria-label="依類型篩選"><option value="">全部類型</option></select></section>
 <div id="act-message" role="status" aria-live="polite"></div>
-<section id="act-workflows" aria-label="工作流程清單"><div class="empty">請先使用 Chi Auth 登入。</div></section>
+<section class="auth-required" id="act-workflows" aria-label="工作流程清單" hidden><div class="empty">請先使用 Chi Auth 登入。</div></section>
 </div></main>
 <footer class="footer"><div class="container footer-inner"><span>Chi Status · Actions 控制台</span><span><a href="/">狀態總覽</a>　·　<a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></footer>
 
@@ -132,6 +129,13 @@ let workflows = [];
 let busy = false;
 let accessToken = null;
 let accessTokenExpiresAt = 0;
+
+function syncAuthUI(authenticated) {
+  for (const id of ["workflow-heading", "workflow-filters", "workflows"]) {
+    const el = $(""+id);
+    if (el) el.hidden = !authenticated;
+  }
+}
 
 function message(text, kind="") {
   const el = $("message");
@@ -195,6 +199,7 @@ async function finishAuthCallback() {
   if (identity.sub !== "chi-owner" || identity.aud !== CLIENT_ID) throw new Error("Chi Auth 回傳的身分或應用識別不符。");
   accessToken = tokenData.access_token;
   accessTokenExpiresAt = Date.now() + Number(tokenData.expires_in || 0) * 1000;
+  syncAuthUI(true);
   $("authLogin").hidden = true;
   $("authLogout").hidden = false;
   const authState = document.getElementById("act-auth-state"); if (authState) authState.textContent = "已登入";
@@ -205,6 +210,7 @@ async function api(path, options={}) {
   if (!API_URL) throw new Error("API 網址尚未設定。");
   if (!accessToken || Date.now() >= accessTokenExpiresAt) {
     accessToken = null;
+    syncAuthUI(false);
     $("authLogin").hidden = false;
     $("authLogout").hidden = true;
     throw new Error("登入已失效，請重新使用 Chi Auth 登入。");
@@ -381,6 +387,7 @@ function render() {
 async function load() {
   $("reload").disabled = true;
   if (!accessToken || Date.now() >= accessTokenExpiresAt) {
+    syncAuthUI(false);
     workflows = [];
     $("workflows").replaceChildren(create("div", "empty", "請先使用 Chi Auth 登入，驗證身分後才能查看及觸發工作流程。"));
     $("count").textContent = "尚未登入";
@@ -423,6 +430,7 @@ $("authLogin").addEventListener("click", async () => {
 $("authLogout").addEventListener("click", () => {
   accessToken = null;
   accessTokenExpiresAt = 0;
+  syncAuthUI(false);
   workflows = [];
   $("authLogin").hidden = false;
   $("authLogin").disabled = false;
@@ -436,6 +444,7 @@ $("authLogout").addEventListener("click", () => {
   try {
     const completed = await finishAuthCallback();
     if (!completed) {
+      syncAuthUI(false);
       $("authLogin").hidden = false;
       $("authLogout").hidden = true;
       message("請使用 Chi Auth 的 Passkey 登入後再管理工作流程。");
