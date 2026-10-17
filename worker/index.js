@@ -157,8 +157,8 @@ export default {
     } catch (error) {
       console.error("GitHub dispatch request failed", repository, workflow, error?.name || "unknown");
       return json({ ok: false, error: error?.name === "TimeoutError"
-        ? "GitHub API request timed out. Please try again."
-        : "Could not reach the GitHub API. Please try again." }, 502);
+        ? "GitHub API request timed out; dispatch status is unknown. Check the GitHub Actions run history before retrying."
+        : "GitHub API connection failed; dispatch status is unknown. Check the GitHub Actions run history before retrying." }, 502);
     }
 
     if (response.status !== 204) {
