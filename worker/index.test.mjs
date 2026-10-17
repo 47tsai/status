@@ -107,6 +107,15 @@ test("rejects non-main refs and unsupported inputs", async () => {
   assert.match((await oversizedInput.json()).error, /at most 100 characters/);
 });
 
+test("rejects non-object request bodies instead of triggering the default workflow", async () => {
+  const cases = [null, [], "unexpected", 123];
+  for (const body of cases) {
+    const response = await runWorker(request(body), env);
+    assert.equal(response.status, 400, `body ${JSON.stringify(body)} should be rejected`);
+    assert.match((await response.json()).error, /Request body must be an object/);
+  }
+});
+
 test("rejects malformed and wrongly typed workflow inputs", async () => {
   const wrongType = await runWorker(request({
     repository: "tsai97216/chi-source",
