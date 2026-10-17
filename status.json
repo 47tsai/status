@@ -1,7 +1,125 @@
 {
-  "generated_at": "2026-10-17T05:00:04.065118+00:00",
+  "generated_at": "2026-10-17T09:14:07.892548+00:00",
   "repository_count": 12,
   "repositories": [
+    {
+      "name": "merch",
+      "full_name": "tsai97216/merch",
+      "html_url": "https://github.com/tsai97216/merch",
+      "workflow": "Deploy",
+      "status": "in_progress",
+      "branch": "main",
+      "updated_at": "2026-10-17T09:13:40Z",
+      "created_at": "2026-10-17T09:13:31Z",
+      "event": "workflow_run",
+      "commit_message": "feat: integrate Chi Auth for MERCH administration",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/merch/actions",
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/39020305837",
+      "business": {
+        "kind": "deploy",
+        "title": "周邊收藏網",
+        "description": "商品網站部署與實際 HTTP 健康檢查",
+        "icon": "▦",
+        "business_status": "running",
+        "business_label": "部署進行中",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "in_progress",
+            "tone": "normal"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "部署進行中",
+            "time": "2026-10-17 17:13:40",
+            "tone": "normal"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://merch.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi MERCH",
+            "tone": "good"
+          }
+        ],
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
+        "evidence_url": "https://github.com/tsai97216/merch/actions"
+      }
+    },
+    {
+      "name": "sc-auto-claim",
+      "full_name": "tsai97216/sc-auto-claim",
+      "html_url": "https://github.com/tsai97216/sc-auto-claim",
+      "workflow": "daily-claim",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-17T06:24:09Z",
+      "created_at": "2026-10-17T06:23:07Z",
+      "event": "schedule",
+      "commit_message": "update claim status",
+      "duration_seconds": 62,
+      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/39009707552",
+      "business": {
+        "kind": "claim",
+        "title": "荒野亂鬥自動領取",
+        "description": "兩個帳號的實際領取結果與最近成功時間",
+        "icon": "gamepad",
+        "business_status": "unknown",
+        "business_label": "本輪領取結果待確認",
+        "metrics": [
+          {
+            "label": "本輪成功帳號",
+            "value": "0/2",
+            "tone": "normal"
+          },
+          {
+            "label": "最近領取",
+            "value": "2026-10-16 20:50:04",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "帳號 A",
+            "result": "本輪尚未確認",
+            "tone": "normal",
+            "time": "2026-10-16 20:49:40"
+          },
+          {
+            "label": "帳號 B",
+            "result": "本輪尚未確認",
+            "tone": "normal",
+            "time": "2026-10-16 20:50:04"
+          }
+        ],
+        "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
+        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+      }
+    },
     {
       "name": "vps-01",
       "full_name": "VPS-01 · Oracle Cloud Infrastructure",
@@ -9,8 +127,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-17T05:00:00.222524+00:00",
-      "created_at": "2026-10-17T05:00:00.222540+00:00",
+      "updated_at": "2026-10-17T09:14:05.220546+00:00",
+      "created_at": "2026-10-17T09:14:05.220559+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -43,19 +161,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 721 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 777 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 2409 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1402 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 710 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 491 ms",
             "time": "",
             "tone": "good"
           }
@@ -65,92 +183,93 @@
       }
     },
     {
-      "name": "chi-design-system",
-      "full_name": "tsai97216/chi-design-system",
-      "html_url": "https://github.com/tsai97216/chi-design-system",
-      "workflow": "Deploy GitHub Pages",
+      "name": "apktwsign",
+      "full_name": "tsai97216/apktwsign",
+      "html_url": "https://github.com/tsai97216/apktwsign",
+      "workflow": "apktwsign",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T02:49:54Z",
-      "created_at": "2026-10-17T02:49:23Z",
-      "event": "push",
-      "commit_message": "Use opaque background for sticky catalogue toolbar",
-      "duration_seconds": 31,
-      "runs_url": "https://github.com/tsai97216/chi-design-system/actions",
-      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/38996413222",
-      "business": {
-        "kind": "generic",
-        "title": "chi-design-system",
-        "description": "最近一次 Workflow 執行狀況",
-        "icon": "◉",
-        "business_status": "success",
-        "business_label": "最近 Workflow：success",
-        "metrics": [
-          {
-            "label": "Workflow",
-            "value": "chi-design-system",
-            "tone": "normal"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          }
-        ],
-        "details": [],
-        "note": "尚未配置專屬業務資料解析器。",
-        "evidence_url": null
-      }
-    },
-    {
-      "name": "sc-auto-claim",
-      "full_name": "tsai97216/sc-auto-claim",
-      "html_url": "https://github.com/tsai97216/sc-auto-claim",
-      "workflow": "daily-claim",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-17T01:56:46Z",
-      "created_at": "2026-10-17T01:55:42Z",
+      "updated_at": "2026-10-17T08:15:35Z",
+      "created_at": "2026-10-17T08:15:23Z",
       "event": "schedule",
-      "commit_message": "update claim status",
-      "duration_seconds": 64,
-      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/38992885993",
+      "commit_message": "chore: update check-in status",
+      "duration_seconds": 12,
+      "runs_url": "https://github.com/tsai97216/apktwsign/actions",
+      "run_url": "https://github.com/tsai97216/apktwsign/actions/runs/39016675313",
       "business": {
-        "kind": "claim",
-        "title": "荒野亂鬥自動領取",
-        "description": "兩個帳號的實際領取結果與最近成功時間",
-        "icon": "gamepad",
+        "kind": "checkin",
+        "title": "APK.TW 自動簽到",
+        "description": "網站回報的簽到結果與最近紀錄",
+        "icon": "✓",
         "business_status": "success",
-        "business_label": "2/2 個帳號成功",
+        "business_label": "✅ 簽到成功",
         "metrics": [
           {
-            "label": "本輪成功帳號",
-            "value": "2/2",
+            "label": "業務結果",
+            "value": "成功",
             "tone": "good"
           },
           {
-            "label": "最近領取",
-            "value": "2026-10-16 20:50:04",
+            "label": "最近簽到",
+            "value": "2026-10-17 16:15:30",
             "tone": "normal"
           }
         ],
         "details": [
           {
-            "label": "帳號 A",
-            "result": "成功",
-            "tone": "good",
-            "time": "2026-10-16 20:49:40"
-          },
-          {
-            "label": "帳號 B",
-            "result": "成功",
-            "tone": "good",
-            "time": "2026-10-16 20:50:04"
+            "label": "來源紀錄",
+            "result": "✅ 簽到成功",
+            "time": "2026-10-17 16:15:30",
+            "tone": "good"
           }
         ],
-        "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
-        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+        "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
+        "evidence_url": "https://github.com/tsai97216/apktwsign/blob/main/activity.md"
+      }
+    },
+    {
+      "name": "bahasign",
+      "full_name": "tsai97216/bahasign",
+      "html_url": "https://github.com/tsai97216/bahasign",
+      "workflow": "Daily sign in Baha",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-17T08:15:16Z",
+      "created_at": "2026-10-17T08:15:03Z",
+      "event": "schedule",
+      "commit_message": "Auto Sign-in Status: 2026/10/17 03:25:16",
+      "duration_seconds": 13,
+      "runs_url": "https://github.com/tsai97216/bahasign/actions",
+      "run_url": "https://github.com/tsai97216/bahasign/actions/runs/39016651344",
+      "business": {
+        "kind": "checkin",
+        "title": "巴哈姆特自動簽到",
+        "description": "網站回報的簽到結果與最近紀錄",
+        "icon": "✓",
+        "business_status": "success",
+        "business_label": "✅ 簽到成功",
+        "metrics": [
+          {
+            "label": "業務結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "最近簽到",
+            "value": "2026-10-17 16:15:12",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "來源紀錄",
+            "result": "✅ 簽到成功",
+            "time": "2026-10-17 16:15:12",
+            "tone": "good"
+          }
+        ],
+        "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
+        "evidence_url": "https://github.com/tsai97216/bahasign/blob/main/README.md"
       }
     },
     {
@@ -160,13 +279,13 @@
       "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T01:09:31Z",
-      "created_at": "2026-10-17T01:08:51Z",
+      "updated_at": "2026-10-17T06:42:38Z",
+      "created_at": "2026-10-17T06:41:53Z",
       "event": "dynamic",
       "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 40,
+      "duration_seconds": 45,
       "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/38989597384",
+      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/39010867764",
       "business": {
         "kind": "source",
         "title": "Chi Source Personal",
@@ -182,7 +301,7 @@
           },
           {
             "label": "本次標示更新",
-            "value": "1",
+            "value": "2",
             "tone": "good"
           },
           {
@@ -199,25 +318,25 @@
         "details": [
           {
             "label": "自動檢查",
-            "result": "2026-10-17 09:08:48",
+            "result": "2026-10-17 14:41:49",
             "time": "",
             "tone": "normal"
           },
           {
             "label": "內容更新",
-            "result": "2026-10-17 06:38:51",
+            "result": "2026-10-17 14:41:49",
             "time": "",
             "tone": "normal"
           },
           {
             "label": "版本狀態",
-            "result": "1 個 App 更新、8 個未變更",
+            "result": "2 個 App 更新、7 個未變更",
             "time": "",
             "tone": "good"
           },
           {
             "label": "更新的 App",
-            "result": "Aidoku",
+            "result": "SpooferPro Pokemon GO、Aidoku",
             "time": "",
             "tone": "good"
           }
@@ -227,19 +346,86 @@
       }
     },
     {
+      "name": "chi-source",
+      "full_name": "tsai97216/chi-source",
+      "html_url": "https://github.com/tsai97216/chi-source",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-17T06:34:11Z",
+      "created_at": "2026-10-17T06:33:27Z",
+      "event": "dynamic",
+      "commit_message": "auto: sync Chi Source",
+      "duration_seconds": 44,
+      "runs_url": "https://github.com/tsai97216/chi-source/actions",
+      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/39010350375",
+      "business": {
+        "kind": "source",
+        "title": "Chi Source",
+        "description": "AltStore 來源更新、App 版本變動與網站可用性",
+        "icon": "⌘",
+        "business_status": "success",
+        "business_label": "來源網站內容檢查通過",
+        "metrics": [
+          {
+            "label": "App 數量",
+            "value": "7",
+            "tone": "normal"
+          },
+          {
+            "label": "本次標示更新",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "自動檢查",
+            "result": "2026-10-17 14:33:24",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "內容更新",
+            "result": "2026-10-16 08:05:56",
+            "time": "",
+            "tone": "normal"
+          },
+          {
+            "label": "版本狀態",
+            "result": "0 個 App 更新、7 個未變更",
+            "time": "",
+            "tone": "normal"
+          }
+        ],
+        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
+        "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
+      }
+    },
+    {
       "name": "free-game",
       "full_name": "tsai97216/free-game",
       "html_url": "https://github.com/tsai97216/free-game",
       "workflow": "Free Game Notifier",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T01:05:03Z",
-      "created_at": "2026-10-17T01:04:52Z",
+      "updated_at": "2026-10-17T05:36:18Z",
+      "created_at": "2026-10-17T05:36:08Z",
       "event": "schedule",
       "commit_message": "chore: update processed state",
-      "duration_seconds": 11,
+      "duration_seconds": 10,
       "runs_url": "https://github.com/tsai97216/free-game/actions",
-      "run_url": "https://github.com/tsai97216/free-game/actions/runs/38989302495",
+      "run_url": "https://github.com/tsai97216/free-game/actions/runs/39006857991",
       "business": {
         "kind": "freegame",
         "title": "限免遊戲通知",
@@ -283,86 +469,19 @@
       }
     },
     {
-      "name": "chi-source",
-      "full_name": "tsai97216/chi-source",
-      "html_url": "https://github.com/tsai97216/chi-source",
-      "workflow": "pages build and deployment",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-17T01:03:52Z",
-      "created_at": "2026-10-17T01:03:12Z",
-      "event": "dynamic",
-      "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 40,
-      "runs_url": "https://github.com/tsai97216/chi-source/actions",
-      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/38989172159",
-      "business": {
-        "kind": "source",
-        "title": "Chi Source",
-        "description": "AltStore 來源更新、App 版本變動與網站可用性",
-        "icon": "⌘",
-        "business_status": "success",
-        "business_label": "來源網站內容檢查通過",
-        "metrics": [
-          {
-            "label": "App 數量",
-            "value": "7",
-            "tone": "normal"
-          },
-          {
-            "label": "本次標示更新",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "自動檢查",
-            "result": "2026-10-17 09:03:08",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "內容更新",
-            "result": "2026-10-16 08:05:56",
-            "time": "",
-            "tone": "normal"
-          },
-          {
-            "label": "版本狀態",
-            "result": "0 個 App 更新、7 個未變更",
-            "time": "",
-            "tone": "normal"
-          }
-        ],
-        "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
-        "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
-      }
-    },
-    {
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T00:36:29Z",
-      "created_at": "2026-10-17T00:35:43Z",
+      "updated_at": "2026-10-17T05:00:26Z",
+      "created_at": "2026-10-17T04:59:39Z",
       "event": "schedule",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 46,
+      "duration_seconds": 47,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/38987092806",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39004612205",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -391,7 +510,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-17 08:36:29",
+            "time": "2026-10-17 13:00:26",
             "tone": "good"
           }
         ],
@@ -400,93 +519,41 @@
       }
     },
     {
-      "name": "apktwsign",
-      "full_name": "tsai97216/apktwsign",
-      "html_url": "https://github.com/tsai97216/apktwsign",
-      "workflow": "apktwsign",
+      "name": "chi-design-system",
+      "full_name": "tsai97216/chi-design-system",
+      "html_url": "https://github.com/tsai97216/chi-design-system",
+      "workflow": "Deploy GitHub Pages",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-16T19:25:27Z",
-      "created_at": "2026-10-16T19:25:14Z",
-      "event": "schedule",
-      "commit_message": "chore: update check-in status",
-      "duration_seconds": 13,
-      "runs_url": "https://github.com/tsai97216/apktwsign/actions",
-      "run_url": "https://github.com/tsai97216/apktwsign/actions/runs/38954782807",
+      "updated_at": "2026-10-17T02:49:54Z",
+      "created_at": "2026-10-17T02:49:23Z",
+      "event": "push",
+      "commit_message": "Use opaque background for sticky catalogue toolbar",
+      "duration_seconds": 31,
+      "runs_url": "https://github.com/tsai97216/chi-design-system/actions",
+      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/38996413222",
       "business": {
-        "kind": "checkin",
-        "title": "APK.TW 自動簽到",
-        "description": "網站回報的簽到結果與最近紀錄",
-        "icon": "✓",
+        "kind": "generic",
+        "title": "chi-design-system",
+        "description": "最近一次 Workflow 執行狀況",
+        "icon": "◉",
         "business_status": "success",
-        "business_label": "✅ 簽到成功",
+        "business_label": "最近 Workflow：success",
         "metrics": [
           {
-            "label": "業務結果",
-            "value": "成功",
-            "tone": "good"
+            "label": "Workflow",
+            "value": "chi-design-system",
+            "tone": "normal"
           },
           {
-            "label": "最近簽到",
-            "value": "2026-10-17 03:25:23",
+            "label": "分支",
+            "value": "－",
             "tone": "normal"
           }
         ],
-        "details": [
-          {
-            "label": "來源紀錄",
-            "result": "✅ 簽到成功",
-            "time": "2026-10-17 03:25:23",
-            "tone": "good"
-          }
-        ],
-        "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
-        "evidence_url": "https://github.com/tsai97216/apktwsign/blob/main/activity.md"
-      }
-    },
-    {
-      "name": "bahasign",
-      "full_name": "tsai97216/bahasign",
-      "html_url": "https://github.com/tsai97216/bahasign",
-      "workflow": "Daily sign in Baha",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T19:25:25Z",
-      "created_at": "2026-10-16T19:25:07Z",
-      "event": "schedule",
-      "commit_message": "Auto Sign-in Status: 2026/10/16 16:44:39",
-      "duration_seconds": 18,
-      "runs_url": "https://github.com/tsai97216/bahasign/actions",
-      "run_url": "https://github.com/tsai97216/bahasign/actions/runs/38954767038",
-      "business": {
-        "kind": "checkin",
-        "title": "巴哈姆特自動簽到",
-        "description": "網站回報的簽到結果與最近紀錄",
-        "icon": "✓",
-        "business_status": "success",
-        "business_label": "✅ 簽到成功",
-        "metrics": [
-          {
-            "label": "業務結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "最近簽到",
-            "value": "2026-10-17 03:25:16",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "來源紀錄",
-            "result": "✅ 簽到成功",
-            "time": "2026-10-17 03:25:16",
-            "tone": "good"
-          }
-        ],
-        "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
-        "evidence_url": "https://github.com/tsai97216/bahasign/blob/main/README.md"
+        "details": [],
+        "note": "尚未配置專屬業務資料解析器。",
+        "evidence_url": null
       }
     },
     {
@@ -554,73 +621,6 @@
         ],
         "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/nav/actions"
-      }
-    },
-    {
-      "name": "merch",
-      "full_name": "tsai97216/merch",
-      "html_url": "https://github.com/tsai97216/merch",
-      "workflow": "Deploy",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-16T05:13:55Z",
-      "created_at": "2026-10-16T05:13:08Z",
-      "event": "workflow_run",
-      "commit_message": "revert: restore interface before today's redesign",
-      "duration_seconds": 47,
-      "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/38854623252",
-      "business": {
-        "kind": "deploy",
-        "title": "周邊收藏網",
-        "description": "商品網站部署與實際 HTTP 健康檢查",
-        "icon": "▦",
-        "business_status": "success",
-        "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-16 13:13:55",
-            "tone": "good"
-          },
-          {
-            "label": "網站檢查",
-            "result": "https://merch.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi MERCH",
-            "tone": "good"
-          }
-        ],
-        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/merch/actions"
       }
     },
     {
