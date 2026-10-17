@@ -372,7 +372,9 @@ test("returns a generic gateway error when GitHub API cannot be reached", async 
     const result = await jsonResponse(response);
     assert.equal(response.status, 502);
     assert.equal(result.body.ok, false);
-    assert.match(result.body.error, /Could not reach/);
+    assert.match(result.body.error, /connection failed/i);
+    assert.match(result.body.error, /status is unknown/i);
+    assert.match(result.body.error, /check the GitHub Actions run history before retrying/i);
     assert.doesNotMatch(JSON.stringify(result.body), /test-token|test-access-token-1234567890123456789012345678/);
   } finally {
     globalThis.fetch = originalFetch;
