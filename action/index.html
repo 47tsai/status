@@ -220,6 +220,18 @@ async function api(path, options={}) {
   });
   let data = {};
   try { data = await response.json(); } catch {}
+  if (response.status === 401) {
+    accessToken = null;
+    accessTokenExpiresAt = 0;
+    workflows = [];
+    syncAuthUI(false);
+    $("authLogin").hidden = false;
+    $("authLogin").disabled = false;
+    $("authLogout").hidden = true;
+    $("count").textContent = "登入已失效";
+    $("workflows").replaceChildren(create("div", "empty", "登入已失效，請重新使用 Chi Auth 登入。"));
+    throw new Error("登入已失效，請重新使用 Chi Auth 登入。");
+  }
   if (!response.ok || !data.ok) throw new Error(data.error || `HTTP ${response.status}`);
   return data;
 }
