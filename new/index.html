@@ -27,11 +27,11 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <a class="skip" href="#main">跳至主要內容</a>
 <header class="header"><div class="container header-inner">
 <a class="brand" href="/new/" aria-label="Chi Status 新版儀表板首頁"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><span>Chi Status<small>PROJECT HEALTH</small></span></a>
-<nav class="nav" id="nav" aria-label="主要導覽"><a href="/new/" aria-current="page">狀態總覽</a><a href="/actions/">Actions 控制台</a><a href="/">舊版儀表板</a><a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub 儲存庫</a></nav>
+<nav class="nav" id="nav" aria-label="主要導覽"><a href="#overview" aria-current="page">狀態總覽</a><a href="#actions-panel">Actions 控制台</a><a href="/">舊版儀表板</a><a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub 儲存庫</a></nav>
 <div class="tools"><button class="button" id="theme" type="button" aria-label="切換色彩模式"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span class="label">外觀</span></button><button class="button menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="開啟導覽選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
 </div></header>
-<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> STATUS OVERVIEW</p><h1>專案狀態</h1><p class="intro">集中查看自動化工作流程、網站可用性與各專案回報的實際結果。</p><p class="updated" id="updated" aria-live="polite">正在讀取最新狀態…</p></div><div class="heading-actions"><button class="button primary" id="refresh" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 17.3 6.7L20 12M4 12l2.7 5.3A7 7 0 0 0 18.4 15"/></svg><span id="refresh-label">重新整理</span></button><a class="button" href="/actions/">開啟 Actions 控制台</a></div></div></div></section>
-<main id="main"><div class="container">
+<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> STATUS OVERVIEW</p><h1>專案狀態</h1><p class="intro">集中查看自動化工作流程、網站可用性與各專案回報的實際結果。</p><p class="updated" id="updated" aria-live="polite">正在讀取最新狀態…</p></div><div class="heading-actions"><button class="button primary" id="refresh" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 17.3 6.7L20 12M4 12l2.7 5.3A7 7 0 0 0 18.4 15"/></svg><span id="refresh-label">重新整理</span></button><a class="button" href="#actions-panel">前往 Actions 控制台</a></div></div></div></section>
+<main id="main"><div id="overview" class="container">
 <section class="stats" aria-label="狀態摘要">
 <div class="stat"><span class="stat-label">監控項目</span><strong class="stat-value" id="total">－</strong><span class="stat-note">公開專案與外部服務</span></div>
 <div class="stat"><span class="stat-label">業務檢查正常</span><strong class="stat-value" id="bizok">－</strong><span class="stat-note">依各專案的實際回報判定</span></div>
@@ -42,8 +42,357 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <div class="filters"><input class="field" id="search" type="search" placeholder="搜尋專案、狀態、分支或紀錄…" aria-label="搜尋監控項目"><select class="field" id="filter" aria-label="依狀態篩選"><option value="all">所有狀態</option><option value="attention">需要留意</option><option value="business-failure">業務異常</option><option value="workflow-failure">工作流程失敗</option><option value="success">業務正常</option><option value="running">執行中</option></select><select class="field" id="category" aria-label="依類型篩選"><option value="all">所有類型</option><option value="vps">VPS</option><option value="claim">自動領取</option><option value="checkin">自動簽到</option><option value="source">來源更新</option><option value="deploy">網站部署</option><option value="freegame">限免遊戲</option><option value="website">外部服務</option></select><button class="button" id="clear" type="button">清除篩選</button></div>
 <div class="notice" id="notice" role="status" aria-live="polite"></div><div class="projects" id="projects"><div class="empty">正在載入狀態資料…</div></div>
 </section>
-</div></main>
-<footer class="footer"><div class="container footer-inner"><span>Chi Status · 專案狀態監測</span><span><a href="/">舊版儀表板</a>　·　<a href="/actions/">Actions 控制台</a>　·　<a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">原始碼</a></span></div></footer>
+</div>
+<style>
+#actions-panel{--page:var(--chi-color-page);--page-soft:var(--chi-color-page-soft);--surface:var(--chi-color-surface);--surface-glass:var(--chi-color-surface);--surface-muted:var(--chi-color-surface-muted);--text:var(--chi-color-text);--text-strong:var(--chi-color-text-strong);--muted:var(--chi-color-text-muted);--subtle:var(--chi-color-text-subtle);--border:var(--chi-color-border);--border-strong:var(--chi-color-border-strong);--accent:var(--chi-color-accent);--accent-hover:var(--chi-color-accent-hover);--blue:var(--chi-color-accent);--success:var(--chi-color-success);--warning:var(--chi-color-warning);--danger:var(--chi-color-danger);--focus:var(--chi-color-focus);--footer:var(--chi-color-surface);--footer-text:var(--chi-color-text);--sans:var(--chi-font-sans);--mono:var(--chi-font-mono);--shadow-sm:var(--chi-shadow-subtle);--shadow-md:var(--chi-shadow-subtle);--shadow-accent:0 3px 10px rgb(74 136 252 / 18%);--radius-sm:var(--chi-radius-sm);--radius-md:var(--chi-radius-md);--radius-lg:var(--chi-radius-lg);--radius-xl:var(--chi-radius-lg);--content:1180px;color:var(--chi-color-text);background:transparent}
+#actions-panel .actions-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+#actions-panel .hero{background:transparent;padding:0;margin:0}
+#actions-panel .hero:before{display:none}
+#actions-panel .hero-inner{display:block}
+#actions-panel .hero h1{font-size:1.2rem}
+#actions-panel .hero-actions{display:flex;justify-content:flex-start;margin-top:14px}
+#actions-panel .content{padding-top:0}
+#actions-panel .section-head{align-items:center}
+#actions-panel .button.primary{background:var(--chi-color-accent);color:#071a36;border-color:var(--chi-color-accent);box-shadow:none}
+#actions-panel .brand-mark{background:var(--chi-color-accent);color:#071a36;box-shadow:none}
+#actions-panel .site-footer{background:transparent;color:var(--chi-color-text-muted);border-top:1px solid var(--chi-color-border)}
+#actions-panel .footer-copy,#actions-panel .footer-links a{color:var(--chi-color-text-muted)}
+#actions-panel .footer-brand span{color:var(--chi-color-accent)}
+#actions-panel .toolbar{grid-template-columns:minmax(180px,1fr) minmax(165px,220px);box-shadow:none}
+#actions-panel .toolbar .hint{grid-column:1/-1}
+#actions-panel .group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#actions-panel .skip{display:none}
+@media(max-width:680px){#actions-panel .actions-toolbar{justify-content:flex-start}#actions-panel .group-grid{grid-template-columns:1fr}#actions-panel .toolbar{grid-template-columns:1fr}}
+
+#actions-panel{color-scheme:light;--page:#f6f8fc;--page-soft:#f0f3fa;--surface:#fff;--surface-glass:rgb(255 255 255 / 88%);--surface-muted:#edf2fc;--text:#33343a;--text-strong:#202127;--muted:#686f7d;--subtle:#9299a7;--border:#e8ebf2;--border-strong:#d4dae6;--accent:#4a88fc;--accent-hover:#3476ed;--blue:#4a88fc;--success:#237a50;--warning:#8a5b13;--danger:#b93843;--focus:#4a88fc;--footer:#111113;--footer-text:#d1d5db;--sans:"Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--shadow-sm:0 4px 14px rgb(59 82 145 / 8%);--shadow-md:0 10px 25px -5px rgb(220 226 240 / 65%),0 8px 10px -6px rgb(220 226 240 / 42%);--shadow-accent:0 4px 14px rgb(59 130 246 / 20%);--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:22px;--content:1080px;--ease:180ms ease}html[data-chi-theme=dark] #actions-panel{color-scheme:dark;--page:#17191f;--page-soft:#1b1e27;--surface:#20232c;--surface-glass:rgb(32 35 44 / 92%);--surface-muted:#282c38;--text:#e8eaf1;--text-strong:#f7f8fc;--muted:#b2b8c7;--subtle:#8c94a6;--border:#353a49;--border-strong:#4b5265;--accent:#4a88fc;--accent-hover:#79a8ff;--blue:#7daeff;--success:#7ed6a7;--warning:#edc071;--danger:#ff969e;--focus:#4a88fc;--footer:#101116;--footer-text:#d1d5df;--shadow-sm:0 4px 16px rgb(0 0 0 / 18%);--shadow-md:0 10px 28px rgb(0 0 0 / 24%);--shadow-accent:0 4px 14px rgb(80 105 220 / 22%)}#actions-panel *,#actions-panel *::before,#actions-panel *::after{box-sizing:border-box}#actions-panel{scroll-behavior:smooth;scroll-padding-top:90px}#actions-panel{margin:0;background:var(--page);color:var(--text);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}#actions-panel a{color:inherit}#actions-panel button,#actions-panel input,#actions-panel select{font:inherit}#actions-panel button,#actions-panel a,#actions-panel input,#actions-panel select{outline-offset:3px}#actions-panel button:focus-visible,#actions-panel a:focus-visible,#actions-panel input:focus-visible,#actions-panel select:focus-visible{outline:3px solid var(--focus)}#actions-panel .skip{position:absolute;left:1rem;top:-5rem;z-index:99;padding:.7rem 1rem;background:var(--surface);border-radius:var(--radius-md)}#actions-panel .skip:focus{top:1rem}#actions-panel .container{width:calc(100% - 2.5rem);max-width:var(--content,1200px);margin-inline:auto}#actions-panel .site-header{position:sticky;top:0;z-index:20;border-bottom:1px solid color-mix(in srgb,var(--border) 85%,transparent);background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(18px)}#actions-panel .header-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:1rem}#actions-panel .brand{display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--text-strong);font-weight:800;letter-spacing:.015em;white-space:nowrap}#actions-panel .brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:linear-gradient(145deg,#4a88fc,#79a8ff);color:white;box-shadow:var(--shadow-accent);flex:none}#actions-panel .brand-mark svg{width:21px;height:21px}#actions-panel .brand-text{display:grid;line-height:1.15}#actions-panel .brand-text small{margin-top:4px;color:var(--subtle);font-size:10px;font-weight:650;letter-spacing:.13em}#actions-panel .nav-wrap{display:flex;align-items:center;gap:1rem}#actions-panel .nav{display:flex;align-items:center;gap:5px}#actions-panel .nav a{padding:.55rem .85rem;border-radius:9px;color:var(--muted);font-size:13px;font-weight:650;text-decoration:none;transition:background var(--ease),color var(--ease)}#actions-panel .nav a:hover,#actions-panel .nav a[aria-current=page]{background:var(--surface-muted);color:var(--accent)}#actions-panel .nav-action{display:inline-flex;width:auto;min-height:36px;justify-content:flex-start;padding:.4rem .6rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--muted);font-size:12px;font-weight:650;white-space:nowrap}#actions-panel .nav-action svg{width:15px;height:15px;flex:none}#actions-panel .nav-action:hover{background:var(--surface-muted);color:var(--accent)}#actions-panel .head-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#actions-panel .button,#actions-panel .btn,#actions-panel button{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:42px;padding:.55rem .9rem;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--surface);color:var(--text);font-size:13px;font-weight:650;text-decoration:none;cursor:pointer;transition:transform var(--ease),background var(--ease),border-color var(--ease),box-shadow var(--ease)}#actions-panel .button:hover,#actions-panel .btn:hover,#actions-panel button:hover{background:var(--surface-muted);border-color:var(--accent)}#actions-panel .button:active,#actions-panel .btn:active,#actions-panel button:active{transform:translateY(1px)}#actions-panel .button.primary{border-color:transparent;background:linear-gradient(100deg,#4a88fc,#4a88fc);color:#fff;box-shadow:var(--shadow-accent)}#actions-panel .button:disabled,#actions-panel button:disabled{opacity:.6;cursor:wait}#actions-panel .button svg,#actions-panel button svg,#actions-panel .theme-icon svg{width:16px;height:16px;flex:none}#actions-panel .theme-icon{display:inline-flex;align-items:center;justify-content:center}#actions-panel .icon-button{width:42px;padding:0}#actions-panel .menu-button{display:none}#actions-panel .hero{position:relative;isolation:isolate;overflow:hidden;padding:3rem 0 2.25rem;background:linear-gradient(180deg,#edf2fc 0%,#f7f9ff 50%,var(--page) 100%)}#actions-panel .hero:before{content:"";position:absolute;z-index:-1;top:-12rem;left:50%;width:min(120%,900px);height:28rem;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(165,180,252,.28) 0%,rgba(219,234,254,.2) 45%,transparent 75%);pointer-events:none}html[data-chi-theme=dark] #actions-panel .hero{background:linear-gradient(180deg,#222638 0%,#1b1e29 54%,var(--page) 100%)}html[data-chi-theme=dark] #actions-panel .hero:before{background:radial-gradient(ellipse,rgba(99,102,241,.2) 0%,rgba(59,130,246,.08) 50%,transparent 78%)}#actions-panel .hero-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}#actions-panel .hero h1{margin:0;color:var(--text-strong);font-size:clamp(2rem,4vw,2.8rem);line-height:1.15;letter-spacing:-.05em}#actions-panel .hero-desc{max-width:640px;margin:.8rem 0 0;color:var(--muted);font-size:14px;line-height:1.8}#actions-panel .eyebrow{display:flex;align-items:center;gap:.55rem;margin:0 0 .7rem;color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}#actions-panel .eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#34a875;box-shadow:0 0 0 4px rgb(52 168 117 / 12%)}#actions-panel .hero-actions{display:flex;align-items:center;justify-content:flex-end;gap:.6rem;flex-wrap:wrap}#actions-panel .hero-meta{color:var(--subtle);font-size:11px;margin-top:.6rem}#actions-panel main{padding:0 0 3.5rem}#actions-panel .content{padding-top:1.2rem}#actions-panel .section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:1rem}#actions-panel .section-head h2{margin:0;color:var(--text-strong);font-size:1.3rem;line-height:1.35;letter-spacing:-.03em}#actions-panel .section-head p{margin:.35rem 0 0;color:var(--muted);font-size:13px}#actions-panel .toolbar{display:grid;grid-template-columns:minmax(180px,1fr) minmax(165px,220px) auto;align-items:center;gap:.65rem;padding:.7rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-sm)}#actions-panel .field{width:100%;min-width:0;min-height:44px;padding:.65rem .85rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--page);color:var(--text);font-size:13px}#actions-panel .field::placeholder{color:var(--subtle)}#actions-panel .hint{color:var(--subtle);font-size:11px;white-space:nowrap}#actions-panel .toolbar .hint{padding:0 .3rem}#actions-panel #act-message{display:none;white-space:pre-line;margin-top:1rem;padding:.85rem 1rem;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--muted);font-size:12px;overflow-wrap:anywhere}#actions-panel #act-message:not(:empty){display:block}#actions-panel #act-message[data-kind=ok]{border-color:color-mix(in srgb,var(--success) 35%,var(--border));background:color-mix(in srgb,var(--success) 7%,var(--surface));color:var(--success)}#actions-panel #act-message[data-kind=error]{border-color:color-mix(in srgb,var(--danger) 35%,var(--border));background:color-mix(in srgb,var(--danger) 7%,var(--surface));color:var(--danger)}#actions-panel #act-workflows{display:grid;gap:2rem;margin-top:1.5rem}#actions-panel .workflow-group{min-width:0}#actions-panel .group-heading{display:flex;align-items:center;gap:.65rem;margin-bottom:.8rem}#actions-panel .group-title{margin:0;color:var(--text-strong);font-size:1rem;font-weight:750}#actions-panel .group-count{padding:.2rem .5rem;border-radius:var(--radius-sm);background:var(--surface-muted);color:var(--muted);font-size:10px}#actions-panel .group-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}#actions-panel .card{display:flex;flex-direction:column;min-width:0;padding:1.1rem;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:var(--shadow-sm);transition:border-color var(--ease),box-shadow var(--ease)}#actions-panel .card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-md)}#actions-panel .head{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}#actions-panel .name{color:var(--text-strong);font-size:15px;line-height:1.45;font-weight:750;overflow-wrap:anywhere}#actions-panel .repo{margin-top:.3rem;color:var(--subtle);font-size:11px;line-height:1.6;overflow-wrap:anywhere}#actions-panel .group{display:inline-flex;align-items:center;flex:none;padding:.25rem .5rem;border:1px solid var(--border);border-radius:7px;background:var(--page-soft);color:var(--muted);font-size:10px;white-space:nowrap}#actions-panel .warning{margin-top:.85rem;padding:.7rem .8rem;border:1px solid color-mix(in srgb,var(--warning) 28%,var(--border));border-radius:9px;background:color-mix(in srgb,var(--warning) 7%,var(--surface));color:var(--warning);font-size:11px;line-height:1.65;overflow-wrap:anywhere}#actions-panel .fields{display:grid;gap:.8rem;margin-top:1rem}#actions-panel .field{display:grid;gap:.35rem}#actions-panel .field label{color:var(--muted);font-size:12px;font-weight:650}#actions-panel .field input,#actions-panel .field select{width:100%;min-width:0;min-height:42px;padding:.55rem .7rem;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--page);color:var(--text);font-size:13px}#actions-panel .field input::placeholder{color:var(--subtle)}#actions-panel .field .check{display:flex;align-items:flex-start;gap:.6rem;padding:.2rem 0;color:var(--muted);font-size:12px}#actions-panel .check input{width:17px;height:17px;min-height:17px;margin:.1rem 0 0;accent-color:var(--accent);flex:none}#actions-panel .foot{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:auto;padding-top:1rem}#actions-panel .actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}#actions-panel .btn{min-height:36px;padding:.4rem .65rem;font-size:11px}#actions-panel .btn.primary{border-color:transparent;background:linear-gradient(100deg,#4a88fc,#4a88fc);color:white}#actions-panel .empty{grid-column:1/-1;padding:2.5rem 1rem;border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:var(--surface);color:var(--muted);text-align:center}#actions-panel .site-footer{padding:1.4rem 0;background:var(--footer);color:var(--footer-text)}#actions-panel .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem}#actions-panel .footer-brand{font-weight:800;letter-spacing:.05em}#actions-panel .footer-brand span{color:#4a88fc}#actions-panel .footer-copy{margin:.25rem 0 0;color:#9297a5;font-size:11px}#actions-panel .footer-links{display:flex;gap:1rem;flex-wrap:wrap}#actions-panel .footer-links a{color:#c3c7d2;font-size:11px;text-decoration:none}#actions-panel .footer-links a:hover{color:#fff}@media(max-width:1280px){#actions-panel .nav-wrap{position:relative}#actions-panel .nav{position:absolute;right:0;top:calc(100% + 12px);display:none;min-width:235px;max-width:min(290px,calc(100vw - 24px));padding:.5rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-md)}#actions-panel .nav.open{display:grid}#actions-panel .nav a{padding:.75rem}#actions-panel .menu-button{display:inline-flex}#actions-panel .header-inner{gap:.6rem}#actions-panel .brand{gap:.5rem}#actions-panel .head-tools{gap:6px;flex-wrap:nowrap}#actions-panel .head-tools #act-themeToggle{width:40px;min-width:40px}#actions-panel .head-tools #act-themeLabel{display:none}#actions-panel .nav-action{display:flex;width:100%;min-height:42px;padding:.65rem .85rem;border:0;background:transparent;font-size:13px}#actions-panel .nav-action:hover{border-color:transparent}}@media(max-width:900px){#actions-panel .hero-inner{align-items:flex-start;flex-direction:column;gap:1.1rem}#actions-panel .hero-actions{justify-content:flex-start}#actions-panel .toolbar{grid-template-columns:minmax(0,1fr) minmax(0,200px)}#actions-panel .toolbar .hint{grid-column:1/-1}#actions-panel .group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:680px){#actions-panel .container{width:calc(100% - 2.5rem);max-width:var(--content,1200px)}#actions-panel .header-inner{min-height:62px;gap:.5rem}#actions-panel .brand-mark{width:33px;height:33px}#actions-panel .brand-text small{font-size:9px}#actions-panel .brand-text{font-size:13px}#actions-panel .nav-wrap{position:relative}#actions-panel .nav{position:absolute;right:0;top:calc(100% + 12px);display:none;min-width:235px;max-width:calc(100vw - 24px);padding:.5rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-md)}#actions-panel .nav.open{display:grid}#actions-panel .nav a{padding:.75rem}#actions-panel .head-tools{gap:5px;flex-wrap:nowrap}#actions-panel .head-tools .label{display:none}#actions-panel .head-tools #act-themeToggle,#actions-panel .icon-button{width:38px;min-width:38px;padding:0}#actions-panel .menu-button{display:inline-flex}#actions-panel .hero{padding:2.4rem 0 1.6rem}#actions-panel .hero h1{font-size:2.15rem}#actions-panel .hero-desc{font-size:13px}#actions-panel .hero-actions{width:100%}#actions-panel .hero-actions .button{flex:1}#actions-panel .content{padding-top:.9rem}#actions-panel .section-head{align-items:flex-start;flex-direction:column;gap:.5rem}#actions-panel .toolbar{grid-template-columns:1fr;padding:.55rem;gap:.5rem}#actions-panel .toolbar .hint{grid-column:auto;white-space:normal}#actions-panel .group-grid{grid-template-columns:1fr}#actions-panel .card{padding:1rem}#actions-panel .head{gap:.5rem;flex-direction:column}#actions-panel .group{white-space:normal}#actions-panel .foot{align-items:flex-start;flex-direction:column}#actions-panel .foot>.actions{width:100%}#actions-panel .foot>.actions>*{flex:1}#actions-panel .footer-inner{align-items:flex-start;flex-direction:column;gap:1rem}}@media(prefers-reduced-motion:reduce){#actions-panel *,#actions-panel *::before,#actions-panel *::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}#actions-panel /* Refinements: keep the console dense enough for scanning without tiny controls. */
+#actions-panel{--shadow-sm:0 2px 8px rgb(35 48 80 / 5%);--shadow-md:0 8px 22px rgb(35 48 80 / 9%)}#actions-panel .section{margin-top:2.6rem}#actions-panel .section-head{margin-bottom:1.1rem}#actions-panel .toolbar{padding:.8rem;gap:.75rem}#actions-panel .toolbar .field,#actions-panel .toolbar input,#actions-panel .toolbar select{min-height:46px;font-size:14px}#actions-panel .group-heading{margin-bottom:1rem}#actions-panel .group-title{font-size:1.05rem}#actions-panel .group-count,#actions-panel .group{font-size:11px}#actions-panel .group-grid{gap:16px}#actions-panel .card{padding:1.25rem;box-shadow:0 1px 3px rgb(35 48 80 / 3%)}#actions-panel .card:hover{box-shadow:var(--shadow-md)}#actions-panel .name{font-size:16px;line-height:1.5}#actions-panel .repo{font-size:12px;line-height:1.65}#actions-panel .warning{font-size:12px;line-height:1.75}#actions-panel .field label{font-size:13px}#actions-panel .field input,#actions-panel .field select{min-height:44px;font-size:14px}#actions-panel .field .check{font-size:13px;line-height:1.65}#actions-panel .btn{min-height:40px;padding:.5rem .8rem;font-size:12px}#actions-panel .empty{font-size:14px;line-height:1.8}#actions-panel #act-message{font-size:13px;line-height:1.7}@media(max-width:900px){#actions-panel .group-grid{gap:12px}#actions-panel .card{padding:1.1rem}
+}@media(max-width:680px){#actions-panel .group-grid{grid-template-columns:1fr}#actions-panel .card{padding:1rem}#actions-panel .name{font-size:16px}#actions-panel .field input,#actions-panel .field select{min-height:46px}#actions-panel .foot>.actions>*{min-height:42px}
+}#actions-panel /* Mobile layout fix: keep page content inset and anchor the dropdown to the full header. */
+@media(max-width:680px){
+  .header-inner{position:relative}
+  .header-inner>.nav-wrap{position:static;flex:0 0 auto}
+  .nav{right:0;top:calc(100% + 8px);min-width:min(235px,calc(100vw - 40px));max-width:calc(100vw - 40px)}
+}
+</style><section id="actions-panel" class="section" aria-labelledby="actions-heading"><div class="container content">
+<div class="section-head"><div><h2>工作流程</h2><p>搜尋專案或依類型篩選。只有清單中允許觸發的工作流程會顯示執行表單。</p></div><div class="actions-toolbar"><span id="act-count" class="hint">讀取中…</span><button class="button" id="act-reload" type="button">重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>結束本次登入</button></div></div>
+<section class="toolbar" aria-label="工作流程篩選"><input class="field" id="act-search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋專案或工作流程"><select class="field" id="act-group" aria-label="依類型篩選"><option value="">全部類型</option></select><span class="hint">參數將依工作流程設定顯示</span></section>
+<div id="act-message" role="status" aria-live="polite"></div>
+<section id="act-workflows" aria-label="工作流程清單"><div class="empty">正在讀取工作流程清單…</div></section>
+</div></section><script>(function(){
+
+const API_URL = "https://chi-status-trigger.tsai97216.workers.dev";
+const AUTH_URL = "https://auth.chi.qzz.io";
+const CLIENT_ID = "DZT0NzjdlmwxReZ47kOVdNVV42YOtCV1";
+const REDIRECT_URI = "https://status.chi.qzz.io/actions/";
+const $ = id => document.getElementById("act-" + id);
+let workflows = [];
+let busy = false;
+let accessToken = null;
+let accessTokenExpiresAt = 0;
+
+function message(text, kind="") {
+  const el = $("message");
+  el.textContent = text;
+  el.dataset.kind = kind;
+}
+function base64url(value) {
+  return btoa(String.fromCharCode(...new Uint8Array(value)))
+    .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+function randomVerifier() {
+  return base64url(crypto.getRandomValues(new Uint8Array(32)));
+}
+async function beginAuth() {
+  const verifier = randomVerifier();
+  const challenge = base64url(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier)));
+  const state = randomVerifier();
+  sessionStorage.setItem("chi-status-auth-pkce", JSON.stringify({ verifier, state, createdAt: Date.now() }));
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: CLIENT_ID,
+    redirect_uri: REDIRECT_URI,
+    code_challenge: challenge,
+    code_challenge_method: "S256",
+    state
+  });
+  location.assign(AUTH_URL + "/api/authorize?" + params.toString());
+}
+async function finishAuthCallback() {
+  const params = new URLSearchParams(location.search);
+  const code = params.get("code");
+  const returnedState = params.get("state");
+  if (!code && !returnedState) return false;
+  history.replaceState(null, "", location.pathname + location.hash);
+  let pending;
+  try { pending = JSON.parse(sessionStorage.getItem("chi-status-auth-pkce") || "null"); } catch {}
+  sessionStorage.removeItem("chi-status-auth-pkce");
+  if (!code || !returnedState || !pending || pending.state !== returnedState ||
+      !Number.isFinite(pending.createdAt) || Date.now() - pending.createdAt > 5 * 60 * 1000) {
+    throw new Error("登入回呼驗證失敗或已逾時，請重新登入。");
+  }
+  const response = await fetch(AUTH_URL + "/api/token?client_id=" + encodeURIComponent(CLIENT_ID), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    cache: "no-store",
+    body: JSON.stringify({
+      client_id: CLIENT_ID,
+      code,
+      redirect_uri: REDIRECT_URI,
+      code_verifier: pending.verifier
+    })
+  });
+  const tokenData = await response.json().catch(() => ({}));
+  if (!response.ok || !tokenData.access_token) throw new Error(tokenData.error || "無法完成 Chi Auth 授權碼交換。");
+  const identityResponse = await fetch(AUTH_URL + "/api/userinfo?client_id=" + encodeURIComponent(CLIENT_ID), {
+    headers: { Authorization: "Bearer " + tokenData.access_token },
+    cache: "no-store"
+  });
+  if (!identityResponse.ok) throw new Error("Chi Auth 身分確認失敗，請重新登入。");
+  const identity = await identityResponse.json();
+  if (identity.sub !== "chi-owner" || identity.aud !== CLIENT_ID) throw new Error("Chi Auth 回傳的身分或應用識別不符。");
+  accessToken = tokenData.access_token;
+  accessTokenExpiresAt = Date.now() + Number(tokenData.expires_in || 0) * 1000;
+  $("authLogin").hidden = true;
+  $("authLogout").hidden = false;
+  message("已透過 Chi Auth 完成 Passkey 身分驗證。", "ok");
+  return true;
+}
+async function api(path, options={}) {
+  if (!API_URL) throw new Error("API 網址尚未設定。");
+  if (!accessToken || Date.now() >= accessTokenExpiresAt) {
+    accessToken = null;
+    $("authLogin").hidden = false;
+    $("authLogout").hidden = true;
+    throw new Error("登入已失效，請重新使用 Chi Auth 登入。");
+  }
+  const response = await fetch(API_URL + path, {
+    ...options,
+    headers: { Authorization: "Bearer " + accessToken, ...(options.headers || {}) },
+    cache: "no-store"
+  });
+  let data = {};
+  try { data = await response.json(); } catch {}
+  if (!response.ok || !data.ok) throw new Error(data.error || `HTTP ${response.status}`);
+  return data;
+}
+function create(tag, cls, text) {
+  const el = document.createElement(tag);
+  if (cls) el.className = cls;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+function workflowUrl(item) {
+  return `https://github.com/${item.repository}/actions/workflows/${encodeURIComponent(item.workflow)}`;
+}
+function render() {
+  const query = $("search").value.trim().toLowerCase();
+  const group = $("group").value;
+  const visible = workflows.filter(item => {
+    const haystack = [item.name, item.repository, item.workflow, item.group].join(" ").toLowerCase();
+    return (!query || haystack.includes(query)) && (!group || item.group === group);
+  });
+  const groupOrder = {"Status 維護":0,"來源更新":1,"內容更新":2,"自動化":3,"驗證":4,"部署":5,"暫不可觸發":6,"外部監控":7};
+  visible.sort((a,b) => (groupOrder[a.group] ?? 99) - (groupOrder[b.group] ?? 99) || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
+  $("count").textContent = `${visible.length} / ${workflows.length} 項`;
+  const root = $("workflows");
+  root.replaceChildren();
+  if (!visible.length) {
+    root.append(create("div", "empty", "沒有符合條件的工作流程。"));
+    return;
+  }
+  let activeGroup = null;
+  let activeGrid = null;
+  for (const item of visible) {
+    const groupName = item.group || "其他";
+    if (groupName !== activeGroup) {
+      activeGroup = groupName;
+      const section = create("section", "workflow-group");
+      const heading = create("div", "group-heading");
+      const groupTotal = visible.filter(entry => (entry.group || "其他") === groupName).length;
+      heading.append(create("h2", "group-title", groupName), create("span", "group-count", `${groupTotal} 項`));
+      activeGrid = create("div", "group-grid");
+      section.append(heading, activeGrid);
+      root.append(section);
+    }
+    const card = create("article", "card");
+    const head = create("div", "head");
+    const info = create("div");
+    info.append(create("div", "name", item.name), create("div", "repo", `${item.repository} · ${item.workflow}`));
+    head.append(info, create("span", "group", item.group || "其他"));
+    card.append(head);
+    if (item.available === false) {
+      card.append(create("div", "warning", item.reason || "目前無法從控制台觸發。"));
+      const foot = create("div", "foot");
+      foot.append(create("span", "hint", "僅供狀態參考"));
+      if (item.repository.startsWith("tsai97216/")) {
+        const link = create("a", "btn", "查看專案");
+        link.href = `https://github.com/${item.repository}/actions`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        foot.append(link);
+      } else {
+        const link = create("a", "btn", "查看狀態總覽");
+        link.href = "../";
+        foot.append(link);
+      }
+      card.append(foot);
+      activeGrid.append(card);
+      continue;
+    }
+    if (item.danger) card.append(create("div", "warning", item.danger));
+    const form = create("form", "fields");
+    for (const spec of item.inputs || []) {
+      const wrap = create("div", "field");
+      const id = "f-" + item.repository.replace(/[^a-z0-9]/gi,"-") + "-" + item.workflow.replace(/[^a-z0-9]/gi,"-") + "-" + spec.name;
+      if (spec.type === "boolean") {
+        const label = create("label", "check");
+        const input = create("input");
+        input.type = "checkbox";
+        input.name = spec.name;
+        input.checked = spec.default === true;
+        label.append(input, document.createTextNode(spec.label + (spec.required ? "（必填）" : "")));
+        wrap.append(label);
+      } else {
+        const label = create("label", "", spec.label + (spec.required ? "（必填）" : ""));
+        label.htmlFor = id;
+        let input;
+        if (spec.type === "choice") {
+          input = create("select");
+          for (const option of spec.options || []) {
+            const opt = create("option", "", option);
+            opt.value = option;
+            input.append(opt);
+          }
+          input.value = spec.default || (spec.options || [])[0] || "";
+        } else {
+          input = create("input");
+          input.type = "text";
+          input.value = spec.default || "";
+          input.placeholder = spec.required ? "請填寫必要參數" : "可留空";
+        }
+        input.id = id;
+        input.name = spec.name;
+        input.required = !!spec.required;
+        wrap.append(label, input);
+      }
+      form.append(wrap);
+    }
+    const foot = create("div", "foot");
+    foot.append(create("span", "hint", "分支：main"));
+    const buttons = create("div", "actions");
+    const history = create("a", "btn", "執行紀錄");
+    history.href = workflowUrl(item);
+    history.target = "_blank";
+    history.rel = "noopener noreferrer";
+    const run = create("button", "", "立即觸發");
+    run.type = "submit";
+    buttons.append(history, run);
+    foot.append(buttons);
+    form.append(foot);
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (busy) return;
+      const inputs = {};
+      for (const spec of item.inputs || []) {
+        const field = form.elements.namedItem(spec.name);
+        if (spec.type === "boolean") inputs[spec.name] = field.checked;
+        else if (field.value !== "") inputs[spec.name] = field.value;
+      }
+      const confirmText = item.danger ? `確認執行「${item.name}」？\n\n${item.danger}\n\n此操作會使用 main 分支。` : `確認觸發「${item.name}」？`;
+      if (!confirm(confirmText)) return;
+      busy = true;
+      run.disabled = true;
+      run.textContent = "提交中…";
+      message(`正在提交：${item.repository} / ${item.workflow}`);
+      try {
+        const result = await api("", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ repository: item.repository, workflow: item.workflow, ref: "main", inputs })
+        });
+        message(`GitHub 已接受觸發請求：${result.repository} / ${result.workflow}\n這不代表工作流程已成功完成，請開啟「執行紀錄」查看結果。`, "ok");
+      } catch (error) {
+        message(`觸發失敗：${error.message}`, "error");
+      } finally {
+        busy = false;
+        run.disabled = false;
+        run.textContent = "立即觸發";
+      }
+    });
+    card.append(form);
+    activeGrid.append(card);
+  }
+}
+async function load() {
+  $("reload").disabled = true;
+  if (!accessToken || Date.now() >= accessTokenExpiresAt) {
+    workflows = [];
+    $("workflows").replaceChildren(create("div", "empty", "請先使用 Chi Auth 登入，驗證身分後才能查看及觸發工作流程。"));
+    $("count").textContent = "尚未登入";
+    message("此控制台不再使用瀏覽器儲存的 TRIGGER_SECRET。請使用 Chi Auth 的 Passkey 登入。");
+    $("reload").disabled = false;
+    return;
+  }
+  $("reload").disabled = true;
+  message("正在讀取狀態總覽專案清單…");
+  try {
+    const data = await api("?action=catalog");
+    workflows = data.workflows || [];
+    const groups = [...new Set(workflows.map(item => item.group).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"zh-Hant"));
+    const select = $("group");
+    select.replaceChildren(create("option", "", "全部類型"));
+    select.firstChild.value = "";
+    for (const name of groups) {
+      const option = create("option", "", name);
+      option.value = name;
+      select.append(option);
+    }
+    message("");
+    render();
+  } catch (error) {
+    $("workflows").replaceChildren(create("div", "empty", "無法載入工作流程清單。"));
+    message(error.message, "error");
+    $("count").textContent = "載入失敗";
+  } finally {
+    $("reload").disabled = false;
+  }
+}
+
+$("reload").addEventListener("click", load);
+$("search").addEventListener("input", render);
+$("group").addEventListener("change", render);
+$("authLogin").addEventListener("click", async () => {
+  $("authLogin").disabled = true;
+  try { await beginAuth(); } catch (error) { message("無法開始登入：" + error.message, "error"); $("authLogin").disabled = false; }
+});
+$("authLogout").addEventListener("click", () => {
+  accessToken = null;
+  accessTokenExpiresAt = 0;
+  workflows = [];
+  $("authLogin").hidden = false;
+  $("authLogin").disabled = false;
+  $("authLogout").hidden = true;
+  $("workflows").replaceChildren(create("div", "empty", "已結束本次登入。"));
+  $("count").textContent = "尚未登入";
+  message("已清除本頁的存取權杖。再次操作時需要重新使用 Chi Auth 登入。", "ok");
+});
+(async () => {
+  try {
+    const completed = await finishAuthCallback();
+    if (!completed) {
+      $("authLogin").hidden = false;
+      $("authLogout").hidden = true;
+      message("請使用 Chi Auth 的 Passkey 登入後再管理工作流程。");
+    }
+  } catch (error) {
+    message("登入失敗：" + error.message, "error");
+  }
+  await load();
+})();
+
+})();</script>
+</main>
+<footer class="footer"><div class="container footer-inner"><span>Chi Status · 專案狀態監測</span><span><a href="/">舊版儀表板</a>　·　<a href="#actions-panel">Actions 控制台</a>　·　<a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">原始碼</a></span></div></footer>
 <script>
 const $=id=>document.getElementById(id);let items=[],lastGeneratedAt=null,loading=false,loadError='';
 const labels={success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過',unknown:'狀態未知',running:'執行中'};
