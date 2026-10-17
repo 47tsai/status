@@ -368,7 +368,19 @@ function render() {
         });
         message(`GitHub 已接受觸發請求：${result.repository} / ${result.workflow}\n這不代表工作流程已成功完成，請開啟「執行紀錄」查看結果。`, "ok");
       } catch (error) {
-        message(`觸發失敗：${error.message}`, "error");
+        if (!accessToken && error.message === "登入已失效，請重新使用 Chi Auth 登入。") {
+          workflows = [];
+          syncAuthUI(false);
+          $("authLogin").hidden = false;
+          $("authLogin").disabled = false;
+          $("authLogout").hidden = true;
+          const authState = $("auth-state");
+          if (authState) authState.textContent = "未登入";
+          $("count").textContent = "登入已失效";
+          $("workflows").replaceChildren(create("div", "empty", "登入已失效，請重新使用 Chi Auth 登入。"));
+        } else {
+          message(`觸發失敗：${error.message}`, "error");
+        }
       } finally {
         busy = false;
         for (const button of runButtons) button.disabled = false;
