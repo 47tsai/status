@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T13:02:44.955614+00:00",
+  "generated_at": "2026-10-17T13:11:15.588405+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -47,8 +47,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-17T13:02:44.357451+00:00",
-      "created_at": "2026-10-17T13:02:44.357463+00:00",
+      "updated_at": "2026-10-17T13:11:14.836093+00:00",
+      "created_at": "2026-10-17T13:11:14.836104+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -74,7 +74,7 @@
           },
           {
             "label": "回應時間",
-            "value": "598 ms",
+            "value": "752 ms",
             "tone": "normal"
           }
         ],
@@ -97,8 +97,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-17T13:02:41.964876+00:00",
-      "created_at": "2026-10-17T13:02:41.964892+00:00",
+      "updated_at": "2026-10-17T13:11:12.261129+00:00",
+      "created_at": "2026-10-17T13:11:12.261143+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -131,19 +131,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 570 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 918 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1205 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1150 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 614 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 504 ms",
             "time": "",
             "tone": "good"
           }
@@ -159,13 +159,13 @@
       "workflow": "Deploy",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T13:00:18Z",
-      "created_at": "2026-10-17T13:00:11Z",
+      "updated_at": "2026-10-17T13:11:03Z",
+      "created_at": "2026-10-17T13:10:57Z",
       "event": "workflow_run",
-      "commit_message": "Track whole-site integration acceptance",
-      "duration_seconds": 7,
+      "commit_message": "chore: sync generated version metadata to 2.0.22",
+      "duration_seconds": 6,
       "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/39034763619",
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/39035506424",
       "business": {
         "kind": "deploy",
         "title": "周邊收藏網",
@@ -199,7 +199,7 @@
           {
             "label": "最近部署",
             "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-17 21:00:18",
+            "time": "2026-10-17 21:11:03",
             "tone": "good"
           },
           {
@@ -226,13 +226,13 @@
       "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T12:18:22Z",
-      "created_at": "2026-10-17T12:17:27Z",
+      "updated_at": "2026-10-17T13:10:45Z",
+      "created_at": "2026-10-17T13:09:50Z",
       "event": "dynamic",
       "commit_message": "chore: auto bump version [skip ci]",
       "duration_seconds": 55,
       "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/39031939345",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/39035427002",
       "business": {
         "kind": "deploy",
         "title": "Chi 的工具箱",
@@ -266,7 +266,7 @@
           {
             "label": "最近部署",
             "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-17 20:18:22",
+            "time": "2026-10-17 21:10:45",
             "tone": "good"
           },
           {
@@ -290,16 +290,16 @@
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Test Cloudflare trigger Worker",
+      "workflow": "Deploy Cloudflare trigger Worker",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T12:16:11Z",
-      "created_at": "2026-10-17T12:15:54Z",
+      "updated_at": "2026-10-17T13:10:18Z",
+      "created_at": "2026-10-17T13:09:57Z",
       "event": "push",
-      "commit_message": "Fix redirect policy test to capture auth fetch options",
-      "duration_seconds": 17,
+      "commit_message": "Align Worker documentation with current security and allowlist behavior",
+      "duration_seconds": 21,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39031838537",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39035434249",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -328,7 +328,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-17 20:16:11",
+            "time": "2026-10-17 21:10:18",
             "tone": "good"
           }
         ],
