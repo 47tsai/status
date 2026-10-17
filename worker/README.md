@@ -20,7 +20,7 @@ After a successful run, open the workflow run's **Summary** to see the workers.d
 
 ## 3. Connect the control panel
 
-The Worker URL is configured in actions/index.html (`API_URL`). The control panel uses the registered Chi Auth client ID and the exact callback URL `https://status.chi.qzz.io/actions/`. Users sign in through Chi Auth using Passkey. The browser exchanges an Authorization Code with PKCE (S256), keeps the short-lived access token in memory only, and sends it to the Worker as a Bearer token. The Worker validates it against Chi Auth `/api/userinfo` and checks the client audience before any catalog or dispatch action.
+The Worker URL is configured in action/index.html (`API_URL`). The control panel uses the registered Chi Auth client ID and the exact callback URL `https://status.chi.qzz.io/actions/`. Users sign in through Chi Auth using Passkey. The browser exchanges an Authorization Code with PKCE (S256), keeps the short-lived access token in memory only, and sends it to the Worker as a Bearer token. The Worker validates it against Chi Auth `/api/userinfo` and checks the client audience before any catalog or dispatch action.
 
 ## Project scope and safety
 
