@@ -2,9 +2,8 @@
 
 Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀態儀表板。
 
-- **正式網址：** https://status.chi.qzz.io/（新版統一介面）
+- **正式網址：** https://status.chi.qzz.io/
 - **Actions 控制台：** https://status.chi.qzz.io/action/
-- **舊版備份：** https://status.chi.qzz.io/legacy/
 - **更新頻率：** GitHub Actions 每 10 分鐘執行一次，程式碼更新也會觸發更新。
 - **架構：** GitHub Actions 收集狀態並產生 `status.json`，GitHub Pages 發佈靜態儀表板。
 
@@ -32,12 +31,9 @@ Actions 控制台需透過 Chi Auth Passkey 登入，才可查看及觸發允許
 ```text
 .
 ├── .github/workflows/
-├── action/index.html              # 新版 Actions 控制台
-├── actions/index.html             # OAuth 回呼轉址
-├── legacy/index.html              # 舊版主站備份
-├── new/index.html                 # 舊新版網址轉址
-├── new/action/index.html          # 舊控制台網址轉址
-├── index.html                     # 正式主站
+├── action/index.html              # Actions 控制台
+├── actions/index.html             # Chi Auth OAuth 回呼入口
+├── index.html                     # 狀態總覽
 ├── status.json                    # 自動產生的最新狀態資料
 ├── scripts/                       # 狀態收集與 Discord 通知
 └── worker/                        # 工作流程觸發 API
