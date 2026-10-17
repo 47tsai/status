@@ -101,9 +101,9 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <nav class="nav" id="nav" aria-label="主要導覽"><a href="/">狀態總覽</a><a href="/action/" aria-current="page">Actions 控制台</a><a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
 <div class="tools"><button class="button" id="theme" type="button" aria-label="切換色彩模式"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span class="label">外觀</span></button><button class="button menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="開啟導覽選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
 </div></header>
-<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> ACTIONS CONSOLE</p><h1>Actions 控制台</h1><p class="intro">透過 Chi Auth 驗證身分，安全管理允許觸發的 GitHub Actions 工作流程。</p><p class="updated">僅觸發已列入允許清單的工作流程，所有執行皆使用 main 分支。</p></div></div></div></section>
+<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> ACTIONS CONSOLE</p><h1>Actions 控制台</h1><p class="intro">集中執行維護、更新與自動化任務。僅顯示可實際觸發的工作流程。</p><p class="updated">僅觸發已列入允許清單的工作流程，所有執行皆使用 main 分支。</p></div></div></div></section>
 <main id="main"><div class="container">
-<section class="console-toolbar auth-required" id="act-workflow-heading" aria-labelledby="actions-heading"><div class="section-head"><div><h2 id="actions-heading">工作流程</h2><p>搜尋、篩選並執行已核准的自動化任務。</p></div><span class="result-count" id="act-count" role="status">尚未登入</span></div></section>
+<section class="console-toolbar auth-required" id="act-workflow-heading" aria-labelledby="actions-heading"><div class="section-head"><div><h2 id="actions-heading">工作流程</h2><p>只保留維護、更新與自動化，不列出驗證、部署或無法觸發的項目。</p></div><span class="result-count" id="act-count" role="status">尚未登入</span></div></section>
 <div class="console-actions" aria-label="控制台操作"><span class="console-count">需要登入後才能載入工作流程。</span><div class="actions-toolbar"><button class="button" id="act-reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4.9 9A8 8 0 0 1 18.5 6L20 12M4 17v-5h5"/><path d="M19.1 15A8 8 0 0 1 5.5 18L4 12"/></svg>重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>結束本次登入</button></div></div>
 <section class="toolbar auth-required" id="act-workflow-filters" aria-label="工作流程搜尋"><input class="field" id="act-search" type="search" placeholder="搜尋專案、工作流程或類型…" aria-label="搜尋專案、工作流程或類型"></section>
 <div id="act-message" role="status" aria-live="polite"></div>
@@ -238,7 +238,7 @@ function render() {
     const haystack = [item.name, item.repository, item.workflow, item.group].join(" ").toLowerCase();
     return !query || haystack.includes(query);
   });
-  const groupOrder = {"Status 維護":0,"來源更新":1,"內容更新":2,"自動化":3,"驗證":4,"部署":5,"暫不可觸發":6,"外部監控":7};
+  const groupOrder = {"維護":0,"更新":1,"自動化":2};
   visible.sort((a,b) => (groupOrder[a.group] ?? 99) - (groupOrder[b.group] ?? 99) || Number(a.available === false) - Number(b.available === false) || a.name.localeCompare(b.name, "zh-Hant"));
   $("count").textContent = `${visible.length} / ${workflows.length} 項`;
   const totalEl = document.getElementById("act-total");
@@ -278,25 +278,6 @@ function render() {
     info.append(create("div", "name", item.name), create("div", "repo", `${item.repository} · ${item.workflow}`));
     head.append(info, create("span", "group", item.group || "其他"));
     card.append(head);
-    if (item.available === false) {
-      card.append(create("div", "warning", item.reason || "目前無法從控制台觸發。"));
-      const foot = create("div", "foot");
-      foot.append(create("span", "hint", "僅供狀態參考"));
-      if (item.repository.startsWith("tsai97216/")) {
-        const link = create("a", "btn", "查看專案");
-        link.href = `https://github.com/${item.repository}/actions`;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        foot.append(link);
-      } else {
-        const link = create("a", "btn", "查看狀態總覽");
-        link.href = "../";
-        foot.append(link);
-      }
-      card.append(foot);
-      activeGrid.append(card);
-      continue;
-    }
     if (item.danger) card.append(create("div", "warning", item.danger));
     const form = create("form", "fields");
     for (const spec of item.inputs || []) {
