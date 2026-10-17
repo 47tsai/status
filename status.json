@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T11:14:28.613734+00:00",
+  "generated_at": "2026-10-17T11:17:54.914568+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-17T11:14:28.224333+00:00",
-      "created_at": "2026-10-17T11:14:28.224343+00:00",
+      "updated_at": "2026-10-17T11:17:54.400667+00:00",
+      "created_at": "2026-10-17T11:17:54.400677+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -36,7 +36,7 @@
           },
           {
             "label": "回應時間",
-            "value": "389 ms",
+            "value": "513 ms",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-17T11:14:26.392285+00:00",
-      "created_at": "2026-10-17T11:14:26.392299+00:00",
+      "updated_at": "2026-10-17T11:17:52.307991+00:00",
+      "created_at": "2026-10-17T11:17:52.308006+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -93,19 +93,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 344 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 597 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 697 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 875 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 788 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 618 ms",
             "time": "",
             "tone": "good"
           }
@@ -121,13 +121,13 @@
       "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T11:14:07Z",
-      "created_at": "2026-10-17T11:13:13Z",
+      "updated_at": "2026-10-17T11:16:31Z",
+      "created_at": "2026-10-17T11:15:47Z",
       "event": "dynamic",
       "commit_message": "chore: auto bump version [skip ci]",
-      "duration_seconds": 54,
+      "duration_seconds": 44,
       "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/39027859459",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/39028024804",
       "business": {
         "kind": "deploy",
         "title": "Chi 的工具箱",
@@ -161,7 +161,7 @@
           {
             "label": "最近部署",
             "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-17 19:14:07",
+            "time": "2026-10-17 19:16:31",
             "tone": "good"
           },
           {
@@ -182,19 +182,70 @@
       }
     },
     {
+      "name": "sc-auto-claim",
+      "full_name": "tsai97216/sc-auto-claim",
+      "html_url": "https://github.com/tsai97216/sc-auto-claim",
+      "workflow": "daily-claim",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-17T11:15:46Z",
+      "created_at": "2026-10-17T11:14:33Z",
+      "event": "schedule",
+      "commit_message": "update claim status",
+      "duration_seconds": 73,
+      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/39027942167",
+      "business": {
+        "kind": "claim",
+        "title": "荒野亂鬥自動領取",
+        "description": "兩個帳號的實際領取結果與最近成功時間",
+        "icon": "gamepad",
+        "business_status": "success",
+        "business_label": "2/2 個帳號成功",
+        "metrics": [
+          {
+            "label": "本輪成功帳號",
+            "value": "2/2",
+            "tone": "good"
+          },
+          {
+            "label": "最近領取",
+            "value": "2026-10-17 18:51:28",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "帳號 A",
+            "result": "成功",
+            "tone": "good",
+            "time": "2026-10-17 18:50:55"
+          },
+          {
+            "label": "帳號 B",
+            "result": "成功",
+            "tone": "good",
+            "time": "2026-10-17 18:51:28"
+          }
+        ],
+        "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
+        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+      }
+    },
+    {
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T11:13:54Z",
-      "created_at": "2026-10-17T11:13:17Z",
+      "updated_at": "2026-10-17T11:14:51Z",
+      "created_at": "2026-10-17T11:14:11Z",
       "event": "push",
-      "commit_message": "Handle expired Chi Auth sessions in Actions console",
-      "duration_seconds": 37,
+      "commit_message": "Fix Actions search input display styling",
+      "duration_seconds": 40,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39027863195",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39027917928",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -223,7 +274,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-17 19:13:54",
+            "time": "2026-10-17 19:14:51",
             "tone": "good"
           }
         ],
@@ -296,57 +347,6 @@
         ],
         "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/merch/actions"
-      }
-    },
-    {
-      "name": "sc-auto-claim",
-      "full_name": "tsai97216/sc-auto-claim",
-      "html_url": "https://github.com/tsai97216/sc-auto-claim",
-      "workflow": "daily-claim",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-17T10:51:34Z",
-      "created_at": "2026-10-17T10:49:16Z",
-      "event": "workflow_dispatch",
-      "commit_message": "update claim status",
-      "duration_seconds": 138,
-      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/39026347527",
-      "business": {
-        "kind": "claim",
-        "title": "荒野亂鬥自動領取",
-        "description": "兩個帳號的實際領取結果與最近成功時間",
-        "icon": "gamepad",
-        "business_status": "success",
-        "business_label": "2/2 個帳號成功",
-        "metrics": [
-          {
-            "label": "本輪成功帳號",
-            "value": "2/2",
-            "tone": "good"
-          },
-          {
-            "label": "最近領取",
-            "value": "2026-10-17 18:51:28",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "帳號 A",
-            "result": "成功",
-            "tone": "good",
-            "time": "2026-10-17 18:50:55"
-          },
-          {
-            "label": "帳號 B",
-            "result": "成功",
-            "tone": "good",
-            "time": "2026-10-17 18:51:28"
-          }
-        ],
-        "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
-        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
       }
     },
     {
