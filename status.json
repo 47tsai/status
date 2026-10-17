@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T13:11:15.588405+00:00",
+  "generated_at": "2026-10-17T14:01:09.763132+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -9,13 +9,13 @@
       "workflow": "Deploy GitHub Pages",
       "status": "failure",
       "branch": "main",
-      "updated_at": "2026-10-17T11:55:52Z",
-      "created_at": "2026-10-17T11:55:41Z",
+      "updated_at": "2026-10-17T13:54:49Z",
+      "created_at": "2026-10-17T13:54:37Z",
       "event": "push",
-      "commit_message": "docs: restore icon reference and maintenance checklist",
-      "duration_seconds": 11,
+      "commit_message": "docs(design-system): define shared Chi Auth interface rules",
+      "duration_seconds": 12,
       "runs_url": "https://github.com/tsai97216/chi-design-system/actions",
-      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/39030540675",
+      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/39038501967",
       "business": {
         "kind": "generic",
         "title": "chi-design-system",
@@ -41,14 +41,81 @@
       }
     },
     {
+      "name": "merch",
+      "full_name": "tsai97216/merch",
+      "html_url": "https://github.com/tsai97216/merch",
+      "workflow": "Verify",
+      "status": "pending",
+      "branch": "main",
+      "updated_at": "2026-10-17T14:00:55Z",
+      "created_at": "2026-10-17T14:00:54Z",
+      "event": "push",
+      "commit_message": "docs: track visual regression verification",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/merch/actions",
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/39038940708",
+      "business": {
+        "kind": "deploy",
+        "title": "周邊收藏網",
+        "description": "商品網站部署與實際 HTTP 健康檢查",
+        "icon": "▦",
+        "business_status": "unknown",
+        "business_label": "部署狀態未知",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "pending",
+            "tone": "normal"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "部署狀態未知",
+            "time": "2026-10-17 22:00:55",
+            "tone": "normal"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://merch.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi MERCH",
+            "tone": "good"
+          }
+        ],
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
+        "evidence_url": "https://github.com/tsai97216/merch/actions"
+      }
+    },
+    {
       "name": "vaultwarden-service",
       "full_name": "Vaultwarden · 密碼管理服務",
       "html_url": "https://vault.chi.qzz.io/",
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-17T13:11:14.836093+00:00",
-      "created_at": "2026-10-17T13:11:14.836104+00:00",
+      "updated_at": "2026-10-17T14:01:09.176582+00:00",
+      "created_at": "2026-10-17T14:01:09.176595+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -74,7 +141,7 @@
           },
           {
             "label": "回應時間",
-            "value": "752 ms",
+            "value": "586 ms",
             "tone": "normal"
           }
         ],
@@ -97,8 +164,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-17T13:11:12.261129+00:00",
-      "created_at": "2026-10-17T13:11:12.261143+00:00",
+      "updated_at": "2026-10-17T14:01:06.930947+00:00",
+      "created_at": "2026-10-17T14:01:06.930964+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -131,19 +198,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 918 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 504 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1150 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1087 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 504 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 652 ms",
             "time": "",
             "tone": "good"
           }
@@ -153,86 +220,19 @@
       }
     },
     {
-      "name": "merch",
-      "full_name": "tsai97216/merch",
-      "html_url": "https://github.com/tsai97216/merch",
-      "workflow": "Deploy",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-17T13:11:03Z",
-      "created_at": "2026-10-17T13:10:57Z",
-      "event": "workflow_run",
-      "commit_message": "chore: sync generated version metadata to 2.0.22",
-      "duration_seconds": 6,
-      "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/39035506424",
-      "business": {
-        "kind": "deploy",
-        "title": "周邊收藏網",
-        "description": "商品網站部署與實際 HTTP 健康檢查",
-        "icon": "▦",
-        "business_status": "success",
-        "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-17 21:11:03",
-            "tone": "good"
-          },
-          {
-            "label": "網站檢查",
-            "result": "https://merch.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi MERCH",
-            "tone": "good"
-          }
-        ],
-        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/merch/actions"
-      }
-    },
-    {
       "name": "nav",
       "full_name": "tsai97216/nav",
       "html_url": "https://github.com/tsai97216/nav",
       "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T13:10:45Z",
-      "created_at": "2026-10-17T13:09:50Z",
+      "updated_at": "2026-10-17T13:55:16Z",
+      "created_at": "2026-10-17T13:54:34Z",
       "event": "dynamic",
       "commit_message": "chore: auto bump version [skip ci]",
-      "duration_seconds": 55,
+      "duration_seconds": 42,
       "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/39035427002",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/39038498340",
       "business": {
         "kind": "deploy",
         "title": "Chi 的工具箱",
@@ -266,7 +266,7 @@
           {
             "label": "最近部署",
             "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-17 21:10:45",
+            "time": "2026-10-17 21:55:16",
             "tone": "good"
           },
           {
@@ -287,19 +287,75 @@
       }
     },
     {
+      "name": "free-game",
+      "full_name": "tsai97216/free-game",
+      "html_url": "https://github.com/tsai97216/free-game",
+      "workflow": "Free Game Notifier",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-17T13:14:40Z",
+      "created_at": "2026-10-17T13:14:29Z",
+      "event": "schedule",
+      "commit_message": "chore: update processed state",
+      "duration_seconds": 11,
+      "runs_url": "https://github.com/tsai97216/free-game/actions",
+      "run_url": "https://github.com/tsai97216/free-game/actions/runs/39035745018",
+      "business": {
+        "kind": "freegame",
+        "title": "限免遊戲通知",
+        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
+        "icon": "gamepad",
+        "business_status": "success",
+        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
+        "metrics": [
+          {
+            "label": "本輪新增遊戲",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "本輪處理文章",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "累積遊戲／文章",
+            "value": "8／6",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "本輪狀態紀錄",
+            "result": "沒有本輪狀態提交（可能無新項目）",
+            "time": "2026-10-16 02:30:16",
+            "tone": "normal"
+          },
+          {
+            "label": "去重狀態檔",
+            "result": "可讀取",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
+        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
+      }
+    },
+    {
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Deploy Cloudflare trigger Worker",
+      "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-17T13:10:18Z",
-      "created_at": "2026-10-17T13:09:57Z",
+      "updated_at": "2026-10-17T13:11:36Z",
+      "created_at": "2026-10-17T13:11:00Z",
       "event": "push",
-      "commit_message": "Align Worker documentation with current security and allowlist behavior",
-      "duration_seconds": 21,
+      "commit_message": "Clarify uncertain workflow dispatch outcomes in control panel",
+      "duration_seconds": 36,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39035434249",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39035509230",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -328,7 +384,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-17 21:10:18",
+            "time": "2026-10-17 21:11:36",
             "tone": "good"
           }
         ],
@@ -615,62 +671,6 @@
         ],
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/tsai97216/bahasign/blob/main/README.md"
-      }
-    },
-    {
-      "name": "free-game",
-      "full_name": "tsai97216/free-game",
-      "html_url": "https://github.com/tsai97216/free-game",
-      "workflow": "Free Game Notifier",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-17T09:41:31Z",
-      "created_at": "2026-10-17T09:41:20Z",
-      "event": "schedule",
-      "commit_message": "chore: update processed state",
-      "duration_seconds": 11,
-      "runs_url": "https://github.com/tsai97216/free-game/actions",
-      "run_url": "https://github.com/tsai97216/free-game/actions/runs/39022076635",
-      "business": {
-        "kind": "freegame",
-        "title": "限免遊戲通知",
-        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
-        "icon": "gamepad",
-        "business_status": "success",
-        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
-        "metrics": [
-          {
-            "label": "本輪新增遊戲",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "本輪處理文章",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "累積遊戲／文章",
-            "value": "8／6",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "本輪狀態紀錄",
-            "result": "沒有本輪狀態提交（可能無新項目）",
-            "time": "2026-10-16 02:30:16",
-            "tone": "normal"
-          },
-          {
-            "label": "去重狀態檔",
-            "result": "可讀取",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
-        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       }
     },
     {
