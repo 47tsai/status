@@ -2,7 +2,7 @@
 
 Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀態儀表板。
 
-- **正式網址：** https://status.chi.qzz.io/
+- **正式網址：** https://status.chi.qzz.io/new/（新版整合介面）
 - **更新頻率：** GitHub Actions 每 10 分鐘執行一次，程式碼更新也會觸發更新。
 - **架構：** GitHub Actions 收集狀態並產生 `status.json`，GitHub Pages 發佈靜態儀表板。
 - **維運成本：** 不需要常駐伺服器；網站端只讀取靜態 JSON。
@@ -11,7 +11,7 @@ Chi Status 是 `tsai97216` 公開 GitHub 儲存庫的 Actions 與專案業務狀
 
 收集器只列入 `tsai97216` 底下非 fork、非封存的公開 Repo，並以最近一次 GitHub Actions 執行紀錄為基礎。沒有 Workflow 執行紀錄的 Repo 不會被當成成功；若既有 Repo 的 API 暫時失敗，會保留上次卡片並標記為未知／資料過期。
 
-「Actions 控制台」位於 https://status.chi.qzz.io/actions/，可透過 Cloudflare Worker 觸發允許清單中的工作流程。使用前需輸入 `STATUS_TRIGGER_SECRET`；GitHub Token 保存在 Worker Secret，不會放進公開網頁。一般狀態資料仍每 10 分鐘自動更新，頁面也會定時重新讀取最新資料。
+「Actions 控制台」已整合進新版儀表板 https://status.chi.qzz.io/new/#actions-panel，可透過 Cloudflare Worker 觸發允許清單中的工作流程。使用 Chi Auth 的 Passkey 登入後才能查看及觸發工作流程；GitHub Token 保存在 Worker Secret，不會放進公開網頁。舊 OAuth 回呼路徑 `/actions/` 只負責將授權回應轉回新版頁面。一般狀態資料仍每 10 分鐘自動更新，頁面也會定時重新讀取最新資料。
 
 部分專案另有專屬業務判讀：
 
