@@ -66,6 +66,7 @@ export default {
       const identityResponse = await fetch(CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID), {
         headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
         cache: "no-store",
+        redirect: "error",
         signal: AbortSignal.timeout(5000),
       });
       if (!identityResponse.ok) return json({ ok: false, error: "Chi Auth token is invalid or expired." }, 401);
@@ -153,6 +154,7 @@ export default {
           "User-Agent": "Chi-Status-Trigger",
           "Content-Type": "application/json",
         },
+        redirect: "error",
         body: JSON.stringify({ ref, inputs }),
         signal: AbortSignal.timeout(10_000),
       });
