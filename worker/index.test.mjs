@@ -178,6 +178,7 @@ test("catalog GET does not consume the workflow-dispatch quota", async () => {
   assert.deepEqual([...new Set(result.body.workflows.map(item => item.group))].sort((a, b) => a.localeCompare(b, "zh-Hant")), [...["自動化", "更新", "維護"]].sort((a, b) => a.localeCompare(b, "zh-Hant")));
   assert.equal(result.body.workflows.length, 7);
   assert.ok(result.body.workflows.every(item => item.available !== false));
+  assert.ok(result.body.workflows.every(item => typeof item.description === "string" && item.description.length > 0));
   assert.equal(dispatchLimitCalls, 0);
 });
 
