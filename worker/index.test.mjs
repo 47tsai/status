@@ -195,6 +195,40 @@ test("rejects request bodies larger than 16 KiB before parsing or dispatch", asy
   }
 });
 
+test("rejects malformed JSON without consuming dispatch quota", async () => {
+  let dispatchLimitCalls = 0;
+  let githubCalls = 0;
+  const testEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    githubCalls++;
+    return new Response(null, { status: 204 });
+  };
+  try {
+    const malformed = new Request("https://worker.example/", {
+      method: "POST",
+      headers: {
+        Origin: origin,
+        "CF-Connecting-IP": "203.0.113.10",
+        Authorization: "Bearer test-access-token-1234567890123456789012345678",
+        "Content-Type": "application/json",
+      },
+      body: '{"repository":',
+    });
+    const response = await runWorker(malformed, testEnv);
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 400);
+    assert.match(result.body.error, /invalid json/i);
+    assert.equal(dispatchLimitCalls, 0);
+    assert.equal(githubCalls, 0);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("rejects non-object request bodies instead of triggering the default workflow", async () => {
   const cases = [null, [], "unexpected", 123];
   for (const body of cases) {
