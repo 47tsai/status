@@ -85,8 +85,11 @@ export default {
     let body;
     try { body = await request.json(); }
     catch { return json({ ok: false, error: "Invalid JSON body." }, 400); }
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return json({ ok: false, error: "Request body must be an object." }, 400);
+    }
 
-    const repository = body?.repository || DEFAULT_REPOSITORY;
+    const repository = body.repository || DEFAULT_REPOSITORY;
     const workflow = body?.workflow || DEFAULT_WORKFLOW;
     const ref = body?.ref || "main";
     if (ref !== "main") return json({ ok: false, error: "Only the main branch can be triggered." }, 400);
