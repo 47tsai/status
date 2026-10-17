@@ -53,6 +53,27 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
   .nav{right:0;top:calc(100% + 8px);min-width:min(235px,calc(100vw - 40px));max-width:calc(100vw - 40px)}
 }
 </style>
+
+<style>
+/* Actions console header: separate page context, workflow heading, controls and filters. */
+#actions-panel .section-head{align-items:flex-end;margin-bottom:12px}
+#actions-panel .section-head p{margin-top:4px}
+#actions-panel .console-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;padding:10px 12px;border:1px solid var(--chi-color-border);border-radius:12px;background:var(--chi-color-surface)}
+#actions-panel .console-count{color:var(--chi-color-text-muted);font-size:12px;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+#actions-panel .actions-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+#actions-panel .actions-toolbar .button{min-height:38px;padding:7px 11px}
+#actions-panel .actions-toolbar .button svg{width:15px;height:15px;flex:none}
+#actions-panel .toolbar{margin-top:0}
+@media(max-width:680px){
+  #actions-panel .section-head{margin-bottom:10px}
+  #actions-panel .console-actions{align-items:stretch;flex-direction:column;gap:9px;padding:10px}
+  #actions-panel .console-count{padding:0 2px}
+  #actions-panel .actions-toolbar{display:grid;grid-template-columns:1fr 1.35fr;gap:7px}
+  #actions-panel .actions-toolbar .button{width:100%;min-width:0;min-height:42px;padding:7px;font-size:12px}
+  #actions-panel .actions-toolbar #act-authLogout{grid-column:1/-1}
+}
+</style>
+
 </head>
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
@@ -64,7 +85,8 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> WORKFLOW CONTROL</p><h1>Actions 控制台</h1><p class="intro">登入後管理允許觸發的 GitHub Actions 工作流程。</p></div><div class="heading-actions"><a class="button" href="/">返回狀態總覽</a></div></div></div></section>
 <main id="main">
 <section id="actions-panel" class="section" aria-labelledby="actions-heading"><div class="container content">
-<div class="section-head"><div><h2>工作流程</h2><p>搜尋或依類型篩選工作流程。</p></div><div class="actions-toolbar"><span id="act-count" class="hint">讀取中…</span><button class="button" id="act-reload" type="button">重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>結束本次登入</button></div></div>
+<div class="section-head"><div><h2>工作流程</h2><p>搜尋或依類型篩選工作流程。</p></div></div>
+<div class="console-actions" aria-label="控制台操作"><span id="act-count" class="console-count" role="status">讀取中…</span><div class="actions-toolbar"><button class="button" id="act-reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4.9 9A8 8 0 0 1 18.5 6L20 12M4 17v-5h5"/><path d="M19.1 15A8 8 0 0 1 5.5 18L4 12"/></svg>重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>結束本次登入</button></div></div>
 <section class="toolbar" aria-label="工作流程篩選"><input class="field" id="act-search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋專案或工作流程"><select class="field" id="act-group" aria-label="依類型篩選"><option value="">全部類型</option></select><span class="hint">參數將依工作流程設定顯示</span></section>
 <div id="act-message" role="status" aria-live="polite"></div>
 <section id="act-workflows" aria-label="工作流程清單"><div class="empty">正在讀取工作流程清單…</div></section>
