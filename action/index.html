@@ -455,6 +455,8 @@ $("authLogout").addEventListener("click", () => {
     $("authLogin").hidden = false;
     $("authLogin").disabled = false;
     $("authLogout").hidden = true;
+    const authState = $("auth-state");
+    if (authState) authState.textContent = "未登入";
     $("workflows").replaceChildren(create("div", "empty", "登入未完成，請重新使用 Chi Auth 登入。"));
     $("count").textContent = "登入失敗";
     message("登入失敗：" + error.message, "error");
