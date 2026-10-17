@@ -82,9 +82,10 @@ export default {
       return json({ ok: true, workflows: WORKFLOWS });
     }
 
-    let body;
-    try { body = await request.json(); }
-    catch { return json({ ok: false, error: "Invalid JSON body." }, 400); }
+    const parsedBody = await readJsonBody(request, 16_384);
+    if (parsedBody.tooLarge) return json({ ok: false, error: "Request body is too large." }, 413);
+    if (!parsedBody.ok) return json({ ok: false, error: "Invalid JSON body." }, 400);
+    const body = parsedBody.body;
     if (!body || typeof body !== "object" || Array.isArray(body)) {
       return json({ ok: false, error: "Request body must be an object." }, 400);
     }
@@ -166,6 +167,41 @@ export default {
     return json({ ok: true, message: "Workflow dispatch accepted.", repository, workflow, ref }, 202);
   },
 };
+
+async function readJsonBody(request, maxBytes) {
+  if (!request.body) return { ok: false };
+
+  const reader = request.body.getReader();
+  const chunks = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel();
+        return { ok: false, tooLarge: true };
+      }
+      chunks.push(value);
+    }
+  } catch {
+    return { ok: false };
+  }
+
+  const bytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+
+  try {
+    return { ok: true, body: JSON.parse(new TextDecoder().decode(bytes)) };
+  } catch {
+    return { ok: false };
+  }
+}
 
 async function checkRateLimit(limiter, key) {
   try {
