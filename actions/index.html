@@ -7,14 +7,14 @@
 <title>Chi Status · 正在開啟控制台</title>
 <script>
 (function () {
-  const query = window.location.search;
-  const hasOAuthCallback = new URLSearchParams(query).has("code") || new URLSearchParams(query).has("state");
-  const destination = "/new/" + (hasOAuthCallback ? query : "") + "#actions-panel";
+  const params = new URLSearchParams(window.location.search);
+  const hasOAuthCallback = params.has("code") || params.has("state");
+  const destination = "/new/action/" + (hasOAuthCallback ? window.location.search : "");
   window.location.replace(destination);
 })();
 </script>
 </head>
 <body>
-<p>正在前往 <a href="/new/#actions-panel">Chi Status 工作流程控制台</a>…</p>
+<p>正在前往 <a href="/new/action/">Chi Status Actions 控制台</a>…</p>
 </body>
 </html>
