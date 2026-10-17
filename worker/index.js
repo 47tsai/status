@@ -7,20 +7,13 @@ const DEFAULT_WORKFLOW = "update-status.yml";
 // Keep this catalog aligned with the projects displayed in status.json.
 // Only these workflows can be triggered by this Worker.
 const WORKFLOWS = [
-  { repository: "tsai97216/status", workflow: "update-status.yml", name: "Status 狀態資料更新", project: "status", group: "Status 維護", inputs: [] },
-  { repository: "tsai97216/chi-source", workflow: "main.yml", name: "Chi Source 更新", project: "chi-source", group: "來源更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
-  { repository: "tsai97216/chi-source-personal", workflow: "main.yml", name: "Chi Source Personal 更新", project: "chi-source-personal", group: "來源更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
-  { repository: "tsai97216/free-game", workflow: "free-game.yml", name: "限免遊戲通知更新", project: "free-game", group: "內容更新", inputs: [] },
+  { repository: "tsai97216/status", workflow: "update-status.yml", name: "Status 狀態資料更新", project: "status", group: "維護", inputs: [] },
+  { repository: "tsai97216/chi-source", workflow: "main.yml", name: "Chi Source 更新", project: "chi-source", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
+  { repository: "tsai97216/chi-source-personal", workflow: "main.yml", name: "Chi Source Personal 更新", project: "chi-source-personal", group: "更新", inputs: [{ name: "app", label: "指定 App（all 代表全部）", type: "string", required: false, default: "all" }] },
+  { repository: "tsai97216/free-game", workflow: "free-game.yml", name: "限免遊戲通知更新", project: "free-game", group: "更新", inputs: [] },
   { repository: "tsai97216/sc-auto-claim", workflow: "daily.yml", name: "荒野亂鬥自動領取", project: "sc-auto-claim", group: "自動化", inputs: [] },
   { repository: "tsai97216/bahasign", workflow: "actions.yml", name: "巴哈姆特自動簽到", project: "bahasign", group: "自動化", inputs: [] },
   { repository: "tsai97216/apktwsign", workflow: "checkin.yml", name: "APK.TW 自動簽到", project: "apktwsign", group: "自動化", inputs: [] },
-  { repository: "tsai97216/h", workflow: "ci.yml", name: "H 工具箱 CI 驗證", project: "h", group: "驗證", inputs: [] },
-  { repository: "tsai97216/h", workflow: "deploy-pages.yml", name: "H 工具箱 Pages 部署", project: "h", group: "部署", inputs: [], danger: "會部署正式網站。" },
-  { repository: "tsai97216/h", workflow: "deploy-worker.yml", name: "H 工具箱 Worker 部署", project: "h", group: "部署", inputs: [], danger: "會部署 Cloudflare Worker。" },
-  { repository: "tsai97216/merch", workflow: "verify.yml", name: "周邊收藏網驗證", project: "merch", group: "驗證", inputs: [] },
-  { repository: "tsai97216/merch", workflow: "deploy.yml", name: "周邊收藏網部署", project: "merch", group: "部署", inputs: [], danger: "會部署正式網站。" },
-  { repository: "tsai97216/nav", workflow: "", name: "Chi 的工具箱", project: "nav", group: "暫不可觸發", available: false, reason: "目前版本更新 workflow 只接受 push，並依賴真實 commit 訊息與 SHA；避免手動觸發產生錯誤版本紀錄，暫不開放。" },
-  { repository: "VPS-01 · Oracle Cloud Infrastructure", workflow: "", name: "VPS-01 外部服務探測", project: "vps-01", group: "外部監控", available: false, reason: "這是外部服務健康檢查，不是 GitHub Actions workflow，無法從此處觸發。" },
 ];
 
 function json(body, status = 200) {
