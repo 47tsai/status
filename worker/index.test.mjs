@@ -465,3 +465,55 @@ test("returns a specific safe error when the GitHub API request times out", asyn
     globalThis.fetch = originalFetch;
   }
 });
+
+test("rejects a non-JSON Chi Auth response without dispatching", async () => {
+  let dispatchLimitCalls = 0;
+  let githubCalls = 0;
+  const testEnv = {
+    ...env,
+    DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
+  };
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    githubCalls++;
+    return new Response(null, { status: 204 });
+  };
+  try {
+    const response = await runWorker(request({}), testEnv, {
+      authHandler: async () => new Response("<html>temporary upstream page</html>", {
+        status: 200, headers: { "Content-Type": "text/html" },
+      }),
+    });
+    const result = await jsonResponse(response);
+    assert.equal(response.status, 503);
+    assert.match(result.body.error, /Chi Auth is temporarily unavailable/);
+    assert.doesNotMatch(JSON.stringify(result.body), /temporary upstream page|html/i);
+    assert.equal(dispatchLimitCalls, 0);
+    assert.equal(githubCalls, 0);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("disables automatic redirects for Chi Auth and GitHub API requests", async () => {
+  const originalFetch = globalThis.fetch;
+  const optionsSeen = [];
+  globalThis.fetch = async (url, options) => {
+    optionsSeen.push({ url: String(url), redirect: options?.redirect });
+    if (String(url).startsWith("https://auth.chi.qzz.io/api/userinfo?")) {
+      return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
+        status: 200, headers: { "Content-Type": "application/json" },
+      });
+    }
+    return new Response(null, { status: 204 });
+  };
+  try {
+    const response = await runWorker(request({}), env);
+    assert.equal(response.status, 202);
+    assert.equal(optionsSeen.length, 2);
+    assert.ok(optionsSeen.every(item => item.redirect === "error"));
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
