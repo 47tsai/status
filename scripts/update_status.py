@@ -34,6 +34,7 @@ PROFILES = {
     "h": {"kind": "deploy", "title": "H", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "▣", "health_url": "https://h.chi.qzz.io/"},
     "nav": {"kind": "deploy", "title": "Chi 的工具箱", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
     "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
+    "vaultwarden-service": {"kind": "website", "title": "Vaultwarden", "description": "密碼管理服務存活端點檢查", "icon": "▣", "health_url": "https://vault.chi.qzz.io/alive"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 TAIPEI_TZ = ZoneInfo("Asia/Taipei")
@@ -509,6 +510,30 @@ def business_data(repo_name, run):
             })
         result["note"] = "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。"
         result["evidence_url"] = None
+    elif kind == "website":
+        health = health_check(profile.get("health_url"))
+        if health and health.get("ok") is True:
+            result["business_status"] = "success"
+            result["business_label"] = "Vaultwarden 存活檢查通過"
+        elif health and health.get("ok") is False:
+            result["business_status"] = "failure"
+            result["business_label"] = "Vaultwarden 端點異常"
+        else:
+            result["business_status"] = "unknown"
+            result["business_label"] = "Vaultwarden 狀態未確認"
+        result["metrics"] = [
+            metric("存活端點", "/alive"),
+            metric("HTTP 狀態", str(health.get("status")) if health and health.get("status") is not None else "未取得",
+                   "good" if health and health.get("ok") is True else "bad" if health and health.get("ok") is False else "normal"),
+            metric("回應時間", f'{health.get("latency_ms")} ms' if health and health.get("latency_ms") is not None else "未取得"),
+        ]
+        if health:
+            result["details"] = [
+                {"label": "存活檢查", "result": health.get("content_reason") or "未取得內容判讀",
+                 "time": f'HTTP {health.get("status", "未知")}', "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"},
+            ]
+        result["note"] = "使用 Vaultwarden 的公開 /alive 存活端點，每 10 分鐘檢查 HTTP 與非空回應。這只確認服務端點可回應，不代表資料庫、登入或同步等所有功能都已完整驗證。"
+        result["evidence_url"] = profile.get("health_url")
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
         auto_match = re.search(r"最近自動檢查：\*\*\s*([^（\n]+)", readme)
@@ -681,6 +706,23 @@ def main():
                            else "failure" if host_item["business"]["business_status"] == "failure"
                            else "unknown")
     results.append(host_item)
+    # Vaultwarden is a service endpoint, not necessarily a repository with its own Workflow.
+    vault_item = {
+        "name": "vaultwarden-service", "full_name": "Vaultwarden · 密碼管理服務",
+        "html_url": "https://vault.chi.qzz.io/",
+        "workflow": "外部服務探測", "status": "unknown", "branch": "VPS-01",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "event": "healthcheck", "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
+        "duration_seconds": None,
+        "runs_url": f"https://github.com/{OWNER}/status/actions",
+        "run_url": f"https://github.com/{OWNER}/status/actions",
+    }
+    vault_item["business"] = business_data("vaultwarden-service", vault_item)
+    vault_item["status"] = ("success" if vault_item["business"]["business_status"] == "success"
+                            else "failure" if vault_item["business"]["business_status"] == "failure"
+                            else "unknown")
+    results.append(vault_item)
     def dashboard_priority(item):
         business_status = (item.get("business") or {}).get("business_status")
         workflow_status = item.get("status")
