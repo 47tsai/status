@@ -229,6 +229,11 @@ function render() {
     root.append(create("div", "empty", "沒有符合條件的工作流程。"));
     return;
   }
+  const groupTotals = new Map();
+  for (const item of visible) {
+    const name = item.group || "其他";
+    groupTotals.set(name, (groupTotals.get(name) || 0) + 1);
+  }
   let activeGroup = null;
   let activeGrid = null;
   for (const item of visible) {
@@ -237,7 +242,7 @@ function render() {
       activeGroup = groupName;
       const section = create("section", "workflow-group");
       const heading = create("div", "group-heading");
-      const groupTotal = visible.filter(entry => (entry.group || "其他") === groupName).length;
+      const groupTotal = groupTotals.get(groupName) || 0;
       heading.append(create("h2", "group-title", groupName), create("span", "group-count", `${groupTotal} 項`));
       activeGrid = create("div", "group-grid");
       section.append(heading, activeGrid);
