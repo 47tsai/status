@@ -1,7 +1,57 @@
 {
-  "generated_at": "2026-10-17T09:25:27.562986+00:00",
+  "generated_at": "2026-10-17T09:26:58.443981+00:00",
   "repository_count": 13,
   "repositories": [
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Update Actions status",
+      "status": "failure",
+      "branch": "main",
+      "updated_at": "2026-10-17T09:26:41Z",
+      "created_at": "2026-10-17T09:26:16Z",
+      "event": "push",
+      "commit_message": "docs: document Chi Auth status check",
+      "duration_seconds": 25,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39021121673",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "failure",
+        "business_label": "資料更新失敗",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "資料更新失敗",
+            "tone": "bad"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "資料更新失敗",
+            "time": "2026-10-17 17:26:41",
+            "tone": "bad"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
+      }
+    },
     {
       "name": "sc-auto-claim",
       "full_name": "tsai97216/sc-auto-claim",
@@ -60,8 +110,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-17T09:25:26.972641+00:00",
-      "created_at": "2026-10-17T09:25:26.972653+00:00",
+      "updated_at": "2026-10-17T09:26:57.878414+00:00",
+      "created_at": "2026-10-17T09:26:57.878425+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -76,7 +126,7 @@
         "business_label": "Vaultwarden 存活檢查通過",
         "metrics": [
           {
-            "label": "存活端點",
+            "label": "檢查端點",
             "value": "/alive",
             "tone": "normal"
           },
@@ -87,13 +137,13 @@
           },
           {
             "label": "回應時間",
-            "value": "590 ms",
+            "value": "565 ms",
             "tone": "normal"
           }
         ],
         "details": [
           {
-            "label": "存活檢查",
+            "label": "端點檢查",
             "result": "HTTP 與基本頁面內容檢查通過",
             "time": "HTTP 200",
             "tone": "good"
@@ -110,8 +160,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-17T09:25:25.304755+00:00",
-      "created_at": "2026-10-17T09:25:25.304771+00:00",
+      "updated_at": "2026-10-17T09:26:55.873129+00:00",
+      "created_at": "2026-10-17T09:26:55.873144+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -144,75 +194,25 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 565 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 759 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 792 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 768 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 307 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 476 ms",
             "time": "",
             "tone": "good"
           }
         ],
         "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
         "evidence_url": null
-      }
-    },
-    {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-17T09:25:10Z",
-      "created_at": "2026-10-17T09:24:28Z",
-      "event": "push",
-      "commit_message": "feat: monitor Vaultwarden health endpoint",
-      "duration_seconds": 42,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39021004279",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "資料更新成功",
-            "time": "2026-10-17 17:25:10",
-            "tone": "good"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
