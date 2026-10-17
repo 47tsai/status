@@ -89,9 +89,15 @@ export default {
       return json({ ok: false, error: "Request body must be an object." }, 400);
     }
 
+    for (const field of ["repository", "workflow", "ref"]) {
+      if (Object.prototype.hasOwnProperty.call(body, field) && typeof body[field] !== "string") {
+        return json({ ok: false, error: `Field ${field} must be text.` }, 400);
+      }
+    }
+
     const repository = body.repository || DEFAULT_REPOSITORY;
-    const workflow = body?.workflow || DEFAULT_WORKFLOW;
-    const ref = body?.ref || "main";
+    const workflow = body.workflow || DEFAULT_WORKFLOW;
+    const ref = body.ref || "main";
     if (ref !== "main") return json({ ok: false, error: "Only the main branch can be triggered." }, 400);
 
     const entry = WORKFLOWS.find(item => item.available !== false && item.repository === repository && item.workflow === workflow);
