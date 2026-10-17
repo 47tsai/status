@@ -82,12 +82,12 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <nav class="nav" id="nav" aria-label="主要導覽"><a href="/">狀態總覽</a><a href="/action/" aria-current="page">Actions 控制台</a><a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
 <div class="tools"><button class="button" id="theme" type="button" aria-label="切換色彩模式"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span class="label">外觀</span></button><button class="button menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="開啟導覽選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
 </div></header>
-<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> WORKFLOW CONTROL</p><h1>Actions 控制台</h1></div><div class="heading-actions"><a class="button" href="/">返回狀態總覽</a></div></div></div></section>
+<section class="page-heading"><div class="container"><div class="heading-row"><div><h1>Actions 控制台</h1></div></div></div></section>
 <main id="main">
 <section id="actions-panel" class="section" aria-labelledby="actions-heading"><div class="container content">
-<div class="section-head"><div><h2>工作流程</h2><p>搜尋或依類型篩選工作流程。</p></div></div>
+<div class="section-head"><h2>工作流程</h2></div>
 <div class="console-actions" aria-label="控制台操作"><span id="act-count" class="console-count" role="status">讀取中…</span><div class="actions-toolbar"><button class="button" id="act-reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4.9 9A8 8 0 0 1 18.5 6L20 12M4 17v-5h5"/><path d="M19.1 15A8 8 0 0 1 5.5 18L4 12"/></svg>重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>結束本次登入</button></div></div>
-<section class="toolbar" aria-label="工作流程篩選"><input class="field" id="act-search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋專案或工作流程"><select class="field" id="act-group" aria-label="依類型篩選"><option value="">全部類型</option></select><span class="hint">參數將依工作流程設定顯示</span></section>
+<section class="toolbar" aria-label="工作流程篩選"><input class="field" id="act-search" type="search" placeholder="搜尋專案或工作流程…" aria-label="搜尋專案或工作流程"><select class="field" id="act-group" aria-label="依類型篩選"><option value="">全部類型</option></select></section>
 <div id="act-message" role="status" aria-live="polite"></div>
 <section id="act-workflows" aria-label="工作流程清單"><div class="empty">正在讀取工作流程清單…</div></section>
 </div></section>
