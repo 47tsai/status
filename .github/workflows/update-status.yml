@@ -7,11 +7,8 @@ on:
     branches: [main]
     paths:
       - "index.html"
-      - "new/index.html"
-      - "new/action/index.html"
       - "action/index.html"
       - "actions/index.html"
-      - "actions.html"
       - "CNAME"
       - "README.md"
       - "docs/**"
