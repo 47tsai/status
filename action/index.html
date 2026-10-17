@@ -312,7 +312,10 @@ function render() {
           input = create("input");
           input.type = "text";
           input.value = spec.default || "";
-          input.placeholder = spec.required ? "請填寫必要參數" : "可留空";
+          if (Number.isInteger(spec.maxLength)) input.maxLength = spec.maxLength;
+          input.placeholder = Number.isInteger(spec.maxLength)
+            ? `最多 ${spec.maxLength} 字元`
+            : spec.required ? "請填寫必要參數" : "可留空";
         }
         input.id = id;
         input.name = spec.name;
