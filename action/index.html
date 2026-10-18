@@ -188,10 +188,18 @@ async function finishAuthCallback() {
   });
   const tokenData = await response.json().catch(() => ({}));
   if (!response.ok || !tokenData.access_token) throw new Error(tokenData.error || "無法完成 Chi Auth 授權碼交換。");
-  const identityResponse = await fetch(AUTH_URL + "/api/userinfo?client_id=" + encodeURIComponent(CLIENT_ID), {
-    headers: { Authorization: "Bearer " + tokenData.access_token },
-    cache: "no-store"
-  });
+  let identityResponse;
+  try {
+    identityResponse = await fetch(AUTH_URL + "/api/userinfo?client_id=" + encodeURIComponent(CLIENT_ID), {
+      headers: { Authorization: "Bearer " + tokenData.access_token },
+      cache: "no-store",
+      signal: AbortSignal.timeout(10000)
+    });
+  } catch (error) {
+    throw new Error(error?.name === "TimeoutError"
+      ? "Chi Auth 身分確認逾時，請檢查網路後重新登入。"
+      : "無法連線至 Chi Auth 確認身分，請檢查網路後重新登入。");
+  }
   if (!identityResponse.ok) throw new Error("Chi Auth 身分確認失敗，請重新登入。");
   const identity = await identityResponse.json();
   if (identity.sub !== "chi-owner" || identity.aud !== CLIENT_ID) throw new Error("Chi Auth 回傳的身分或應用識別不符。");
