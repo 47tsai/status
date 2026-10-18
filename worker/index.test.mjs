@@ -145,7 +145,7 @@ test("verifies Chi Auth through the internal Service Binding when configured", a
   assert.equal(authCalls, 1);
   assert.match(capturedRequest.url, /^https:\/\/auth\.chi\.qzz\.io\/api\/userinfo\?client_id=/);
   assert.equal(capturedRequest.options.headers.Authorization, "Bearer test-access-token-1234567890123456789012345678");
-  assert.equal(capturedRequest.options.redirect, "error");
+  assert.equal(capturedRequest.options.redirect, "manual");
 });
 
 test("uses a fresh timeout signal for the public fallback after Service Binding failure", async () => {
@@ -610,7 +610,7 @@ test("disables automatic redirects for Chi Auth and GitHub API requests", async 
     });
     assert.equal(response.status, 202);
     assert.equal(optionsSeen.length, 2);
-    assert.ok(optionsSeen.every(item => item.redirect === "error"));
+    assert.ok(optionsSeen.every(item => item.redirect === "manual"));
   } finally {
     globalThis.fetch = originalFetch;
   }
