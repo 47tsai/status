@@ -126,9 +126,9 @@ test("verifies Chi Auth through the internal Service Binding when configured", a
   const testEnv = {
     ...env,
     CHI_AUTH: {
-      async fetch(request) {
+      async fetch(input, options) {
         authCalls++;
-        capturedRequest = request;
+        capturedRequest = { url: String(input), options };
         return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
           status: 200, headers: { "Content-Type": "application/json" },
         });
@@ -144,8 +144,8 @@ test("verifies Chi Auth through the internal Service Binding when configured", a
   assert.equal(result.body.ok, true);
   assert.equal(authCalls, 1);
   assert.match(capturedRequest.url, /^https:\/\/auth\.chi\.qzz\.io\/api\/userinfo\?client_id=/);
-  assert.equal(capturedRequest.headers.get("Authorization"), "Bearer test-access-token-1234567890123456789012345678");
-  assert.equal(capturedRequest.redirect, "error");
+  assert.equal(capturedRequest.options.headers.Authorization, "Bearer test-access-token-1234567890123456789012345678");
+  assert.equal(capturedRequest.options.redirect, "error");
 });
 
 test("retries a transient Chi Auth network failure once", async () => {
