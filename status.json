@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T04:59:20.668575+00:00",
+  "generated_at": "2026-10-18T05:09:55.767550+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -47,8 +47,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-18T04:59:20.052898+00:00",
-      "created_at": "2026-10-18T04:59:20.052910+00:00",
+      "updated_at": "2026-10-18T05:09:55.310651+00:00",
+      "created_at": "2026-10-18T05:09:55.310661+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -74,7 +74,7 @@
           },
           {
             "label": "回應時間",
-            "value": "615 ms",
+            "value": "456 ms",
             "tone": "normal"
           }
         ],
@@ -97,8 +97,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-18T04:59:17.798119+00:00",
-      "created_at": "2026-10-18T04:59:17.798132+00:00",
+      "updated_at": "2026-10-18T05:09:52.669028+00:00",
+      "created_at": "2026-10-18T05:09:52.669043+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -131,19 +131,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 620 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 697 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1402 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1003 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 230 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 939 ms",
             "time": "",
             "tone": "good"
           }
@@ -159,13 +159,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-18T04:59:04Z",
-      "created_at": "2026-10-18T04:58:27Z",
+      "updated_at": "2026-10-18T04:59:41Z",
+      "created_at": "2026-10-18T04:58:54Z",
       "event": "push",
-      "commit_message": "fix: timeout Chi Auth identity confirmation",
-      "duration_seconds": 37,
+      "commit_message": "fix: handle Chi Auth OAuth callback errors",
+      "duration_seconds": 47,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39098930259",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39098953852",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -194,7 +194,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-18 12:59:04",
+            "time": "2026-10-18 12:59:41",
             "tone": "good"
           }
         ],
