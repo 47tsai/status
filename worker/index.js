@@ -67,28 +67,27 @@ export default {
       let identityResponse;
       try {
         const identityUrl = CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID);
-        const identityOptions = {
+        const makeIdentityOptions = () => ({
           headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
           cache: "no-store",
           redirect: "error",
-          signal: AbortSignal.timeout(5000),
-        };
-        // Prefer an internal Cloudflare Service Binding. Calling another Worker through
-        // its public custom domain can fail at the Cloudflare edge even when the origin
-        // works in a browser. Keep the public fetch only for local development fallback.
+          // AbortSignal is one-shot. Each independent request must get its own timeout.
+          signal: AbortSignal.timeout(8000),
+        });
         if (env.CHI_AUTH && typeof env.CHI_AUTH.fetch === "function") {
           try {
-            identityResponse = await env.CHI_AUTH.fetch(identityUrl, identityOptions);
+            identityResponse = await env.CHI_AUTH.fetch(identityUrl, makeIdentityOptions());
           } catch (bindingError) {
-            // A misconfigured or unavailable service binding should not prevent the
-            // public Chi Auth endpoint from serving as a temporary fallback.
             console.warn("Chi Auth service binding failed; trying public endpoint", {
               name: bindingError?.name || "unknown",
+              message: typeof bindingError?.message === "string"
+                ? bindingError.message.replace(/[^A-Za-z0-9 ._:/-]/g, "").slice(0, 100)
+                : "no message",
             });
-            identityResponse = await fetch(identityUrl, identityOptions);
+            identityResponse = await fetch(identityUrl, makeIdentityOptions());
           }
         } else {
-          identityResponse = await fetch(identityUrl, identityOptions);
+          identityResponse = await fetch(identityUrl, makeIdentityOptions());
         }
       } catch (error) {
         const upstreamErrorName = typeof error?.name === "string" && /^[A-Za-z][A-Za-z0-9]{0,40}$/.test(error.name)
