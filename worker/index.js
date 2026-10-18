@@ -76,9 +76,13 @@ export default {
         // Prefer an internal Cloudflare Service Binding. Calling another Worker through
         // its public custom domain can fail at the Cloudflare edge even when the origin
         // works in a browser. Keep the public fetch only for local development fallback.
-        identityResponse = env.CHI_AUTH && typeof env.CHI_AUTH.fetch === "function"
-          ? await env.CHI_AUTH.fetch(new Request(identityUrl, identityOptions))
-          : await fetch(identityUrl, identityOptions);
+        if (env.CHI_AUTH && typeof env.CHI_AUTH.fetch === "function") {
+          // Service bindings implement Fetcher.fetch(input, init); pass the URL and
+          // init separately so the runtime can construct a compatible internal request.
+          identityResponse = await env.CHI_AUTH.fetch(identityUrl, identityOptions);
+        } else {
+          identityResponse = await fetch(identityUrl, identityOptions);
+        }
       } catch (error) {
         const upstreamErrorName = typeof error?.name === "string" && /^[A-Za-z][A-Za-z0-9]{0,40}$/.test(error.name)
           ? error.name
