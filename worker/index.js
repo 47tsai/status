@@ -73,9 +73,15 @@ export default {
           signal: AbortSignal.timeout(5000),
         });
       } catch (error) {
-        console.error("Chi Auth identity request failed", { attempt, name: error?.name || "unknown" });
+        const upstreamErrorName = typeof error?.name === "string" && /^[A-Za-z][A-Za-z0-9]{0,40}$/.test(error.name)
+          ? error.name
+          : "UnknownError";
+        console.error("Chi Auth identity request failed", { attempt, name: upstreamErrorName });
         if (attempt < 2) continue;
-        return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please retry." }, 503);
+        return json({
+          ok: false,
+          error: "Chi Auth is temporarily unavailable. Please retry. (upstream connection: " + upstreamErrorName + ")",
+        }, 503);
       }
 
       if (identityResponse.status >= 500) {
