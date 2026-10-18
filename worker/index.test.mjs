@@ -120,6 +120,35 @@ test("fails closed when Chi Auth is unavailable without consuming dispatch quota
   }
 });
 
+test("retries a transient Chi Auth network failure once", async () => {
+  let authCalls = 0;
+  const response = await runWorker(request({}), env, {
+    authHandler: async () => {
+      authCalls++;
+      if (authCalls === 1) throw new TypeError("transient network failure");
+      return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
+        status: 200, headers: { "Content-Type": "application/json" },
+      });
+    },
+  });
+  const result = await jsonResponse(response);
+  assert.equal(response.status, 200);
+  assert.equal(result.body.ok, true);
+  assert.equal(authCalls, 2);
+});
+
+test("does not retry invalid Chi Auth credentials", async () => {
+  let authCalls = 0;
+  const response = await runWorker(request({}), env, {
+    authHandler: async () => {
+      authCalls++;
+      return new Response(JSON.stringify({ ok: false }), { status: 401 });
+    },
+  });
+  assert.equal(response.status, 401);
+  assert.equal(authCalls, 1);
+});
+
 test("rejects an unexpected Chi Auth identity before dispatch", async () => {
   let dispatchLimitCalls = 0;
   let githubCalls = 0;
