@@ -468,7 +468,19 @@ async function load() {
   message("正在載入工作流程清單…");
   try {
     const data = await api("?action=catalog");
-    workflows = data.workflows || [];
+    if (!Array.isArray(data.workflows) || !data.workflows.every(item =>
+      item && typeof item === "object" && !Array.isArray(item) &&
+      typeof item.name === "string" && typeof item.repository === "string" &&
+      typeof item.workflow === "string" && typeof item.group === "string" &&
+      (item.description === undefined || typeof item.description === "string") &&
+      (item.inputs === undefined || (Array.isArray(item.inputs) && item.inputs.every(spec =>
+        spec && typeof spec === "object" && !Array.isArray(spec) &&
+        typeof spec.name === "string" && ["string", "boolean"].includes(spec.type)
+      )))
+    )) {
+      throw new Error("觸發服務回傳的工作流程清單格式無效，請稍後重新載入。");
+    }
+    workflows = data.workflows;
     message("");
     render();
   } catch (error) {
