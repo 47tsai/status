@@ -66,21 +66,19 @@ export default {
     for (let attempt = 1; attempt <= 2; attempt++) {
       let identityResponse;
       try {
-        const identityRequest = new Request(
-          CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID),
-          {
-            headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
-            cache: "no-store",
-            redirect: "error",
-            signal: AbortSignal.timeout(5000),
-          },
-        );
+        const identityUrl = CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID);
+        const identityOptions = {
+          headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
+          cache: "no-store",
+          redirect: "error",
+          signal: AbortSignal.timeout(5000),
+        };
         // Prefer an internal Cloudflare Service Binding. Calling another Worker through
         // its public custom domain can fail at the Cloudflare edge even when the origin
         // works in a browser. Keep the public fetch only for local development fallback.
         identityResponse = env.CHI_AUTH && typeof env.CHI_AUTH.fetch === "function"
-          ? await env.CHI_AUTH.fetch(identityRequest)
-          : await fetch(identityRequest);
+          ? await env.CHI_AUTH.fetch(new Request(identityUrl, identityOptions))
+          : await fetch(identityUrl, identityOptions);
       } catch (error) {
         const upstreamErrorName = typeof error?.name === "string" && /^[A-Za-z][A-Za-z0-9]{0,40}$/.test(error.name)
           ? error.name
