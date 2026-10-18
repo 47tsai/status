@@ -185,18 +185,25 @@ async function finishAuthCallback() {
       !Number.isFinite(pending.createdAt) || Date.now() - pending.createdAt > 5 * 60 * 1000) {
     throw new Error("登入回呼驗證失敗或已逾時，請重新登入。");
   }
-  const response = await fetch(AUTH_URL + "/api/token?client_id=" + encodeURIComponent(CLIENT_ID), {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    cache: "no-store",
-    signal: AbortSignal.timeout(10000),
-    body: JSON.stringify({
-      client_id: CLIENT_ID,
-      code,
-      redirect_uri: REDIRECT_URI,
-      code_verifier: pending.verifier
-    })
-  });
+  let response;
+  try {
+    response = await fetch(AUTH_URL + "/api/token?client_id=" + encodeURIComponent(CLIENT_ID), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+      signal: AbortSignal.timeout(10000),
+      body: JSON.stringify({
+        client_id: CLIENT_ID,
+        code,
+        redirect_uri: REDIRECT_URI,
+        code_verifier: pending.verifier
+      })
+    });
+  } catch (error) {
+    throw new Error(error?.name === "TimeoutError"
+      ? "Chi Auth 授權碼交換逾時，請重新登入。"
+      : "無法連線至 Chi Auth 完成授權碼交換，請檢查網路後重試。");
+  }
   const tokenData = await response.json().catch(() => ({}));
   if (!response.ok || !tokenData.access_token) throw new Error(tokenData.error || "無法完成 Chi Auth 授權碼交換。");
   let identityResponse;
