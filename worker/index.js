@@ -58,48 +58,6 @@ export default {
 
     if (!env.GITHUB_TOKEN) return json({ ok: false, error: "Worker secrets are not configured." }, 503);
 
-    // Short-lived, secret-gated diagnostics for isolating the live Chi Auth upstream path.
-    // This endpoint returns only probe status and sanitized error metadata, never tokens or response bodies.
-    const requestUrl = new URL(request.url);
-    if (request.method === "GET" && requestUrl.searchParams.get("action") === "diagnostics") {
-      if (request.headers.get("X-Worker-Diagnostic-Token") !== env.GITHUB_TOKEN) {
-        return json({ ok: false, error: "Not found." }, 404);
-      }
-      const healthUrl = "https://auth.chi.qzz.io/api/health";
-      const identityUrl = CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID);
-      const diagnosticOptions = (withIdentity = false) => ({
-        headers: withIdentity
-          ? { Authorization: "Bearer " + "0".repeat(64), Accept: "application/json" }
-          : { Accept: "application/json" },
-        cache: "no-store",
-        redirect: "error",
-        signal: AbortSignal.timeout(8000),
-      });
-      const probe = async (call) => {
-        try {
-          const response = await call();
-          return { status: response.status };
-        } catch (error) {
-          const name = typeof error?.name === "string" && /^[A-Za-z][A-Za-z0-9]{0,40}$/.test(error.name)
-            ? error.name : "UnknownError";
-          const message = typeof error?.message === "string"
-            ? error.message.replace(/[^A-Za-z0-9 ._:/-]/g, "").slice(0, 120) : "no message";
-          return { error: name, message: message || "no message" };
-        }
-      };
-      const bindingAvailable = env.CHI_AUTH && typeof env.CHI_AUTH.fetch === "function";
-      const [bindingHealth, bindingUserinfo, publicHealth, publicUserinfo] = await Promise.all([
-        bindingAvailable ? probe(() => env.CHI_AUTH.fetch(healthUrl, diagnosticOptions())) : Promise.resolve({ error: "BindingUnavailable" }),
-        bindingAvailable ? probe(() => env.CHI_AUTH.fetch(identityUrl, diagnosticOptions(true))) : Promise.resolve({ error: "BindingUnavailable" }),
-        probe(() => fetch(healthUrl, diagnosticOptions())),
-        probe(() => fetch(identityUrl, diagnosticOptions(true))),
-      ]);
-      return json({ ok: true, diagnostics: {
-        serviceBinding: { health: bindingHealth, userinfo: bindingUserinfo },
-        publicEndpoint: { health: publicHealth, userinfo: publicUserinfo },
-      } });
-    }
-
     const authorization = request.headers.get("Authorization") || "";
     const tokenMatch = authorization.match(/^Bearer ([A-Za-z0-9_-]{40,80})$/);
     if (!tokenMatch) return json({ ok: false, error: "Chi Auth login is required." }, 401);
@@ -112,7 +70,7 @@ export default {
         const makeIdentityOptions = () => ({
           headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
           cache: "no-store",
-          redirect: "error",
+          redirect: "manual",
           // AbortSignal is one-shot. Each independent request must get its own timeout.
           signal: AbortSignal.timeout(8000),
         });
@@ -251,7 +209,7 @@ export default {
           "User-Agent": "Chi-Status-Trigger",
           "Content-Type": "application/json",
         },
-        redirect: "error",
+        redirect: "manual",
         body: JSON.stringify({ ref, inputs }),
         signal: AbortSignal.timeout(10_000),
       });
