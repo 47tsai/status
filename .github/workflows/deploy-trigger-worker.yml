@@ -67,3 +67,21 @@ jobs:
               echo "Worker deployed and GitHub API token configured, but Wrangler's URL could not be parsed. See the deployment logs for the workers.dev URL."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Smoke test live Chi Auth upstream connection
+        run: |
+          set -euo pipefail
+          # A syntactically valid but nonexistent token must reach Chi Auth and be rejected as 401.
+          # HTTP 503 / TypeError means the live Worker-to-Worker identity request is still broken.
+          status="$(curl --silent --show-error --max-time 20 \\
+            --output /tmp/chi-auth-smoke.json \\
+            --write-out '%{http_code}' \\
+            --header 'Origin: https://status.chi.qzz.io' \\
+            --header 'Authorization: Bearer 0000000000000000000000000000000000000000000000000000000000000000' \\
+            'https://chi-status-trigger.tsai97216.workers.dev/?action=catalog')"
+          if [ "$status" != "401" ]; then
+            echo "::error::Expected HTTP 401 from Chi Auth for the invalid smoke-test token; received HTTP $status."
+            cat /tmp/chi-auth-smoke.json
+            exit 1
+          fi
+          echo "Live Chi Auth upstream connection passed: the invalid smoke-test token was correctly rejected with HTTP 401."
