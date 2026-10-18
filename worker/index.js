@@ -62,19 +62,39 @@ export default {
     const tokenMatch = authorization.match(/^Bearer ([A-Za-z0-9_-]{40,80})$/);
     if (!tokenMatch) return json({ ok: false, error: "Chi Auth login is required." }, 401);
     let identity;
-    try {
-      const identityResponse = await fetch(CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID), {
-        headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
-        cache: "no-store",
-        redirect: "error",
-        signal: AbortSignal.timeout(5000),
-      });
+    let identityVerified = false;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      let identityResponse;
+      try {
+        identityResponse = await fetch(CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID), {
+          headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
+          cache: "no-store",
+          redirect: "error",
+          signal: AbortSignal.timeout(5000),
+        });
+      } catch (error) {
+        console.error("Chi Auth identity request failed", { attempt, name: error?.name || "unknown" });
+        if (attempt < 2) continue;
+        return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please retry." }, 503);
+      }
+
+      if (identityResponse.status >= 500) {
+        console.error("Chi Auth identity service returned a server error", { attempt, status: identityResponse.status });
+        if (attempt < 2) continue;
+        return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please retry." }, 503);
+      }
       if (!identityResponse.ok) return json({ ok: false, error: "Chi Auth token is invalid or expired." }, 401);
-      identity = await identityResponse.json();
-    } catch (error) {
-      console.error("Chi Auth identity check failed", error?.name || "unknown");
-      return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please retry." }, 503);
+
+      try {
+        identity = await identityResponse.json();
+        identityVerified = true;
+        break;
+      } catch (error) {
+        console.error("Chi Auth identity response was not valid JSON", { attempt, name: error?.name || "unknown" });
+        if (attempt >= 2) return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please retry." }, 503);
+      }
     }
+    if (!identityVerified) return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please retry." }, 503);
     if (identity?.sub !== "chi-owner" || identity?.aud !== CHI_AUTH_CLIENT_ID) {
       return json({ ok: false, error: "Chi Auth identity or audience check failed." }, 403);
     }
