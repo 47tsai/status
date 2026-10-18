@@ -729,6 +729,23 @@ def main():
                             else "failure" if vault_item["business"]["business_status"] == "failure"
                             else "unknown")
     results.append(vault_item)
+    # Chi Auth is an external authentication endpoint, not necessarily a GitHub Workflow.
+    auth_item = {
+        "name": "chi-auth-service", "full_name": "Chi Auth · Passkey／SSO 驗證服務",
+        "html_url": "https://auth.chi.qzz.io/",
+        "workflow": "外部服務探測", "status": "unknown", "branch": "VPS-01",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "event": "healthcheck", "commit_message": "每 10 分鐘檢查 Chi Auth 公開首頁",
+        "duration_seconds": None,
+        "runs_url": f"https://github.com/{OWNER}/status/actions",
+        "run_url": f"https://github.com/{OWNER}/status/actions",
+    }
+    auth_item["business"] = business_data("chi-auth-service", auth_item)
+    auth_item["status"] = ("success" if auth_item["business"]["business_status"] == "success"
+                           else "failure" if auth_item["business"]["business_status"] == "failure"
+                           else "unknown")
+    results.append(auth_item)
     def dashboard_priority(item):
         business_status = (item.get("business") or {}).get("business_status")
         workflow_status = item.get("status")
