@@ -79,9 +79,18 @@ export default {
       }
 
       if (identityResponse.status >= 500) {
-        console.error("Chi Auth identity service returned a server error", { attempt, status: identityResponse.status });
+        const upstreamError = await identityResponse.clone().json().catch(() => null);
+        const diagnosticStage = typeof upstreamError?.debug === "string" &&
+          /^[a-z_]{1,64}$/.test(upstreamError.debug) ? upstreamError.debug : null;
+        console.error("Chi Auth identity service returned a server error", {
+          attempt, status: identityResponse.status, diagnosticStage,
+        });
         if (attempt < 2) continue;
-        return json({ ok: false, error: "Chi Auth is temporarily unavailable. Please retry." }, 503);
+        return json({
+          ok: false,
+          error: "Chi Auth is temporarily unavailable. Please retry." +
+            (diagnosticStage ? " (diagnostic stage: " + diagnosticStage + ")" : ""),
+        }, 503);
       }
       if (!identityResponse.ok) return json({ ok: false, error: "Chi Auth token is invalid or expired." }, 401);
 
