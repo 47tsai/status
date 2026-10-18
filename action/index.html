@@ -165,6 +165,17 @@ async function finishAuthCallback() {
   const params = new URLSearchParams(location.search);
   const code = params.get("code");
   const returnedState = params.get("state");
+  const oauthError = params.get("error");
+  if (oauthError) {
+    history.replaceState(null, "", location.pathname + location.hash);
+    sessionStorage.removeItem("chi-status-auth-pkce");
+    const safeErrors = {
+      access_denied: "你已取消 Chi Auth 授權。",
+      invalid_request: "Chi Auth 無法處理這次登入請求。",
+      server_error: "Chi Auth 暫時無法完成登入，請稍後重試。"
+    };
+    throw new Error(safeErrors[oauthError] || "Chi Auth 授權未完成，請重新登入。");
+  }
   if (!code && !returnedState) return false;
   history.replaceState(null, "", location.pathname + location.hash);
   let pending;
