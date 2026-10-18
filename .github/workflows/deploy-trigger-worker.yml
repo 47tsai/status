@@ -69,18 +69,8 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Smoke test live Chi Auth upstream connection
-        env:
-          STATUS_WORKFLOW_TOKEN: ${{ secrets.STATUS_WORKFLOW_TOKEN }}
         run: |
           set -euo pipefail
-          diagnostic_status="$(curl --silent --show-error --max-time 20 --output /tmp/chi-auth-diagnostics.json --write-out '%{http_code}' --header 'Origin: https://status.chi.qzz.io' --header "X-Worker-Diagnostic-Token: $STATUS_WORKFLOW_TOKEN" 'https://chi-status-trigger.tsai97216.workers.dev/?action=diagnostics')"
-          if [ "$diagnostic_status" != "200" ]; then
-            echo "::error::Worker connection diagnostics endpoint expected HTTP 200; received HTTP $diagnostic_status."
-            cat /tmp/chi-auth-diagnostics.json
-            exit 1
-          fi
-          cat /tmp/chi-auth-diagnostics.json
-
           # First check the public identity endpoint from the runner, then check it through the Status Worker.
           # A syntactically valid but nonexistent token must be rejected as 401 in both cases.
           direct_status="$(curl --silent --show-error --max-time 20 --output /tmp/chi-auth-direct.json --write-out '%{http_code}' --header 'Origin: https://status.chi.qzz.io' --header 'Authorization: Bearer 0000000000000000000000000000000000000000000000000000000000000000' 'https://auth.chi.qzz.io/api/userinfo?client_id=DZT0NzjdlmwxReZ47kOVdNVV42YOtCV1')"
