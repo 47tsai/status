@@ -1,59 +1,21 @@
 {
-  "generated_at": "2026-10-18T11:48:55.477687+00:00",
+  "generated_at": "2026-10-18T11:53:27.155906+00:00",
   "repository_count": 14,
   "repositories": [
-    {
-      "name": "chi-design-system",
-      "full_name": "tsai97216/chi-design-system",
-      "html_url": "https://github.com/tsai97216/chi-design-system",
-      "workflow": "Deploy GitHub Pages",
-      "status": "failure",
-      "branch": "main",
-      "updated_at": "2026-10-18T09:40:18Z",
-      "created_at": "2026-10-18T09:40:02Z",
-      "event": "push",
-      "commit_message": "Point framework preview to top-level page",
-      "duration_seconds": 16,
-      "runs_url": "https://github.com/tsai97216/chi-design-system/actions",
-      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/39116231486",
-      "business": {
-        "kind": "generic",
-        "title": "chi-design-system",
-        "description": "最近一次 Workflow 執行狀況",
-        "icon": "◉",
-        "business_status": "failure",
-        "business_label": "最近 Workflow：failure",
-        "metrics": [
-          {
-            "label": "Workflow",
-            "value": "chi-design-system",
-            "tone": "normal"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          }
-        ],
-        "details": [],
-        "note": "尚未配置專屬業務資料解析器。",
-        "evidence_url": null
-      }
-    },
     {
       "name": "sc-auto-claim",
       "full_name": "tsai97216/sc-auto-claim",
       "html_url": "https://github.com/tsai97216/sc-auto-claim",
       "workflow": "daily-claim",
-      "status": "success",
+      "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-18T06:46:35Z",
-      "created_at": "2026-10-18T06:45:34Z",
+      "updated_at": "2026-10-18T11:51:08Z",
+      "created_at": "2026-10-18T11:51:05Z",
       "event": "schedule",
       "commit_message": "update claim status",
-      "duration_seconds": 61,
+      "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/39105179490",
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/39124897321",
       "business": {
         "kind": "claim",
         "title": "荒野亂鬥自動領取",
@@ -98,8 +60,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-18T11:48:54.740511+00:00",
-      "created_at": "2026-10-18T11:48:54.740522+00:00",
+      "updated_at": "2026-10-18T11:53:26.715385+00:00",
+      "created_at": "2026-10-18T11:53:26.715396+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -125,7 +87,7 @@
           },
           {
             "label": "回應時間",
-            "value": "737 ms",
+            "value": "440 ms",
             "tone": "normal"
           }
         ],
@@ -148,8 +110,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-18T11:48:50.793885+00:00",
-      "created_at": "2026-10-18T11:48:50.793900+00:00",
+      "updated_at": "2026-10-18T11:53:24.779058+00:00",
+      "created_at": "2026-10-18T11:53:24.779073+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -182,19 +144,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 863 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 458 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 2550 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 828 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 530 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 647 ms",
             "time": "",
             "tone": "good"
           }
@@ -204,19 +166,57 @@
       }
     },
     {
+      "name": "chi-design-system",
+      "full_name": "tsai97216/chi-design-system",
+      "html_url": "https://github.com/tsai97216/chi-design-system",
+      "workflow": "Deploy GitHub Pages",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-18T11:51:26Z",
+      "created_at": "2026-10-18T11:50:42Z",
+      "event": "push",
+      "commit_message": "Align icon inventory heading with integrity check",
+      "duration_seconds": 44,
+      "runs_url": "https://github.com/tsai97216/chi-design-system/actions",
+      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/39124870532",
+      "business": {
+        "kind": "generic",
+        "title": "chi-design-system",
+        "description": "最近一次 Workflow 執行狀況",
+        "icon": "◉",
+        "business_status": "success",
+        "business_label": "最近 Workflow：success",
+        "metrics": [
+          {
+            "label": "Workflow",
+            "value": "chi-design-system",
+            "tone": "normal"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          }
+        ],
+        "details": [],
+        "note": "尚未配置專屬業務資料解析器。",
+        "evidence_url": null
+      }
+    },
+    {
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Deploy Cloudflare trigger Worker",
+      "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-18T11:43:36Z",
-      "created_at": "2026-10-18T11:42:52Z",
-      "event": "push",
+      "updated_at": "2026-10-18T11:49:15Z",
+      "created_at": "2026-10-18T11:48:36Z",
+      "event": "workflow_dispatch",
       "commit_message": "Remove temporary diagnostics from live smoke test",
-      "duration_seconds": 44,
+      "duration_seconds": 39,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39124348138",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39124726992",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -245,7 +245,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-18 19:43:36",
+            "time": "2026-10-18 19:49:15",
             "tone": "good"
           }
         ],
