@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-10-18T11:53:27.155906+00:00",
-  "repository_count": 14,
+  "generated_at": "2026-10-18T11:55:01.553279+00:00",
+  "repository_count": 15,
   "repositories": [
     {
       "name": "sc-auto-claim",
       "full_name": "tsai97216/sc-auto-claim",
       "html_url": "https://github.com/tsai97216/sc-auto-claim",
       "workflow": "daily-claim",
-      "status": "in_progress",
+      "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-18T11:51:08Z",
+      "updated_at": "2026-10-18T11:54:02Z",
       "created_at": "2026-10-18T11:51:05Z",
       "event": "schedule",
       "commit_message": "update claim status",
-      "duration_seconds": null,
+      "duration_seconds": 177,
       "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
       "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/39124897321",
       "business": {
@@ -21,8 +21,8 @@
         "title": "荒野亂鬥自動領取",
         "description": "兩個帳號的實際領取結果與最近成功時間",
         "icon": "gamepad",
-        "business_status": "unknown",
-        "business_label": "本輪領取結果待確認",
+        "business_status": "failure",
+        "business_label": "0/2 個帳號成功，2 個失敗",
         "metrics": [
           {
             "label": "本輪成功帳號",
@@ -31,26 +31,76 @@
           },
           {
             "label": "最近領取",
-            "value": "2026-10-17 18:51:28",
+            "value": "2026-10-18 19:53:58",
             "tone": "normal"
           }
         ],
         "details": [
           {
             "label": "帳號 A",
-            "result": "本輪尚未確認",
-            "tone": "normal",
-            "time": "2026-10-17 18:50:55"
+            "result": "失敗",
+            "tone": "bad",
+            "time": "2026-10-18 19:53:12"
           },
           {
             "label": "帳號 B",
-            "result": "本輪尚未確認",
-            "tone": "normal",
-            "time": "2026-10-17 18:51:28"
+            "result": "失敗",
+            "tone": "bad",
+            "time": "2026-10-18 19:53:58"
           }
         ],
         "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
         "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+      }
+    },
+    {
+      "name": "chi-auth-service",
+      "full_name": "Chi Auth · Passkey／SSO 驗證服務",
+      "html_url": "https://auth.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "VPS-01",
+      "updated_at": "2026-10-18T11:55:01.229049+00:00",
+      "created_at": "2026-10-18T11:55:01.229062+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘檢查 Chi Auth 公開首頁",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions",
+      "business": {
+        "kind": "website",
+        "title": "Chi Auth",
+        "description": "Passkey／SSO 驗證服務首頁可用性檢查",
+        "icon": "⌑",
+        "business_status": "success",
+        "business_label": "Chi Auth 端點檢查通過",
+        "metrics": [
+          {
+            "label": "檢查端點",
+            "value": "/",
+            "tone": "normal"
+          },
+          {
+            "label": "HTTP 狀態",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "回應時間",
+            "value": "321 ms",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "端點檢查",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "HTTP 200",
+            "tone": "good"
+          }
+        ],
+        "note": "每 10 分鐘檢查 Chi Auth 的公開首頁（HTTP 狀態、回應內容與回應時間）。這是基本可用性探測，不代表 Passkey、SSO 或所有驗證流程均已完成端對端驗證。",
+        "evidence_url": "https://auth.chi.qzz.io/"
       }
     },
     {
@@ -60,8 +110,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-18T11:53:26.715385+00:00",
-      "created_at": "2026-10-18T11:53:26.715396+00:00",
+      "updated_at": "2026-10-18T11:55:00.756768+00:00",
+      "created_at": "2026-10-18T11:55:00.756780+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -87,7 +137,7 @@
           },
           {
             "label": "回應時間",
-            "value": "440 ms",
+            "value": "472 ms",
             "tone": "normal"
           }
         ],
@@ -110,8 +160,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-18T11:53:24.779058+00:00",
-      "created_at": "2026-10-18T11:53:24.779073+00:00",
+      "updated_at": "2026-10-18T11:54:59.201454+00:00",
+      "created_at": "2026-10-18T11:54:59.201467+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -144,25 +194,75 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 458 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 474 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 828 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 559 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 647 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 518 ms",
             "time": "",
             "tone": "good"
           }
         ],
         "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
         "evidence_url": null
+      }
+    },
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Update Actions status",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-18T11:53:50Z",
+      "created_at": "2026-10-18T11:53:08Z",
+      "event": "workflow_dispatch",
+      "commit_message": "chore: update project business status",
+      "duration_seconds": 42,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39125029912",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "success",
+        "business_label": "資料更新成功",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "資料更新成功",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "資料更新成功",
+            "time": "2026-10-18 19:53:50",
+            "tone": "good"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
@@ -201,56 +301,6 @@
         "details": [],
         "note": "尚未配置專屬業務資料解析器。",
         "evidence_url": null
-      }
-    },
-    {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-18T11:49:15Z",
-      "created_at": "2026-10-18T11:48:36Z",
-      "event": "workflow_dispatch",
-      "commit_message": "Remove temporary diagnostics from live smoke test",
-      "duration_seconds": 39,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39124726992",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "資料更新成功",
-            "time": "2026-10-18 19:49:15",
-            "tone": "good"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
