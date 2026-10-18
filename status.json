@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T05:13:02.923299+00:00",
+  "generated_at": "2026-10-18T05:14:13.601110+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -44,27 +44,27 @@
       "name": "merch",
       "full_name": "tsai97216/merch",
       "html_url": "https://github.com/tsai97216/merch",
-      "workflow": "Verify",
-      "status": "pending",
+      "workflow": "Deploy",
+      "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-18T05:12:52Z",
-      "created_at": "2026-10-18T05:12:51Z",
-      "event": "push",
+      "updated_at": "2026-10-18T05:14:02Z",
+      "created_at": "2026-10-18T05:13:59Z",
+      "event": "workflow_run",
       "commit_message": "chore: sync version 2.0.35",
       "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/39099776769",
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/39099844586",
       "business": {
         "kind": "deploy",
         "title": "周邊收藏網",
         "description": "商品網站部署與實際 HTTP 健康檢查",
         "icon": "▦",
-        "business_status": "unknown",
-        "business_label": "部署狀態未知",
+        "business_status": "running",
+        "business_label": "部署進行中",
         "metrics": [
           {
             "label": "部署結果",
-            "value": "pending",
+            "value": "in_progress",
             "tone": "normal"
           },
           {
@@ -86,8 +86,8 @@
         "details": [
           {
             "label": "最近部署",
-            "result": "部署狀態未知",
-            "time": "2026-10-18 13:12:52",
+            "result": "部署進行中",
+            "time": "2026-10-18 13:14:02",
             "tone": "normal"
           },
           {
@@ -114,8 +114,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-18T05:13:02.449901+00:00",
-      "created_at": "2026-10-18T05:13:02.449913+00:00",
+      "updated_at": "2026-10-18T05:14:13.050693+00:00",
+      "created_at": "2026-10-18T05:14:13.050700+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -141,7 +141,7 @@
           },
           {
             "label": "回應時間",
-            "value": "473 ms",
+            "value": "550 ms",
             "tone": "normal"
           }
         ],
@@ -164,8 +164,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-18T05:13:00.750739+00:00",
-      "created_at": "2026-10-18T05:13:00.750756+00:00",
+      "updated_at": "2026-10-18T05:14:10.959818+00:00",
+      "created_at": "2026-10-18T05:14:10.959827+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -198,19 +198,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 500 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 610 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 945 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 867 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 250 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 611 ms",
             "time": "",
             "tone": "good"
           }
@@ -226,13 +226,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-18T05:12:47Z",
-      "created_at": "2026-10-18T05:12:07Z",
+      "updated_at": "2026-10-18T05:13:25Z",
+      "created_at": "2026-10-18T05:12:22Z",
       "event": "push",
-      "commit_message": "fix: reject unsafe token lifetime values",
-      "duration_seconds": 40,
+      "commit_message": "fix: validate Chi Auth identity response",
+      "duration_seconds": 63,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39099736628",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39099750917",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -261,7 +261,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-18 13:12:47",
+            "time": "2026-10-18 13:13:25",
             "tone": "good"
           }
         ],
