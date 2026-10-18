@@ -48,7 +48,7 @@ jobs:
           from pathlib import Path
 
           html = Path("action/index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script(?:\\s[^>]*)?>(.*?)</script\\s*>", html, re.IGNORECASE | re.DOTALL)
+          scripts = re.findall(r"<script(?:\s[^>]*)?>(.*?)</script\s*>", html, re.IGNORECASE | re.DOTALL)
           if not scripts:
               raise SystemExit("No inline scripts found in action/index.html")
           for index, script in enumerate(scripts, start=1):
