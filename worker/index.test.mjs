@@ -120,6 +120,34 @@ test("fails closed when Chi Auth is unavailable without consuming dispatch quota
   }
 });
 
+test("verifies Chi Auth through the internal Service Binding when configured", async () => {
+  let authCalls = 0;
+  let capturedRequest;
+  const testEnv = {
+    ...env,
+    CHI_AUTH: {
+      async fetch(request) {
+        authCalls++;
+        capturedRequest = request;
+        return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
+          status: 200, headers: { "Content-Type": "application/json" },
+        });
+      },
+    },
+  };
+  const response = await runWorker(request(undefined, {
+    method: "GET",
+    url: "https://worker.example/?action=catalog",
+  }), testEnv);
+  const result = await jsonResponse(response);
+  assert.equal(response.status, 200);
+  assert.equal(result.body.ok, true);
+  assert.equal(authCalls, 1);
+  assert.match(capturedRequest.url, /^https:\/\/auth\.chi\.qzz\.io\/api\/userinfo\?client_id=/);
+  assert.equal(capturedRequest.headers.get("Authorization"), "Bearer test-access-token-1234567890123456789012345678");
+  assert.equal(capturedRequest.redirect, "error");
+});
+
 test("retries a transient Chi Auth network failure once", async () => {
   let authCalls = 0;
   const response = await runWorker(request(undefined, {
