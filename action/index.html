@@ -205,7 +205,13 @@ async function finishAuthCallback() {
       : "無法連線至 Chi Auth 完成授權碼交換，請檢查網路後重試。");
   }
   const tokenData = await response.json().catch(() => ({}));
-  if (!response.ok || !tokenData.access_token) throw new Error(tokenData.error || "無法完成 Chi Auth 授權碼交換。");
+  if (!response.ok || typeof tokenData.access_token !== "string" || !tokenData.access_token) {
+    throw new Error("Chi Auth 未能提供有效的存取權杖，請重新登入。");
+  }
+  const expiresIn = Number(tokenData.expires_in);
+  if (!Number.isFinite(expiresIn) || expiresIn <= 0) {
+    throw new Error("Chi Auth 回傳的權杖有效期限無效，請重新登入。");
+  }
   let identityResponse;
   try {
     identityResponse = await fetch(AUTH_URL + "/api/userinfo?client_id=" + encodeURIComponent(CLIENT_ID), {
@@ -222,7 +228,7 @@ async function finishAuthCallback() {
   const identity = await identityResponse.json();
   if (identity.sub !== "chi-owner" || identity.aud !== CLIENT_ID) throw new Error("Chi Auth 回傳的身分或應用識別不符。");
   accessToken = tokenData.access_token;
-  accessTokenExpiresAt = Date.now() + Number(tokenData.expires_in || 0) * 1000;
+  accessTokenExpiresAt = Date.now() + expiresIn * 1000;
   syncAuthUI(true);
   $("authLogin").hidden = true;
   $("authLogout").hidden = false;
