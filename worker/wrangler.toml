@@ -3,6 +3,12 @@ main = "index.js"
 compatibility_date = "2026-10-16"
 workers_dev = true
 
+# Call Chi Auth internally instead of routing a Worker-to-Worker request
+# through the public custom domain.
+[[services]]
+binding = "CHI_AUTH"
+service = "chi-auth"
+
 # Per-IP protection against repeated requests and credential guessing.
 [[ratelimits]]
 name = "IP_RATE_LIMITER"
