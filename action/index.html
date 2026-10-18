@@ -178,6 +178,7 @@ async function finishAuthCallback() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     cache: "no-store",
+    signal: AbortSignal.timeout(10000),
     body: JSON.stringify({
       client_id: CLIENT_ID,
       code,
