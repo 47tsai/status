@@ -77,9 +77,16 @@ export default {
         // its public custom domain can fail at the Cloudflare edge even when the origin
         // works in a browser. Keep the public fetch only for local development fallback.
         if (env.CHI_AUTH && typeof env.CHI_AUTH.fetch === "function") {
-          // Service bindings implement Fetcher.fetch(input, init); pass the URL and
-          // init separately so the runtime can construct a compatible internal request.
-          identityResponse = await env.CHI_AUTH.fetch(identityUrl, identityOptions);
+          try {
+            identityResponse = await env.CHI_AUTH.fetch(identityUrl, identityOptions);
+          } catch (bindingError) {
+            // A misconfigured or unavailable service binding should not prevent the
+            // public Chi Auth endpoint from serving as a temporary fallback.
+            console.warn("Chi Auth service binding failed; trying public endpoint", {
+              name: bindingError?.name || "unknown",
+            });
+            identityResponse = await fetch(identityUrl, identityOptions);
+          }
         } else {
           identityResponse = await fetch(identityUrl, identityOptions);
         }
@@ -94,7 +101,8 @@ export default {
         if (attempt < 2) continue;
         return json({
           ok: false,
-          error: "Chi Auth is temporarily unavailable. Please retry. (upstream connection: " + upstreamErrorName + ")",
+          error: "Chi Auth is temporarily unavailable. Please retry. (upstream connection: " + upstreamErrorName +
+            (upstreamErrorMessage ? ", detail: " + upstreamErrorMessage : "") + ")",
         }, 503);
       }
 
