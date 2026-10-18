@@ -205,7 +205,7 @@ async function finishAuthCallback() {
       : "無法連線至 Chi Auth 完成授權碼交換，請檢查網路後重試。");
   }
   const tokenData = await response.json().catch(() => ({}));
-  if (!response.ok || typeof tokenData.access_token !== "string" || !tokenData.access_token) {
+  if (!response.ok || !tokenData || typeof tokenData !== "object" || Array.isArray(tokenData) || typeof tokenData.access_token !== "string" || !tokenData.access_token.trim()) {
     throw new Error("Chi Auth 未能提供有效的存取權杖，請重新登入。");
   }
   const expiresIn = Number(tokenData.expires_in);
