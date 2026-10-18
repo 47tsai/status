@@ -83,7 +83,7 @@ export default {
         if (attempt < 2) continue;
         return json({
           ok: false,
-          error: "Chi Auth is temporarily unavailable. Please retry. (upstream connection: " + upstreamErrorName + (upstreamErrorMessage ? "; " + upstreamErrorMessage : "") + ")",
+          error: "Chi Auth is temporarily unavailable. Please retry. (upstream connection: " + upstreamErrorName + ")",
         }, 503);
       }
 
