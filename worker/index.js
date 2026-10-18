@@ -69,7 +69,7 @@ export default {
         identityResponse = await fetch(CHI_AUTH_USERINFO_URL + "?client_id=" + encodeURIComponent(CHI_AUTH_CLIENT_ID), {
           headers: { Authorization: "Bearer " + tokenMatch[1], Accept: "application/json" },
           cache: "no-store",
-          redirect: "error",
+          // Follow same-service canonical redirects; reject any final URL outside Chi Auth.
           signal: AbortSignal.timeout(5000),
         });
       } catch (error) {
@@ -82,6 +82,13 @@ export default {
           ok: false,
           error: "Chi Auth is temporarily unavailable. Please retry. (upstream connection: " + upstreamErrorName + ")",
         }, 503);
+      }
+
+      let finalAuthUrl;
+      try { finalAuthUrl = new URL(identityResponse.url); } catch {}
+      if (!finalAuthUrl || finalAuthUrl.origin !== "https://auth.chi.qzz.io" || finalAuthUrl.pathname !== "/api/userinfo") {
+        console.error("Chi Auth identity request reached an unexpected URL", { origin: finalAuthUrl?.origin || "unknown", path: finalAuthUrl?.pathname || "unknown" });
+        return json({ ok: false, error: "Chi Auth identity endpoint redirected unexpectedly. Please retry." }, 502);
       }
 
       if (identityResponse.status >= 500) {
