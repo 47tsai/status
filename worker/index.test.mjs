@@ -122,7 +122,10 @@ test("fails closed when Chi Auth is unavailable without consuming dispatch quota
 
 test("retries a transient Chi Auth network failure once", async () => {
   let authCalls = 0;
-  const response = await runWorker(request({}), env, {
+  const response = await runWorker(request(undefined, {
+    method: "GET",
+    url: "https://worker.example/?action=catalog",
+  }), env, {
     authHandler: async () => {
       authCalls++;
       if (authCalls === 1) throw new TypeError("transient network failure");
