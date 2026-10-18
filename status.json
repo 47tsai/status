@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T13:18:06.320294+00:00",
+  "generated_at": "2026-10-18T14:11:18.207333+00:00",
   "repository_count": 15,
   "repositories": [
     {
@@ -54,81 +54,14 @@
       }
     },
     {
-      "name": "nav",
-      "full_name": "tsai97216/nav",
-      "html_url": "https://github.com/tsai97216/nav",
-      "workflow": "pages build and deployment",
-      "status": "in_progress",
-      "branch": "main",
-      "updated_at": "2026-10-18T13:17:55Z",
-      "created_at": "2026-10-18T13:17:51Z",
-      "event": "dynamic",
-      "commit_message": "fix: use black-w favicon on Nav legacy redirect",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/39130922019",
-      "business": {
-        "kind": "deploy",
-        "title": "Chi 的工具箱",
-        "description": "導航網站部署與實際 HTTP 健康檢查",
-        "icon": "⌖",
-        "business_status": "running",
-        "business_label": "部署進行中",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "in_progress",
-            "tone": "normal"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近部署",
-            "result": "部署進行中",
-            "time": "2026-10-18 21:17:55",
-            "tone": "normal"
-          },
-          {
-            "label": "網站檢查",
-            "result": "https://nav.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi NAV · 個人導航",
-            "tone": "good"
-          }
-        ],
-        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
-        "evidence_url": "https://github.com/tsai97216/nav/actions"
-      }
-    },
-    {
       "name": "chi-auth-service",
       "full_name": "Chi Auth · Passkey／SSO 驗證服務",
       "html_url": "https://auth.chi.qzz.io/",
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-18T13:18:06.169789+00:00",
-      "created_at": "2026-10-18T13:18:06.169801+00:00",
+      "updated_at": "2026-10-18T14:11:17.890546+00:00",
+      "created_at": "2026-10-18T14:11:17.890559+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -154,7 +87,7 @@
           },
           {
             "label": "回應時間",
-            "value": "147 ms",
+            "value": "313 ms",
             "tone": "normal"
           }
         ],
@@ -177,8 +110,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-18T13:18:05.389897+00:00",
-      "created_at": "2026-10-18T13:18:05.389909+00:00",
+      "updated_at": "2026-10-18T14:11:16.723163+00:00",
+      "created_at": "2026-10-18T14:11:16.723174+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -204,7 +137,7 @@
           },
           {
             "label": "回應時間",
-            "value": "779 ms",
+            "value": "1167 ms",
             "tone": "normal"
           }
         ],
@@ -227,8 +160,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-18T13:18:02.945504+00:00",
-      "created_at": "2026-10-18T13:18:02.945520+00:00",
+      "updated_at": "2026-10-18T14:11:13.990529+00:00",
+      "created_at": "2026-10-18T14:11:13.990543+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -261,19 +194,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 743 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 663 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1165 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1324 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 532 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 743 ms",
             "time": "",
             "tone": "good"
           }
@@ -283,19 +216,75 @@
       }
     },
     {
+      "name": "free-game",
+      "full_name": "tsai97216/free-game",
+      "html_url": "https://github.com/tsai97216/free-game",
+      "workflow": "Free Game Notifier",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-18T14:07:16Z",
+      "created_at": "2026-10-18T14:07:05Z",
+      "event": "schedule",
+      "commit_message": "chore: update processed state",
+      "duration_seconds": 11,
+      "runs_url": "https://github.com/tsai97216/free-game/actions",
+      "run_url": "https://github.com/tsai97216/free-game/actions/runs/39134543323",
+      "business": {
+        "kind": "freegame",
+        "title": "限免遊戲通知",
+        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
+        "icon": "gamepad",
+        "business_status": "success",
+        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
+        "metrics": [
+          {
+            "label": "本輪新增遊戲",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "本輪處理文章",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "累積遊戲／文章",
+            "value": "8／6",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "本輪狀態紀錄",
+            "result": "沒有本輪狀態提交（可能無新項目）",
+            "time": "2026-10-16 02:30:16",
+            "tone": "normal"
+          },
+          {
+            "label": "去重狀態檔",
+            "result": "可讀取",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
+        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
+      }
+    },
+    {
       "name": "chi-design-system",
       "full_name": "tsai97216/chi-design-system",
       "html_url": "https://github.com/tsai97216/chi-design-system",
       "workflow": "Deploy GitHub Pages",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-18T13:17:33Z",
-      "created_at": "2026-10-18T13:17:12Z",
+      "updated_at": "2026-10-18T13:32:33Z",
+      "created_at": "2026-10-18T13:31:30Z",
       "event": "push",
-      "commit_message": "fix: style framework demo logo for light and dark themes",
-      "duration_seconds": 21,
+      "commit_message": "Clarify personal site icon-only logo rollout",
+      "duration_seconds": 63,
       "runs_url": "https://github.com/tsai97216/chi-design-system/actions",
-      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/39130875088",
+      "run_url": "https://github.com/tsai97216/chi-design-system/actions/runs/39131920062",
       "business": {
         "kind": "generic",
         "title": "chi-design-system",
@@ -327,13 +316,13 @@
       "workflow": "Deploy",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-18T13:17:25Z",
-      "created_at": "2026-10-18T13:17:17Z",
+      "updated_at": "2026-10-18T13:20:41Z",
+      "created_at": "2026-10-18T13:19:53Z",
       "event": "workflow_run",
-      "commit_message": "fix: replace Merch OAuth letter mark with theme-aware purple PNG logo",
-      "duration_seconds": 8,
+      "commit_message": "fix: preserve shared blue accent on Merch OAuth callback",
+      "duration_seconds": 48,
       "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/39130880845",
+      "run_url": "https://github.com/tsai97216/merch/actions/runs/39131065695",
       "business": {
         "kind": "deploy",
         "title": "周邊收藏網",
@@ -367,7 +356,7 @@
           {
             "label": "最近部署",
             "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-18 21:17:25",
+            "time": "2026-10-18 21:20:41",
             "tone": "good"
           },
           {
@@ -385,6 +374,123 @@
         ],
         "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
         "evidence_url": "https://github.com/tsai97216/merch/actions"
+      }
+    },
+    {
+      "name": "nav",
+      "full_name": "tsai97216/nav",
+      "html_url": "https://github.com/tsai97216/nav",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-18T13:19:37Z",
+      "created_at": "2026-10-18T13:17:58Z",
+      "event": "dynamic",
+      "commit_message": "chore: auto bump version [skip ci]",
+      "duration_seconds": 99,
+      "runs_url": "https://github.com/tsai97216/nav/actions",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/39130931442",
+      "business": {
+        "kind": "deploy",
+        "title": "Chi 的工具箱",
+        "description": "導航網站部署與實際 HTTP 健康檢查",
+        "icon": "⌖",
+        "business_status": "success",
+        "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近部署",
+            "result": "部署成功、HTTP 與基本頁面內容檢查通過",
+            "time": "2026-10-18 21:19:37",
+            "tone": "good"
+          },
+          {
+            "label": "網站檢查",
+            "result": "https://nav.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi NAV · 個人導航",
+            "tone": "good"
+          }
+        ],
+        "note": "結合 GitHub Actions 部署結果與即時 HTTP 健康檢查；HTTP 200 代表網站有回應，不保證站內每項功能皆正常。",
+        "evidence_url": "https://github.com/tsai97216/nav/actions"
+      }
+    },
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Update Actions status",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-18T13:18:28Z",
+      "created_at": "2026-10-18T13:17:46Z",
+      "event": "push",
+      "commit_message": "fix: use blue favicon on Status actions redirect",
+      "duration_seconds": 42,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39130916375",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "success",
+        "business_label": "資料更新成功",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "資料更新成功",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "資料更新成功",
+            "time": "2026-10-18 21:18:28",
+            "tone": "good"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
@@ -423,56 +529,6 @@
         "details": [],
         "note": "尚未配置專屬業務資料解析器。",
         "evidence_url": null
-      }
-    },
-    {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-18T13:07:04Z",
-      "created_at": "2026-10-18T13:06:18Z",
-      "event": "push",
-      "commit_message": "fix: add Status actions home-screen icon",
-      "duration_seconds": 46,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39130084323",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "資料更新成功",
-            "time": "2026-10-18 21:07:04",
-            "tone": "good"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
@@ -674,62 +730,6 @@
         ],
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
-      }
-    },
-    {
-      "name": "free-game",
-      "full_name": "tsai97216/free-game",
-      "html_url": "https://github.com/tsai97216/free-game",
-      "workflow": "Free Game Notifier",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-18T10:28:02Z",
-      "created_at": "2026-10-18T10:27:50Z",
-      "event": "schedule",
-      "commit_message": "chore: update processed state",
-      "duration_seconds": 12,
-      "runs_url": "https://github.com/tsai97216/free-game/actions",
-      "run_url": "https://github.com/tsai97216/free-game/actions/runs/39119346647",
-      "business": {
-        "kind": "freegame",
-        "title": "限免遊戲通知",
-        "description": "RSS 掃描、已處理遊戲與文章去重狀態",
-        "icon": "gamepad",
-        "business_status": "success",
-        "business_label": "掃描完成，本輪沒有新增遊戲通知紀錄",
-        "metrics": [
-          {
-            "label": "本輪新增遊戲",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "本輪處理文章",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "累積遊戲／文章",
-            "value": "8／6",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "本輪狀態紀錄",
-            "result": "沒有本輪狀態提交（可能無新項目）",
-            "time": "2026-10-16 02:30:16",
-            "tone": "normal"
-          },
-          {
-            "label": "去重狀態檔",
-            "result": "可讀取",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
-        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       }
     },
     {
