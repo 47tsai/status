@@ -216,11 +216,20 @@ async function api(path, options={}) {
     if (authState) authState.textContent = "未登入";
     throw new Error("登入已失效，請重新使用 Chi Auth 登入。");
   }
-  const response = await fetch(API_URL + path, {
-    ...options,
-    headers: { Authorization: "Bearer " + accessToken, ...(options.headers || {}) },
-    cache: "no-store"
-  });
+  let response;
+  try {
+    response = await fetch(API_URL + path, {
+      ...options,
+      headers: { Authorization: "Bearer " + accessToken, ...(options.headers || {}) },
+      cache: "no-store",
+      signal: AbortSignal.timeout(15000)
+    });
+  } catch (error) {
+    if (options.method === "POST") {
+      throw new Error("status is unknown: the browser could not confirm whether GitHub accepted the trigger request. Check the workflow run history before retrying.");
+    }
+    throw new Error(error?.name === "TimeoutError" ? "請求逾時，請稍後重新載入。" : "無法連線至觸發服務，請檢查網路後重試。");
+  }
   let data = {};
   try { data = await response.json(); } catch {}
   if (response.status === 401) {
