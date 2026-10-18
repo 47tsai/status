@@ -209,7 +209,8 @@ async function finishAuthCallback() {
     throw new Error("Chi Auth 未能提供有效的存取權杖，請重新登入。");
   }
   const expiresIn = Number(tokenData.expires_in);
-  if (!Number.isFinite(expiresIn) || expiresIn <= 0) {
+  const maxSafeLifetime = Math.floor((8.64e15 - Date.now()) / 1000);
+  if (!Number.isSafeInteger(expiresIn) || expiresIn <= 0 || expiresIn > maxSafeLifetime) {
     throw new Error("Chi Auth 回傳的權杖有效期限無效，請重新登入。");
   }
   let identityResponse;
