@@ -148,6 +148,43 @@ test("verifies Chi Auth through the internal Service Binding when configured", a
   assert.equal(capturedRequest.options.redirect, "error");
 });
 
+test("uses a fresh timeout signal for the public fallback after Service Binding failure", async () => {
+  let bindingCalls = 0;
+  let publicCalls = 0;
+  let bindingSignal;
+  let publicSignal;
+  const testEnv = {
+    ...env,
+    CHI_AUTH: {
+      async fetch(input, options) {
+        bindingCalls++;
+        bindingSignal = options.signal;
+        throw new TypeError("simulated Service Binding failure");
+      },
+    },
+  };
+  const response = await runWorker(request(undefined, {
+    method: "GET",
+    url: "https://worker.example/?action=catalog",
+  }), testEnv, {
+    authHandler: async (_url, options) => {
+      publicCalls++;
+      publicSignal = options.signal;
+      return new Response(JSON.stringify({ sub: "chi-owner", aud: clientId }), {
+        status: 200, headers: { "Content-Type": "application/json" },
+      });
+    },
+  });
+  const result = await jsonResponse(response);
+  assert.equal(response.status, 200);
+  assert.equal(result.body.ok, true);
+  assert.equal(bindingCalls, 1);
+  assert.equal(publicCalls, 1);
+  assert.ok(bindingSignal instanceof AbortSignal);
+  assert.ok(publicSignal instanceof AbortSignal);
+  assert.notEqual(bindingSignal, publicSignal);
+});
+
 test("retries a transient Chi Auth network failure once", async () => {
   let authCalls = 0;
   const response = await runWorker(request(undefined, {
