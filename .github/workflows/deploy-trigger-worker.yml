@@ -71,8 +71,17 @@ jobs:
       - name: Smoke test live Chi Auth upstream connection
         run: |
           set -euo pipefail
-          # A syntactically valid but nonexistent token must reach Chi Auth and be rejected as 401.
-          # HTTP 503 / TypeError means the live Worker-to-Worker identity request is still broken.
+          # First check the public identity endpoint from the runner, then check it through the Status Worker.
+          # A syntactically valid but nonexistent token must be rejected as 401 in both cases.
+          direct_status="$(curl --silent --show-error --max-time 20 --output /tmp/chi-auth-direct.json --write-out '%{http_code}' --header 'Origin: https://status.chi.qzz.io' --header 'Authorization: Bearer 0000000000000000000000000000000000000000000000000000000000000000' 'https://auth.chi.qzz.io/api/userinfo?client_id=DZT0NzjdlmwxReZ47kOVdNVV42YOtCV1')"
+          if [ "$direct_status" != "401" ]; then
+            echo "::error::Direct Chi Auth userinfo probe expected HTTP 401; received HTTP $direct_status."
+            cat /tmp/chi-auth-direct.json
+            exit 1
+          fi
+          echo "Direct Chi Auth userinfo endpoint is reachable and correctly rejects an invalid token."
+
+          # HTTP 503 / TypeError here, after the direct probe passes, isolates the failure to the Status Worker request path.
           status="$(curl --silent --show-error --max-time 20 --output /tmp/chi-auth-smoke.json --write-out '%{http_code}' --header 'Origin: https://status.chi.qzz.io' --header 'Authorization: Bearer 0000000000000000000000000000000000000000000000000000000000000000' 'https://chi-status-trigger.tsai97216.workers.dev/?action=catalog')"
           if [ "$status" != "401" ]; then
             echo "::error::Expected HTTP 401 from Chi Auth for the invalid smoke-test token; received HTTP $status."
