@@ -226,8 +226,16 @@ async function finishAuthCallback() {
       : "無法連線至 Chi Auth 確認身分，請檢查網路後重新登入。");
   }
   if (!identityResponse.ok) throw new Error("Chi Auth 身分確認失敗，請重新登入。");
-  const identity = await identityResponse.json();
-  if (identity.sub !== "chi-owner" || identity.aud !== CLIENT_ID) throw new Error("Chi Auth 回傳的身分或應用識別不符。");
+  let identity;
+  try {
+    identity = await identityResponse.json();
+  } catch {
+    throw new Error("Chi Auth 回傳的身分資料格式無效，請重新登入。");
+  }
+  if (!identity || typeof identity !== "object" || Array.isArray(identity) ||
+      identity.sub !== "chi-owner" || identity.aud !== CLIENT_ID) {
+    throw new Error("Chi Auth 回傳的身分或應用識別不符。");
+  }
   accessToken = tokenData.access_token;
   accessTokenExpiresAt = Date.now() + expiresIn * 1000;
   syncAuthUI(true);
