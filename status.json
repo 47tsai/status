@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T13:30:53.619530+00:00",
+  "generated_at": "2026-10-19T13:40:43.133352+00:00",
   "repository_count": 13,
   "repositories": [
     {
@@ -52,75 +52,8 @@
         "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
         "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 7953,
+      "schedule_age_seconds": 8542,
       "schedule_max_age_seconds": 36000
-    },
-    {
-      "name": "nav",
-      "full_name": "tsai97216/nav",
-      "html_url": "https://github.com/tsai97216/nav",
-      "workflow": "pages build and deployment",
-      "status": "in_progress",
-      "branch": "main",
-      "updated_at": "2026-10-19T13:30:39Z",
-      "created_at": "2026-10-19T13:30:19Z",
-      "event": "dynamic",
-      "commit_message": "chore: auto bump version [skip ci]",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/39260721816",
-      "business": {
-        "kind": "deploy",
-        "title": "Chi 的工具箱",
-        "description": "導航網站部署與實際 HTTP 健康檢查",
-        "icon": "⌖",
-        "business_status": "running",
-        "business_label": "部署進行中",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "in_progress",
-            "tone": "normal"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近一次部署",
-            "result": "部署進行中",
-            "time": "2026-10-19 21:30:39",
-            "tone": "normal"
-          },
-          {
-            "label": "網站可用性檢查",
-            "result": "https://nav.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi NAV · 個人導航",
-            "tone": "good"
-          }
-        ],
-        "note": "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。",
-        "evidence_url": "https://github.com/tsai97216/nav/actions"
-      }
     },
     {
       "name": "chi-auth-service",
@@ -129,8 +62,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-19T13:30:53.356421+00:00",
-      "created_at": "2026-10-19T13:30:53.356435+00:00",
+      "updated_at": "2026-10-19T13:40:42.862271+00:00",
+      "created_at": "2026-10-19T13:40:42.862285+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -156,7 +89,7 @@
           },
           {
             "label": "回應時間",
-            "value": "259 ms",
+            "value": "269 ms",
             "tone": "normal"
           }
         ],
@@ -179,8 +112,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-19T13:30:52.752716+00:00",
-      "created_at": "2026-10-19T13:30:52.752729+00:00",
+      "updated_at": "2026-10-19T13:40:42.149545+00:00",
+      "created_at": "2026-10-19T13:40:42.149557+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -206,7 +139,7 @@
           },
           {
             "label": "回應時間",
-            "value": "603 ms",
+            "value": "712 ms",
             "tone": "normal"
           }
         ],
@@ -229,8 +162,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-19T13:30:50.360167+00:00",
-      "created_at": "2026-10-19T13:30:50.360184+00:00",
+      "updated_at": "2026-10-19T13:40:39.314668+00:00",
+      "created_at": "2026-10-19T13:40:39.314685+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
       "duration_seconds": null,
@@ -263,19 +196,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 671 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 723 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1121 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1302 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 598 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 807 ms",
             "time": "",
             "tone": "good"
           }
@@ -285,19 +218,86 @@
       }
     },
     {
+      "name": "nav",
+      "full_name": "tsai97216/nav",
+      "html_url": "https://github.com/tsai97216/nav",
+      "workflow": "pages build and deployment",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-19T13:32:21Z",
+      "created_at": "2026-10-19T13:30:19Z",
+      "event": "dynamic",
+      "commit_message": "chore: auto bump version [skip ci]",
+      "duration_seconds": 122,
+      "runs_url": "https://github.com/tsai97216/nav/actions",
+      "run_url": "https://github.com/tsai97216/nav/actions/runs/39260721816",
+      "business": {
+        "kind": "deploy",
+        "title": "Chi 的工具箱",
+        "description": "導航網站部署與實際 HTTP 健康檢查",
+        "icon": "⌖",
+        "business_status": "success",
+        "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近一次部署",
+            "result": "部署成功、HTTP 與基本頁面內容檢查通過",
+            "time": "2026-10-19 21:32:21",
+            "tone": "good"
+          },
+          {
+            "label": "網站可用性檢查",
+            "result": "https://nav.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi NAV · 個人導航",
+            "tone": "good"
+          }
+        ],
+        "note": "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。",
+        "evidence_url": "https://github.com/tsai97216/nav/actions"
+      }
+    },
+    {
       "name": "status",
       "full_name": "tsai97216/status",
       "html_url": "https://github.com/tsai97216/status",
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-19T13:21:01Z",
-      "created_at": "2026-10-19T13:20:22Z",
+      "updated_at": "2026-10-19T13:31:57Z",
+      "created_at": "2026-10-19T13:30:31Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 39,
+      "duration_seconds": 86,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39259294975",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39260752261",
       "business": {
         "kind": "dashboard",
         "title": "Chi Status 監控儀表板",
@@ -326,14 +326,14 @@
           {
             "label": "最近更新工作流程",
             "result": "資料更新成功",
-            "time": "2026-10-19 21:21:01",
+            "time": "2026-10-19 21:31:57",
             "tone": "good"
           }
         ],
         "note": "此專案負責收集各公開儲存庫的工作流程與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/tsai97216/status/actions"
       },
-      "schedule_age_seconds": 620,
+      "schedule_age_seconds": 598,
       "schedule_max_age_seconds": 1500
     },
     {
@@ -408,7 +408,7 @@
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 1790,
+      "schedule_age_seconds": 2379,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -477,7 +477,7 @@
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
         "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 1786,
+      "schedule_age_seconds": 2375,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -535,7 +535,7 @@
         "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
         "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       },
-      "schedule_age_seconds": 8733,
+      "schedule_age_seconds": 9322,
       "schedule_max_age_seconds": 28800
     },
     {
@@ -582,7 +582,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/tsai97216/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 8814,
+      "schedule_age_seconds": 9402,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -629,7 +629,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/tsai97216/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 8835,
+      "schedule_age_seconds": 9424,
       "schedule_max_age_seconds": 57600
     },
     {
