@@ -23,14 +23,14 @@ if TOKEN:
 
 # The presentation profile is deliberately separate from GitHub's generic run status.
 PROFILES = {
-    "status": {"kind": "dashboard", "title": "監控服務", "description": "儀表板資料更新與部署狀態", "icon": "◈"},
+    "status": {"kind": "dashboard", "title": "Chi Status 監控儀表板", "description": "儀表板資料更新與部署狀態", "icon": "◈"},
     "vps-01": {"kind": "vps", "title": "VPS-01 · Oracle Cloud", "description": "透過公開服務端點檢查 VPS 對外服務可用性", "icon": "▣"},
     "sc-auto-claim": {"kind": "claim", "title": "荒野亂鬥自動領取", "description": "兩個帳號的實際領取結果與最近成功時間", "icon": "gamepad"},
     "free-game": {"kind": "freegame", "title": "限免遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "gamepad"},
     "apktwsign": {"kind": "checkin", "title": "APK.TW 自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
     "bahasign": {"kind": "checkin", "title": "巴哈姆特自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
-    "chi-source": {"kind": "source", "title": "Chi Source", "description": "AltStore 來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipa.chi.qzz.io/"},
-    "chi-source-personal": {"kind": "source", "title": "Chi Source Personal", "description": "個人來源更新、App 版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipap.chi.qzz.io/"},
+    "chi-source": {"kind": "source", "title": "Chi Source", "description": "AltStore 來源更新、應用程式版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipa.chi.qzz.io/"},
+    "chi-source-personal": {"kind": "source", "title": "Chi Source Personal", "description": "個人來源更新、應用程式版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipap.chi.qzz.io/"},
     "h": {"kind": "deploy", "title": "H", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "▣", "health_url": "https://h.chi.qzz.io/"},
     "nav": {"kind": "deploy", "title": "Chi 的工具箱", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
     "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
@@ -137,7 +137,7 @@ def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, sour
         return {
             "business_status": "unknown",
             "business_label": "來源紀錄讀取失敗，無法確認簽到結果",
-            "displayed_result": "監控端無法讀取來源檔，請檢查來源 Repo 或連線",
+            "displayed_result": "監控端無法讀取來源檔，請檢查來源儲存庫或連線",
             "tone": "normal",
         }
 
@@ -466,7 +466,7 @@ def business_data(repo_name, run):
         result["business_label"] = "儀表板正在更新" if result["business_status"] == "running" else "資料更新成功" if result["business_status"] == "success" else "資料更新失敗" if result["business_status"] == "failure" else "等待資料更新"
         result["metrics"] = [metric("監控範圍", "公開儲存庫"), metric("更新頻率", "每 10 分鐘自動更新"), metric("資料更新狀態", result["business_label"], "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal")]
         result["details"] = [{"label": "最近更新工作流程", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal"}]
-        result["note"] = "此專案負責收集各 Repo 的 Workflow 與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。"
+        result["note"] = "此專案負責收集各公開儲存庫的工作流程與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     elif kind == "vps":
         # VPS-01 is considered operational when at least two of its three
@@ -576,7 +576,7 @@ def business_data(repo_name, run):
                              metric("頁面內容", "通過" if health and health.get("ok") is True else "異常" if health and health.get("ok") is False else "未確認", "good" if health and health.get("ok") is True else "bad" if health and health.get("ok") is False else "normal")]
         result["details"] = [{"label": "自動檢查", "result": auto_match.group(1).strip() if auto_match else "README 未提供紀錄", "time": "", "tone": "normal"},
                              {"label": "內容更新", "result": content_match.group(1).strip() if content_match else "README 未提供紀錄", "time": "", "tone": "normal"},
-                             {"label": "版本狀態", "result": f"{len(updated_names)} 個 App 更新、{unchanged_count} 個未變更", "time": "", "tone": "good" if updated_names else "normal"}]
+                             {"label": "版本狀態", "result": f"{len(updated_names)} 個應用程式更新、{unchanged_count} 個未變更", "time": "", "tone": "good" if updated_names else "normal"}]
         if updated_names:
             result["details"].append({"label": "已更新的應用程式", "result": "、".join(updated_names[:8]), "time": "", "tone": "good"})
         result["note"] = "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。"
@@ -614,12 +614,12 @@ def business_data(repo_name, run):
         if health:
             result["details"].append({"label": "網站可用性檢查", "result": f"{health['url']} · HTTP {health['status']}", "time": "", "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"})
             result["details"].append({"label": "頁面內容", "result": health.get("content_reason") or "未取得內容判讀", "time": health.get("title") or "", "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"})
-        result["note"] = "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。" if profile.get("health_url") else "目前僅依 GitHub Actions 判定部署流程；此舊版或文件型 Repo 尚未設定可驗證的正式網址。"
+        result["note"] = "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。" if profile.get("health_url") else "目前僅依 GitHub Actions 判定部署流程；此儲存庫尚未設定可驗證的正式網址。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     else:
         status = normalize_run_status(run)
         result["business_status"] = status
-        result["business_label"] = "最近 Workflow：" + str(status or "尚無紀錄")
+        result["business_label"] = "最近工作流程：" + str(status or "尚無紀錄")
         result["metrics"] = [metric("Workflow", (run or {}).get("name") or "尚無紀錄"),
                              metric("分支", (run or {}).get("head_branch") or "－")]
         result["details"] = []
@@ -726,7 +726,7 @@ def main():
                     # the latest completed success or failure.
                     runs = completed_runs
             if not runs:
-                fallback = stale_fallback(repo, previous_by_name.get(repo["name"]), "此 Repo 尚無 Workflow 執行紀錄")
+                fallback = stale_fallback(repo, previous_by_name.get(repo["name"]), "此儲存庫尚無工作流程執行紀錄")
                 if fallback:
                     results.append(fallback)
                 continue
