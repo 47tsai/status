@@ -330,7 +330,7 @@ def normalize_run_status(run):
 
 def classify_claim_state(state, now=None, reset_hour=16):
     """Classify one Brawl Stars claim record without trusting stale or malformed state."""
-    unknown = {"result": "本次執行尚未確認", "tone": "normal"}
+    unknown = {"result": "本輪尚未確認", "tone": "normal"}
     if not isinstance(state, dict):
         return {**unknown, "time": "尚無紀錄"}
 
