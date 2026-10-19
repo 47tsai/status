@@ -342,11 +342,11 @@ class DiscordBatchDeliveryTests(unittest.TestCase):
                 for index in range(12)
             ]
             status_path.write_text(json.dumps({"repositories": repositories}), encoding="utf-8")
-            state_path.write_text('{"active_failures": {}}\\n', encoding="utf-8")
+            state_path.write_text('{"active_failures": {}}\n', encoding="utf-8")
 
-            with patch.object(notify_discord, "STATUS_PATH", status_path), \\
-                 patch.object(notify_discord, "STATE_PATH", state_path), \\
-                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \\
+            with patch.object(notify_discord, "STATUS_PATH", status_path), \
+                 patch.object(notify_discord, "STATE_PATH", state_path), \
+                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \
                  patch.object(
                      notify_discord, "post_discord",
                      side_effect=[{"http_status": 200, "id": "accepted-first-batch"},
@@ -359,9 +359,9 @@ class DiscordBatchDeliveryTests(unittest.TestCase):
             self.assertIn("demo-0", saved["active_failures"])
             self.assertNotIn("demo-10", saved["active_failures"])
 
-            with patch.object(notify_discord, "STATUS_PATH", status_path), \\
-                 patch.object(notify_discord, "STATE_PATH", state_path), \\
-                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \\
+            with patch.object(notify_discord, "STATUS_PATH", status_path), \
+                 patch.object(notify_discord, "STATE_PATH", state_path), \
+                 patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.example/webhook"}), \
                  patch.object(notify_discord, "post_discord", return_value={"http_status": 200}) as retry:
                 self.assertEqual(notify_discord.main(), 0)
 
