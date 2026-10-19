@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T11:41:02.887270+00:00",
+  "generated_at": "2026-10-19T11:42:26.660445+00:00",
   "repository_count": 15,
   "repositories": [
     {
@@ -52,60 +52,8 @@
         "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
         "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 1361,
+      "schedule_age_seconds": 1442,
       "schedule_max_age_seconds": 36000
-    },
-    {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
-      "status": "cancelled",
-      "branch": "main",
-      "updated_at": "2026-10-19T11:40:33Z",
-      "created_at": "2026-10-19T11:40:20Z",
-      "event": "workflow_dispatch",
-      "commit_message": "fix: format schedule freshness notes",
-      "duration_seconds": 13,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39246317891",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "unknown",
-        "business_label": "等待資料更新",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "等待資料更新",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "等待資料更新",
-            "time": "2026-10-19 19:40:33",
-            "tone": "normal"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
-      },
-      "schedule_age_seconds": 33,
-      "schedule_max_age_seconds": 1500
     },
     {
       "name": "chi-auth-service",
@@ -114,8 +62,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-19T11:41:02.782192+00:00",
-      "created_at": "2026-10-19T11:41:02.782204+00:00",
+      "updated_at": "2026-10-19T11:42:26.406708+00:00",
+      "created_at": "2026-10-19T11:42:26.406720+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -141,7 +89,7 @@
           },
           {
             "label": "回應時間",
-            "value": "102 ms",
+            "value": "250 ms",
             "tone": "normal"
           }
         ],
@@ -164,8 +112,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-19T11:41:02.092476+00:00",
-      "created_at": "2026-10-19T11:41:02.092487+00:00",
+      "updated_at": "2026-10-19T11:42:25.704415+00:00",
+      "created_at": "2026-10-19T11:42:25.704429+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -191,7 +139,7 @@
           },
           {
             "label": "回應時間",
-            "value": "689 ms",
+            "value": "702 ms",
             "tone": "normal"
           }
         ],
@@ -214,8 +162,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-19T11:40:59.993083+00:00",
-      "created_at": "2026-10-19T11:40:59.993096+00:00",
+      "updated_at": "2026-10-19T11:42:23.497322+00:00",
+      "created_at": "2026-10-19T11:42:23.497337+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -248,19 +196,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 611 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 569 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1223 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1082 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 262 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 552 ms",
             "time": "",
             "tone": "good"
           }
@@ -268,6 +216,58 @@
         "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
         "evidence_url": null
       }
+    },
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Update Actions status",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-19T11:41:23Z",
+      "created_at": "2026-10-19T11:40:32Z",
+      "event": "push",
+      "commit_message": "test: cover scheduled workflow freshness alerts",
+      "duration_seconds": 51,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39246341989",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "success",
+        "business_label": "資料更新成功",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "資料更新成功",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "資料更新成功",
+            "time": "2026-10-19 19:41:23",
+            "tone": "good"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
+      },
+      "schedule_age_seconds": 102,
+      "schedule_max_age_seconds": 1500
     },
     {
       "name": "free-game",
@@ -324,7 +324,7 @@
         "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
         "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       },
-      "schedule_age_seconds": 2141,
+      "schedule_age_seconds": 2222,
       "schedule_max_age_seconds": 28800
     },
     {
@@ -393,7 +393,7 @@
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 2247,
+      "schedule_age_seconds": 2329,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -468,7 +468,7 @@
         "note": "App 更新數來自來源 Repo 的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個 App 都可安裝成功。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 2250,
+      "schedule_age_seconds": 2333,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -515,7 +515,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/tsai97216/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 2221,
+      "schedule_age_seconds": 2303,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -562,7 +562,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/tsai97216/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 2243,
+      "schedule_age_seconds": 2325,
       "schedule_max_age_seconds": 57600
     },
     {
