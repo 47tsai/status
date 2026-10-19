@@ -715,8 +715,15 @@ def main():
             if repo["name"] == "status":
                 # The collector sees its own current run as in_progress. Use the latest
                 # completed run for its card so the published snapshot does not stay running.
-                completed_runs = [candidate for candidate in runs if candidate.get("status") == "completed"]
+                completed_runs = [
+                    candidate for candidate in runs
+                    if candidate.get("status") == "completed"
+                    and candidate.get("conclusion") not in ("cancelled", "skipped")
+                ]
                 if completed_runs:
+                    # Cancelled maintenance/push runs are not meaningful health results.
+                    # Keep real failures visible, but avoid letting a cancelled run mask
+                    # the latest completed success or failure.
                     runs = completed_runs
             if not runs:
                 fallback = stale_fallback(repo, previous_by_name.get(repo["name"]), "此 Repo 尚無 Workflow 執行紀錄")
