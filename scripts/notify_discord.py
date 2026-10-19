@@ -202,10 +202,11 @@ def main():
         STATE_PATH.write_text(json.dumps({"active_failures": next_active}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return 0
 
-    # Discord permits at most 10 embeds per message. Deliver every event in batches
-    # and only advance deduplication state after every batch succeeds.
+    # Discord permits at most 10 embeds per message. Persist each accepted batch
+    # immediately so a later batch failure does not resend already delivered events.
     events = [("failure", item) for item in new_failures] + [("recovered", item) for item in recovered]
     deliveries = []
+    checkpoint_active = dict(previous)
     try:
         for offset in range(0, len(events), 10):
             batch = events[offset:offset + 10]
@@ -213,12 +214,28 @@ def main():
             batch_recovered = [item for kind, item in batch if kind == "recovered"]
             delivery = post_discord(webhook_url, build_message(batch_failures, batch_recovered))
             deliveries.append(delivery if isinstance(delivery, dict) else {})
+
+            # Commit only transitions confirmed by this accepted batch. Events in
+            # later batches remain pending and will be retried on the next run.
+            for kind, item in batch:
+                name = item.get("name")
+                if not name:
+                    continue
+                if kind == "failure":
+                    checkpoint_active[name] = item
+                else:
+                    checkpoint_active.pop(name, None)
+            STATE_PATH.write_text(
+                json.dumps({"active_failures": checkpoint_active}, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
     except Exception as exc:
-        # Do not advance the state on delivery failure. Earlier batches may be resent
-        # on the next run, preferring a possible duplicate over silently lost alerts.
-        print(f"Discord 通知傳送失敗，保留告警狀態供下次重試：{type(exc).__name__}: {exc}", file=sys.stderr)
+        # A later batch may fail after earlier batches were accepted. Keep those
+        # checkpoints, retrying only the events that remain pending.
+        print(f"Discord 通知傳送失敗，保留未完成事件供下次重試：{type(exc).__name__}: {exc}", file=sys.stderr)
         return 1
 
+    # Refresh persisted incident details after all transitions have been delivered.
     STATE_PATH.write_text(json.dumps({"active_failures": next_active}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     for index, delivery in enumerate(deliveries, start=1):
         print(
