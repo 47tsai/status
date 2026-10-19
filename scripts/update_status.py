@@ -618,12 +618,18 @@ def business_data(repo_name, run):
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     else:
         status = normalize_run_status(run)
-        result["business_status"] = status
-        result["business_label"] = "最近工作流程：" + str(status or "尚無紀錄")
-        result["metrics"] = [metric("Workflow", (run or {}).get("name") or "尚無紀錄"),
+        status_labels = {
+            "success": "成功", "failure": "失敗", "cancelled": "已取消",
+            "in_progress": "執行中", "queued": "排隊中", "requested": "等待中",
+            "waiting": "等待中", "timed_out": "逾時", "action_required": "需要處理",
+            "skipped": "已略過", "startup_failure": "啟動失敗", "unknown": "狀態未知",
+        }
+        result["business_status"] = "unknown"
+        result["business_label"] = "尚未設定業務狀態判讀"
+        result["metrics"] = [metric("工作流程", status_labels.get(status, status or "尚無紀錄")),
                              metric("分支", (run or {}).get("head_branch") or "－")]
         result["details"] = []
-        result["note"] = "尚未設定專屬的業務資料解析規則。"
+        result["note"] = "目前只顯示工作流程執行結果，尚未設定專屬的業務資料判讀規則；工作流程成功不代表專案業務已確認正常。"
     return result
 
 def apply_schedule_freshness(item, now=None):
