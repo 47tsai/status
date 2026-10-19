@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f6f8fc">
-<meta name="description" content="Chi Status 狀態總覽，查看工作流程執行結果、服務可用性與專案業務狀態。">
+<meta name="description" content="Chi Status 狀態總覽，查看工作流程執行結果、服務與網站可用性，以及專案業務狀態。">
 <title>Chi Status · 狀態總覽</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/tsai97216/chi-design-system/main/logo/blue-w.png">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tsai97216/chi-design-system/main/logo/blue-w.png">
@@ -32,12 +32,12 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <nav class="nav" id="nav" aria-label="主要導覽"><a href="#overview" aria-current="page">狀態總覽</a><a href="/action/">Actions 控制台</a><a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
 <div class="tools"><button class="button" id="theme" type="button" aria-label="切換色彩模式"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span class="label">外觀</span></button><button class="button menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="開啟導覽選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
 </div></header>
-<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> STATUS OVERVIEW</p><h1>狀態總覽</h1><p class="intro">查看工作流程執行結果、網站可用性與專案業務狀態。</p><p class="updated" id="updated" aria-live="polite">正在讀取最新狀態…</p></div><div class="heading-actions"><button class="button primary" id="refresh" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 17.3 6.7L20 12M4 12l2.7 5.3A7 7 0 0 0 18.4 15"/></svg><span id="refresh-label">重新整理</span></button><a class="button" href="/action/">前往 Actions 控制台</a></div></div></div></section>
+<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> STATUS OVERVIEW</p><h1>狀態總覽</h1><p class="intro">查看工作流程執行結果、服務與網站可用性，以及專案業務狀態。</p><p class="updated" id="updated" aria-live="polite">正在讀取最新狀態…</p></div><div class="heading-actions"><button class="button primary" id="refresh" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 17.3 6.7L20 12M4 12l2.7 5.3A7 7 0 0 0 18.4 15"/></svg><span id="refresh-label">重新整理</span></button><a class="button" href="/action/">前往 Actions 控制台</a></div></div></div></section>
 <main id="main"><div id="overview" class="container">
 <section class="stats" aria-label="狀態摘要">
 <div class="stat"><span class="stat-label">監控項目</span><strong class="stat-value" id="total">－</strong><span class="stat-note">公開專案與服務</span></div>
 <div class="stat"><span class="stat-label">業務正常</span><strong class="stat-value" id="bizok">－</strong><span class="stat-note">業務狀態正常</span></div>
-<div class="stat"><span class="stat-label">需要留意</span><strong class="stat-value" id="attention">－</strong><span class="stat-note">工作流程或業務異常</span></div>
+<div class="stat"><span class="stat-label">需要留意</span><strong class="stat-value" id="attention">－</strong><span class="stat-note">工作流程、業務異常或監控警告</span></div>
 <div class="stat"><span class="stat-label">執行中</span><strong class="stat-value" id="running">－</strong><span class="stat-note">排隊中或執行中的工作流程</span></div>
 </section>
 <section class="section" aria-labelledby="projects-heading"><div class="section-head"><div><h2 id="projects-heading">監控項目</h2><p>每 10 分鐘自動更新一次狀態資料。</p></div><span class="result-count" id="result-count">載入中</span></div>
