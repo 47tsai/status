@@ -40,6 +40,18 @@ PROFILES = {
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 TAIPEI_TZ = ZoneInfo("Asia/Taipei")
 
+# Repositories triggered by cron-job.org must fail visibly if dispatches stop.
+# Thresholds include generous room for delayed queues and occasional slow runs.
+SCHEDULED_RUN_MAX_AGE = {
+    "status": 25 * 60,
+    "chi-source": 150 * 60,
+    "chi-source-personal": 150 * 60,
+    "sc-auto-claim": 10 * 60 * 60,
+    "free-game": 8 * 60 * 60,
+    "apktwsign": 16 * 60 * 60,
+    "bahasign": 16 * 60 * 60,
+}
+
 
 def reset_cycle_date(value, reset_hour):
     """Return the service cycle date for a datetime, using Taiwan local time.
@@ -614,6 +626,52 @@ def business_data(repo_name, run):
         result["note"] = "尚未配置專屬業務資料解析器。"
     return result
 
+def apply_schedule_freshness(item, now=None):
+    """Mark scheduled repositories unhealthy when no recent dispatch/run is visible."""
+    max_age = SCHEDULED_RUN_MAX_AGE.get(item.get("name"))
+    if max_age is None:
+        return item
+
+    stamp = item.get("created_at")
+    try:
+        started = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+        if started.tzinfo is None:
+            started = started.replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        item["status"] = "unknown"
+        item["monitor_warning"] = "排程執行時間缺失或格式無效"
+        business = item.get("business") or {}
+        business["business_status"] = "unknown"
+        business["business_label"] = "無法確認排程是否準時執行"
+        business["note"] = (business.get("note", "") + "\\n監控端無法解析最近一次 Workflow 的開始時間，因此無法確認排程新鮮度。").strip()
+        item["business"] = business
+        return item
+
+    now_utc = now or datetime.now(timezone.utc)
+    if now_utc.tzinfo is None:
+        now_utc = now_utc.replace(tzinfo=timezone.utc)
+    age_seconds = max(0, int((now_utc.astimezone(timezone.utc) - started.astimezone(timezone.utc)).total_seconds()))
+    item["schedule_age_seconds"] = age_seconds
+    item["schedule_max_age_seconds"] = max_age
+    if age_seconds <= max_age:
+        return item
+
+    age_hours = age_seconds / 3600
+    limit_hours = max_age / 3600
+    age_label = f"{age_hours:.1f} 小時" if age_hours >= 1 else f"{age_seconds // 60} 分鐘"
+    limit_label = f"{limit_hours:g} 小時" if limit_hours >= 1 else f"{max_age // 60} 分鐘"
+    item["status"] = "failure"
+    item["monitor_warning"] = f"最近一次排程執行距今 {age_label}，超過 {limit_label} 門檻"
+    business = item.get("business") or {}
+    business["business_status"] = "failure"
+    business["business_label"] = "排程執行逾期，可能未收到新的觸發"
+    business["note"] = (business.get("note", "") + f"\\n排程新鮮度監控：{item['monitor_warning']}。").strip()
+    business["metrics"] = list(business.get("metrics") or [])
+    business["metrics"].append(metric("排程新鮮度", age_label, "bad"))
+    item["business"] = business
+    return item
+
+
 def stale_fallback(repo, previous_item, error):
     """Keep a card visible when one repository's status API call temporarily fails."""
     if not previous_item:
@@ -684,6 +742,7 @@ def main():
                 "run_url": run.get("html_url"),
             }
             item["business"] = business_data(repo["name"], item)
+            item = apply_schedule_freshness(item)
             results.append(item)
         except urllib.error.HTTPError as exc:
             print(f"Status API error for {full_name}: HTTP {exc.code}")
