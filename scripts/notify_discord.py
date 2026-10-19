@@ -179,16 +179,16 @@ def calculate_alert_changes(current, previous):
 def main():
     webhook_url = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
     if not webhook_url:
-        print("DISCORD_WEBHOOK_URL 未設定；無法傳送告警。", file=sys.stderr)
+        print("DISCORD_WEBHOOK_URL 未設定；無法傳送通知。", file=sys.stderr)
         return 1
 
     payload = read_json(STATUS_PATH, {})
     if not isinstance(payload, dict):
-        print("status.json 根資料格式錯誤；無法判斷告警，保留告警狀態。", file=sys.stderr)
+        print("status.json 根資料格式錯誤；無法判斷通知事件，保留通知狀態。", file=sys.stderr)
         return 1
     items = payload.get("repositories", [])
     if not isinstance(items, list):
-        print("status.json 的 repositories 格式錯誤；無法判斷告警，保留告警狀態。", file=sys.stderr)
+        print("status.json 的 repositories 格式錯誤；無法判斷通知事件，保留通知狀態。", file=sys.stderr)
         return 1
 
     current = {str(item.get("name") or item.get("full_name")): item for item in items
