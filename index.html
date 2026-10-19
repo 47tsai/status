@@ -51,6 +51,7 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <script>
 const $=id=>document.getElementById(id);let items=[],lastGeneratedAt=null,loading=false,loadError='';
 const labels={success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過',unknown:'狀態未知',running:'執行中'};
+const kindLabels={dashboard:'監控儀表板',vps:'VPS 服務',claim:'自動領取',checkin:'自動簽到',source:'來源更新',deploy:'網站部署',freegame:'限免遊戲',website:'外部服務',project:'一般專案'};
 const text=s=>String(s??'');const escapeHTML=s=>text(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const isWorkflowBad=x=>['failure','timed_out','action_required','startup_failure'].includes(x.status);
 const isBusinessBad=x=>x.business?.business_status==='failure';
@@ -77,7 +78,7 @@ function render(){
  const duration=Number.isFinite(x.duration_seconds)?' · '+x.duration_seconds+' 秒':'';
  const runMeta='<div class="run-meta">'+escapeHTML(x.branch||'－')+' · '+escapeHTML(safeDate(x.updated_at))+duration+'</div>';
  const link=(url,label)=>url?'<a class="button" href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">'+label+'</a>':'';
- card.innerHTML='<div class="project-top"><div class="project-title"><h3>'+escapeHTML(b.title||x.full_name||x.name)+'</h3><p>'+escapeHTML(b.description||x.workflow||'專案狀態')+'</p></div><span class="status '+statusClass(x)+'">'+escapeHTML(statusText(x))+'</span></div><div class="meta"><span class="tag">'+escapeHTML(b.kind||'project')+'</span><span class="tag">'+escapeHTML(x.workflow||'無工作流程紀錄')+'</span><span class="tag">Actions 執行：'+escapeHTML(label(x.status))+'</span></div>'+metricHTML+warning+note+detailHTML+'<div class="card-footer">'+runMeta+'<div class="links">'+link(x.html_url,'專案')+link(x.run_url||x.runs_url,'執行紀錄')+(b.evidence_url?link(b.evidence_url,'業務紀錄'):'')+'</div></div>';
+ card.innerHTML='<div class="project-top"><div class="project-title"><h3>'+escapeHTML(b.title||x.full_name||x.name)+'</h3><p>'+escapeHTML(b.description||x.workflow||'專案狀態')+'</p></div><span class="status '+statusClass(x)+'">'+escapeHTML(statusText(x))+'</span></div><div class="meta"><span class="tag">'+escapeHTML(kindLabels[b.kind]||kindLabels.project)+'</span><span class="tag">'+escapeHTML(x.workflow||'無工作流程紀錄')+'</span><span class="tag">Actions 執行：'+escapeHTML(label(x.status))+'</span></div>'+metricHTML+warning+note+detailHTML+'<div class="card-footer">'+runMeta+'<div class="links">'+link(x.html_url,'專案')+link(x.run_url||x.runs_url,'執行紀錄')+(b.evidence_url?link(b.evidence_url,'業務紀錄'):'')+'</div></div>';
  root.append(card);
  }
 }
