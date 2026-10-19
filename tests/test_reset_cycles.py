@@ -1,7 +1,52 @@
 import unittest
 from datetime import datetime, timezone
 
-from scripts.update_status import classify_checkin_result, classify_claim_state, parse_checkin_record, reset_cycle_date
+from scripts.update_status import apply_schedule_freshness, classify_checkin_result, classify_claim_state, parse_checkin_record, reset_cycle_date
+
+
+class ScheduleFreshnessTests(unittest.TestCase):
+    def make_item(self, name, created_at, status="success"):
+        return {
+            "name": name,
+            "created_at": created_at,
+            "status": status,
+            "business": {
+                "business_status": "success",
+                "business_label": "正常",
+                "metrics": [],
+                "note": "既有狀態",
+            },
+        }
+
+    def test_stale_scheduled_run_becomes_failure(self):
+        now = datetime(2026, 10, 19, 12, 0, tzinfo=timezone.utc)
+        item = self.make_item("chi-source", "2026-10-19T09:00:00Z")
+        result = apply_schedule_freshness(item, now)
+        self.assertEqual(result["status"], "failure")
+        self.assertEqual(result["business"]["business_status"], "failure")
+        self.assertIn("排程執行逾期", result["business"]["business_label"])
+        self.assertEqual(result["schedule_age_seconds"], 3 * 60 * 60)
+
+    def test_recent_scheduled_run_stays_healthy(self):
+        now = datetime(2026, 10, 19, 12, 0, tzinfo=timezone.utc)
+        item = self.make_item("chi-source", "2026-10-19T10:30:00Z")
+        result = apply_schedule_freshness(item, now)
+        self.assertEqual(result["status"], "success")
+        self.assertEqual(result["business"]["business_status"], "success")
+
+    def test_event_driven_repository_is_not_marked_stale(self):
+        now = datetime(2026, 10, 19, 12, 0, tzinfo=timezone.utc)
+        item = self.make_item("merch", "2026-10-01T00:00:00Z")
+        result = apply_schedule_freshness(item, now)
+        self.assertEqual(result["status"], "success")
+        self.assertNotIn("schedule_age_seconds", result)
+
+    def test_invalid_scheduled_timestamp_is_unknown_not_false_success(self):
+        now = datetime(2026, 10, 19, 12, 0, tzinfo=timezone.utc)
+        item = self.make_item("bahasign", "not-a-timestamp")
+        result = apply_schedule_freshness(item, now)
+        self.assertEqual(result["status"], "unknown")
+        self.assertEqual(result["business"]["business_status"], "unknown")
 
 
 class ResetCycleDateTests(unittest.TestCase):
