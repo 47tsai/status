@@ -11,7 +11,7 @@ from html import unescape
 from zoneinfo import ZoneInfo
 
 OWNER = "tsai97216"
-EXCLUDED_REPOS = {"chi-brand", "merch-old", "nav-n"}
+EXCLUDED_REPOS = {"chi-brand", "merch-old", "nav-n", "chi-design-system", "example-site"}
 TOKEN = os.environ.get("GH_TOKEN", "")
 HEADERS = {
     "Accept": "application/vnd.github+json",
