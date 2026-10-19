@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f6f8fc">
-<meta name="description" content="Chi Status 狀態總覽，集中查看 GitHub Actions 執行結果、公開服務可用性與專案業務狀態。">
+<meta name="description" content="Chi Status 狀態總覽，查看工作流程執行結果、服務可用性與專案業務狀態。">
 <title>Chi Status · 狀態總覽</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/tsai97216/chi-design-system/main/logo/blue-w.png">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tsai97216/chi-design-system/main/logo/blue-w.png">
@@ -36,18 +36,18 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <main id="main"><div id="overview" class="container">
 <section class="stats" aria-label="狀態摘要">
 <div class="stat"><span class="stat-label">監控項目</span><strong class="stat-value" id="total">－</strong><span class="stat-note">公開專案與服務</span></div>
-<div class="stat"><span class="stat-label">業務檢查正常</span><strong class="stat-value" id="bizok">－</strong><span class="stat-note">業務檢查結果</span></div>
-<div class="stat"><span class="stat-label">需要留意</span><strong class="stat-value" id="attention">－</strong><span class="stat-note">失敗或異常的項目</span></div>
-<div class="stat"><span class="stat-label">執行中</span><strong class="stat-value" id="running">－</strong><span class="stat-note">排隊或正在執行的工作流程</span></div>
+<div class="stat"><span class="stat-label">業務正常</span><strong class="stat-value" id="bizok">－</strong><span class="stat-note">業務狀態正常</span></div>
+<div class="stat"><span class="stat-label">需要留意</span><strong class="stat-value" id="attention">－</strong><span class="stat-note">工作流程或業務異常</span></div>
+<div class="stat"><span class="stat-label">執行中</span><strong class="stat-value" id="running">－</strong><span class="stat-note">排隊中或執行中的工作流程</span></div>
 </section>
-<section class="section" aria-labelledby="projects-heading"><div class="section-head"><div><h2 id="projects-heading">監控項目</h2><p>每 10 分鐘自動更新一次狀態資料。</p></div><span class="result-count" id="result-count">等待資料</span></div>
+<section class="section" aria-labelledby="projects-heading"><div class="section-head"><div><h2 id="projects-heading">監控項目</h2><p>每 10 分鐘自動更新一次狀態資料。</p></div><span class="result-count" id="result-count">載入中</span></div>
 <div class="filters"><input class="field" id="search" type="search" placeholder="搜尋專案、狀態、分支或紀錄…" aria-label="搜尋監控項目"><select class="field" id="filter" aria-label="依狀態篩選"><option value="all">所有狀態</option><option value="attention">需要留意</option><option value="business-failure">業務異常</option><option value="workflow-failure">工作流程失敗</option><option value="success">業務正常</option><option value="running">執行中</option></select><select class="field" id="category" aria-label="依類型篩選"><option value="all">所有類型</option><option value="vps">VPS</option><option value="claim">自動領取</option><option value="checkin">自動簽到</option><option value="source">來源更新</option><option value="deploy">網站部署</option><option value="freegame">限免遊戲</option><option value="website">外部服務</option></select><button class="button" id="clear" type="button">清除篩選</button></div>
 <div class="notice" id="notice" role="status" aria-live="polite"></div><div class="projects" id="projects"><div class="empty">正在載入狀態資料…</div></div>
 </section>
 </div>
 
 </main>
-<footer class="footer"><div class="container footer-inner"><span>Chi Status · 專案狀態監控</span><span><a href="/action/">Actions 控制台</a>　·　<a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></footer>
+<footer class="footer"><div class="container footer-inner"><span>Chi Status · 狀態總覽</span><span><a href="/action/">Actions 控制台</a>　·　<a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></footer>
 <script>
 const $=id=>document.getElementById(id);let items=[],lastGeneratedAt=null,loading=false,loadError='';
 const labels={success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過',unknown:'狀態未知',running:'執行中'};
