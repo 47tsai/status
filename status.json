@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T11:05:37.292323+00:00",
+  "generated_at": "2026-10-19T11:06:31.799346+00:00",
   "repository_count": 15,
   "repositories": [
     {
@@ -60,8 +60,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-19T11:05:37.091115+00:00",
-      "created_at": "2026-10-19T11:05:37.091128+00:00",
+      "updated_at": "2026-10-19T11:06:31.698351+00:00",
+      "created_at": "2026-10-19T11:06:31.698362+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -87,7 +87,7 @@
           },
           {
             "label": "回應時間",
-            "value": "199 ms",
+            "value": "97 ms",
             "tone": "normal"
           }
         ],
@@ -110,8 +110,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-19T11:05:36.548560+00:00",
-      "created_at": "2026-10-19T11:05:36.548573+00:00",
+      "updated_at": "2026-10-19T11:06:31.192664+00:00",
+      "created_at": "2026-10-19T11:06:31.192676+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -137,7 +137,7 @@
           },
           {
             "label": "回應時間",
-            "value": "542 ms",
+            "value": "505 ms",
             "tone": "normal"
           }
         ],
@@ -160,8 +160,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-19T11:05:32.061223+00:00",
-      "created_at": "2026-10-19T11:05:32.061240+00:00",
+      "updated_at": "2026-10-19T11:06:28.896792+00:00",
+      "created_at": "2026-10-19T11:06:28.896807+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -194,25 +194,75 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 493 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 1133 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 3395 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 837 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 596 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 322 ms",
             "time": "",
             "tone": "good"
           }
         ],
         "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200 即視為正常運作。",
         "evidence_url": null
+      }
+    },
+    {
+      "name": "status",
+      "full_name": "tsai97216/status",
+      "html_url": "https://github.com/tsai97216/status",
+      "workflow": "Update Actions status",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-10-19T11:05:57Z",
+      "created_at": "2026-10-19T11:05:14Z",
+      "event": "workflow_dispatch",
+      "commit_message": "chore: update project business status",
+      "duration_seconds": 43,
+      "runs_url": "https://github.com/tsai97216/status/actions",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39242068539",
+      "business": {
+        "kind": "dashboard",
+        "title": "監控中心",
+        "description": "儀表板自身的資料更新與部署",
+        "icon": "◈",
+        "business_status": "success",
+        "business_label": "資料更新成功",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開 Repo",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘",
+            "tone": "normal"
+          },
+          {
+            "label": "資料狀態",
+            "value": "資料更新成功",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新流程",
+            "result": "資料更新成功",
+            "time": "2026-10-19 19:05:57",
+            "tone": "good"
+          }
+        ],
+        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
+        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
@@ -269,56 +319,6 @@
         ],
         "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
         "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
-      }
-    },
-    {
-      "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
-      "workflow": "Update Actions status",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-19T11:04:57Z",
-      "created_at": "2026-10-19T11:04:18Z",
-      "event": "workflow_dispatch",
-      "commit_message": "chore: update project business status",
-      "duration_seconds": 39,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39241955883",
-      "business": {
-        "kind": "dashboard",
-        "title": "監控中心",
-        "description": "儀表板自身的資料更新與部署",
-        "icon": "◈",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開 Repo",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘",
-            "tone": "normal"
-          },
-          {
-            "label": "資料狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新流程",
-            "result": "資料更新成功",
-            "time": "2026-10-19 19:04:57",
-            "tone": "good"
-          }
-        ],
-        "note": "此專案負責收集各 Repo 的 Workflow 與業務結果，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
       }
     },
     {
@@ -490,7 +490,7 @@
           },
           {
             "label": "最近簽到",
-            "value": "2026-10-19 17:35:22",
+            "value": "2026-10-19 19:04:02",
             "tone": "normal"
           }
         ],
@@ -498,7 +498,7 @@
           {
             "label": "來源紀錄",
             "result": "✅ 簽到成功",
-            "time": "2026-10-19 17:35:22",
+            "time": "2026-10-19 19:04:02",
             "tone": "good"
           }
         ],
