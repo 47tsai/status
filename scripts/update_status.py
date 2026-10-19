@@ -643,7 +643,7 @@ def apply_schedule_freshness(item, now=None):
         business = item.get("business") or {}
         business["business_status"] = "unknown"
         business["business_label"] = "無法確認排程是否準時執行"
-        business["note"] = (business.get("note", "") + "\\n監控端無法解析最近一次 Workflow 的開始時間，因此無法確認排程新鮮度。").strip()
+        business["note"] = (business.get("note", "") + "\n監控端無法解析最近一次 Workflow 的開始時間，因此無法確認排程新鮮度。").strip()
         item["business"] = business
         return item
 
@@ -665,7 +665,7 @@ def apply_schedule_freshness(item, now=None):
     business = item.get("business") or {}
     business["business_status"] = "failure"
     business["business_label"] = "排程執行逾期，可能未收到新的觸發"
-    business["note"] = (business.get("note", "") + f"\\n排程新鮮度監控：{item['monitor_warning']}。").strip()
+    business["note"] = (business.get("note", "") + f"\n排程新鮮度監控：{item['monitor_warning']}。").strip()
     business["metrics"] = list(business.get("metrics") or [])
     business["metrics"].append(metric("排程新鮮度", age_label, "bad"))
     item["business"] = business
