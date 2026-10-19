@@ -268,9 +268,10 @@ class HealthCheckClassificationTests(unittest.TestCase):
         self.assertIs(result["protected"], True)
 
 
-    def test_failure_then_recovery_notifies_once(self):
+    def test_business_failure_with_successful_workflow_then_recovery_notifies_once(self):
+        # A green GitHub Actions run must not hide a failed business outcome.
         failure = {
-            "name": "demo", "status": "failure",
+            "name": "demo", "status": "success",
             "business": {"business_status": "failure", "business_label": "服務異常"},
         }
         success = {
