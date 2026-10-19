@@ -7,7 +7,7 @@ Chi Status 是集中檢視 `tsai97216` 公開 GitHub 儲存庫的工作流程執
 - **更新頻率：** cron-job.org 每 10 分鐘觸發 GitHub Actions（`workflow_dispatch`）；監控程式碼更新也會透過 `push` 事件觸發更新。
 - **架構：** GitHub Actions 收集狀態並產生 `status.json`，再由 GitHub Pages 發佈靜態儀表板。每輪成功收集都會更新資料時間戳與探測結果，因此目前每輪也會重新部署儀表板；不能單純因為沒有專案狀態翻轉就跳過部署，否則頁面會顯示過期的更新時間或探測數據。
 
-網站包含狀態總覽與 `/action/` 工作流程控制台；`/actions/` 僅處理 Chi Auth OAuth 回呼，不是另一個控制台。使用控制台前，須透過 Chi Auth 完成 Passkey 登入，才能查看及觸發核准清單中的工作流程。
+網站包含狀態總覽與 `/action/` Actions 控制台；`/actions/` 僅處理 Chi Auth OAuth 回呼，不是另一個控制台。使用控制台前，須透過 Chi Auth 完成 Passkey 登入，才能查看及觸發核准清單中的工作流程。
 
 ## 監控範圍
 
