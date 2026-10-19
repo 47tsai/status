@@ -649,7 +649,7 @@ def apply_schedule_freshness(item, now=None):
         business = item.get("business") or {}
         business["business_status"] = "unknown"
         business["business_label"] = "無法確認排程是否準時執行"
-        business["note"] = (business.get("note", "") + "\n監控端無法解析最近一次 Workflow 的開始時間，因此無法確認排程新鮮度。").strip()
+        business["note"] = (business.get("note", "") + "\n監控端無法解析最近一次工作流程的開始時間，因此無法確認排程新鮮度。").strip()
         item["business"] = business
         return item
 
