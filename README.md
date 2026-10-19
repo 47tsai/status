@@ -11,7 +11,7 @@ Chi Status 是集中檢視 `tsai97216` 公開 GitHub 儲存庫的工作流程執
 
 ## 監控範圍
 
-收集器只列入 `tsai97216` 旗下非 fork、非封存的公開儲存庫，並以最近一次 GitHub Actions 執行紀錄為基礎。沒有 Workflow 執行紀錄的 Repo 不會被當成成功；若既有 Repo 的 API 暫時失敗，會保留上次卡片並標記為未知／資料過期。
+收集器只列入 `tsai97216` 旗下非 fork、非封存的公開儲存庫，並以最近一次 GitHub Actions 執行紀錄為基礎。沒有工作流程執行紀錄的儲存庫不會被當成成功；若儲存庫的 API 暫時失敗，會保留上次卡片並標記為未知或資料過期。
 
 部分專案另有專屬業務判讀：
 
@@ -53,7 +53,7 @@ python -m unittest discover -s tests -v
 python scripts/update_status.py
 ```
 
-不要把 Discord Webhook URL 寫進程式碼或提交到 Git。工作流程會先執行單元測試，再收集資料、嘗試發送 Discord 異常通知、提交狀態 JSON，最後部署 GitHub Pages。工作流程失敗時會另外嘗試通知 Discord。
+不要把 Discord Webhook URL 寫進程式碼或提交至 GitHub 儲存庫。工作流程會先執行單元測試，再收集資料、嘗試發送 Discord 異常通知、提交狀態 JSON，最後部署 GitHub Pages。工作流程失敗時會另外嘗試通知 Discord。
 
 ## 自訂網域
 
