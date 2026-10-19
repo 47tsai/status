@@ -162,7 +162,7 @@ class DiscordAlertTests(unittest.TestCase):
             "content_signals": ["script", "app-root", "viewport"],
             "status": 200,
         })
-        self.assertEqual(detail, "狀態未確認 · HTML 缺少 title（頁面包含 script、app/root 容器、viewport） · HTTP 200")
+        self.assertEqual(detail, "狀態未確認 · HTML 缺少 title（頁面包含 script、應用程式根容器、viewport） · HTTP 200")
 
     def test_health_check_accepts_nonempty_titleless_html_with_http_200(self):
         result = inspect_page_content(200, 'text/html', '<html><head><meta name="viewport" content="width=device-width"><script src="/app.js"></script></head><body><div id="app"></div></body></html>', 'https://example.com/')
