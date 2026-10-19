@@ -307,7 +307,7 @@ def format_unknown_health_detail(check):
         if "script" in signals:
             signal_labels.append("script")
         if "app-root" in signals:
-            signal_labels.append("app/root 容器")
+            signal_labels.append("應用程式根容器")
         if "viewport" in signals:
             signal_labels.append("viewport")
         if signal_labels:
