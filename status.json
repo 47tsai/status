@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T11:17:40.645039+00:00",
+  "generated_at": "2026-10-19T11:18:44.169168+00:00",
   "repository_count": 15,
   "repositories": [
     {
@@ -7,15 +7,15 @@
       "full_name": "tsai97216/sc-auto-claim",
       "html_url": "https://github.com/tsai97216/sc-auto-claim",
       "workflow": "daily-claim",
-      "status": "failure",
+      "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-10-19T11:12:50Z",
-      "created_at": "2026-10-19T11:09:54Z",
+      "updated_at": "2026-10-19T11:18:16Z",
+      "created_at": "2026-10-19T11:18:12Z",
       "event": "workflow_dispatch",
-      "commit_message": "update claim status",
-      "duration_seconds": 176,
+      "commit_message": "fix: prevent claim workflow push conflicts",
+      "duration_seconds": null,
       "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/39242639041",
+      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/39243660579",
       "business": {
         "kind": "claim",
         "title": "荒野亂鬥自動領取",
@@ -60,8 +60,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-19T11:17:40.310344+00:00",
-      "created_at": "2026-10-19T11:17:40.310354+00:00",
+      "updated_at": "2026-10-19T11:18:43.753491+00:00",
+      "created_at": "2026-10-19T11:18:43.753503+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -87,7 +87,7 @@
           },
           {
             "label": "回應時間",
-            "value": "331 ms",
+            "value": "412 ms",
             "tone": "normal"
           }
         ],
@@ -110,8 +110,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-19T11:17:39.838215+00:00",
-      "created_at": "2026-10-19T11:17:39.838224+00:00",
+      "updated_at": "2026-10-19T11:18:43.178304+00:00",
+      "created_at": "2026-10-19T11:18:43.178317+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -137,7 +137,7 @@
           },
           {
             "label": "回應時間",
-            "value": "472 ms",
+            "value": "575 ms",
             "tone": "normal"
           }
         ],
@@ -160,8 +160,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-19T11:17:37.849914+00:00",
-      "created_at": "2026-10-19T11:17:37.849927+00:00",
+      "updated_at": "2026-10-19T11:18:40.685294+00:00",
+      "created_at": "2026-10-19T11:18:40.685311+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘檢查三個公開服務端點",
       "duration_seconds": null,
@@ -194,19 +194,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 653 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 751 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 941 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1141 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 391 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 598 ms",
             "time": "",
             "tone": "good"
           }
@@ -222,13 +222,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-19T11:17:23Z",
-      "created_at": "2026-10-19T11:16:09Z",
+      "updated_at": "2026-10-19T11:18:24Z",
+      "created_at": "2026-10-19T11:17:08Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 74,
+      "duration_seconds": 76,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/39243414523",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/39243534276",
       "business": {
         "kind": "dashboard",
         "title": "監控中心",
@@ -257,7 +257,7 @@
           {
             "label": "最近更新流程",
             "result": "資料更新成功",
-            "time": "2026-10-19 19:17:23",
+            "time": "2026-10-19 19:18:24",
             "tone": "good"
           }
         ],
