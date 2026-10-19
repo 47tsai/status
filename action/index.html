@@ -102,10 +102,10 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <nav class="nav" id="nav" aria-label="主要導覽"><a href="/">狀態總覽</a><a href="/action/" aria-current="page">Actions 控制台</a><a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
 <div class="tools"><button class="button" id="theme" type="button" aria-label="切換色彩模式"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span class="label">外觀</span></button><button class="button menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="開啟導覽選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
 </div></header>
-<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> ACTIONS CONSOLE</p><h1>Actions 控制台</h1><p class="intro">集中執行維護、更新與自動化任務。僅顯示可實際觸發的工作流程。</p><p class="updated">僅觸發已列入允許清單的工作流程，所有執行皆使用 main 分支。</p></div></div></div></section>
+<section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> ACTIONS CONSOLE</p><h1>Actions 控制台</h1><p class="intro">集中執行維護、更新與自動化任務，只列出可手動觸發的工作流程。</p><p class="updated">僅能觸發核准清單中的工作流程，所有觸發皆使用 main 分支。</p></div></div></div></section>
 <main id="main"><div class="container">
-<section class="console-toolbar auth-required" id="act-workflow-heading" aria-labelledby="actions-heading"><div class="section-head"><div><h2 id="actions-heading">工作流程</h2><p>只保留維護、更新與自動化，不列出驗證、部署或無法觸發的項目。</p></div><span class="result-count" id="act-count" role="status">尚未登入</span></div></section>
-<div class="console-actions" aria-label="控制台操作"><span class="console-count">需要登入後才能載入工作流程。</span><div class="actions-toolbar"><button class="button" id="act-reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4.9 9A8 8 0 0 1 18.5 6L20 12M4 17v-5h5"/><path d="M19.1 15A8 8 0 0 1 5.5 18L4 12"/></svg>重新載入</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>登出</button></div></div>
+<section class="console-toolbar auth-required" id="act-workflow-heading" aria-labelledby="actions-heading"><div class="section-head"><div><h2 id="actions-heading">工作流程</h2><p>僅列出可手動觸發的維護、更新與自動化工作流程，不包含驗證、部署及其他不可直接觸發的流程。</p></div><span class="result-count" id="act-count" role="status">尚未登入</span></div></section>
+<div class="console-actions" aria-label="控制台操作"><span class="console-count">登入後即可查看可觸發的工作流程。</span><div class="actions-toolbar"><button class="button" id="act-reload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4.9 9A8 8 0 0 1 18.5 6L20 12M4 17v-5h5"/><path d="M19.1 15A8 8 0 0 1 5.5 18L4 12"/></svg>重新整理</button><button class="button primary" id="act-authLogin" type="button">使用 Chi Auth 登入</button><button class="button" id="act-authLogout" type="button" hidden>登出</button></div></div>
 <section class="toolbar auth-required" id="act-workflow-filters" aria-label="工作流程搜尋"><input class="field" id="act-search" type="search" placeholder="搜尋專案、工作流程或類型…" aria-label="搜尋專案、工作流程或類型"></section>
 <div id="act-message" role="status" aria-live="polite"></div>
 <section class="auth-required" id="act-workflows" aria-label="工作流程清單" hidden><div class="empty">請先使用 Chi Auth 登入。</div></section>
@@ -279,7 +279,7 @@ async function api(path, options={}) {
     if (options.method === "POST") {
       throw new Error("status is unknown: the browser could not confirm whether GitHub accepted the trigger request. Check the workflow run history before retrying.");
     }
-    throw new Error(error?.name === "TimeoutError" ? "請求逾時，請稍後重新載入。" : "無法連線至觸發服務，請檢查網路後重試。");
+    throw new Error(error?.name === "TimeoutError" ? "請求逾時，請稍後重新整理。" : "無法連線至觸發服務，請檢查網路後重試。");
   }
   let data = null;
   let validJson = true;
@@ -309,7 +309,7 @@ async function api(path, options={}) {
     throw new Error(serverMessage || `HTTP ${response.status}`);
   }
   if (!validJson || !data || typeof data !== "object" || Array.isArray(data)) {
-    throw new Error("觸發服務回傳的資料格式無效，請稍後重新載入。");
+    throw new Error("觸發服務回傳的資料格式無效，請稍後重新整理。");
   }
   if (data.ok !== true) {
     const serverMessage = typeof data.error === "string" && data.error.trim() ? data.error.trim() : "觸發服務未能完成請求。";
@@ -504,7 +504,7 @@ async function load() {
         typeof spec.name === "string" && ["string", "boolean"].includes(spec.type)
       )))
     )) {
-      throw new Error("觸發服務回傳的工作流程清單格式無效，請稍後重新載入。");
+      throw new Error("觸發服務回傳的工作流程清單格式無效，請稍後重新整理。");
     }
     workflows = data.workflows;
     message("");
