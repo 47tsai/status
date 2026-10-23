@@ -1,16 +1,10 @@
 {
   "active_failures": {
-    "chi-auth-service": {
-      "name": "chi-auth-service",
-      "title": "Chi Auth",
-      "reason": "Chi Auth 端點異常",
-      "url": "https://github.com/tsai97216/status/actions"
-    },
-    "chi-source-personal": {
-      "name": "chi-source-personal",
-      "title": "Chi Source Personal",
-      "reason": "來源網站回應異常",
-      "url": "https://github.com/tsai97216/chi-source-personal/actions/runs/39983259253"
+    "status": {
+      "name": "status",
+      "title": "Chi Status 監控儀表板",
+      "reason": "排程執行逾期，可能未收到新的觸發",
+      "url": "https://github.com/tsai97216/status/actions/runs/39984532317"
     },
     "sc-auto-claim": {
       "name": "sc-auto-claim",
