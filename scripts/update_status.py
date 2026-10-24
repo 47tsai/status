@@ -36,6 +36,7 @@ PROFILES = {
     "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
     "vaultwarden-service": {"kind": "website", "title": "Vaultwarden", "description": "密碼管理服務存活端點檢查", "icon": "▣", "health_url": "https://vault.chi.qzz.io/alive", "service_name": "Vaultwarden", "health_path": "/alive"},
     "chi-auth-service": {"kind": "website", "title": "Chi Auth", "description": "Passkey／SSO 驗證服務首頁可用性檢查", "icon": "⌑", "health_url": "https://auth.chi.qzz.io/", "service_name": "Chi Auth", "health_path": "/"},
+    "sub-service": {"kind": "website", "title": "SubsTracker", "description": "訂閱管理網站首頁可用性檢查", "icon": "▣", "health_url": "https://sub.chi.qzz.io/", "service_name": "SubsTracker", "health_path": "/"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 TAIPEI_TZ = ZoneInfo("Asia/Taipei")
@@ -549,8 +550,10 @@ def business_data(repo_name, run):
             ]
         if repo_name == "vaultwarden-service":
             result["note"] = "使用 Vaultwarden 的公開 /alive 存活端點，每 10 分鐘自動更新檢查 HTTP 與非空回應。這只確認服務端點可回應，不代表資料庫、登入或同步等所有功能都已完整驗證。"
+        elif repo_name == "sub-service":
+            result["note"] = "每 10 分鐘自動檢查 SubsTracker 公開首頁的 HTTP 狀態、回應內容與回應時間。此檢查只確認網站基本可用，不代表登入、訂閱資料讀寫或 Telegram 通知等功能均已完成端對端驗證。"
         else:
-            result["note"] = f"每 10 分鐘自動更新檢查 {service_name} 的公開首頁（HTTP 狀態、回應內容與回應時間）。這是基本可用性探測，不代表 Passkey、SSO 或所有驗證流程均已完成端對端驗證。"
+            result["note"] = f"每 10 分鐘自動更新檢查 {service_name} 的公開首頁（HTTP 狀態、回應內容與回應時間）。這是基本可用性探測，不代表所有站內功能均已完成端對端驗證。"
         result["evidence_url"] = profile.get("health_url")
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
@@ -818,6 +821,23 @@ def main():
                            else "failure" if auth_item["business"]["business_status"] == "failure"
                            else "unknown")
     results.append(auth_item)
+    # SubsTracker is a public custom-domain service, monitored independently of GitHub Actions.
+    sub_item = {
+        "name": "sub-service", "full_name": "SubsTracker · 訂閱管理服務",
+        "html_url": "https://sub.chi.qzz.io/",
+        "workflow": "外部服務探測", "status": "unknown", "branch": "VPS-01",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "event": "healthcheck", "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
+        "duration_seconds": None,
+        "runs_url": f"https://github.com/{OWNER}/status/actions",
+        "run_url": f"https://github.com/{OWNER}/status/actions",
+    }
+    sub_item["business"] = business_data("sub-service", sub_item)
+    sub_item["status"] = ("success" if sub_item["business"]["business_status"] == "success"
+                          else "failure" if sub_item["business"]["business_status"] == "failure"
+                          else "unknown")
+    results.append(sub_item)
     def dashboard_priority(item):
         business_status = (item.get("business") or {}).get("business_status")
         workflow_status = item.get("status")
