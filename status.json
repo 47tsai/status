@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T07:20:38.791197+00:00",
+  "generated_at": "2026-10-24T07:30:52.676996+00:00",
   "repository_count": 15,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Pages",
-      "updated_at": "2026-10-24T07:20:38.661730+00:00",
-      "created_at": "2026-10-24T07:20:38.661742+00:00",
+      "updated_at": "2026-10-24T07:30:52.296309+00:00",
+      "created_at": "2026-10-24T07:30:52.296318+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
       "duration_seconds": null,
@@ -36,7 +36,7 @@
           },
           {
             "label": "回應時間",
-            "value": "127 ms",
+            "value": "379 ms",
             "tone": "normal"
           }
         ],
@@ -59,8 +59,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-24T07:20:38.347266+00:00",
-      "created_at": "2026-10-24T07:20:38.347280+00:00",
+      "updated_at": "2026-10-24T07:30:51.857058+00:00",
+      "created_at": "2026-10-24T07:30:51.857069+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
       "duration_seconds": null,
@@ -86,7 +86,7 @@
           },
           {
             "label": "回應時間",
-            "value": "313 ms",
+            "value": "438 ms",
             "tone": "normal"
           }
         ],
@@ -109,8 +109,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-24T07:20:38.219002+00:00",
-      "created_at": "2026-10-24T07:20:38.219016+00:00",
+      "updated_at": "2026-10-24T07:30:51.593123+00:00",
+      "created_at": "2026-10-24T07:30:51.593133+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -136,7 +136,7 @@
           },
           {
             "label": "回應時間",
-            "value": "125 ms",
+            "value": "261 ms",
             "tone": "normal"
           }
         ],
@@ -159,8 +159,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-10-24T07:20:37.694020+00:00",
-      "created_at": "2026-10-24T07:20:37.694033+00:00",
+      "updated_at": "2026-10-24T07:30:50.989860+00:00",
+      "created_at": "2026-10-24T07:30:50.989870+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -186,7 +186,7 @@
           },
           {
             "label": "回應時間",
-            "value": "524 ms",
+            "value": "603 ms",
             "tone": "normal"
           }
         ],
@@ -209,8 +209,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-10-24T07:20:35.432246+00:00",
-      "created_at": "2026-10-24T07:20:35.432263+00:00",
+      "updated_at": "2026-10-24T07:30:48.768333+00:00",
+      "created_at": "2026-10-24T07:30:48.768348+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
       "duration_seconds": null,
@@ -243,19 +243,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 660 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 565 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1146 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 976 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 453 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 678 ms",
             "time": "",
             "tone": "good"
           }
@@ -271,13 +271,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-10-24T07:10:54Z",
-      "created_at": "2026-10-24T07:10:20Z",
+      "updated_at": "2026-10-24T07:20:58Z",
+      "created_at": "2026-10-24T07:20:19Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 34,
+      "duration_seconds": 39,
       "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/40073083496",
+      "run_url": "https://github.com/tsai97216/status/actions/runs/40073736198",
       "business": {
         "kind": "dashboard",
         "title": "Chi Status 監控儀表板",
@@ -306,14 +306,14 @@
           {
             "label": "最近更新工作流程",
             "result": "資料更新成功",
-            "time": "2026-10-24 15:10:54",
+            "time": "2026-10-24 15:20:58",
             "tone": "good"
           }
         ],
         "note": "此專案負責收集各公開儲存庫的工作流程與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/tsai97216/status/actions"
       },
-      "schedule_age_seconds": 608,
+      "schedule_age_seconds": 621,
       "schedule_max_age_seconds": 1500
     },
     {
@@ -388,7 +388,7 @@
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
         "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 1173,
+      "schedule_age_seconds": 1786,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -463,7 +463,7 @@
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
         "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 1179,
+      "schedule_age_seconds": 1792,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -510,7 +510,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/tsai97216/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 11996,
+      "schedule_age_seconds": 12609,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -557,7 +557,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/tsai97216/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 11996,
+      "schedule_age_seconds": 12609,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -615,7 +615,7 @@
         "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
         "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
       },
-      "schedule_age_seconds": 11998,
+      "schedule_age_seconds": 12611,
       "schedule_max_age_seconds": 28800
     },
     {
@@ -668,7 +668,7 @@
         "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
         "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 16250,
+      "schedule_age_seconds": 16863,
       "schedule_max_age_seconds": 36000
     },
     {
