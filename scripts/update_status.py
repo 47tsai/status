@@ -36,6 +36,7 @@ PROFILES = {
     "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
     "vaultwarden-service": {"kind": "website", "title": "Vaultwarden", "description": "密碼管理服務存活端點檢查", "icon": "▣", "health_url": "https://vault.chi.qzz.io/alive", "service_name": "Vaultwarden", "health_path": "/alive"},
     "chi-auth-service": {"kind": "website", "title": "Chi Auth", "description": "Passkey／SSO 驗證服務首頁可用性檢查", "icon": "⌑", "health_url": "https://auth.chi.qzz.io/", "service_name": "Chi Auth", "health_path": "/"},
+    "chi-home": {"kind": "website", "title": "Chi 個人主站", "description": "個人主站首頁可用性檢查", "icon": "▣", "health_url": "https://chi.qzz.io/", "service_name": "Chi 個人主站", "health_path": "/"},
     "sub-service": {"kind": "website", "title": "SubsTracker", "description": "訂閱管理網站首頁可用性檢查", "icon": "▣", "health_url": "https://sub.chi.qzz.io/", "service_name": "SubsTracker", "health_path": "/"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
@@ -838,6 +839,23 @@ def main():
                           else "failure" if sub_item["business"]["business_status"] == "failure"
                           else "unknown")
     results.append(sub_item)
+    # Chi's personal homepage is monitored independently of GitHub Actions.
+    home_item = {
+        "name": "chi-home", "full_name": "Chi 個人主站",
+        "html_url": "https://chi.qzz.io/",
+        "workflow": "外部服務探測", "status": "unknown", "branch": "Cloudflare Pages",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "event": "healthcheck", "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
+        "duration_seconds": None,
+        "runs_url": f"https://github.com/{OWNER}/status/actions",
+        "run_url": f"https://github.com/{OWNER}/status/actions",
+    }
+    home_item["business"] = business_data("chi-home", home_item)
+    home_item["status"] = ("success" if home_item["business"]["business_status"] == "success"
+                           else "failure" if home_item["business"]["business_status"] == "failure"
+                           else "unknown")
+    results.append(home_item)
     def dashboard_priority(item):
         business_status = (item.get("business") or {}).get("business_status")
         workflow_status = item.get("status")
