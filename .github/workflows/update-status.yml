@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "index.html"
+      - "new/**"
       - "action/index.html"
       - "actions/index.html"
       - "CNAME"
@@ -45,15 +46,19 @@ jobs:
           import subprocess
           from pathlib import Path
 
-          html = Path("action/index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script(?:\s[^>]*)?>(.*?)</script\s*>", html, re.IGNORECASE | re.DOTALL)
-          if not scripts:
-              raise SystemExit("No inline scripts found in action/index.html")
-          for index, script in enumerate(scripts, start=1):
-              path = Path(f"/tmp/chi-status-inline-{index}.js")
-              path.write_text(script, encoding="utf-8")
-              subprocess.run(["node", "--check", str(path)], check=True)
-          print(f"Syntax checked {len(scripts)} inline scripts.")
+          total = 0
+          for html_path in (Path("index.html"), Path("new/index.html"), Path("action/index.html")):
+              html = html_path.read_text(encoding="utf-8")
+              scripts = re.findall(r"<script(?:\\s[^>]*)?>(.*?)</script\\s*>", html, re.IGNORECASE | re.DOTALL)
+              if not scripts:
+                  raise SystemExit(f"No inline scripts found in {html_path}")
+              for index, script in enumerate(scripts, start=1):
+                  path = Path(f"/tmp/chi-status-inline-{html_path.parent.name or 'root'}-{index}.js")
+                  path.write_text(script, encoding="utf-8")
+                  subprocess.run(["node", "--check", str(path)], check=True)
+              total += len(scripts)
+              print(f"Syntax checked {len(scripts)} inline scripts in {html_path}.")
+          print(f"Syntax checked {total} inline scripts total.")
           PY
       - name: Test Discord alert logic
         run: python -m unittest discover -s tests -v
