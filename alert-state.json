@@ -1,3 +1,10 @@
 {
-  "active_failures": {}
+  "active_failures": {
+    "vaultwarden-service": {
+      "name": "vaultwarden-service",
+      "title": "Vaultwarden",
+      "reason": "Vaultwarden 端點異常",
+      "url": "https://github.com/tsai97216/status/actions"
+    }
+  }
 }
