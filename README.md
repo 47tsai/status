@@ -18,6 +18,7 @@ Chi Status 是集中檢視 `tsai97216` 公開 GitHub 儲存庫的工作流程執
 - **VPS-01：** 檢查 Alist、BiliTool、Twitch Drops Miner 三個公開端點；至少兩個端點回傳 HTTP 200 即判定正常。
 - **Vaultwarden：** 每 10 分鐘檢查 `https://vault.chi.qzz.io/alive` 存活端點。
 - **Chi Auth：** 每 10 分鐘檢查 `https://auth.chi.qzz.io/` 首頁的 HTTP 狀態與基本回應；這不等於完整驗證 Passkey／SSO 流程。
+- **Chi SMS：** 每 10 分鐘檢查 Cloudflare Worker `https://sms-forwarder.tsai97216.workers.dev/` 的健康端點 HTTP 狀態與回應；這不等於完整驗證 iOS 捷徑、API 金鑰或 Discord 轉發流程。
 - **Chi Source / Chi Source Personal：** 讀取來源儲存庫 README 的應用程式更新摘要，並檢查來源網站的基本頁面內容。
 - **H、Chi 的工具箱、周邊收藏網：** 結合最近部署結果與公開網站檢查。
 - **自動領取、限免遊戲通知、自動簽到：** 優先讀取專案產生的業務紀錄，不以 Actions 工作流程成功直接推定業務成功。
