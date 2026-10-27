@@ -11,7 +11,19 @@ from html import unescape
 from zoneinfo import ZoneInfo
 
 OWNER = "tsai97216"
-EXCLUDED_REPOS = {"chi-brand", "merch-old", "nav-n", "chi-design-system", "example-site"}
+# Only repositories listed here are monitored. Add new repositories manually.
+MONITORED_REPOS = (
+    "status",
+    "free-game",
+    "chi-source-personal",
+    "chi-source",
+    "sc-auto-claim",
+    "apktwsign",
+    "bahasign",
+    "nav",
+    "merch",
+    "h",
+)
 TOKEN = os.environ.get("GH_TOKEN", "")
 HEADERS = {
     "Accept": "application/vnd.github+json",
@@ -709,18 +721,19 @@ def main():
         item.get("name"): item for item in previous_items
         if isinstance(item, dict) and item.get("name")
     }
-    repos = []
-    for page in range(1, 4):
-        batch = get_json(f"https://api.github.com/users/{OWNER}/repos?type=public&per_page=100&page={page}&sort=updated")
-        repos.extend(r for r in batch if not r.get("fork", False) and not r.get("archived", False))
-        if len(batch) < 100:
-            break
     results = []
-    for repo in repos:
-        if repo["name"] in EXCLUDED_REPOS:
-            continue
-        full_name = repo["full_name"]
+    for repo_name in MONITORED_REPOS:
+        full_name = f"{OWNER}/{repo_name}"
+        repo = {
+            "name": repo_name,
+            "full_name": full_name,
+            "html_url": f"https://github.com/{full_name}",
+            "default_branch": "main",
+        }
         try:
+            # Fetch only explicitly configured repositories; newly created repos
+            # never appear on the dashboard unless added to MONITORED_REPOS.
+            repo.update(get_json(f"https://api.github.com/repos/{full_name}"))
             data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page=10")
             runs = data.get("workflow_runs", [])
             if repo["name"] == "status":
