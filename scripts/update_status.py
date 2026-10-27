@@ -38,6 +38,7 @@ PROFILES = {
     "chi-auth-service": {"kind": "website", "title": "Chi Auth", "description": "Passkey／SSO 驗證服務首頁可用性檢查", "icon": "⌑", "health_url": "https://auth.chi.qzz.io/", "service_name": "Chi Auth", "health_path": "/"},
     "chi-home": {"kind": "website", "title": "Chi 個人主站", "description": "個人主站首頁可用性檢查", "icon": "▣", "health_url": "https://chi.qzz.io/", "service_name": "Chi 個人主站", "health_path": "/"},
     "sub-service": {"kind": "website", "title": "SubsTracker", "description": "訂閱管理網站首頁可用性檢查", "icon": "▣", "health_url": "https://sub.chi.qzz.io/", "service_name": "SubsTracker", "health_path": "/"},
+    "sms-service": {"kind": "website", "title": "Chi SMS", "description": "SMS 簡訊轉發服務健康檢查", "icon": "▣", "health_url": "https://sms-forwarder.tsai97216.workers.dev/", "service_name": "Chi SMS", "health_path": "/"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 TAIPEI_TZ = ZoneInfo("Asia/Taipei")
@@ -856,6 +857,23 @@ def main():
                            else "failure" if home_item["business"]["business_status"] == "failure"
                            else "unknown")
     results.append(home_item)
+    # Chi SMS is a Cloudflare Worker service, monitored independently of GitHub Actions.
+    sms_item = {
+        "name": "sms-service", "full_name": "Chi SMS · SMS 簡訊轉發服務",
+        "html_url": "https://sms-forwarder.tsai97216.workers.dev/",
+        "workflow": "外部服務探測", "status": "unknown", "branch": "Cloudflare Workers",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "event": "healthcheck", "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
+        "duration_seconds": None,
+        "runs_url": f"https://github.com/{OWNER}/SMS/actions",
+        "run_url": f"https://github.com/{OWNER}/SMS/actions",
+    }
+    sms_item["business"] = business_data("sms-service", sms_item)
+    sms_item["status"] = ("success" if sms_item["business"]["business_status"] == "success"
+                          else "failure" if sms_item["business"]["business_status"] == "failure"
+                          else "unknown")
+    results.append(sms_item)
     def dashboard_priority(item):
         business_status = (item.get("business") or {}).get("business_status")
         workflow_status = item.get("status")
