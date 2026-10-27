@@ -50,7 +50,7 @@ PROFILES = {
     "chi-auth-service": {"kind": "website", "title": "Chi Auth", "description": "Passkey／SSO 驗證服務首頁可用性檢查", "icon": "⌑", "health_url": "https://auth.chi.qzz.io/", "service_name": "Chi Auth", "health_path": "/"},
     "chi-home": {"kind": "website", "title": "Chi 個人主站", "description": "個人主站首頁可用性檢查", "icon": "▣", "health_url": "https://chi.qzz.io/", "service_name": "Chi 個人主站", "health_path": "/"},
     "sub-service": {"kind": "website", "title": "SubsTracker", "description": "訂閱管理網站首頁可用性檢查", "icon": "▣", "health_url": "https://sub.chi.qzz.io/", "service_name": "SubsTracker", "health_path": "/"},
-    "sms-service": {"kind": "website", "title": "Chi SMS", "description": "SMS 簡訊轉發服務健康檢查", "icon": "▣", "health_url": "https://sms-forwarder.tsai97216.workers.dev/", "service_name": "Chi SMS", "health_path": "/"},
+    "sms-service": {"kind": "website", "title": "Chi SMS", "description": "SMS 簡訊轉發服務健康檢查", "icon": "▣", "health_url": "https://sms.chi.qzz.io/health", "service_name": "Chi SMS", "health_path": "/health"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 TAIPEI_TZ = ZoneInfo("Asia/Taipei")
