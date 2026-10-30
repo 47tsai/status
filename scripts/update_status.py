@@ -10,7 +10,7 @@ from datetime import datetime, timedelta, timezone
 from html import unescape
 from zoneinfo import ZoneInfo
 
-OWNER = "tsai97216"
+OWNER = "47tsai"
 # Only repositories listed here are monitored. Add new repositories manually.
 MONITORED_REPOS = (
     "status",
@@ -28,7 +28,7 @@ TOKEN = os.environ.get("GH_TOKEN", "")
 HEADERS = {
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "tsai97216-status-dashboard",
+    "User-Agent": "47tsai-status-dashboard",
 }
 if TOKEN:
     HEADERS["Authorization"] = "Bearer " + TOKEN
@@ -84,7 +84,7 @@ def get_json(url):
         return json.load(response)
 
 def get_text(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "tsai97216-status-dashboard"})
+    req = urllib.request.Request(url, headers={"User-Agent": "47tsai-status-dashboard"})
     with urllib.request.urlopen(req, timeout=12) as response:
         return response.read().decode("utf-8", errors="replace")
 
@@ -291,7 +291,7 @@ def health_check(url):
         return None
     started = datetime.now(timezone.utc)
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "tsai97216-status-healthcheck"})
+        req = urllib.request.Request(url, headers={"User-Agent": "47tsai-status-healthcheck"})
         with urllib.request.urlopen(req, timeout=12) as response:
             status = response.status
             final_url = response.geturl()
