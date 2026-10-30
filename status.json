@@ -14,8 +14,8 @@
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
       "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/SMS/actions",
-      "run_url": "https://github.com/tsai97216/SMS/actions",
+      "runs_url": "https://github.com/47tsai/SMS/actions",
+      "run_url": "https://github.com/47tsai/SMS/actions",
       "business": {
         "kind": "website",
         "title": "Chi SMS",
@@ -64,8 +64,8 @@
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
       "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions",
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
       "business": {
         "kind": "website",
         "title": "Chi 個人主站",
@@ -114,8 +114,8 @@
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
       "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions",
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
       "business": {
         "kind": "website",
         "title": "SubsTracker",
@@ -164,8 +164,8 @@
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions",
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
       "business": {
         "kind": "website",
         "title": "Chi Auth",
@@ -214,8 +214,8 @@
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions",
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
       "business": {
         "kind": "website",
         "title": "Vaultwarden",
@@ -264,8 +264,8 @@
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
       "duration_seconds": null,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions",
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
       "business": {
         "kind": "vps",
         "title": "VPS-01 · Oracle Cloud",
@@ -316,8 +316,8 @@
     },
     {
       "name": "status",
-      "full_name": "tsai97216/status",
-      "html_url": "https://github.com/tsai97216/status",
+      "full_name": "47tsai/status",
+      "html_url": "https://github.com/47tsai/status",
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
@@ -326,8 +326,8 @@
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
       "duration_seconds": 50,
-      "runs_url": "https://github.com/tsai97216/status/actions",
-      "run_url": "https://github.com/tsai97216/status/actions/runs/40997768939",
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions/runs/40997768939",
       "business": {
         "kind": "dashboard",
         "title": "Chi Status 監控儀表板",
@@ -361,15 +361,15 @@
           }
         ],
         "note": "此專案負責收集各公開儲存庫的工作流程與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。",
-        "evidence_url": "https://github.com/tsai97216/status/actions"
+        "evidence_url": "https://github.com/47tsai/status/actions"
       },
       "schedule_age_seconds": 604,
       "schedule_max_age_seconds": 1500
     },
     {
       "name": "chi-source",
-      "full_name": "tsai97216/chi-source",
-      "html_url": "https://github.com/tsai97216/chi-source",
+      "full_name": "47tsai/chi-source",
+      "html_url": "https://github.com/47tsai/chi-source",
       "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
@@ -378,8 +378,8 @@
       "event": "dynamic",
       "commit_message": "auto: sync Chi Source",
       "duration_seconds": 74,
-      "runs_url": "https://github.com/tsai97216/chi-source/actions",
-      "run_url": "https://github.com/tsai97216/chi-source/actions/runs/40994966478",
+      "runs_url": "https://github.com/47tsai/chi-source/actions",
+      "run_url": "https://github.com/47tsai/chi-source/actions/runs/40994966478",
       "business": {
         "kind": "source",
         "title": "Chi Source",
@@ -436,15 +436,15 @@
           }
         ],
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
-        "evidence_url": "https://github.com/tsai97216/chi-source/blob/main/README.md"
+        "evidence_url": "https://github.com/47tsai/chi-source/blob/main/README.md"
       },
       "schedule_age_seconds": 2375,
       "schedule_max_age_seconds": 9000
     },
     {
       "name": "chi-source-personal",
-      "full_name": "tsai97216/chi-source-personal",
-      "html_url": "https://github.com/tsai97216/chi-source-personal",
+      "full_name": "47tsai/chi-source-personal",
+      "html_url": "https://github.com/47tsai/chi-source-personal",
       "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
@@ -453,8 +453,8 @@
       "event": "dynamic",
       "commit_message": "auto: sync Chi Source",
       "duration_seconds": 56,
-      "runs_url": "https://github.com/tsai97216/chi-source-personal/actions",
-      "run_url": "https://github.com/tsai97216/chi-source-personal/actions/runs/40994952688",
+      "runs_url": "https://github.com/47tsai/chi-source-personal/actions",
+      "run_url": "https://github.com/47tsai/chi-source-personal/actions/runs/40994952688",
       "business": {
         "kind": "source",
         "title": "Chi Source Personal",
@@ -505,15 +505,15 @@
           }
         ],
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
-        "evidence_url": "https://github.com/tsai97216/chi-source-personal/blob/main/README.md"
+        "evidence_url": "https://github.com/47tsai/chi-source-personal/blob/main/README.md"
       },
       "schedule_age_seconds": 2382,
       "schedule_max_age_seconds": 9000
     },
     {
       "name": "sc-auto-claim",
-      "full_name": "tsai97216/sc-auto-claim",
-      "html_url": "https://github.com/tsai97216/sc-auto-claim",
+      "full_name": "47tsai/sc-auto-claim",
+      "html_url": "https://github.com/47tsai/sc-auto-claim",
       "workflow": "daily-claim",
       "status": "success",
       "branch": "main",
@@ -522,8 +522,8 @@
       "event": "workflow_dispatch",
       "commit_message": "update claim status",
       "duration_seconds": 59,
-      "runs_url": "https://github.com/tsai97216/sc-auto-claim/actions",
-      "run_url": "https://github.com/tsai97216/sc-auto-claim/actions/runs/40976901977",
+      "runs_url": "https://github.com/47tsai/sc-auto-claim/actions",
+      "run_url": "https://github.com/47tsai/sc-auto-claim/actions/runs/40976901977",
       "business": {
         "kind": "claim",
         "title": "荒野亂鬥自動領取",
@@ -558,15 +558,15 @@
           }
         ],
         "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
-        "evidence_url": "https://github.com/tsai97216/sc-auto-claim/tree/main"
+        "evidence_url": "https://github.com/47tsai/sc-auto-claim/tree/main"
       },
       "schedule_age_seconds": 13201,
       "schedule_max_age_seconds": 36000
     },
     {
       "name": "free-game",
-      "full_name": "tsai97216/free-game",
-      "html_url": "https://github.com/tsai97216/free-game",
+      "full_name": "47tsai/free-game",
+      "html_url": "https://github.com/47tsai/free-game",
       "workflow": "Free Game Notifier",
       "status": "success",
       "branch": "main",
@@ -575,8 +575,8 @@
       "event": "workflow_dispatch",
       "commit_message": "chore: update processed state",
       "duration_seconds": 34,
-      "runs_url": "https://github.com/tsai97216/free-game/actions",
-      "run_url": "https://github.com/tsai97216/free-game/actions/runs/40962461058",
+      "runs_url": "https://github.com/47tsai/free-game/actions",
+      "run_url": "https://github.com/47tsai/free-game/actions/runs/40962461058",
       "business": {
         "kind": "freegame",
         "title": "限免遊戲通知",
@@ -616,15 +616,15 @@
           }
         ],
         "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
-        "evidence_url": "https://github.com/tsai97216/free-game/commits/main/data/processed.json"
+        "evidence_url": "https://github.com/47tsai/free-game/commits/main/data/processed.json"
       },
       "schedule_age_seconds": 20398,
       "schedule_max_age_seconds": 28800
     },
     {
       "name": "apktwsign",
-      "full_name": "tsai97216/apktwsign",
-      "html_url": "https://github.com/tsai97216/apktwsign",
+      "full_name": "47tsai/apktwsign",
+      "html_url": "https://github.com/47tsai/apktwsign",
       "workflow": "apktwsign",
       "status": "success",
       "branch": "main",
@@ -633,8 +633,8 @@
       "event": "workflow_dispatch",
       "commit_message": "Record today's success notification",
       "duration_seconds": 15,
-      "runs_url": "https://github.com/tsai97216/apktwsign/actions",
-      "run_url": "https://github.com/tsai97216/apktwsign/actions/runs/40907291435",
+      "runs_url": "https://github.com/47tsai/apktwsign/actions",
+      "run_url": "https://github.com/47tsai/apktwsign/actions/runs/40907291435",
       "business": {
         "kind": "checkin",
         "title": "APK.TW 自動簽到",
@@ -663,15 +663,15 @@
           }
         ],
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
-        "evidence_url": "https://github.com/tsai97216/apktwsign/blob/main/activity.md"
+        "evidence_url": "https://github.com/47tsai/apktwsign/blob/main/activity.md"
       },
       "schedule_age_seconds": 42002,
       "schedule_max_age_seconds": 57600
     },
     {
       "name": "bahasign",
-      "full_name": "tsai97216/bahasign",
-      "html_url": "https://github.com/tsai97216/bahasign",
+      "full_name": "47tsai/bahasign",
+      "html_url": "https://github.com/47tsai/bahasign",
       "workflow": "Daily sign in Baha",
       "status": "success",
       "branch": "main",
@@ -680,8 +680,8 @@
       "event": "workflow_dispatch",
       "commit_message": "Auto Sign-in Status: 2026/10/29 12:00:45",
       "duration_seconds": 14,
-      "runs_url": "https://github.com/tsai97216/bahasign/actions",
-      "run_url": "https://github.com/tsai97216/bahasign/actions/runs/40907289801",
+      "runs_url": "https://github.com/47tsai/bahasign/actions",
+      "run_url": "https://github.com/47tsai/bahasign/actions/runs/40907289801",
       "business": {
         "kind": "checkin",
         "title": "巴哈姆特自動簽到",
@@ -710,15 +710,15 @@
           }
         ],
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
-        "evidence_url": "https://github.com/tsai97216/bahasign/blob/main/README.md"
+        "evidence_url": "https://github.com/47tsai/bahasign/blob/main/README.md"
       },
       "schedule_age_seconds": 42003,
       "schedule_max_age_seconds": 57600
     },
     {
       "name": "merch",
-      "full_name": "tsai97216/merch",
-      "html_url": "https://github.com/tsai97216/merch",
+      "full_name": "47tsai/merch",
+      "html_url": "https://github.com/47tsai/merch",
       "workflow": "Deploy",
       "status": "success",
       "branch": "main",
@@ -727,8 +727,8 @@
       "event": "workflow_run",
       "commit_message": "Remove accidental blank README",
       "duration_seconds": 58,
-      "runs_url": "https://github.com/tsai97216/merch/actions",
-      "run_url": "https://github.com/tsai97216/merch/actions/runs/40896198341",
+      "runs_url": "https://github.com/47tsai/merch/actions",
+      "run_url": "https://github.com/47tsai/merch/actions/runs/40896198341",
       "business": {
         "kind": "deploy",
         "title": "周邊收藏網",
@@ -779,13 +779,13 @@
           }
         ],
         "note": "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。",
-        "evidence_url": "https://github.com/tsai97216/merch/actions"
+        "evidence_url": "https://github.com/47tsai/merch/actions"
       }
     },
     {
       "name": "nav",
-      "full_name": "tsai97216/nav",
-      "html_url": "https://github.com/tsai97216/nav",
+      "full_name": "47tsai/nav",
+      "html_url": "https://github.com/47tsai/nav",
       "workflow": "pages build and deployment",
       "status": "success",
       "branch": "main",
@@ -794,8 +794,8 @@
       "event": "dynamic",
       "commit_message": "chore: auto bump version [skip ci]",
       "duration_seconds": 45,
-      "runs_url": "https://github.com/tsai97216/nav/actions",
-      "run_url": "https://github.com/tsai97216/nav/actions/runs/40895963708",
+      "runs_url": "https://github.com/47tsai/nav/actions",
+      "run_url": "https://github.com/47tsai/nav/actions/runs/40895963708",
       "business": {
         "kind": "deploy",
         "title": "Chi 的工具箱",
@@ -846,13 +846,13 @@
           }
         ],
         "note": "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。",
-        "evidence_url": "https://github.com/tsai97216/nav/actions"
+        "evidence_url": "https://github.com/47tsai/nav/actions"
       }
     },
     {
       "name": "h",
-      "full_name": "tsai97216/h",
-      "html_url": "https://github.com/tsai97216/h",
+      "full_name": "47tsai/h",
+      "html_url": "https://github.com/47tsai/h",
       "workflow": "CI",
       "status": "success",
       "branch": "main",
@@ -861,8 +861,8 @@
       "event": "push",
       "commit_message": "fix: use blue PNG for H Tools home-screen icon",
       "duration_seconds": 32,
-      "runs_url": "https://github.com/tsai97216/h/actions",
-      "run_url": "https://github.com/tsai97216/h/actions/runs/39130036127",
+      "runs_url": "https://github.com/47tsai/h/actions",
+      "run_url": "https://github.com/47tsai/h/actions/runs/39130036127",
       "business": {
         "kind": "deploy",
         "title": "H",
@@ -913,7 +913,7 @@
           }
         ],
         "note": "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。",
-        "evidence_url": "https://github.com/tsai97216/h/actions"
+        "evidence_url": "https://github.com/47tsai/h/actions"
       }
     }
   ]
