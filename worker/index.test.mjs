@@ -452,7 +452,7 @@ test("dispatches an approved workflow with only validated inputs", async () => {
     const result = await jsonResponse(response);
     assert.equal(response.status, 202);
     assert.equal(result.body.ok, true);
-    assert.match(captured.url, /tsai97216\/chi-source\/actions\/workflows\/main\.yml\/dispatches$/);
+    assert.match(captured.url, /47tsai\/chi-source\/actions\/workflows\/main\.yml\/dispatches$/);
     assert.equal(captured.options.headers.Authorization, "Bearer test-token");
     assert.deepEqual(JSON.parse(captured.options.body), { ref: "main", inputs: { app: "all" } });
     assert.ok(captured.options.signal instanceof AbortSignal);
