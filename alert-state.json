@@ -1,3 +1,16 @@
 {
-  "active_failures": {}
+  "active_failures": {
+    "apktwsign": {
+      "name": "apktwsign",
+      "title": "APK.TW 自動簽到",
+      "reason": "排程執行逾期，可能未收到新的觸發",
+      "url": "https://github.com/47tsai/apktwsign/actions/runs/40907291435"
+    },
+    "bahasign": {
+      "name": "bahasign",
+      "title": "巴哈姆特自動簽到",
+      "reason": "排程執行逾期，可能未收到新的觸發",
+      "url": "https://github.com/47tsai/bahasign/actions/runs/40907289801"
+    }
+  }
 }
