@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#f6f8fc">
 <meta name="description" content="Chi Status 狀態總覽，查看工作流程執行結果、服務與網站可用性，以及專案業務狀態。">
 <title>Chi Status · 狀態總覽</title>
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/tsai97216/chi-design-system/main/logo/blue-w.png">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tsai97216/chi-design-system/main/logo/blue-w.png">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/47tsai/chi-design-system/main/logo/blue-w.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/47tsai/chi-design-system/main/logo/blue-w.png">
 <style>
 :root{color-scheme:light;--chi-color-page:#f6f8fc;--chi-color-page-soft:#f0f3fa;--chi-color-surface:#fff;--chi-color-surface-raised:#fff;--chi-color-surface-muted:#edf2fc;--chi-color-text:#33343a;--chi-color-text-strong:#202127;--chi-color-text-muted:#686f7d;--chi-color-text-subtle:#9299a7;--chi-color-accent:#4a88fc;--chi-color-accent-hover:#3476ed;--chi-color-border:#e8ebf2;--chi-color-border-strong:#d4dae6;--chi-color-focus:#4a88fc;--chi-color-success:#237a50;--chi-color-warning:#8a5b13;--chi-color-danger:#b93843;--chi-font-sans:"Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--chi-font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--chi-radius-sm:6px;--chi-radius-md:10px;--chi-radius-lg:16px;--chi-shadow-subtle:0 2px 8px rgb(35 48 80 / 5%);--content:1180px}
 [data-chi-theme=dark]{color-scheme:dark;--chi-color-page:#17191f;--chi-color-page-soft:#1b1e27;--chi-color-surface:#20232c;--chi-color-surface-raised:#272b36;--chi-color-surface-muted:#282c38;--chi-color-text:#e8eaf1;--chi-color-text-strong:#f7f8fc;--chi-color-text-muted:#b2b8c7;--chi-color-text-subtle:#8c94a6;--chi-color-accent:#4a88fc;--chi-color-accent-hover:#79a8ff;--chi-color-border:#353a49;--chi-color-border-strong:#4b5265;--chi-color-focus:#4a88fc;--chi-color-success:#7ed6a7;--chi-color-warning:#edc071;--chi-color-danger:#ff969e;--chi-shadow-subtle:0 2px 8px rgb(0 0 0 / 18%)}
@@ -28,8 +28,8 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
 <header class="header"><div class="container header-inner">
-<a class="brand" href="/" aria-label="Chi Status 狀態總覽首頁"><span class="brand-mark" aria-hidden="true"><img class="brand-logo-light" src="https://raw.githubusercontent.com/tsai97216/chi-design-system/main/logo/blue-b.png" alt=""><img class="brand-logo-dark" src="https://raw.githubusercontent.com/tsai97216/chi-design-system/main/logo/blue-w.png" alt=""></span><span>Chi Status<small>PROJECT HEALTH</small></span></a>
-<nav class="nav" id="nav" aria-label="主要導覽"><a href="#overview" aria-current="page">狀態總覽</a><a href="/action/">Actions 控制台</a><a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+<a class="brand" href="/" aria-label="Chi Status 狀態總覽首頁"><span class="brand-mark" aria-hidden="true"><img class="brand-logo-light" src="https://raw.githubusercontent.com/47tsai/chi-design-system/main/logo/blue-b.png" alt=""><img class="brand-logo-dark" src="https://raw.githubusercontent.com/47tsai/chi-design-system/main/logo/blue-w.png" alt=""></span><span>Chi Status<small>PROJECT HEALTH</small></span></a>
+<nav class="nav" id="nav" aria-label="主要導覽"><a href="#overview" aria-current="page">狀態總覽</a><a href="/action/">Actions 控制台</a><a href="https://github.com/47tsai/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
 <div class="tools"><button class="button" id="theme" type="button" aria-label="切換色彩模式"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg></button><button class="button menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="開啟導覽選單"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
 </div></header>
 <section class="page-heading"><div class="container"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> STATUS OVERVIEW</p><h1>狀態總覽</h1><p class="intro">查看工作流程執行結果、服務與網站可用性，以及專案業務狀態。</p><p class="updated" id="updated" aria-live="polite">正在讀取最新狀態…</p></div><div class="heading-actions"><button class="button primary" id="refresh" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 17.3 6.7L20 12M4 12l2.7 5.3A7 7 0 0 0 18.4 15"/></svg><span id="refresh-label">重新整理</span></button><a class="button" href="/action/">前往 Actions 控制台</a></div></div></div></section>
@@ -47,7 +47,7 @@ main{padding:24px 0 54px}.stats{display:grid;grid-template-columns:repeat(4,minm
 </div>
 
 </main>
-<footer class="footer"><div class="container footer-inner"><span>Chi Status · 狀態總覽</span><span><a href="/action/">Actions 控制台</a>　·　<a href="https://github.com/tsai97216/status" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></footer>
+<footer class="footer"><div class="container footer-inner"><span>Chi Status · 狀態總覽</span><span><a href="/action/">Actions 控制台</a>　·　<a href="https://github.com/47tsai/status" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></footer>
 <script>
 const $=id=>document.getElementById(id);let items=[],lastGeneratedAt=null,loading=false,loadError='';
 const labels={success:'成功',failure:'失敗',cancelled:'已取消',in_progress:'執行中',queued:'排隊中',requested:'等待中',waiting:'等待中',timed_out:'逾時',action_required:'需要處理',skipped:'已略過',unknown:'狀態未知',running:'執行中'};
