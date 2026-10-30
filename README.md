@@ -1,6 +1,6 @@
 # Chi Status
 
-Chi Status 是集中檢視 `tsai97216` 公開 GitHub 儲存庫的工作流程執行結果、服務可用性與專案業務狀態的監控儀表板。
+Chi Status 是集中檢視 `47tsai` 公開 GitHub 儲存庫的工作流程執行結果、服務可用性與專案業務狀態的監控儀表板。
 
 - **正式網址：** https://status.chi.qzz.io/
 - **Actions 控制台：** https://status.chi.qzz.io/action/
