@@ -4,7 +4,7 @@ This Worker provides a server-side allowlist for the projects shown on the Chi s
 
 ## 1. GitHub repository secrets
 
-The tsai97216/status repository needs these three secrets in **Settings → Secrets and variables → Actions**:
+The 47tsai/status repository needs these three secrets in **Settings → Secrets and variables → Actions**:
 
 - CLOUDFLARE_ACCOUNT_ID: your Cloudflare account ID.
 - CLOUDFLARE_API_TOKEN: a Cloudflare API token allowed to edit/deploy Workers for this account.
