@@ -250,8 +250,8 @@ test("rejects dispatch to a workflow outside the allowlist", async () => {
 
 test("rejects non-main refs and unsupported inputs", async () => {
   const wrongRef = await runWorker(request({ ref: "feature" }), env);
-  const wrongInput = await runWorker(request({ repository: "tsai97216/status", workflow: "update-status.yml", inputs: { arbitrary: "value" } }), env);
-  const oversizedInput = await runWorker(request({ repository: "tsai97216/chi-source", workflow: "main.yml", inputs: { app: "x".repeat(101) } }), env);
+  const wrongInput = await runWorker(request({ repository: "47tsai/status", workflow: "update-status.yml", inputs: { arbitrary: "value" } }), env);
+  const oversizedInput = await runWorker(request({ repository: "47tsai/chi-source", workflow: "main.yml", inputs: { app: "x".repeat(101) } }), env);
   assert.equal(wrongRef.status, 400);
   assert.equal(wrongInput.status, 400);
   assert.equal(oversizedInput.status, 400);
@@ -313,7 +313,7 @@ test("rejects non-JSON content types before consuming dispatch quota", async () 
         Authorization: "Bearer test-access-token-1234567890123456789012345678",
         "Content-Type": "text/plain",
       },
-      body: JSON.stringify({ repository: "tsai97216/status", workflow: "update-status.yml", ref: "main" }),
+      body: JSON.stringify({ repository: "47tsai/status", workflow: "update-status.yml", ref: "main" }),
     });
     const response = await runWorker(req, testEnv);
     const result = await jsonResponse(response);
@@ -376,7 +376,7 @@ test("rejects non-text dispatch selectors before consuming quota", async () => {
     DISPATCH_RATE_LIMITER: { async limit() { dispatchLimitCalls++; return { success: true }; } },
   };
   const cases = [
-    { repository: { name: "tsai97216/status" } },
+    { repository: { name: "47tsai/status" } },
     { workflow: ["update-status.yml"] },
     { ref: { branch: "main" } },
   ];
@@ -412,17 +412,17 @@ test("does not expose or log GitHub upstream response bodies", async () => {
 
 test("rejects malformed and wrongly typed workflow inputs", async () => {
   const wrongType = await runWorker(request({
-    repository: "tsai97216/chi-source",
+    repository: "47tsai/chi-source",
     workflow: "main.yml",
     inputs: { app: 123 },
   }), env);
   const arrayInputs = await runWorker(request({
-    repository: "tsai97216/chi-source",
+    repository: "47tsai/chi-source",
     workflow: "main.yml",
     inputs: ["all"],
   }), env);
   const nullInputs = await runWorker(request({
-    repository: "tsai97216/chi-source",
+    repository: "47tsai/chi-source",
     workflow: "main.yml",
     inputs: null,
   }), env);
@@ -444,7 +444,7 @@ test("dispatches an approved workflow with only validated inputs", async () => {
   };
   try {
     const response = await runWorker(request({
-      repository: "tsai97216/chi-source",
+      repository: "47tsai/chi-source",
       workflow: "main.yml",
       ref: "main",
       inputs: { app: "all" },
