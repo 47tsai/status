@@ -1,16 +1,40 @@
 {
   "active_failures": {
+    "sub-service": {
+      "name": "sub-service",
+      "title": "SubsTracker",
+      "reason": "SubsTracker 端點異常",
+      "url": "https://github.com/47tsai/status/actions"
+    },
+    "chi-source": {
+      "name": "chi-source",
+      "title": "Chi Source",
+      "reason": "來源網站回應異常",
+      "url": "https://github.com/47tsai/chi-source/actions/runs/41533654983"
+    },
+    "chi-source-personal": {
+      "name": "chi-source-personal",
+      "title": "Chi Source Personal",
+      "reason": "來源網站回應異常",
+      "url": "https://github.com/47tsai/chi-source-personal/actions/runs/41533615403"
+    },
     "free-game": {
       "name": "free-game",
       "title": "限免遊戲通知",
       "reason": "掃描或通知流程失敗",
-      "url": "https://github.com/47tsai/free-game/actions/runs/41486211368"
+      "url": "https://github.com/47tsai/free-game/actions/runs/41533567194"
     },
     "sc-auto-claim": {
       "name": "sc-auto-claim",
       "title": "荒野亂鬥自動領取",
       "reason": "0/2 個帳號成功，2 個失敗",
       "url": "https://github.com/47tsai/sc-auto-claim/actions/runs/41477324104"
+    },
+    "nav": {
+      "name": "nav",
+      "title": "Chi 的工具箱",
+      "reason": "網站 HTTP 或頁面內容檢查失敗",
+      "url": "https://github.com/47tsai/nav/actions/runs/41010669629"
     },
     "bahasign": {
       "name": "bahasign",
