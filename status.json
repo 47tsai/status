@@ -1,7 +1,57 @@
 {
-  "generated_at": "2026-11-05T15:41:14.670364+00:00",
+  "generated_at": "2026-11-05T15:51:16.206362+00:00",
   "repository_count": 16,
   "repositories": [
+    {
+      "name": "chi-home",
+      "full_name": "Chi 個人主站",
+      "html_url": "https://chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "failure",
+      "branch": "Cloudflare Pages",
+      "updated_at": "2026-11-05T15:51:15.546934+00:00",
+      "created_at": "2026-11-05T15:51:15.546946+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "website",
+        "title": "Chi 個人主站",
+        "description": "個人主站首頁可用性檢查",
+        "icon": "▣",
+        "business_status": "failure",
+        "business_label": "Chi 個人主站 端點異常",
+        "metrics": [
+          {
+            "label": "檢查端點",
+            "value": "/",
+            "tone": "normal"
+          },
+          {
+            "label": "HTTP 狀態",
+            "value": "503",
+            "tone": "bad"
+          },
+          {
+            "label": "回應時間",
+            "value": "448 ms",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "端點檢查",
+            "result": "HTTP 503",
+            "time": "HTTP 503",
+            "tone": "bad"
+          }
+        ],
+        "note": "每 10 分鐘自動更新檢查 Chi 個人主站 的公開首頁（HTTP 狀態、回應內容與回應時間）。這是基本可用性探測，不代表所有站內功能均已完成端對端驗證。",
+        "evidence_url": "https://chi.qzz.io/"
+      }
+    },
     {
       "name": "free-game",
       "full_name": "47tsai/free-game",
@@ -57,7 +107,7 @@
         "note": "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。",
         "evidence_url": "https://github.com/47tsai/free-game/commits/main/data/processed.json"
       },
-      "schedule_age_seconds": 14304,
+      "schedule_age_seconds": 14906,
       "schedule_max_age_seconds": 28800
     },
     {
@@ -67,8 +117,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Workers",
-      "updated_at": "2026-11-05T15:41:14.517470+00:00",
-      "created_at": "2026-11-05T15:41:14.517487+00:00",
+      "updated_at": "2026-11-05T15:51:15.995742+00:00",
+      "created_at": "2026-11-05T15:51:15.995754+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
       "duration_seconds": null,
@@ -94,7 +144,7 @@
           },
           {
             "label": "回應時間",
-            "value": "152 ms",
+            "value": "210 ms",
             "tone": "normal"
           }
         ],
@@ -111,64 +161,14 @@
       }
     },
     {
-      "name": "chi-home",
-      "full_name": "Chi 個人主站",
-      "html_url": "https://chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "Cloudflare Pages",
-      "updated_at": "2026-11-05T15:41:13.996659+00:00",
-      "created_at": "2026-11-05T15:41:13.996672+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "website",
-        "title": "Chi 個人主站",
-        "description": "個人主站首頁可用性檢查",
-        "icon": "▣",
-        "business_status": "success",
-        "business_label": "Chi 個人主站 端點檢查通過",
-        "metrics": [
-          {
-            "label": "檢查端點",
-            "value": "/",
-            "tone": "normal"
-          },
-          {
-            "label": "HTTP 狀態",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "回應時間",
-            "value": "519 ms",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "端點檢查",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "HTTP 200",
-            "tone": "good"
-          }
-        ],
-        "note": "每 10 分鐘自動更新檢查 Chi 個人主站 的公開首頁（HTTP 狀態、回應內容與回應時間）。這是基本可用性探測，不代表所有站內功能均已完成端對端驗證。",
-        "evidence_url": "https://chi.qzz.io/"
-      }
-    },
-    {
       "name": "sub-service",
       "full_name": "SubsTracker · 訂閱管理服務",
       "html_url": "https://sub.chi.qzz.io/",
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-05T15:41:13.388649+00:00",
-      "created_at": "2026-11-05T15:41:13.388661+00:00",
+      "updated_at": "2026-11-05T15:51:14.845965+00:00",
+      "created_at": "2026-11-05T15:51:14.845978+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
       "duration_seconds": null,
@@ -194,7 +194,7 @@
           },
           {
             "label": "回應時間",
-            "value": "607 ms",
+            "value": "700 ms",
             "tone": "normal"
           }
         ],
@@ -217,8 +217,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-05T15:41:13.155461+00:00",
-      "created_at": "2026-11-05T15:41:13.155473+00:00",
+      "updated_at": "2026-11-05T15:51:14.554484+00:00",
+      "created_at": "2026-11-05T15:51:14.554497+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -244,7 +244,7 @@
           },
           {
             "label": "回應時間",
-            "value": "231 ms",
+            "value": "289 ms",
             "tone": "normal"
           }
         ],
@@ -267,8 +267,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-05T15:41:12.501454+00:00",
-      "created_at": "2026-11-05T15:41:12.501468+00:00",
+      "updated_at": "2026-11-05T15:51:13.889549+00:00",
+      "created_at": "2026-11-05T15:51:13.889562+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -294,7 +294,7 @@
           },
           {
             "label": "回應時間",
-            "value": "653 ms",
+            "value": "664 ms",
             "tone": "normal"
           }
         ],
@@ -317,8 +317,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-11-05T15:41:10.044236+00:00",
-      "created_at": "2026-11-05T15:41:10.044248+00:00",
+      "updated_at": "2026-11-05T15:51:11.492957+00:00",
+      "created_at": "2026-11-05T15:51:11.492966+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
       "duration_seconds": null,
@@ -351,19 +351,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 769 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 673 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 914 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1106 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 772 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 615 ms",
             "time": "",
             "tone": "good"
           }
@@ -379,13 +379,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-11-05T15:31:48Z",
-      "created_at": "2026-11-05T15:30:59Z",
+      "updated_at": "2026-11-05T15:42:12Z",
+      "created_at": "2026-11-05T15:40:48Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 49,
+      "duration_seconds": 84,
       "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions/runs/42055752017",
+      "run_url": "https://github.com/47tsai/status/actions/runs/42057413602",
       "business": {
         "kind": "dashboard",
         "title": "Chi Status 監控儀表板",
@@ -414,14 +414,14 @@
           {
             "label": "最近更新工作流程",
             "result": "資料更新成功",
-            "time": "2026-11-05 23:31:48",
+            "time": "2026-11-05 23:42:12",
             "tone": "good"
           }
         ],
         "note": "此專案負責收集各公開儲存庫的工作流程與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/47tsai/status/actions"
       },
-      "schedule_age_seconds": 597,
+      "schedule_age_seconds": 610,
       "schedule_max_age_seconds": 1500
     },
     {
@@ -490,7 +490,7 @@
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
         "evidence_url": "https://github.com/47tsai/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 2351,
+      "schedule_age_seconds": 2953,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -565,7 +565,7 @@
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
         "evidence_url": "https://github.com/47tsai/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 2370,
+      "schedule_age_seconds": 2972,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -618,7 +618,7 @@
         "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
         "evidence_url": "https://github.com/47tsai/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 27598,
+      "schedule_age_seconds": 28200,
       "schedule_max_age_seconds": 36000
     },
     {
@@ -665,7 +665,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/47tsai/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 41999,
+      "schedule_age_seconds": 42601,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -712,7 +712,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/47tsai/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 42000,
+      "schedule_age_seconds": 42602,
       "schedule_max_age_seconds": 57600
     },
     {
