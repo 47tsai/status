@@ -1,10 +1,22 @@
 {
   "active_failures": {
-    "chi-home": {
-      "name": "chi-home",
-      "title": "Chi 個人主站",
-      "reason": "Chi 個人主站 端點異常",
-      "url": "https://github.com/47tsai/status/actions"
+    "apktwsign": {
+      "name": "apktwsign",
+      "title": "APK.TW 自動簽到",
+      "reason": "紀錄過期，等待今日更新",
+      "url": "https://github.com/47tsai/apktwsign/actions/runs/42060748573"
+    },
+    "free-game": {
+      "name": "free-game",
+      "title": "限免遊戲通知",
+      "reason": "掃描或通知流程失敗",
+      "url": "https://github.com/47tsai/free-game/actions/runs/42060748384"
+    },
+    "status": {
+      "name": "status",
+      "title": "Chi Status 監控儀表板",
+      "reason": "排程執行逾期，可能未收到新的觸發",
+      "url": "https://github.com/47tsai/status/actions/runs/42059111909"
     }
   }
 }
