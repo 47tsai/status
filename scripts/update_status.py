@@ -458,12 +458,12 @@ def business_data(repo_name, run):
                         added_ids = [
                             line for line in patch.splitlines()
                             if line.startswith("+") and not line.startswith("+++")
-                            and re.search(r'"id"\\s*:\\s*"game_', line)
+                            and re.search(r'"id"\s*:\s*"game_', line)
                         ]
                         added_articles = [
                             line for line in patch.splitlines()
                             if line.startswith("+") and not line.startswith("+++")
-                            and re.search(r'"article_url"\\s*:\\s*"https?://', line)
+                            and re.search(r'"article_url"\s*:\s*"https?://', line)
                         ]
                         new_games = len(added_ids)
                         new_articles = min(new_games, len(added_articles))
