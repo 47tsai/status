@@ -415,6 +415,19 @@ def business_data(repo_name, run):
         result["note"] = "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/tree/main"
     elif kind == "freegame":
+        workflow_data = get_json(
+            f"https://api.github.com/repos/{OWNER}/{repo_name}/actions/runs?per_page=100"
+        )
+        workflow_runs = workflow_data.get("workflow_runs", [])
+        ingest_runs = [item for item in workflow_runs
+                       if item.get("path") == ".github/workflows/ingest.yml"]
+        fgc_runs = [item for item in workflow_runs
+                    if item.get("path") == ".github/workflows/fgc-sync.yml"]
+        ingest_run = ingest_runs[0] if ingest_runs else None
+        fgc_run = fgc_runs[0] if fgc_runs else None
+        ingest_status = normalize_run_status(ingest_run)
+        fgc_status = normalize_run_status(fgc_run)
+
         catalog = parse_json(raw(repo_name, "data/catalog/games.json"))
         outbox = parse_json(raw(repo_name, "data/operations/notifications.json"))
         records = catalog.get("records") if isinstance(catalog, dict) else None
@@ -443,9 +456,9 @@ def business_data(repo_name, run):
                     latest.get("commit", {}).get("committer", {}).get("date")
                     or latest.get("commit", {}).get("author", {}).get("date")
                 )
-                if state_commit_time and (run or {}).get("created_at"):
+                if state_commit_time and (ingest_run or {}).get("created_at"):
                     committed = datetime.fromisoformat(state_commit_time.replace("Z", "+00:00"))
-                    started = datetime.fromisoformat(run["created_at"].replace("Z", "+00:00"))
+                    started = datetime.fromisoformat(ingest_run["created_at"].replace("Z", "+00:00"))
                     fresh_state_commit = committed >= started
                 if fresh_state_commit:
                     detail = get_json(
@@ -458,33 +471,37 @@ def business_data(repo_name, run):
                         added_ids = [
                             line for line in patch.splitlines()
                             if line.startswith("+") and not line.startswith("+++")
-                            and re.search(r'"id"\s*:\s*"game_', line)
+                            and re.search(r'"id"\\s*:\\s*"game_', line)
                         ]
                         added_articles = [
                             line for line in patch.splitlines()
                             if line.startswith("+") and not line.startswith("+++")
-                            and re.search(r'"article_url"\s*:\s*"https?://', line)
+                            and re.search(r'"article_url"\\s*:\\s*"https?://', line)
                         ]
                         new_games = len(added_ids)
                         new_articles = min(new_games, len(added_articles))
         except Exception as exc:
             print(f"Could not inspect latest game-catalog diff: {exc}")
-        status = (run or {}).get("status")
+
         if not catalog_available or not notifications_available:
             result["business_status"] = "unknown"
             result["business_label"] = "遊戲目錄或通知紀錄無法讀取"
-        elif status == "failure":
+        elif "failure" in (ingest_status, fgc_status):
             result["business_status"] = "failure"
-            result["business_label"] = "掃描或通知流程失敗"
-        elif status == "success":
+            result["business_label"] = "4Gamers 掃描或 FGC 同步失敗"
+        elif "running" in (ingest_status, fgc_status):
+            result["business_status"] = "running"
+            result["business_label"] = "4Gamers 掃描或 FGC 同步進行中"
+        elif ingest_status == "success" and fgc_status == "success":
             result["business_status"] = "success"
             result["business_label"] = (
-                f"掃描完成，本輪新增 {new_games} 款遊戲"
-                if new_games else "掃描完成，本輪沒有新增遊戲通知紀錄"
+                f"自動化正常 · 本輪新增 {new_games} 款遊戲"
+                if new_games else "4Gamers 掃描與 FGC 同步正常"
             )
         else:
             result["business_status"] = "unknown"
-            result["business_label"] = "掃描結果待確認"
+            result["business_label"] = "掃描或同步結果待確認"
+
         result["metrics"] = [
             metric("本輪新增遊戲", new_games, "good" if new_games else "normal"),
             metric("本輪新增文章", new_articles),
@@ -492,10 +509,14 @@ def business_data(repo_name, run):
             metric("已送出通知", sent_notifications),
         ]
         result["details"] = [
-            {"label": "本輪狀態紀錄",
-             "result": "找到本輪目錄提交" if fresh_state_commit else "沒有本輪目錄提交（可能無新項目）",
-             "time": taipei_time(state_commit_time) if state_commit_time else "尚無紀錄",
-             "tone": "good" if fresh_state_commit else "normal"},
+            {"label": "4Gamers RSS 掃描",
+             "result": ingest_status,
+             "time": taipei_time((ingest_run or {}).get("updated_at")),
+             "tone": "good" if ingest_status == "success" else "bad" if ingest_status == "failure" else "normal"},
+            {"label": "FGC 領取同步",
+             "result": fgc_status,
+             "time": taipei_time((fgc_run or {}).get("updated_at")),
+             "tone": "good" if fgc_status == "success" else "bad" if fgc_status == "failure" else "normal"},
             {"label": "遊戲目錄 data/catalog/games.json",
              "result": f"可讀取 · {total_games} 筆遊戲" if catalog_available else "無法讀取或格式錯誤",
              "time": taipei_time(catalog.get("updated_at")) if catalog_available else "",
@@ -506,9 +527,9 @@ def business_data(repo_name, run):
              "tone": "good" if notifications_available else "bad"},
         ]
         result["note"] = (
-            "以 data/catalog/games.json 作為遊戲目錄、data/operations/notifications.json "
-            "作為通知紀錄；本輪新增數以遊戲目錄最近一次提交的 diff 計算，累積數不再依賴舊版 "
-            "data/processed.json。"
+            "分別檢查 4Gamers RSS 掃描與 FGC 領取同步工作流程；遊戲目錄使用 "
+            "data/catalog/games.json，通知紀錄使用 data/operations/notifications.json。"
+            "本輪新增數以遊戲目錄最近一次提交的 diff 計算。"
         )
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/tree/main/data"
     elif kind == "checkin":
@@ -786,8 +807,10 @@ def main():
             # Fetch only explicitly configured repositories; newly created repos
             # never appear on the dashboard unless added to MONITORED_REPOS.
             repo.update(get_json(f"https://api.github.com/repos/{full_name}"))
-            data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page=10")
+            data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page={100 if repo_name == \"free-game\" else 10}")
             runs = data.get("workflow_runs", [])
+            if repo_name == "free-game":
+                runs = [candidate for candidate in runs if candidate.get("path") in (".github/workflows/ingest.yml", ".github/workflows/fgc-sync.yml")]
             if repo["name"] == "status":
                 # The collector sees its own current run as in_progress. Use the latest
                 # completed run for its card so the published snapshot does not stay running.
