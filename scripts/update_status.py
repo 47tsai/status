@@ -415,50 +415,102 @@ def business_data(repo_name, run):
         result["note"] = "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/tree/main"
     elif kind == "freegame":
-        processed = parse_json(raw(repo_name, "data/processed.json"))
-        entries = processed if isinstance(processed, list) else []
-        total_games = sum(1 for x in entries if str(x).startswith("game|"))
-        total_articles = sum(1 for x in entries if str(x).startswith("article|"))
+        catalog = parse_json(raw(repo_name, "data/catalog/games.json"))
+        outbox = parse_json(raw(repo_name, "data/operations/notifications.json"))
+        records = catalog.get("records") if isinstance(catalog, dict) else None
+        notifications = outbox.get("records") if isinstance(outbox, dict) else None
+        catalog_available = isinstance(records, list)
+        notifications_available = isinstance(notifications, list)
+        records = records if catalog_available else []
+        notifications = notifications if notifications_available else []
+        total_games = len(records)
+        total_articles = len({item.get("article_url") for item in records
+                              if isinstance(item, dict) and item.get("article_url")})
+        sent_notifications = sum(1 for item in notifications
+                                 if isinstance(item, dict) and item.get("status") == "sent")
         new_games = 0
         new_articles = 0
         state_commit_time = None
         fresh_state_commit = False
         try:
-            commits = get_json(f"https://api.github.com/repos/{OWNER}/{repo_name}/commits?path=data/processed.json&per_page=1")
+            commits = get_json(
+                f"https://api.github.com/repos/{OWNER}/{repo_name}/commits"
+                "?path=data/catalog/games.json&per_page=1"
+            )
             if commits:
                 latest = commits[0]
-                state_commit_time = latest.get("commit", {}).get("committer", {}).get("date") or latest.get("commit", {}).get("author", {}).get("date")
+                state_commit_time = (
+                    latest.get("commit", {}).get("committer", {}).get("date")
+                    or latest.get("commit", {}).get("author", {}).get("date")
+                )
                 if state_commit_time and (run or {}).get("created_at"):
                     committed = datetime.fromisoformat(state_commit_time.replace("Z", "+00:00"))
                     started = datetime.fromisoformat(run["created_at"].replace("Z", "+00:00"))
                     fresh_state_commit = committed >= started
                 if fresh_state_commit:
-                    detail = get_json(f"https://api.github.com/repos/{OWNER}/{repo_name}/commits/{latest['sha']}")
+                    detail = get_json(
+                        f"https://api.github.com/repos/{OWNER}/{repo_name}/commits/{latest['sha']}"
+                    )
                     for changed in detail.get("files", []):
-                        if changed.get("filename") != "data/processed.json":
+                        if changed.get("filename") != "data/catalog/games.json":
                             continue
-                        added = [line[1:].strip().strip('",') for line in (changed.get("patch") or "").splitlines() if line.startswith("+") and not line.startswith("+++")]
-                        new_games = sum(1 for line in added if line.startswith("game|"))
-                        new_articles = sum(1 for line in added if line.startswith("article|"))
+                        patch = changed.get("patch") or ""
+                        added_ids = [
+                            line for line in patch.splitlines()
+                            if line.startswith("+") and not line.startswith("+++")
+                            and re.search(r'"id"\\s*:\\s*"game_', line)
+                        ]
+                        added_articles = [
+                            line for line in patch.splitlines()
+                            if line.startswith("+") and not line.startswith("+++")
+                            and re.search(r'"article_url"\\s*:\\s*"https?://', line)
+                        ]
+                        new_games = len(added_ids)
+                        new_articles = min(new_games, len(added_articles))
         except Exception as exc:
-            print(f"Could not inspect latest processed-state diff: {exc}")
+            print(f"Could not inspect latest game-catalog diff: {exc}")
         status = (run or {}).get("status")
-        result["business_status"] = "failure" if status == "failure" else "success" if status == "success" and isinstance(processed, list) else "unknown"
-        if status == "failure":
+        if not catalog_available or not notifications_available:
+            result["business_status"] = "unknown"
+            result["business_label"] = "遊戲目錄或通知紀錄無法讀取"
+        elif status == "failure":
+            result["business_status"] = "failure"
             result["business_label"] = "掃描或通知流程失敗"
-        elif status == "success" and new_games:
-            result["business_label"] = f"本輪成功新增 {new_games} 款遊戲紀錄"
         elif status == "success":
-            result["business_label"] = "掃描完成，本輪沒有新增遊戲通知紀錄"
+            result["business_status"] = "success"
+            result["business_label"] = (
+                f"掃描完成，本輪新增 {new_games} 款遊戲"
+                if new_games else "掃描完成，本輪沒有新增遊戲通知紀錄"
+            )
         else:
+            result["business_status"] = "unknown"
             result["business_label"] = "掃描結果待確認"
-        result["metrics"] = [metric("本輪新增遊戲", new_games, "good" if new_games else "normal"),
-                             metric("本輪處理文章", new_articles),
-                             metric("累積遊戲／文章", f"{total_games}／{total_articles}")]
-        result["details"] = [{"label": "本輪狀態紀錄", "result": "找到本輪狀態提交" if fresh_state_commit else "沒有本輪狀態提交（可能無新項目）", "time": taipei_time(state_commit_time) if state_commit_time else "尚無紀錄", "tone": "good" if fresh_state_commit else "normal"},
-                             {"label": "去重狀態檔", "result": "可讀取" if isinstance(processed, list) else "無法讀取", "time": "", "tone": "good" if isinstance(processed, list) else "bad"}]
-        result["note"] = "本輪新增數以 data/processed.json 最近一次提交的實際 diff 計算；遊戲紀錄只有在通知送出後才會加入。若本輪沒有狀態提交，顯示 0，而不把累積數誤當成本輪成果。"
-        result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/commits/main/data/processed.json"
+        result["metrics"] = [
+            metric("本輪新增遊戲", new_games, "good" if new_games else "normal"),
+            metric("本輪新增文章", new_articles),
+            metric("累積遊戲／文章", f"{total_games}／{total_articles}"),
+            metric("已送出通知", sent_notifications),
+        ]
+        result["details"] = [
+            {"label": "本輪狀態紀錄",
+             "result": "找到本輪目錄提交" if fresh_state_commit else "沒有本輪目錄提交（可能無新項目）",
+             "time": taipei_time(state_commit_time) if state_commit_time else "尚無紀錄",
+             "tone": "good" if fresh_state_commit else "normal"},
+            {"label": "遊戲目錄 data/catalog/games.json",
+             "result": f"可讀取 · {total_games} 筆遊戲" if catalog_available else "無法讀取或格式錯誤",
+             "time": taipei_time(catalog.get("updated_at")) if catalog_available else "",
+             "tone": "good" if catalog_available else "bad"},
+            {"label": "通知紀錄 data/operations/notifications.json",
+             "result": f"可讀取 · {sent_notifications} 則已送出" if notifications_available else "無法讀取或格式錯誤",
+             "time": taipei_time(outbox.get("updated_at")) if notifications_available else "",
+             "tone": "good" if notifications_available else "bad"},
+        ]
+        result["note"] = (
+            "以 data/catalog/games.json 作為遊戲目錄、data/operations/notifications.json "
+            "作為通知紀錄；本輪新增數以遊戲目錄最近一次提交的 diff 計算，累積數不再依賴舊版 "
+            "data/processed.json。"
+        )
+        result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/tree/main/data"
     elif kind == "checkin":
         record = raw(repo_name, "activity.md") if repo_name == "apktwsign" else raw(repo_name, "README.md")
         timestamp, status_line = parse_checkin_record(record)
