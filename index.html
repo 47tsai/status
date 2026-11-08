@@ -56,18 +56,20 @@ const text=s=>String(s??'');const escapeHTML=s=>text(s).replace(/[&<>"']/g,c=>({
 const isWorkflowBad=x=>['failure','timed_out','action_required','startup_failure'].includes(x.status);
 const isBusinessBad=x=>x.business?.business_status==='failure';
 const isRunning=x=>['in_progress','queued','requested','waiting'].includes(x.status);
+const isWorkflowUnconfirmed=x=>x.status!=='success'&&!isWorkflowBad(x)&&!isRunning(x);
+const needsAttention=x=>health(x)==='bad'||health(x)==='warn';
 const label=s=>labels[s]||s||'尚無紀錄';
 const safeDate=s=>{const d=new Date(s||0);return !s||Number.isNaN(d.getTime())?'尚無時間':d.toLocaleString('zh-TW',{hour12:false})};
 const businessLabel=b=>b?.business_label||'尚未建立業務紀錄';
-function health(x){if(isWorkflowBad(x)||isBusinessBad(x))return'bad';if(x.monitor_warning||isRunning(x)||x.business?.business_status!=='success')return isRunning(x)?'running':'warn';return'good'}
-function statusText(x){if(isWorkflowBad(x))return'工作流程'+label(x.status);if(isBusinessBad(x))return'業務異常';if(x.monitor_warning)return'監控警告';if(isRunning(x))return label(x.status);if(x.business?.business_status==='success')return'業務正常';return'待確認'}
+function health(x){if(isWorkflowBad(x)||isBusinessBad(x))return'bad';if(isRunning(x))return'running';if(x.monitor_warning||isWorkflowUnconfirmed(x)||x.business?.business_status!=='success')return'warn';return'good'}
+function statusText(x){if(isWorkflowBad(x))return'工作流程'+label(x.status);if(isBusinessBad(x))return'業務異常';if(x.monitor_warning)return'監控警告';if(isRunning(x))return label(x.status);if(isWorkflowUnconfirmed(x))return'工作流程'+label(x.status)+' · 待確認';if(x.business?.business_status==='success')return'業務正常';return'待確認'}
 function statusClass(x){const h=health(x);return h==='good'?'good':h==='bad'?'bad':h==='running'?'running':'warn'}
 function render(){
  const q=$('search').value.trim().toLowerCase(),f=$('filter').value,c=$('category').value;
- const filtered=items.filter(x=>{const b=x.business||{},hay=[x.name,x.full_name,x.workflow,x.branch,x.commit_message,x.monitor_warning,b.title,b.description,b.business_label,...(b.metrics||[]).flatMap(m=>[m.label,m.value]),...(b.details||[]).flatMap(d=>[d.label,d.result,d.time])].join(' ').toLowerCase();if(q&&!hay.includes(q))return false;if(f==='attention'&&!(isWorkflowBad(x)||isBusinessBad(x)||x.monitor_warning))return false;if(f==='business-failure'&&!isBusinessBad(x))return false;if(f==='workflow-failure'&&!isWorkflowBad(x))return false;if(f==='success'&&b.business_status!=='success')return false;if(f==='running'&&!isRunning(x))return false;if(c!=='all'&&b.kind!==c)return false;return true});
+ const filtered=items.filter(x=>{const b=x.business||{},hay=[x.name,x.full_name,x.workflow,x.branch,x.commit_message,x.monitor_warning,b.title,b.description,b.business_label,...(b.metrics||[]).flatMap(m=>[m.label,m.value]),...(b.details||[]).flatMap(d=>[d.label,d.result,d.time])].join(' ').toLowerCase();if(q&&!hay.includes(q))return false;if(f==='attention'&&!needsAttention(x))return false;if(f==='business-failure'&&!isBusinessBad(x))return false;if(f==='workflow-failure'&&!isWorkflowBad(x))return false;if(f==='success'&&health(x)!=='good')return false;if(f==='running'&&!isRunning(x))return false;if(c!=='all'&&b.kind!==c)return false;return true});
  const order={status:0,'vps-01':1,'sc-auto-claim':2,apktwsign:3,bahasign:4,'free-game':5,'chi-source':6,'chi-source-personal':7,'vaultwarden-service':8,'chi-auth-service':9,'chi-home':10,nav:11,merch:12,'sub-service':13,h:14};const severity=x=>isWorkflowBad(x)||isBusinessBad(x)?0:x.monitor_warning?1:isRunning(x)?1:(x.business?.business_status==='success'&&x.status==='success')?3:2;
  filtered.sort((a,b)=>(order[a.name]??100)-(order[b.name]??100)||severity(a)-severity(b)||(new Date(b.updated_at||0)-new Date(a.updated_at||0)));
- $('total').textContent=items.length;$('bizok').textContent=items.filter(x=>x.business?.business_status==='success').length;$('attention').textContent=items.filter(x=>isWorkflowBad(x)||isBusinessBad(x)||x.monitor_warning).length;$('running').textContent=items.filter(isRunning).length;$('result-count').textContent='顯示 '+filtered.length+' / '+items.length+' 個項目';
+ $('total').textContent=items.length;$('bizok').textContent=items.filter(x=>x.business?.business_status==='success').length;$('attention').textContent=items.filter(x=>health(x)==='bad'||health(x)==='warn').length;$('running').textContent=items.filter(isRunning).length;$('result-count').textContent='顯示 '+filtered.length+' / '+items.length+' 個項目';
  const root=$('projects');root.replaceChildren();
  if(!filtered.length){root.innerHTML='<div class="empty">沒有符合條件的監控項目。<br>請調整搜尋文字或篩選條件。</div>';return}
  for(const x of filtered){const b=x.business||{},metrics=b.metrics||[],details=b.details||[],h=health(x);const card=document.createElement('article');card.className='project';card.dataset.health=h;
