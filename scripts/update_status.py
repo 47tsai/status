@@ -807,7 +807,7 @@ def main():
             # Fetch only explicitly configured repositories; newly created repos
             # never appear on the dashboard unless added to MONITORED_REPOS.
             repo.update(get_json(f"https://api.github.com/repos/{full_name}"))
-            data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page={100 if repo_name == \"free-game\" else 10}")
+            data = get_json(f"https://api.github.com/repos/{full_name}/actions/runs?per_page={100 if repo_name == 'free-game' else 10}")
             runs = data.get("workflow_runs", [])
             if repo_name == "free-game":
                 runs = [candidate for candidate in runs if candidate.get("path") in (".github/workflows/ingest.yml", ".github/workflows/fgc-sync.yml")]
