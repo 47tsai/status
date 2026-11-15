@@ -1,7 +1,74 @@
 {
-  "generated_at": "2026-11-15T16:41:19.502453+00:00",
+  "generated_at": "2026-11-15T16:51:18.342021+00:00",
   "repository_count": 16,
   "repositories": [
+    {
+      "name": "merch",
+      "full_name": "47tsai/merch",
+      "html_url": "https://github.com/47tsai/merch",
+      "workflow": "Verify",
+      "status": "failure",
+      "branch": "fix/statistics-category-cleanup",
+      "updated_at": "2026-11-15T16:49:39Z",
+      "created_at": "2026-11-15T16:49:25Z",
+      "event": "pull_request",
+      "commit_message": "Add Verify statistics arithmetic step to CI",
+      "duration_seconds": 14,
+      "runs_url": "https://github.com/47tsai/merch/actions",
+      "run_url": "https://github.com/47tsai/merch/actions/runs/43737627145",
+      "business": {
+        "kind": "deploy",
+        "title": "周邊收藏網",
+        "description": "商品網站部署與實際 HTTP 健康檢查",
+        "icon": "▦",
+        "business_status": "failure",
+        "business_label": "最近一次部署失敗",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "failure",
+            "tone": "bad"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近一次部署",
+            "result": "最近一次部署失敗",
+            "time": "2026-11-16 00:49:39",
+            "tone": "bad"
+          },
+          {
+            "label": "網站可用性檢查",
+            "result": "https://merch.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi MERCH",
+            "tone": "good"
+          }
+        ],
+        "note": "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。",
+        "evidence_url": "https://github.com/47tsai/merch/actions"
+      }
+    },
     {
       "name": "free-game",
       "full_name": "47tsai/free-game",
@@ -74,7 +141,7 @@
         "note": "分別檢查 4Gamers RSS 掃描與 FGC 領取同步工作流程；遊戲目錄使用 data/catalog/games.json，通知紀錄使用 data/operations/notifications.json。本輪新增數以遊戲目錄最近一次提交的 diff 計算。",
         "evidence_url": "https://github.com/47tsai/free-game/tree/main/data"
       },
-      "schedule_age_seconds": 2397,
+      "schedule_age_seconds": 2996,
       "schedule_max_age_seconds": 28800
     },
     {
@@ -121,7 +188,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/47tsai/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 2404,
+      "schedule_age_seconds": 3002,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -131,8 +198,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Workers",
-      "updated_at": "2026-11-15T16:41:19.398277+00:00",
-      "created_at": "2026-11-15T16:41:19.398288+00:00",
+      "updated_at": "2026-11-15T16:51:18.215934+00:00",
+      "created_at": "2026-11-15T16:51:18.215947+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
       "duration_seconds": null,
@@ -158,7 +225,7 @@
           },
           {
             "label": "回應時間",
-            "value": "104 ms",
+            "value": "125 ms",
             "tone": "normal"
           }
         ],
@@ -181,8 +248,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Pages",
-      "updated_at": "2026-11-15T16:41:18.847522+00:00",
-      "created_at": "2026-11-15T16:41:18.847533+00:00",
+      "updated_at": "2026-11-15T16:51:18.073779+00:00",
+      "created_at": "2026-11-15T16:51:18.073793+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
       "duration_seconds": null,
@@ -208,7 +275,7 @@
           },
           {
             "label": "回應時間",
-            "value": "549 ms",
+            "value": "140 ms",
             "tone": "normal"
           }
         ],
@@ -231,8 +298,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-15T16:41:18.345239+00:00",
-      "created_at": "2026-11-15T16:41:18.345247+00:00",
+      "updated_at": "2026-11-15T16:51:17.409517+00:00",
+      "created_at": "2026-11-15T16:51:17.409531+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
       "duration_seconds": null,
@@ -258,7 +325,7 @@
           },
           {
             "label": "回應時間",
-            "value": "501 ms",
+            "value": "663 ms",
             "tone": "normal"
           }
         ],
@@ -281,8 +348,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-15T16:41:18.183312+00:00",
-      "created_at": "2026-11-15T16:41:18.183325+00:00",
+      "updated_at": "2026-11-15T16:51:17.043924+00:00",
+      "created_at": "2026-11-15T16:51:17.043938+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -308,7 +375,7 @@
           },
           {
             "label": "回應時間",
-            "value": "160 ms",
+            "value": "363 ms",
             "tone": "normal"
           }
         ],
@@ -331,8 +398,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-15T16:41:17.620136+00:00",
-      "created_at": "2026-11-15T16:41:17.620148+00:00",
+      "updated_at": "2026-11-15T16:51:16.346985+00:00",
+      "created_at": "2026-11-15T16:51:16.346998+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -358,7 +425,7 @@
           },
           {
             "label": "回應時間",
-            "value": "563 ms",
+            "value": "696 ms",
             "tone": "normal"
           }
         ],
@@ -381,8 +448,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-11-15T16:41:15.536087+00:00",
-      "created_at": "2026-11-15T16:41:15.536098+00:00",
+      "updated_at": "2026-11-15T16:51:14.216954+00:00",
+      "created_at": "2026-11-15T16:51:14.216966+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
       "duration_seconds": null,
@@ -415,19 +482,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 569 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 618 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 962 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 839 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 550 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 671 ms",
             "time": "",
             "tone": "good"
           }
@@ -443,13 +510,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-11-15T16:31:55Z",
-      "created_at": "2026-11-15T16:31:04Z",
+      "updated_at": "2026-11-15T16:41:37Z",
+      "created_at": "2026-11-15T16:40:53Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 51,
+      "duration_seconds": 44,
       "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions/runs/43735907140",
+      "run_url": "https://github.com/47tsai/status/actions/runs/43736833211",
       "business": {
         "kind": "dashboard",
         "title": "Chi Status 監控儀表板",
@@ -478,14 +545,14 @@
           {
             "label": "最近更新工作流程",
             "result": "資料更新成功",
-            "time": "2026-11-16 00:31:55",
+            "time": "2026-11-16 00:41:37",
             "tone": "good"
           }
         ],
         "note": "此專案負責收集各公開儲存庫的工作流程與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。",
         "evidence_url": "https://github.com/47tsai/status/actions"
       },
-      "schedule_age_seconds": 596,
+      "schedule_age_seconds": 606,
       "schedule_max_age_seconds": 1500
     },
     {
@@ -621,7 +688,7 @@
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
         "evidence_url": "https://github.com/47tsai/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 2375,
+      "schedule_age_seconds": 2974,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -674,7 +741,7 @@
         "note": "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。",
         "evidence_url": "https://github.com/47tsai/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 2401,
+      "schedule_age_seconds": 3000,
       "schedule_max_age_seconds": 36000
     },
     {
@@ -743,7 +810,7 @@
         "note": "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。",
         "evidence_url": "https://github.com/47tsai/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 2380,
+      "schedule_age_seconds": 2980,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -790,7 +857,7 @@
         "note": "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。",
         "evidence_url": "https://github.com/47tsai/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 2402,
+      "schedule_age_seconds": 3001,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -858,73 +925,6 @@
         ],
         "note": "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。",
         "evidence_url": "https://github.com/47tsai/h/actions"
-      }
-    },
-    {
-      "name": "merch",
-      "full_name": "47tsai/merch",
-      "html_url": "https://github.com/47tsai/merch",
-      "workflow": "Deploy",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-10-30T03:58:26Z",
-      "created_at": "2026-10-30T03:57:35Z",
-      "event": "workflow_run",
-      "commit_message": "chore: update GitHub owner in deploy check",
-      "duration_seconds": 51,
-      "runs_url": "https://github.com/47tsai/merch/actions",
-      "run_url": "https://github.com/47tsai/merch/actions/runs/41000202965",
-      "business": {
-        "kind": "deploy",
-        "title": "周邊收藏網",
-        "description": "商品網站部署與實際 HTTP 健康檢查",
-        "icon": "▦",
-        "business_status": "success",
-        "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近一次部署",
-            "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-10-30 11:58:26",
-            "tone": "good"
-          },
-          {
-            "label": "網站可用性檢查",
-            "result": "https://merch.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi MERCH",
-            "tone": "good"
-          }
-        ],
-        "note": "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。",
-        "evidence_url": "https://github.com/47tsai/merch/actions"
       }
     }
   ]
