@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-chi-theme="light" data-chi-theme-mode="system" data-chi-layout="header" data-chi-brand="status">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/47tsai/chi-system/main/logo/status-w.png">
+<meta name="theme-color" content="#F7F8FA">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/47tsai/chi-system/2b8cd040116133a580bae0136794679fdafdaeb1/logo/status-w.png">
 <title>Chi Status · 正在前往控制台</title>
 <script>
 (function () {
@@ -14,8 +15,32 @@
   window.location.replace(destination);
 })();
 </script>
+<script src="../chi-system/theme.js"></script>
+<link rel="stylesheet" href="../chi-system/tokens.css">
+<link rel="stylesheet" href="../chi-system/components.css">
 </head>
 <body>
-<p>正在前往 <a href="/action/">Chi Status Actions 控制台</a>…</p>
+<div class="chi-shell"><div class="chi-content">
+<header class="chi-header">
+<a class="chi-header__brand" href="/" aria-label="Chi Status 狀態總覽首頁">
+<img class="chi-header__logo chi-header__logo--light" src="https://raw.githubusercontent.com/47tsai/chi-system/2b8cd040116133a580bae0136794679fdafdaeb1/logo/status-b.png" alt="" width="32" height="32">
+<img class="chi-header__logo chi-header__logo--dark" src="https://raw.githubusercontent.com/47tsai/chi-system/2b8cd040116133a580bae0136794679fdafdaeb1/logo/status-w.png" alt="" width="32" height="32">
+<span class="chi-header__name">Chi Status</span>
+</a>
+<div class="chi-header__actions">
+<button class="chi-header__theme" type="button" data-chi-theme-toggle aria-label="切換主題" title="切換主題"><span aria-hidden="true" data-chi-theme-icon>◐</span></button>
+</div>
+</header>
+<nav class="chi-subnav" aria-label="本站導覽"><a href="/">狀態總覽</a><a href="/action/">Actions 控制台</a><a href="https://github.com/47tsai/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+<main class="chi-main" id="main">
+<div class="chi-state" role="status"><div class="chi-spinner" aria-hidden="true"></div><p class="chi-state__title">正在前往控制台…</p><p class="chi-state__desc">若沒有自動跳轉，請<a href="/action/">點這裡前往 Chi Status Actions 控制台</a>。</p></div>
+</main>
+<footer class="chi-footer"><span class="chi-footer__name">Chi Status</span><span class="chi-footer__version" data-version></span><span><a href="/">狀態總覽</a>　·　<a href="https://github.com/47tsai/status" target="_blank" rel="noopener noreferrer">GitHub</a></span></footer>
+</div></div>
+<script>
+function syncThemeColor(e){var d=e&&e.detail?e.detail.effective:document.documentElement.getAttribute('data-chi-theme');var meta=document.querySelector('meta[name=theme-color]');if(meta)meta.content=d==='dark'?'#131519':'#F7F8FA'}syncThemeColor();window.addEventListener('chi-theme-change',syncThemeColor);
+async function loadVersion(){try{var r=await fetch('/version.json',{cache:'no-store'});if(!r.ok)return;var d=await r.json();var el=document.querySelector('[data-version]');if(!el||typeof d.version!=='string'||!d.version)return;el.textContent='v'+d.version+(typeof d.commit==='string'&&d.commit?' · '+d.commit.slice(0,7):'')}catch(e){}}
+loadVersion();
+</script>
 </body>
 </html>
