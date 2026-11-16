@@ -18,6 +18,13 @@
 <script src="../chi-system/theme.js"></script>
 <link rel="stylesheet" href="../chi-system/tokens.css">
 <link rel="stylesheet" href="../chi-system/components.css">
+<style>
+/* 副導覽改底線分頁：照抄 chi-system .chi-tab */
+.chi-subnav{gap:var(--chi-space-1);padding:0 var(--chi-space-4)}
+.chi-subnav a{padding:var(--chi-space-3) var(--chi-space-4);border-bottom:var(--chi-base-tabs-indicator-width) solid transparent;margin-bottom:var(--chi-base-tabs-indicator-overlap);font-size:var(--chi-font-size-label);line-height:var(--chi-line-height-label);font-weight:var(--chi-font-weight-label);transition:color var(--chi-duration),border-color var(--chi-duration)}
+.chi-subnav a:hover{color:var(--chi-color-text-primary)}
+.chi-subnav a[aria-current="page"]{color:var(--chi-color-text-primary);font-weight:var(--chi-font-weight-section-title);border-bottom-color:var(--chi-color-accent)}
+</style>
 </head>
 <body>
 <div class="chi-shell"><div class="chi-content">
@@ -31,7 +38,7 @@
 <button class="chi-header__theme" type="button" data-chi-theme-toggle aria-label="切換主題" title="切換主題"><span aria-hidden="true" data-chi-theme-icon>◐</span></button>
 </div>
 </header>
-<nav class="chi-subnav" aria-label="本站導覽"><a href="/">狀態總覽</a><a href="/action/">Actions 控制台</a><a href="https://github.com/47tsai/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+<nav class="chi-subnav" aria-label="本站導覽"><a href="/">狀態總覽</a><a href="/action/">Actions 控制台</a><a href="https://github.com/47tsai/status" target="_blank" rel="noopener noreferrer">GitHub<span aria-hidden="true">↗</span></a></nav>
 <main class="chi-main" id="main">
 <div class="chi-state" role="status"><div class="chi-spinner" aria-hidden="true"></div><p class="chi-state__title">正在前往控制台…</p><p class="chi-state__desc">若沒有自動跳轉，請<a href="/action/">點這裡前往 Chi Status Actions 控制台</a>。</p></div>
 </main>

@@ -14,6 +14,11 @@
 *,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
 :focus-visible{outline:var(--chi-focus-width) solid var(--chi-color-focus-ring);outline-offset:var(--chi-focus-offset)}
 .skip{position:absolute;left:12px;top:-60px;z-index:50;padding:10px 14px;background:var(--chi-color-surface);border:1px solid var(--chi-color-border-subtle);border-radius:var(--chi-radius-md)}.skip:focus{top:12px}
+/* 副導覽改底線分頁：照抄 chi-system .chi-tab */
+.chi-subnav{gap:var(--chi-space-1);padding:0 var(--chi-space-4)}
+.chi-subnav a{padding:var(--chi-space-3) var(--chi-space-4);border-bottom:var(--chi-base-tabs-indicator-width) solid transparent;margin-bottom:var(--chi-base-tabs-indicator-overlap);font-size:var(--chi-font-size-label);line-height:var(--chi-line-height-label);font-weight:var(--chi-font-weight-label);transition:color var(--chi-duration),border-color var(--chi-duration)}
+.chi-subnav a:hover{color:var(--chi-color-text-primary)}
+.chi-subnav a[aria-current="page"]{color:var(--chi-color-text-primary);font-weight:var(--chi-font-weight-section-title);border-bottom-color:var(--chi-color-accent)}
 .chi-footer{flex-wrap:wrap}.chi-footer a{color:var(--chi-color-text-muted);text-decoration:none}.chi-footer a:hover{color:var(--chi-color-accent)}.chi-footer__version{white-space:nowrap}
 .page-heading{padding:27px 0 18px;border-bottom:1px solid var(--chi-color-border-subtle)}.heading-row{display:flex;align-items:flex-start;flex-direction:column;gap:15px}.eyebrow{display:flex;align-items:center;gap:9px;margin:0 0 9px;color:var(--chi-color-text-muted);font-size:11px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}.live-dot{width:7px;height:7px;border-radius:50%;background:var(--chi-color-success)}.page-heading h1{margin:0;color:var(--chi-color-text-primary);font-size:30px;line-height:1.2;letter-spacing:-.045em}.intro{max-width:650px;margin:10px 0 0;color:var(--chi-color-text-secondary);font-size:13px}.updated{margin-top:15px;color:var(--chi-color-text-muted);font-size:11px}.updated.stale{color:var(--chi-color-warning)}
 .section-head{display:flex;align-items:flex-start;flex-direction:column;gap:5px;margin-bottom:14px}.section-head h2{margin:0;color:var(--chi-color-text-primary);font-size:20px;letter-spacing:-.025em}.section-head p{margin:4px 0 0;color:var(--chi-color-text-secondary);font-size:13px}.result-count{color:var(--chi-color-text-muted);font-size:12px;white-space:normal}
@@ -84,7 +89,7 @@
 <button class="chi-header__theme" type="button" data-chi-theme-toggle aria-label="切換主題" title="切換主題"><span aria-hidden="true" data-chi-theme-icon>◐</span></button>
 </div>
 </header>
-<nav class="chi-subnav" aria-label="本站導覽"><a href="/">狀態總覽</a><a href="/action/" aria-current="page">Actions 控制台</a><a href="https://github.com/47tsai/status" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+<nav class="chi-subnav" aria-label="本站導覽"><a href="/">狀態總覽</a><a href="/action/" aria-current="page">Actions 控制台</a><a href="https://github.com/47tsai/status" target="_blank" rel="noopener noreferrer">GitHub<span aria-hidden="true">↗</span></a></nav>
 <main class="chi-main" id="main">
 <section class="page-heading"><div class="heading-row"><div><p class="eyebrow"><span class="live-dot"></span> ACTIONS CONSOLE</p><h1>Actions 控制台</h1><p class="intro">查看並手動觸發核准清單中的維護、更新與自動化工作流程。</p><p class="updated">僅能觸發核准清單中的工作流程，所有觸發皆使用 main 分支。</p></div></div></section>
 <section class="console-toolbar auth-required" id="act-workflow-heading" aria-labelledby="actions-heading"><div class="section-head"><div><h2 id="actions-heading">工作流程</h2><p>僅列出可手動觸發的維護、更新與自動化工作流程，不包含驗證、部署及其他不可直接觸發的流程。</p></div><span class="result-count" id="act-count" role="status">尚未登入</span></div></section>
