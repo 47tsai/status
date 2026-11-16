@@ -9,6 +9,7 @@ on:
       - "actions/index.html"
       - "CNAME"
       - "README.md"
+          - "release.json"
       - "docs/**"
       - "scripts/**"
       - "tests/**"
@@ -91,6 +92,30 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: main
+      - name: Generate version.json from release manifest
+        run: |
+          python - <<'PY'
+          import json
+          import re
+          import subprocess
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          manifest = json.loads(Path("release.json").read_text(encoding="utf-8"))
+          version = manifest.get("version")
+          if not isinstance(version, str) or not re.fullmatch(r"\d+\.\d+\.\d+", version):
+              raise SystemExit(f"release.json version is not SemVer MAJOR.MINOR.PATCH: {version!r}")
+          commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          payload = {
+              "version": version,
+              "commit": commit,
+              "commitShort": commit[:7],
+              "chiSystemVersion": manifest.get("chiSystemVersion"),
+              "deployedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+          }
+          Path("version.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(f"version.json: v{version} · {commit[:7]}")
+          PY
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload site artifact
