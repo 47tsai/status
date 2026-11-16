@@ -244,6 +244,26 @@ class VpsAggregationTests(unittest.TestCase):
         self.assertEqual(result["business_status"], "failure")
         self.assertIn("1/3 個端點 HTTP 200", result["business_label"])
 
+    @patch("update_status.health_check")
+    def test_single_endpoint_200_marks_vps_02_success(self, mock_health_check):
+        mock_health_check.return_value = {"ok": True, "protected": False, "status": 200, "url": "https://fgc.chi.qzz.io/", "latency_ms": 120}
+        result = update_status.business_data("vps-02", {"name": "vps-02"})
+        self.assertEqual(result["business_status"], "success")
+        self.assertIn("VPS-02", result["business_label"])
+        self.assertIn("1/1 個端點 HTTP 200", result["business_label"])
+        self.assertNotIn("VPS-01", result["business_label"])
+        details = {item["label"]: item for item in result["details"]}
+        self.assertEqual(details["免費遊戲自動領取"]["tone"], "good")
+
+    @patch("update_status.health_check")
+    def test_single_endpoint_failure_marks_vps_02_failed(self, mock_health_check):
+        mock_health_check.return_value = {"ok": False, "protected": False, "status": 503, "url": "https://fgc.chi.qzz.io/", "latency_ms": 120}
+        result = update_status.business_data("vps-02", {"name": "vps-02"})
+        self.assertEqual(result["business_status"], "failure")
+        self.assertIn("VPS-02", result["business_label"])
+        self.assertIn("0/1 個端點 HTTP 200", result["business_label"])
+        self.assertNotIn("VPS-01", result["business_label"])
+
 
 class HealthCheckClassificationTests(unittest.TestCase):
     def test_nonempty_titleless_html_200_is_healthy(self):

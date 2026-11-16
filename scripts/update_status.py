@@ -37,6 +37,7 @@ if TOKEN:
 PROFILES = {
     "status": {"kind": "dashboard", "title": "Chi Status 監控儀表板", "description": "儀表板資料更新與部署狀態", "icon": "◈"},
     "vps-01": {"kind": "vps", "title": "VPS-01 · Oracle Cloud", "description": "透過公開服務端點檢查 VPS 對外服務可用性", "icon": "▣"},
+    "vps-02": {"kind": "vps", "title": "VPS-02 · Oracle Cloud", "description": "透過公開服務端點檢查 VPS 對外服務可用性", "icon": "▣"},
     "sc-auto-claim": {"kind": "claim", "title": "荒野亂鬥自動領取", "description": "兩個帳號的實際領取結果與最近成功時間", "icon": "gamepad"},
     "free-game": {"kind": "freegame", "title": "限免遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "gamepad"},
     "apktwsign": {"kind": "checkin", "title": "APK.TW 自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
@@ -51,7 +52,29 @@ PROFILES = {
     "chi-home": {"kind": "website", "title": "Chi 個人主站", "description": "個人主站首頁可用性檢查", "icon": "▣", "health_url": "https://chi.qzz.io/", "service_name": "Chi 個人主站", "health_path": "/"},
     "sub-service": {"kind": "website", "title": "SubsTracker", "description": "訂閱管理網站首頁可用性檢查", "icon": "▣", "health_url": "https://sub.chi.qzz.io/", "service_name": "SubsTracker", "health_path": "/"},
     "sms-service": {"kind": "website", "title": "Chi SMS", "description": "SMS 簡訊轉發服務健康檢查", "icon": "▣", "health_url": "https://sms.chi.qzz.io/health", "service_name": "Chi SMS", "health_path": "/health"},
-    "fgc-service": {"kind": "website", "title": "免費遊戲自動領取", "description": "免費遊戲自動領取服務首頁可用性檢查", "icon": "▣", "health_url": "https://fgc.chi.qzz.io/", "service_name": "免費遊戲自動領取", "health_path": "/"},
+}
+
+# Public endpoints probed per VPS host card, with the HTTP 200 threshold
+# that counts the host as operational. VPS-01 has three endpoints and needs
+# at least two; VPS-02 exposes a single public endpoint (the Free Games
+# Claimer noVNC login page), so one healthy endpoint is enough.
+VPS_ENDPOINTS = {
+    "vps-01": {
+        "services": [
+            ("Alist", "https://alist.chi.qzz.io/"),
+            ("BiliTool", "https://bili.chi.qzz.io/"),
+            ("Twitch Drops Miner", "https://twitch.chi.qzz.io/"),
+        ],
+        "threshold": 2,
+        "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200，即判定服務正常。",
+    },
+    "vps-02": {
+        "services": [
+            ("免費遊戲自動領取", "https://fgc.chi.qzz.io/"),
+        ],
+        "threshold": 1,
+        "note": "判定標準：免費遊戲自動領取（noVNC 登入頁）一個公開端點回傳 HTTP 200，即判定服務正常。",
+    },
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 TAIPEI_TZ = ZoneInfo("Asia/Taipei")
@@ -558,13 +581,11 @@ def business_data(repo_name, run):
         result["note"] = "此專案負責收集各公開儲存庫的工作流程與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     elif kind == "vps":
-        # VPS-01 is considered operational when at least two of its three
-        # public endpoints return HTTP 200. This is an HTTP-level threshold.
-        services = [
-            ("Alist", "https://alist.chi.qzz.io/"),
-            ("BiliTool", "https://bili.chi.qzz.io/"),
-            ("Twitch Drops Miner", "https://twitch.chi.qzz.io/"),
-        ]
+        # A VPS host is considered operational when at least `threshold` of
+        # its public endpoints return HTTP 200. This is an HTTP-level threshold.
+        vps_config = VPS_ENDPOINTS.get(repo_name, VPS_ENDPOINTS["vps-01"])
+        services = vps_config["services"]
+        host_label = repo_name.upper()
         checks = []
         for label, url in services:
             check = health_check(url)
@@ -575,16 +596,16 @@ def business_data(repo_name, run):
         failed = sum(1 for item in checks if item["check"] and item["check"].get("status") not in (None, 200))
         unknown = sum(1 for item in checks if not item["check"] or item["check"].get("status") is None)
         total = len(checks)
-        threshold = 2
+        threshold = vps_config["threshold"]
         if healthy >= threshold:
             result["business_status"] = "success"
-            result["business_label"] = f"VPS-01 正常運作（至少 {threshold}/{total} 個端點 HTTP 200）"
+            result["business_label"] = f"{host_label} 正常運作（至少 {threshold}/{total} 個端點 HTTP 200）"
         elif failed:
             result["business_status"] = "failure"
-            result["business_label"] = f"VPS-01 異常（{healthy}/{total} 個端點 HTTP 200）"
+            result["business_label"] = f"{host_label} 異常（{healthy}/{total} 個端點 HTTP 200）"
         else:
             result["business_status"] = "unknown"
-            result["business_label"] = f"VPS-01 狀態未確認（{healthy}/{total} 個端點 HTTP 200）"
+            result["business_label"] = f"{host_label} 狀態未確認（{healthy}/{total} 個端點 HTTP 200）"
         result["metrics"] = [
             metric("HTTP 200 端點", f"{healthy}/{total}", "good" if healthy >= threshold else "bad" if failed else "normal"),
             metric("非 200 端點", failed, "bad" if failed else "good"),
@@ -610,7 +631,7 @@ def business_data(repo_name, run):
                 "time": "",
                 "tone": tone,
             })
-        result["note"] = "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200，即判定服務正常。"
+        result["note"] = vps_config["note"]
         result["evidence_url"] = None
     elif kind == "website":
         health = health_check(profile.get("health_url"))
@@ -878,6 +899,23 @@ def main():
                            else "failure" if host_item["business"]["business_status"] == "failure"
                            else "unknown")
     results.append(host_item)
+    # Synthetic host monitor for the second VPS: same structure as VPS-01.
+    host_item_2 = {
+        "name": "vps-02", "full_name": "VPS-02 · Oracle Cloud Infrastructure",
+        "html_url": "https://fgc.chi.qzz.io/",
+        "workflow": "外部服務探測", "status": "unknown", "branch": "OCI",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "event": "healthcheck", "commit_message": "每 10 分鐘自動更新檢查一個公開服務端點",
+        "duration_seconds": None,
+        "runs_url": f"https://github.com/{OWNER}/status/actions",
+        "run_url": f"https://github.com/{OWNER}/status/actions",
+    }
+    host_item_2["business"] = business_data("vps-02", host_item_2)
+    host_item_2["status"] = ("success" if host_item_2["business"]["business_status"] == "success"
+                             else "failure" if host_item_2["business"]["business_status"] == "failure"
+                             else "unknown")
+    results.append(host_item_2)
     # Vaultwarden is a service endpoint, not necessarily a repository with its own Workflow.
     vault_item = {
         "name": "vaultwarden-service", "full_name": "Vaultwarden · 密碼管理服務",
@@ -963,23 +1001,6 @@ def main():
                           else "failure" if sms_item["business"]["business_status"] == "failure"
                           else "unknown")
     results.append(sms_item)
-    # FGC is a noVNC endpoint on a separate VPS/tunnel, monitored independently of GitHub Actions.
-    fgc_item = {
-        "name": "fgc-service", "full_name": "免費遊戲自動領取 · FGC",
-        "html_url": "https://fgc.chi.qzz.io/",
-        "workflow": "外部服務探測", "status": "unknown", "branch": "VPS-02",
-        "updated_at": datetime.now(timezone.utc).isoformat(),
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "event": "healthcheck", "commit_message": "每 10 分鐘自動更新檢查 FGC 公開首頁",
-        "duration_seconds": None,
-        "runs_url": f"https://github.com/{OWNER}/status/actions",
-        "run_url": f"https://github.com/{OWNER}/status/actions",
-    }
-    fgc_item["business"] = business_data("fgc-service", fgc_item)
-    fgc_item["status"] = ("success" if fgc_item["business"]["business_status"] == "success"
-                          else "failure" if fgc_item["business"]["business_status"] == "failure"
-                          else "unknown")
-    results.append(fgc_item)
     def dashboard_priority(item):
         business_status = (item.get("business") or {}).get("business_status")
         workflow_status = item.get("status")
