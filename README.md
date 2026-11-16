@@ -35,10 +35,23 @@ Chi Status 是集中檢視 `47tsai` 公開 GitHub 儲存庫的工作流程執行
 ├── action/index.html              # Actions 控制台
 ├── actions/index.html             # Chi Auth OAuth 回呼入口
 ├── index.html                     # 狀態總覽
+├── release.json                   # 發布清單（本站版本與 chi-system 釘版）
 ├── status.json                    # 自動產生的最新狀態資料
 ├── scripts/                       # 狀態收集與 Discord 通知
+├── tests/                         # 單元測試（含版本識別測試）
 └── worker/                        # 工作流程觸發 API
 ```
+
+`version.json` 不在 repo 內，由部署工作流程依 `release.json` 與本次部署的 commit 產生，見下節。
+
+## 版本識別
+
+- **發布清單：** `release.json`（在 repo 內）是本站的發布身分：`site`、`version`（SemVer，不帶 `v` 前綴）、`chiSystemVersion`。本站版本與 chi-system 版本完全分開；此前沒有版本號慣例，自 chi-system 遷移完成起算，目前版本為 `1.0.0`。
+- **遞增規則：** MAJOR 為破壞性變更（`status.json` 格式、`version.json` 欄位、監控卡片契約或控制台 API 改變）；MINOR 為新功能（新增監控服務、控制台新能力）；PATCH 為修復或純樣式調整。改版號時只改 `release.json` 的 `version`。
+- **部署產物：** `version.json` 由部署工作流程產生（`version`、`commit`、`commitShort`、`chiSystemVersion`、`deployedAt`），隨 Pages 一起發佈，不進 repo。頁尾以 `fetch('/version.json', {cache: 'no-store'})` 執行期讀取、顯示「版本號 · 短版 commit SHA」；讀取失敗時不顯示虛構版本、不影響主要功能。
+  - 註：產生 `version.json` 的部署步驟尚未加入工作流程——Muse 的 GitHub App 缺少 Workflows 權限，API 拒絕更新 `.github/workflows/update-status.yml`（403 Resource not accessible by integration）。在此之前 `version.json` 尚不存在，頁尾不顯示版本。解法：齊在 GitHub App 安裝設定中授權 Workflows 權限，或手動把該步驟加進工作流程（內容見本次提交的說明），之後部署即自動產生。
+- **純資料更新：** bot 每 10 分鐘的 `status.json` 更新不改 `release.json`、不升版；`version` 保持不變，只有部署產物的 `commit` 與 `deployedAt` 隨部署更新。
+- **正式發布 Tag：** 按規範每次正式發布應建立 `vMAJOR.MINOR.PATCH` Tag，Tag 名、`version.json` 的 `version` 與發布紀錄三者一致；首個 `v1.0.0` Tag 尚未建立，待齊確認後再走完整發布流程。
 
 ## 本機執行測試
 
