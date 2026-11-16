@@ -144,7 +144,10 @@ def parse_checkin_record(record):
         return None, None
     timestamp = None
     status_line = None
-    status_markers = ("簽到成功", "今日已簽到", "簽到失敗", "執行完成，結果未知")
+    # "已記錄今日成功通知" is the full phrase bahasign writes for a
+    # successful check-in. Keep the whole phrase: the shorter "成功通知"
+    # would also match negated wordings such as "未發送成功通知".
+    status_markers = ("簽到成功", "今日已簽到", "簽到失敗", "執行完成，結果未知", "已記錄今日成功通知")
     for line in record.splitlines():
         if line.lower().startswith("last run:"):
             timestamp = line.split(":", 1)[1].strip()
@@ -152,6 +155,10 @@ def parse_checkin_record(record):
             cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
             if len(cells) >= 3 and re.search(r"\d{4}[-/]\d{2}[-/]\d{2}", cells[-2]):
                 timestamp = cells[-2]
+                status_line = cells[-1]
+            elif len(cells) >= 2:
+                # Two-column "label | value" row, e.g. bahasign's 執行結果
+                # row: the value cell is the result text, verbatim.
                 status_line = cells[-1]
             else:
                 status_line = re.sub(r"^[|\s#>*-]+", "", line).strip()
@@ -189,7 +196,8 @@ def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, sour
     has_success_marker = bool(
         status_line
         and not negated_success
-        and ("簽到成功" in status_line or "今日已簽到" in status_line)
+        and ("簽到成功" in status_line or "今日已簽到" in status_line
+             or "已記錄今日成功通知" in status_line)
     )
     has_failure_marker = bool(status_line and "簽到失敗" in status_line)
     conflicting_result = has_success_marker and has_failure_marker

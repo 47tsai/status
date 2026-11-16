@@ -179,6 +179,21 @@ class CheckinFreshnessTests(unittest.TestCase):
         self.assertEqual(result["business_status"], "unknown")
         self.assertEqual(result["tone"], "normal")
 
+    def test_new_success_phrase_with_negation_never_claims_success(self):
+        result = classify_checkin_result(
+            "2026-10-16 09:30:00", "已記錄今日成功通知，但未成功", self.now
+        )
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["tone"], "normal")
+
+    def test_new_success_phrase_conflicting_with_failure_remains_unknown(self):
+        result = classify_checkin_result(
+            "2026-10-16 09:30:00", "✅ 已記錄今日成功通知，但另一帳號簽到失敗", self.now
+        )
+        self.assertEqual(result["business_status"], "unknown")
+        self.assertEqual(result["business_label"], "簽到結果文字互相矛盾，無法判讀")
+        self.assertEqual(result["tone"], "normal")
+
     def test_missing_timestamp_never_claims_success(self):
         result = classify_checkin_result(None, "簽到成功", self.now)
         self.assertEqual(result["business_status"], "unknown")
@@ -264,6 +279,64 @@ class CheckinRecordParsingTests(unittest.TestCase):
         self.assertEqual(status_line, "未簽到成功")
         result = classify_checkin_result(timestamp, status_line, datetime(2026, 10, 16, 10, 0))
         self.assertEqual(result["business_status"], "unknown")
+
+    def test_bahasign_two_column_result_row_is_parsed_verbatim(self):
+        record = (
+            "# 巴哈姆特自動簽到\n"
+            "\n"
+            "| 項目 | 狀態 |\n"
+            "| --- | --- |\n"
+            "| 上次執行時間 | 2026-11-17 00:01:20 |\n"
+            "| 執行結果 | ✅ 已記錄今日成功通知，當天後續不再發送 Discord 訊息 |\n"
+            "| 簽到天數 | 📅 連續簽到：第 958 天 |\n"
+        )
+        timestamp, status_line = parse_checkin_record(record)
+        self.assertEqual(timestamp, "2026-11-17 00:01:20")
+        self.assertEqual(status_line, "✅ 已記錄今日成功通知，當天後續不再發送 Discord 訊息")
+        result = classify_checkin_result(timestamp, status_line, datetime(2026, 11, 17, 10, 0))
+        self.assertEqual(result["business_status"], "success")
+        self.assertEqual(result["business_label"], "✅ 已記錄今日成功通知，當天後續不再發送 Discord 訊息")
+        self.assertEqual(result["tone"], "good")
+
+    def test_bahasign_two_column_failure_row_is_parsed(self):
+        record = (
+            "| 項目 | 狀態 |\n"
+            "| --- | --- |\n"
+            "| 上次執行時間 | 2026-11-17 00:01:20 |\n"
+            "| 執行結果 | ❌ 簽到失敗 |\n"
+        )
+        timestamp, status_line = parse_checkin_record(record)
+        self.assertEqual(timestamp, "2026-11-17 00:01:20")
+        self.assertEqual(status_line, "❌ 簽到失敗")
+        result = classify_checkin_result(timestamp, status_line, datetime(2026, 11, 17, 10, 0))
+        self.assertEqual(result["business_status"], "failure")
+        self.assertEqual(result["tone"], "bad")
+
+    def test_short_success_notification_phrase_is_not_a_marker(self):
+        # "未發送成功通知" must not be read as a result: the marker is the
+        # full "已記錄今日成功通知" phrase, not the shorter "成功通知".
+        record = (
+            "| 項目 | 狀態 |\n"
+            "| --- | --- |\n"
+            "| 上次執行時間 | 2026-11-17 00:01:20 |\n"
+            "| 執行結果 | 未發送成功通知 |\n"
+        )
+        timestamp, status_line = parse_checkin_record(record)
+        self.assertEqual(timestamp, "2026-11-17 00:01:20")
+        self.assertIsNone(status_line)
+        result = classify_checkin_result(timestamp, status_line, datetime(2026, 11, 17, 10, 0))
+        self.assertEqual(result["business_status"], "unknown")
+
+    def test_apktw_three_column_row_still_classifies_success(self):
+        record = (
+            "| 帳號 | 上次簽到時間 | 簽到結果 |\n"
+            "| --- | --- | --- |\n"
+            "| APK.TW 帳號 | 2026-10-16 09:30:00 | ✅ 簽到成功 |\n"
+        )
+        timestamp, status_line = parse_checkin_record(record)
+        self.assertEqual((timestamp, status_line), ("2026-10-16 09:30:00", "✅ 簽到成功"))
+        result = classify_checkin_result(timestamp, status_line, datetime(2026, 10, 16, 10, 0))
+        self.assertEqual(result["business_status"], "success")
 
 
 if __name__ == "__main__":
