@@ -1,0 +1,1141 @@
+/* chi-system components.css — 生成物，DO NOT EDIT。由 scripts/build-site.mjs 串接 components/<元件>/*.css 產生。順序：header、footer、sidebar、button、icon、base。 */
+
+/* --- header/header.css --- */
+/* chi-system Header — 只引 Token，不寫原始值。 */
+.chi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--chi-layout-header-height);
+  padding: 0 var(--chi-space-4);
+  background: var(--chi-color-surface);
+  border-bottom: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  box-shadow: inset 0 var(--chi-base-border-accent-offset) 0 var(--chi-color-brand);
+}
+.chi-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--chi-space-2);
+  color: var(--chi-color-text-primary);
+  text-decoration: none;
+  font-size: var(--chi-font-size-label);
+  font-weight: var(--chi-font-weight-label);
+  line-height: var(--chi-font-line-height-label);
+}
+.chi-header__logo {
+  width: var(--chi-header-logo-size);
+  height: var(--chi-header-logo-size);
+  flex: 0 0 auto;
+}
+.chi-header__logo--dark {
+  display: none;
+}
+[data-chi-theme="dark"] .chi-header__logo--light {
+  display: none;
+}
+[data-chi-theme="dark"] .chi-header__logo--dark {
+  display: block;
+}
+.chi-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--chi-space-2);
+}
+.chi-header__theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--chi-size-touch-min);
+  min-height: var(--chi-size-touch-min);
+  padding: 0 var(--chi-space-2);
+  background: var(--chi-color-surface);
+  color: var(--chi-color-text-primary);
+  border: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  border-radius: var(--chi-radius-md);
+  cursor: pointer;
+}
+.chi-header__theme:focus-visible {
+  outline: var(--chi-focus-width) solid var(--chi-color-focus-ring);
+  outline-offset: var(--chi-focus-offset);
+}
+.chi-header__brand:focus-visible,
+.chi-subnav a:focus-visible {
+  outline: var(--chi-focus-width) solid var(--chi-color-focus-ring);
+  outline-offset: var(--chi-focus-offset);
+}
+.chi-subnav {
+  display: flex;
+  gap: var(--chi-space-4);
+  align-items: center;
+  padding: var(--chi-space-2) var(--chi-space-4);
+  background: var(--chi-color-surface);
+  border-bottom: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  overflow-x: auto;
+}
+.chi-subnav:empty {
+  display: none;
+}
+.chi-subnav a {
+  color: var(--chi-color-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.chi-subnav a[aria-current="page"] {
+  color: var(--chi-color-accent);
+  font-weight: var(--chi-font-weight-label);
+}
+
+/* --- footer/footer.css --- */
+/* chi-system Footer — 只引 Token，不寫原始值。 */
+.chi-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--chi-space-4);
+  padding: var(--chi-space-4);
+  color: var(--chi-color-text-muted);
+  font-size: var(--chi-font-size-caption);
+  line-height: var(--chi-font-line-height-caption);
+  border-top: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+}
+
+/* --- sidebar/sidebar.css --- */
+/* chi-system Sidebar — 只引 Token，不寫原始值。斷點只用 min-width：768px、1024px。
+   行動優先：手機版為抽屜（預設藏在畫面外）；≥768px 為圖示列；≥1024px 為完整側邊欄，
+   收合態（html[data-chi-sidebar-collapsed]）回到圖示列。導覽連結寫法：
+   <a href="…"><span class="chi-sidebar__icon">…</span><span class="chi-sidebar__label">…</span></a> */
+.chi-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.chi-content {
+  flex: 1;
+  min-width: 0;
+}
+.chi-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  width: var(--chi-layout-sidebar-width);
+  height: 100vh;
+  height: 100dvh; /* 手機瀏覽器網址列收放時跟著實際可視高度走，抽屜底部的切換鈕才不會被推出畫面；100vh 為舊瀏覽器 fallback。 */
+  background: var(--chi-sidebar-background);
+  border-right: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  transform: translateX(-100%);
+  transition: transform var(--chi-duration-base) ease;
+}
+.chi-sidebar.mobile-open {
+  transform: none;
+}
+.chi-sidebar__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  background: var(--chi-color-surface-sunken);
+  opacity: var(--chi-sidebar-scrim-opacity);
+}
+.chi-sidebar__scrim.visible {
+  display: block;
+}
+html.chi-sidebar-open body {
+  overflow: hidden;
+}
+.chi-sidebar__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--chi-space-2);
+  height: var(--chi-layout-header-height);
+  padding: 0 var(--chi-space-2) 0 var(--chi-space-4);
+  border-bottom: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  box-shadow: inset 0 var(--chi-base-border-accent-offset) 0 var(--chi-color-brand);
+  flex: 0 0 auto;
+}
+.chi-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--chi-space-2);
+  color: var(--chi-color-text-primary);
+  text-decoration: none;
+  font-size: var(--chi-font-size-label);
+  font-weight: var(--chi-font-weight-label);
+  line-height: var(--chi-font-line-height-label);
+  min-width: 0;
+}
+.chi-sidebar__logo {
+  width: var(--chi-sidebar-logo-size);
+  height: var(--chi-sidebar-logo-size);
+  flex: 0 0 auto;
+}
+.chi-sidebar__logo--dark {
+  display: none;
+}
+[data-chi-theme="dark"] .chi-sidebar__logo--light {
+  display: none;
+}
+[data-chi-theme="dark"] .chi-sidebar__logo--dark {
+  display: block;
+}
+.chi-sidebar__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chi-sidebar__trigger,
+.chi-sidebar__theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--chi-size-touch-min);
+  min-height: var(--chi-size-touch-min);
+  padding: 0;
+  background: var(--chi-color-surface);
+  color: var(--chi-color-text-primary);
+  border: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  border-radius: var(--chi-radius-md);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.chi-sidebar__trigger:focus-visible,
+.chi-sidebar__theme:focus-visible {
+  outline: var(--chi-focus-width) solid var(--chi-color-focus-ring);
+  outline-offset: var(--chi-focus-offset);
+}
+.chi-sidebar__nav a:focus-visible {
+  outline: var(--chi-focus-width) solid var(--chi-color-focus-ring);
+  outline-offset: var(--chi-focus-offset);
+}
+.chi-sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--chi-space-2);
+}
+.chi-sidebar__nav a {
+  display: flex;
+  align-items: center;
+  gap: var(--chi-space-2);
+  min-height: var(--chi-size-list-row);
+  padding: 0 var(--chi-space-2);
+  color: var(--chi-color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--chi-radius-md);
+}
+.chi-sidebar__nav a[aria-current="page"] {
+  color: var(--chi-sidebar-text-active);
+  background: var(--chi-color-surface-sunken);
+  box-shadow: inset var(--chi-sidebar-active-indicator-width) 0 0 var(--chi-color-brand);
+}
+.chi-sidebar__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--chi-space-2);
+  padding: var(--chi-space-2) var(--chi-space-4);
+  border-top: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  color: var(--chi-color-text-muted);
+  font-size: var(--chi-font-size-caption);
+  flex: 0 0 auto;
+}
+/* 手機版頁面標頭的開抽屜按鈕：只在 <768px 顯示。 */
+.chi-mobile-header {
+  display: flex;
+  align-items: center;
+  gap: var(--chi-space-2);
+  height: var(--chi-layout-header-height);
+  padding: 0 var(--chi-space-4);
+  background: var(--chi-color-surface);
+  border-bottom: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+}
+.chi-mobile-header .chi-sidebar__trigger {
+  margin-left: calc(var(--chi-space-2) * -1);
+}
+@media (min-width: 768px) {
+  .chi-mobile-header {
+    display: none;
+  }
+  .chi-sidebar {
+    position: sticky;
+    transform: none;
+    width: var(--chi-layout-sidebar-collapsed-width);
+  }
+  .chi-sidebar__scrim {
+    display: none;
+  }
+  .chi-sidebar__name,
+  .chi-sidebar__label,
+  .chi-sidebar__version {
+    display: none;
+  }
+  .chi-sidebar__top {
+    flex-direction: column;
+    height: auto;
+    padding: var(--chi-space-2);
+    gap: var(--chi-space-2);
+  }
+  .chi-sidebar__bottom {
+    flex-direction: column;
+    padding: var(--chi-space-2);
+  }
+  .chi-sidebar__nav a {
+    justify-content: center;
+    padding: 0;
+  }
+}
+@media (min-width: 1024px) {
+  .chi-sidebar {
+    width: var(--chi-layout-sidebar-width);
+  }
+  .chi-sidebar__name,
+  .chi-sidebar__label,
+  .chi-sidebar__version {
+    display: revert;
+  }
+  .chi-sidebar__top {
+    flex-direction: row;
+    height: var(--chi-layout-header-height);
+    padding: 0 var(--chi-space-2) 0 var(--chi-space-4);
+  }
+  .chi-sidebar__bottom {
+    flex-direction: row;
+    padding: var(--chi-space-2) var(--chi-space-4);
+  }
+  .chi-sidebar__nav a {
+    justify-content: flex-start;
+    padding: 0 var(--chi-space-2);
+  }
+  html[data-chi-sidebar-collapsed] .chi-sidebar {
+    width: var(--chi-layout-sidebar-collapsed-width);
+  }
+  html[data-chi-sidebar-collapsed] .chi-sidebar__name,
+  html[data-chi-sidebar-collapsed] .chi-sidebar__label,
+  html[data-chi-sidebar-collapsed] .chi-sidebar__version {
+    display: none;
+  }
+  html[data-chi-sidebar-collapsed] .chi-sidebar__top {
+    flex-direction: column;
+    height: auto;
+    padding: var(--chi-space-2);
+  }
+  html[data-chi-sidebar-collapsed] .chi-sidebar__bottom {
+    flex-direction: column;
+    padding: var(--chi-space-2);
+  }
+  html[data-chi-sidebar-collapsed] .chi-sidebar__nav a {
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+
+/* 偏好減少動態效果時，抽屜狀態仍正常切換，但不播放位移動畫。 */
+@media (prefers-reduced-motion: reduce) {
+  .chi-sidebar {
+    transition: none;
+  }
+}
+
+/* --- button/button.css --- */
+/* chi-system Button — 只引 Token，不寫原始值。 */
+.chi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--chi-space-2);
+  min-height: var(--chi-size-control);
+  padding: 0 var(--chi-space-4);
+  font-size: var(--chi-font-size-body-small);
+  font-weight: var(--chi-font-weight-label);
+  line-height: var(--chi-font-line-height-body-small);
+  border: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  border-radius: var(--chi-radius-md);
+  cursor: pointer;
+}
+.chi-btn:focus-visible {
+  outline: var(--chi-focus-width) solid var(--chi-color-focus-ring);
+  outline-offset: var(--chi-focus-offset);
+}
+.chi-btn:disabled {
+  color: var(--chi-color-text-disabled);
+  cursor: not-allowed;
+}
+.chi-btn--primary {
+  background: var(--chi-button-primary-background);
+  color: var(--chi-button-primary-text);
+  border-color: var(--chi-button-primary-background);
+}
+.chi-btn--primary:hover {
+  background: var(--chi-button-primary-background-hover);
+}
+.chi-btn--primary:active {
+  background: var(--chi-button-primary-background-active);
+}
+.chi-btn--secondary {
+  background: var(--chi-button-secondary-background);
+  color: var(--chi-button-secondary-text);
+}
+.chi-btn--ghost {
+  background: var(--chi-button-ghost-background);
+  color: var(--chi-button-ghost-text);
+  border-color: transparent;
+}
+.chi-btn--danger {
+  background: var(--chi-button-danger-background);
+  color: var(--chi-button-danger-text);
+  border-color: var(--chi-button-danger-background);
+}
+.chi-btn--sm {
+  min-height: var(--chi-size-control-compact);
+  padding: 0 var(--chi-space-3);
+}
+
+/* Disabled 是穩定狀態：不可因 hover／active 顯示可互動的視覺回饋。 */
+.chi-btn--primary:disabled,
+.chi-btn--primary:disabled:hover,
+.chi-btn--primary:disabled:active {
+  background: var(--chi-button-primary-background);
+  border-color: var(--chi-button-primary-background);
+}
+.chi-btn--secondary:disabled,
+.chi-btn--secondary:disabled:hover,
+.chi-btn--secondary:disabled:active {
+  background: var(--chi-button-secondary-background);
+}
+.chi-btn--ghost:disabled,
+.chi-btn--ghost:disabled:hover,
+.chi-btn--ghost:disabled:active {
+  background: var(--chi-button-ghost-background);
+  border-color: transparent;
+}
+.chi-btn--danger:disabled,
+.chi-btn--danger:disabled:hover,
+.chi-btn--danger:disabled:active {
+  background: var(--chi-button-danger-background);
+  border-color: var(--chi-button-danger-background);
+}
+/* --- icon/icon.css --- */
+/* chi-system Icon — 內嵌 SVG 圖示樣式（SPEC.md §6，U4）。
+ * 授權：Font Awesome Free 6.4.0，Icons: CC BY 4.0（threads 例外取自 6.4.2，見 icon.js）。
+ * 搭配 components/icon/icon.js：chiIcon() 回傳 <svg class="chi-icon">，此檔管尺寸與對齊。
+ *
+ * 注意與 base.css 的分工：base.css 也有 .chi-icon（Token 固定尺寸，供 <select> 等舊用法），
+ * 建置順序 icon 在 base 之前（見 scripts/build-site.mjs），因此此處用 svg.chi-icon
+ * 提高特異度，確保 chiIcon() 產生的 svg 依文字尺寸縮放（1em），不被 base.css 蓋回 20px；
+ * .chi-icon--sm／--lg 修飾仍沿用 base.css 的 Token 尺寸（16px／24px）。
+ * 垂直對齊 -0.125em 沿用 Font Awesome 做法，讓圖示基線與文字對齊。
+ */
+svg.chi-icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+svg.chi-icon--sm {
+  width: var(--chi-base-icon-sm);
+  height: var(--chi-base-icon-sm);
+}
+svg.chi-icon--lg {
+  width: var(--chi-base-icon-lg);
+  height: var(--chi-base-icon-lg);
+}
+/* 側邊欄導覽圖示格：固定 Token 尺寸，內層 svg 撐滿（見 SPEC.md §6 導覽連結寫法）。
+ * 用法：<a><span class="chi-sidebar__icon">chiIcon('fa-solid fa-star')</span><span class="chi-sidebar__label">…</span></a> */
+.chi-sidebar__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--chi-base-icon-md);
+  height: var(--chi-base-icon-md);
+  flex: none;
+}
+.chi-sidebar__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* --- base/base.css --- */
+/* chi-system base.css — 文件基礎＋表單／Tabs／卡片／清單／表格／徽章／對話框／資料狀態
+ * 來源：chi-system-old 的 components.css（HEAD 436f028）第 1–56 行與第 161–719 行，
+ *   舊全量盤點已核對：這些段落全部只引 Token、無其他寫死值，認為沒問題，直接搬用。
+ * 不搬的部分：舊第 57–160 行按鈕段 — v2 components/button/button.css 已按
+ *   component token 重寫（舊段有 2 處寫死 #ffffff，見舊報告 A17）。
+ * 舊版樣式經盤點後作為起點；後續 Token 化、狀態與無障礙修正，以本檔案及 SPEC.md 為準。
+ * 參考架構：GOV.UK／Carbon 的元件分層（元件樣式與文件基礎分開，見研究報告 §3、§6）。
+ */
+/* chi-system components.css — 元件樣式唯一來源（SPEC.md §6、第 15 節第 6 步）
+ *
+ * 涵蓋 SPEC.md 第 7.7 節基礎示例表的元件：按鈕、文字輸入、Checkbox、Radio、
+ * Switch、Select、Tabs、卡片、清單／表格列、徽章／狀態標示、導覽連結、對話框，
+ * 以及四種資料狀態（載入中、空、錯誤、成功）。未列出的元件（日期選擇、檔案上傳、
+ * 滑桿等）使用前須另行定義適用狀態，不得直接沿用近似元件（SPEC.md 第 7.7 節）。
+ * 全部數值引用 tokens.css 的變數；各站不得另寫元件樣式，需要新元件時先在
+ * chi-system 補齊並附範例。介面不使用 Emoji，狀態用圖示加文字表達（第 9 節）。
+ * 類別命名：.chi-<元件>，修飾以 --<變體>；狀態以屬性或 class 呈現，見各節註解。
+ */
+
+/* ---------- 共通 ---------- */
+
+/* focus-visible：全站統一，外框 2px、偏移 2px、形狀跟隨元件圓角（SPEC.md 7.6） */
+:where(.chi-btn, .chi-input, .chi-select, .chi-textarea, .chi-check__input,
+  .chi-radio__input, .chi-switch__input, .chi-tab, .chi-card--clickable,
+  .chi-list__item--clickable, .chi-nav-link, .chi-dialog__close):focus-visible {
+  outline: var(--chi-focus-width) solid var(--chi-color-focus-ring);
+  outline-offset: var(--chi-focus-offset);
+}
+
+/* 圖示尺寸：與 icons.svg 的 <use> 搭配 */
+.chi-icon {
+  width: var(--chi-base-icon-md);
+  height: var(--chi-base-icon-md);
+  flex: none;
+}
+
+.chi-icon--sm {
+  width: var(--chi-base-icon-sm);
+  height: var(--chi-base-icon-sm);
+}
+
+.chi-icon--lg {
+  width: var(--chi-base-icon-lg);
+  height: var(--chi-base-icon-lg);
+}
+
+/* ---------- 連結 ---------- */
+
+.chi-link {
+  color: var(--chi-color-accent);
+  text-decoration: none;
+}
+
+.chi-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- 表單欄位 ---------- */
+
+.chi-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--chi-space-2);
+}
+
+.chi-field__label {
+  font-size: var(--chi-font-size-label);
+  line-height: var(--chi-line-height-label);
+  font-weight: var(--chi-font-weight-label);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-field__hint {
+  font-size: var(--chi-font-size-body-small);
+  line-height: var(--chi-line-height-body-small);
+  color: var(--chi-color-text-secondary);
+}
+
+.chi-field__error {
+  display: flex;
+  align-items: center;
+  gap: var(--chi-space-1);
+  font-size: var(--chi-font-size-body-small);
+  line-height: var(--chi-line-height-body-small);
+  color: var(--chi-color-danger);
+}
+
+.chi-input,
+.chi-select,
+.chi-textarea {
+  box-sizing: border-box;
+  min-height: var(--chi-size-control);
+  padding: 0 var(--chi-space-3);
+  border: var(--chi-base-border-default-width) solid var(--chi-color-border-strong);
+  border-radius: var(--chi-radius-md);
+  background-color: var(--chi-color-surface);
+  color: var(--chi-color-text-primary);
+  font-family: var(--chi-font-sans);
+  font-size: var(--chi-font-size-body);
+  line-height: var(--chi-line-height-body);
+  transition: border-color var(--chi-duration);
+}
+
+.chi-input:hover,
+.chi-select:hover,
+.chi-textarea:hover {
+  border-color: var(--chi-color-text-muted);
+}
+
+.chi-input:focus,
+.chi-select:focus,
+.chi-textarea:focus {
+  border-color: var(--chi-color-accent);
+}
+
+/* placeholder 屬一般文字，同樣須過 AA（SPEC.md 第 11 節） */
+.chi-input::placeholder,
+.chi-textarea::placeholder {
+  color: var(--chi-color-text-muted);
+}
+
+.chi-textarea {
+  min-height: var(--chi-base-form-textarea-min-height);
+  padding: var(--chi-space-3);
+  resize: vertical;
+}
+
+.chi-input:disabled,
+.chi-input:disabled:hover,
+.chi-select:disabled,
+.chi-select:disabled:hover,
+.chi-textarea:disabled,
+.chi-textarea:disabled:hover {
+  background-color: var(--chi-color-surface-sunken);
+  color: var(--chi-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* 錯誤：邊框變色之外，同時有錯誤文字與圖示，不只靠顏色（SPEC.md 7.7） */
+.chi-field--error .chi-input,
+.chi-field--error .chi-select,
+.chi-field--error .chi-textarea {
+  border-color: var(--chi-color-danger);
+}
+
+/* Select：原生 select + 以 icons.svg 的 chevron-down 作指示，不另寫下拉邏輯 */
+.chi-select-wrap {
+  position: relative;
+  display: flex;
+}
+
+.chi-select {
+  appearance: none;
+  width: 100%;
+  padding-right: var(--chi-base-form-select-icon-padding);
+  cursor: pointer;
+}
+
+.chi-select:disabled {
+  cursor: not-allowed;
+}
+
+.chi-select-wrap .chi-icon {
+  position: absolute;
+  right: var(--chi-space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--chi-color-text-secondary);
+}
+
+/* ---------- Checkbox / Radio / Switch ---------- */
+
+.chi-check,
+.chi-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--chi-space-2);
+  min-height: var(--chi-size-touch-min);
+  cursor: pointer;
+  font-size: var(--chi-font-size-body);
+  line-height: var(--chi-line-height-body);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-check__input,
+.chi-radio__input {
+  appearance: none;
+  width: var(--chi-base-choice-size);
+  height: var(--chi-base-choice-size);
+  flex: none;
+  margin: 0;
+  border: var(--chi-base-border-default-width) solid var(--chi-color-border-strong);
+  background-color: var(--chi-color-surface);
+  cursor: pointer;
+  transition:
+    background-color var(--chi-duration),
+    border-color var(--chi-duration);
+}
+
+.chi-check__input {
+  border-radius: var(--chi-radius-sm);
+}
+
+.chi-radio__input {
+  border-radius: var(--chi-radius-full);
+}
+
+/* 勾選以勾記與底色並行，不只靠顏色（SPEC.md 7.7） */
+.chi-check__input:checked {
+  background-color: var(--chi-color-accent);
+  border-color: var(--chi-color-accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  background-size: var(--chi-base-choice-checkmark-size);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.chi-radio__input:checked {
+  border-color: var(--chi-color-accent);
+  border-width: var(--chi-base-choice-radio-checked-border-width);
+  background-color: var(--chi-color-surface);
+}
+
+.chi-check__input:disabled,
+.chi-radio__input:disabled {
+  opacity: var(--chi-base-state-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.chi-check:has(.chi-check__input:disabled),
+.chi-radio:has(.chi-radio__input:disabled),
+.chi-switch:has(.chi-switch__input:disabled) {
+  color: var(--chi-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.chi-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--chi-space-2);
+  min-height: var(--chi-size-touch-min);
+  cursor: pointer;
+  font-size: var(--chi-font-size-body);
+  line-height: var(--chi-line-height-body);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-switch__input {
+  appearance: none;
+  width: var(--chi-base-switch-width);
+  height: var(--chi-base-switch-height);
+  flex: none;
+  margin: 0;
+  border-radius: var(--chi-radius-full);
+  background-color: var(--chi-color-border-strong);
+  cursor: pointer;
+  transition: background-color var(--chi-duration);
+  position: relative;
+}
+
+.chi-switch__input::after {
+  content: "";
+  position: absolute;
+  top: var(--chi-base-switch-thumb-inset);
+  left: var(--chi-base-switch-thumb-inset);
+  width: var(--chi-base-switch-thumb-size);
+  height: var(--chi-base-switch-thumb-size);
+  border-radius: var(--chi-radius-full);
+  background-color: var(--chi-color-surface);
+  transition: transform var(--chi-duration);
+}
+
+.chi-switch__input:checked {
+  background-color: var(--chi-color-accent);
+}
+
+.chi-switch__input:checked::after {
+  transform: translateX(var(--chi-base-switch-thumb-travel));
+}
+
+.chi-switch__input:disabled {
+  opacity: var(--chi-base-state-disabled-opacity);
+  cursor: not-allowed;
+}
+
+/* ---------- Tabs ---------- */
+
+.chi-tabs {
+  display: flex;
+  gap: var(--chi-space-1);
+  border-bottom: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  overflow-x: auto;
+}
+
+.chi-tab {
+  padding: var(--chi-space-3) var(--chi-space-4);
+  border: none;
+  border-bottom: var(--chi-base-tabs-indicator-width) solid transparent;
+  margin-bottom: var(--chi-base-tabs-indicator-overlap);
+  background: none;
+  color: var(--chi-color-text-secondary);
+  font-family: var(--chi-font-sans);
+  font-size: var(--chi-font-size-label);
+  line-height: var(--chi-line-height-label);
+  font-weight: var(--chi-font-weight-label);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color var(--chi-duration),
+    border-color var(--chi-duration);
+}
+
+.chi-tab:hover:not(:disabled) {
+  color: var(--chi-color-text-primary);
+}
+
+.chi-tab:disabled {
+  color: var(--chi-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* selected：底線、字重與顏色並行，不只靠顏色（SPEC.md 7.7） */
+.chi-tab[aria-selected="true"] {
+  color: var(--chi-color-text-primary);
+  font-weight: var(--chi-font-weight-section-title);
+  border-bottom-color: var(--chi-color-accent);
+}
+
+/* ---------- 卡片 ---------- */
+
+.chi-card {
+  background-color: var(--chi-color-surface);
+  border: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  border-radius: var(--chi-radius-lg);
+  padding: var(--chi-space-5);
+  box-shadow: var(--chi-shadow-whisper);
+}
+
+.chi-card__title {
+  margin: 0 0 var(--chi-space-2);
+  font-size: var(--chi-font-size-card-title);
+  line-height: var(--chi-line-height-card-title);
+  font-weight: var(--chi-font-weight-card-title);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-card__body {
+  font-size: var(--chi-font-size-body);
+  line-height: var(--chi-line-height-body);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-card__actions {
+  display: flex;
+  gap: var(--chi-space-2);
+  margin-top: var(--chi-space-4);
+}
+
+.chi-card--clickable {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition:
+    border-color var(--chi-duration),
+    box-shadow var(--chi-duration);
+}
+
+.chi-card--clickable:hover {
+  border-color: var(--chi-color-border-strong);
+  box-shadow: var(--chi-shadow-raised);
+}
+
+/* ---------- 清單與表格 ---------- */
+
+.chi-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: var(--chi-color-surface);
+  border: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  border-radius: var(--chi-radius-lg);
+  overflow: hidden;
+}
+
+.chi-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--chi-space-3);
+  min-height: var(--chi-size-list-row);
+  padding: var(--chi-space-2) var(--chi-space-4);
+  border-bottom: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-list__item:last-child {
+  border-bottom: none;
+}
+
+.chi-list__item--clickable {
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--chi-duration);
+}
+
+.chi-list__item--clickable:hover {
+  background-color: var(--chi-color-surface-sunken);
+}
+
+/* selected：accent 細標記 + 底色並行（SPEC.md 7.7） */
+.chi-list__item[aria-selected="true"] {
+  background-color: var(--chi-color-surface-sunken);
+  box-shadow: inset var(--chi-base-border-indicator-width) 0 0 var(--chi-color-accent);
+}
+
+.chi-table-wrap {
+  overflow-x: auto;
+  border: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+  border-radius: var(--chi-radius-lg);
+  background-color: var(--chi-color-surface);
+}
+
+.chi-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--chi-font-size-body);
+  line-height: var(--chi-line-height-body);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-table th {
+  text-align: left;
+  padding: var(--chi-space-3) var(--chi-space-4);
+  border-bottom: var(--chi-base-border-default-width) solid var(--chi-color-border-strong);
+  font-size: var(--chi-font-size-label);
+  line-height: var(--chi-line-height-label);
+  font-weight: var(--chi-font-weight-label);
+  color: var(--chi-color-text-secondary);
+  white-space: nowrap;
+}
+
+.chi-table td {
+  padding: var(--chi-space-3) var(--chi-space-4);
+  border-bottom: var(--chi-base-border-default-width) solid var(--chi-color-border-subtle);
+}
+
+.chi-table tr:last-child td {
+  border-bottom: none;
+}
+
+.chi-table tbody tr:hover {
+  background-color: var(--chi-color-surface-sunken);
+}
+
+.chi-table tr[aria-selected="true"] {
+  background-color: var(--chi-color-surface-sunken);
+  box-shadow: inset var(--chi-base-border-indicator-width) 0 0 var(--chi-color-accent);
+}
+
+/* ---------- 徽章與狀態 ---------- */
+
+.chi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--chi-space-1);
+  min-height: var(--chi-base-badge-min-height);
+  padding: 0 var(--chi-space-2);
+  border-radius: var(--chi-radius-full);
+  font-size: var(--chi-font-size-caption);
+  line-height: var(--chi-line-height-caption);
+  font-weight: var(--chi-font-weight-label);
+  white-space: nowrap;
+}
+
+.chi-badge__dot {
+  width: var(--chi-base-badge-dot-size);
+  height: var(--chi-base-badge-dot-size);
+  flex: none;
+  border-radius: var(--chi-radius-full);
+}
+
+.chi-badge--success {
+  background-color: var(--chi-color-success-bg);
+  color: var(--chi-color-success-strong);
+}
+
+.chi-badge--success .chi-badge__dot {
+  background-color: var(--chi-color-success);
+}
+
+.chi-badge--warning {
+  background-color: var(--chi-color-warning-bg);
+  color: var(--chi-color-warning-strong);
+}
+
+.chi-badge--warning .chi-badge__dot {
+  background-color: var(--chi-color-warning);
+}
+
+.chi-badge--danger {
+  background-color: var(--chi-color-danger-bg);
+  color: var(--chi-color-danger-strong);
+}
+
+.chi-badge--danger .chi-badge__dot {
+  background-color: var(--chi-color-danger);
+}
+
+.chi-badge--info {
+  background-color: var(--chi-color-info-bg);
+  color: var(--chi-color-info-strong);
+}
+
+.chi-badge--info .chi-badge__dot {
+  background-color: var(--chi-color-info);
+}
+
+/* ---------- 對話框 ---------- */
+
+/* 容器層不定義 focus-visible，改定義 Focus Management：開啟時焦點移入對話框、
+   焦點限制在對話框內、關閉後焦點返回觸發處（SPEC.md 7.7，對話框列）。 */
+.chi-dialog {
+  border: none;
+  border-radius: var(--chi-radius-xl);
+  background-color: var(--chi-color-surface-raised);
+  color: var(--chi-color-text-primary);
+  box-shadow: var(--chi-shadow-overlay);
+  padding: var(--chi-space-5);
+  max-width: var(--chi-base-dialog-max-width);
+  width: calc(100% - var(--chi-base-dialog-inline-gutter));
+}
+
+.chi-dialog::backdrop {
+  background-color: var(--chi-color-backdrop);
+}
+
+.chi-dialog__title {
+  margin: 0 0 var(--chi-space-2);
+  font-size: var(--chi-font-size-section-title);
+  line-height: var(--chi-line-height-section-title);
+  font-weight: var(--chi-font-weight-section-title);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-dialog__body {
+  font-size: var(--chi-font-size-body);
+  line-height: var(--chi-line-height-body);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--chi-space-2);
+  margin-top: var(--chi-space-5);
+}
+
+/* ---------- 資料狀態 ---------- */
+
+.chi-state {
+  padding: var(--chi-space-7) var(--chi-space-5);
+  text-align: center;
+}
+
+.chi-state__icon {
+  width: var(--chi-base-state-icon-size);
+  height: var(--chi-base-state-icon-size);
+  margin: 0 auto var(--chi-space-4);
+  color: var(--chi-color-text-muted);
+}
+
+.chi-state__title {
+  margin: 0 0 var(--chi-space-2);
+  font-size: var(--chi-font-size-section-title);
+  line-height: var(--chi-line-height-section-title);
+  font-weight: var(--chi-font-weight-section-title);
+  color: var(--chi-color-text-primary);
+}
+
+.chi-state__desc {
+  margin: 0 auto;
+  max-width: var(--chi-base-state-description-max-width);
+  font-size: var(--chi-font-size-body-small);
+  line-height: var(--chi-line-height-body-small);
+  color: var(--chi-color-text-secondary);
+}
+
+.chi-state__action {
+  margin-top: var(--chi-space-4);
+}
+
+/* 載入中：有載入指示，不留整頁空白；不造成版面跳動（SPEC.md §6） */
+.chi-spinner {
+  width: var(--chi-base-spinner-size);
+  height: var(--chi-base-spinner-size);
+  border: var(--chi-base-spinner-border-width) solid var(--chi-color-border-subtle);
+  border-top-color: var(--chi-color-accent);
+  border-radius: var(--chi-radius-full);
+  animation: chi-spin var(--chi-base-spinner-duration) linear infinite;
+}
+
+@keyframes chi-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 骨架：載入時佔位，避免版面跳動 */
+.chi-skeleton {
+  background-color: var(--chi-color-surface-sunken);
+  border-radius: var(--chi-radius-sm);
+  min-height: var(--chi-base-skeleton-min-height);
+}
+
+/* ---------- 文件基礎（v2 新增，舊 repo 沒有 body 樣式） ---------- */
+body {
+  margin: 0;
+  background: var(--chi-color-canvas);
+  color: var(--chi-color-text-primary);
+  font-family: var(--chi-font-sans);
+  font-size: var(--chi-font-size-body);
+  line-height: var(--chi-font-line-height-body);
+}
+a {
+  color: var(--chi-color-accent);
+}
+.chi-main {
+  max-width: var(--chi-layout-content-max);
+  margin: 0 auto;
+  padding: var(--chi-space-5) var(--chi-space-4);
+}
+.chi-main h1 {
+  font-size: var(--chi-font-size-page-title);
+  line-height: var(--chi-font-line-height-page-title);
+  font-weight: var(--chi-font-weight-page-title);
+  margin: 0 0 var(--chi-space-4);
+}
+.chi-main h2 {
+  font-size: var(--chi-font-size-section-title);
+  line-height: var(--chi-font-line-height-section-title);
+  font-weight: var(--chi-font-weight-section-title);
+  margin: var(--chi-space-5) 0 var(--chi-space-3);
+}
+.chi-main p {
+  margin: 0 0 var(--chi-space-4);
+}
+
+/* ---------- 版式開關：同一份模板，data-chi-layout 決定用 header 或 sidebar ---------- */
+[data-chi-layout="header"] .chi-sidebar,
+[data-chi-layout="header"] .chi-sidebar__scrim,
+[data-chi-layout="header"] .chi-mobile-header {
+  display: none;
+}
+[data-chi-layout="sidebar"] .chi-header,
+[data-chi-layout="sidebar"] .chi-subnav {
+  display: none;
+}
+
+/* 動效只服務狀態變化；減少動態偏好時關閉（SPEC.md 7.8） */
+@media (prefers-reduced-motion: reduce) {
+  .chi-btn,
+  .chi-input,
+  .chi-select,
+  .chi-textarea,
+  .chi-check__input,
+  .chi-radio__input,
+  .chi-switch__input,
+  .chi-card,
+  .chi-list__item,
+  .chi-tab,
+  .chi-nav-link {
+    transition: none;
+  }
+
+  .chi-spinner {
+    animation: none;
+  }
+}
+

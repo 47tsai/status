@@ -1,0 +1,278 @@
+/* chi-system tokens.css — 生成物，DO NOT EDIT。
+ * 由 scripts/build-tokens.mjs 從 tokens/*.tokens.json 產生；手改會被 CI 擋下。
+ * DTCG 2025.10（Community Group Report，不是 W3C 正式標準）。
+ */
+:root {
+  --chi-base-badge-dot-size: 6px;
+  --chi-base-badge-min-height: 24px;
+  --chi-base-border-accent-offset: -2px;
+  --chi-base-border-default-width: 1px;
+  --chi-base-border-indicator-width: 3px;
+  --chi-base-choice-checkmark-size: 14px;
+  --chi-base-choice-radio-checked-border-width: 5px;
+  --chi-base-choice-size: 18px;
+  --chi-base-dialog-inline-gutter: 32px;
+  --chi-base-dialog-max-width: 480px;
+  --chi-base-form-select-icon-padding: 36px;
+  --chi-base-form-textarea-min-height: 96px;
+  --chi-base-icon-lg: 24px;
+  --chi-base-icon-md: 20px;
+  --chi-base-icon-sm: 16px;
+  --chi-base-skeleton-min-height: 16px;
+  --chi-base-spinner-border-width: 3px;
+  --chi-base-spinner-duration: 800ms;
+  --chi-base-spinner-size: 24px;
+  --chi-base-state-description-max-width: 420px;
+  --chi-base-state-disabled-opacity: 0.5;
+  --chi-base-state-icon-size: 48px;
+  --chi-base-switch-height: 24px;
+  --chi-base-switch-thumb-inset: 3px;
+  --chi-base-switch-thumb-size: 18px;
+  --chi-base-switch-thumb-travel: 20px;
+  --chi-base-switch-width: 44px;
+  --chi-base-tabs-indicator-overlap: -1px;
+  --chi-base-tabs-indicator-width: 2px;
+  --chi-button-danger-background: #D73220;
+  --chi-button-danger-text: #FFFFFF;
+  --chi-button-ghost-background: #FFFFFF;
+  --chi-button-ghost-text: #17191F;
+  --chi-button-primary-background: #2563EB;
+  --chi-button-primary-background-active: #1E40AF;
+  --chi-button-primary-background-hover: #1D4ED8;
+  --chi-button-primary-text: #FFFFFF;
+  --chi-button-secondary-background: #EDF0F4;
+  --chi-button-secondary-text: #17191F;
+  --chi-color-accent: #2563EB;
+  --chi-color-accent-active: #1E40AF;
+  --chi-color-accent-hover: #1D4ED8;
+  --chi-color-backdrop: #00000080;
+  --chi-color-border-strong: #C6CDD6;
+  --chi-color-border-subtle: #E2E6EC;
+  --chi-color-brand: #4A88FC;
+  --chi-color-canvas: #F7F8FA;
+  --chi-color-danger: #D73220;
+  --chi-color-danger-bg: #FCEFED;
+  --chi-color-danger-strong: #B72A1B;
+  --chi-color-focus-ring: #2563EB;
+  --chi-color-info: #3B63FB;
+  --chi-color-info-bg: #EFF3FF;
+  --chi-color-info-strong: #3254D5;
+  --chi-color-on-accent: #FFFFFF;
+  --chi-color-success: #05834E;
+  --chi-color-success-bg: #EBF5F1;
+  --chi-color-success-strong: #046F42;
+  --chi-color-surface: #FFFFFF;
+  --chi-color-surface-raised: #FFFFFF;
+  --chi-color-surface-sunken: #EDF0F4;
+  --chi-color-text-disabled: #9AA3AF;
+  --chi-color-text-muted: #5F6B7A;
+  --chi-color-text-primary: #17191F;
+  --chi-color-text-secondary: #4A5568;
+  --chi-color-warning: #9E6600;
+  --chi-color-warning-bg: #F7F3EB;
+  --chi-color-warning-strong: #865700;
+  --chi-duration-base: 150ms;
+  --chi-focus-offset: 2px;
+  --chi-focus-width: 2px;
+  --chi-font-line-height-body: 26px;
+  --chi-font-line-height-body-small: 22px;
+  --chi-font-line-height-caption: 18px;
+  --chi-font-line-height-card-title: 24px;
+  --chi-font-line-height-code: 22px;
+  --chi-font-line-height-display: 44px;
+  --chi-font-line-height-label: 20px;
+  --chi-font-line-height-page-title: 36px;
+  --chi-font-line-height-section-title: 28px;
+  --chi-font-mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, "Noto Sans Mono TC", monospace;
+  --chi-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
+  --chi-font-size-body: 16px;
+  --chi-font-size-body-small: 14px;
+  --chi-font-size-caption: 12px;
+  --chi-font-size-card-title: 16px;
+  --chi-font-size-code: 14px;
+  --chi-font-size-display: 36px;
+  --chi-font-size-label: 14px;
+  --chi-font-size-page-title: 28px;
+  --chi-font-size-section-title: 20px;
+  --chi-font-weight-body: 400;
+  --chi-font-weight-card-title: 600;
+  --chi-font-weight-display: 800;
+  --chi-font-weight-label: 600;
+  --chi-font-weight-page-title: 700;
+  --chi-font-weight-section-title: 700;
+  --chi-header-logo-size: 32px;
+  --chi-layout-content-max: 1080px;
+  --chi-layout-header-height: 60px;
+  --chi-layout-sidebar-collapsed-width: 72px;
+  --chi-layout-sidebar-width: 256px;
+  --chi-radius-full: 999px;
+  --chi-radius-lg: 12px;
+  --chi-radius-md: 8px;
+  --chi-radius-sm: 6px;
+  --chi-radius-xl: 16px;
+  --chi-shadow-overlay: 0 2px 8px rgb(16 24 40 / 0.08), 0 12px 32px rgb(16 24 40 / 0.16);
+  --chi-shadow-overlay-dark: 0 16px 40px rgb(0 0 0 / 0.5);
+  --chi-shadow-overlay-light: 0 2px 8px rgb(16 24 40 / 0.08), 0 12px 32px rgb(16 24 40 / 0.16);
+  --chi-shadow-raised: 0 1px 3px rgb(16 24 40 / 0.06), 0 4px 12px rgb(16 24 40 / 0.08);
+  --chi-shadow-raised-dark: 0 4px 16px rgb(0 0 0 / 0.4);
+  --chi-shadow-raised-light: 0 1px 3px rgb(16 24 40 / 0.06), 0 4px 12px rgb(16 24 40 / 0.08);
+  --chi-shadow-whisper: 0 1px 2px rgb(16 24 40 / 0.06);
+  --chi-shadow-whisper-dark: none;
+  --chi-shadow-whisper-light: 0 1px 2px rgb(16 24 40 / 0.06);
+  --chi-sidebar-active-indicator-width: 3px;
+  --chi-sidebar-background: #FFFFFF;
+  --chi-sidebar-logo-size: 32px;
+  --chi-sidebar-scrim-opacity: 0.6;
+  --chi-sidebar-text-active: #2563EB;
+  --chi-size-control: 40px;
+  --chi-size-control-compact: 36px;
+  --chi-size-list-row: 48px;
+  --chi-size-list-row-compact: 40px;
+  --chi-size-touch-min: 44px;
+  --chi-space-1: 4px;
+  --chi-space-2: 8px;
+  --chi-space-3: 12px;
+  --chi-space-4: 16px;
+  --chi-space-5: 24px;
+  --chi-space-6: 32px;
+  --chi-space-7: 48px;
+  --chi-space-8: 64px;
+  --chi-space-group: 24px;
+  --chi-space-inline: 8px;
+  --chi-space-item: 16px;
+  --chi-space-section: 48px;
+}
+
+[data-chi-theme="dark"] {
+  --chi-button-danger-background: #FC432E;
+  --chi-button-danger-text: #131519;
+  --chi-button-ghost-background: #1B1E24;
+  --chi-button-ghost-text: #F2F4F7;
+  --chi-button-primary-background: #6B9BFF;
+  --chi-button-primary-background-active: #4A88FC;
+  --chi-button-primary-background-hover: #84ADFF;
+  --chi-button-primary-text: #131519;
+  --chi-button-secondary-background: #0D0F12;
+  --chi-button-secondary-text: #F2F4F7;
+  --chi-color-accent: #6B9BFF;
+  --chi-color-accent-active: #4A88FC;
+  --chi-color-accent-hover: #84ADFF;
+  --chi-color-backdrop: #00000099;
+  --chi-color-border-strong: #3D434E;
+  --chi-color-border-subtle: #2A2F38;
+  --chi-color-canvas: #131519;
+  --chi-color-danger: #FC432E;
+  --chi-color-danger-bg: #2A1A1B;
+  --chi-color-danger-strong: #FC432E;
+  --chi-color-focus-ring: #6B9BFF;
+  --chi-color-info: #5681FF;
+  --chi-color-info-bg: #1A2030;
+  --chi-color-info-strong: #5681FF;
+  --chi-color-on-accent: #131519;
+  --chi-color-success: #099D59;
+  --chi-color-success-bg: #12231F;
+  --chi-color-success-strong: #099D59;
+  --chi-color-surface: #1B1E24;
+  --chi-color-surface-raised: #23272F;
+  --chi-color-surface-sunken: #0D0F12;
+  --chi-color-text-disabled: #5C6570;
+  --chi-color-text-muted: #8B94A1;
+  --chi-color-text-primary: #F2F4F7;
+  --chi-color-text-secondary: #B9C0CC;
+  --chi-color-warning: #BA7C00;
+  --chi-color-warning-bg: #241F16;
+  --chi-color-warning-strong: #BA7C00;
+  --chi-shadow-overlay: 0 16px 40px rgb(0 0 0 / 0.5);
+  --chi-shadow-raised: 0 4px 16px rgb(0 0 0 / 0.4);
+  --chi-shadow-whisper: none;
+  --chi-sidebar-background: #1B1E24;
+  --chi-sidebar-text-active: #6B9BFF;
+}
+
+[data-chi-brand="chi"] {
+  --chi-color-brand: #4A88FC;
+}
+
+[data-chi-brand="fg"] {
+  --chi-color-brand: #FF9A00;
+}
+
+[data-chi-brand="h"] {
+  --chi-color-brand: #FF61F6;
+}
+
+[data-chi-brand="merch"] {
+  --chi-color-brand: #584CCC;
+}
+
+[data-chi-brand="nav"] {
+  --chi-color-brand: #008CAD;
+}
+
+[data-chi-brand="status"] {
+  --chi-color-brand: #8CDC47;
+}
+
+[data-chi-brand="fg"] {
+  --chi-button-primary-background: #8F5600;
+  --chi-button-primary-background-active: #663D00;
+  --chi-button-primary-background-hover: #7A4900;
+  --chi-color-accent: #8F5600;
+  --chi-color-accent-active: #7A4900;
+  --chi-color-accent-hover: #7A4900;
+  --chi-color-focus-ring: #B86E00;
+  --chi-sidebar-text-active: #8F5600;
+}
+
+[data-chi-theme="dark"][data-chi-brand="fg"] {
+  --chi-button-primary-background: #FFB84D;
+  --chi-button-primary-background-active: #FF9900;
+  --chi-button-primary-background-hover: #FFCC80;
+  --chi-color-accent: #FFB84D;
+  --chi-color-accent-active: #FF9900;
+  --chi-color-accent-hover: #FFCC80;
+  --chi-color-focus-ring: #FFB84D;
+  --chi-sidebar-text-active: #FFB84D;
+}
+
+[data-chi-brand="nav"] {
+  --chi-button-primary-background: #006E87;
+  --chi-button-primary-background-active: #004A5E;
+  --chi-button-primary-background-hover: #005A6E;
+  --chi-color-accent: #006E87;
+  --chi-color-accent-active: #005A6E;
+  --chi-color-accent-hover: #005A6E;
+  --chi-color-focus-ring: #008CAD;
+  --chi-sidebar-text-active: #006E87;
+}
+
+[data-chi-theme="dark"][data-chi-brand="nav"] {
+  --chi-button-primary-background: #35BDD8;
+  --chi-button-primary-background-active: #2AA9C2;
+  --chi-button-primary-background-hover: #7DD3E8;
+  --chi-color-accent: #35BDD8;
+  --chi-color-accent-active: #2AA9C2;
+  --chi-color-accent-hover: #7DD3E8;
+  --chi-color-focus-ring: #35BDD8;
+  --chi-sidebar-text-active: #35BDD8;
+}
+
+/* 相容別名（舊寫法沿用，見 components/base/base.css 檔頭） */
+:root {
+  --chi-line-height-body: var(--chi-font-line-height-body);
+  --chi-line-height-body-small: var(--chi-font-line-height-body-small);
+  --chi-line-height-caption: var(--chi-font-line-height-caption);
+  --chi-line-height-card-title: var(--chi-font-line-height-card-title);
+  --chi-line-height-label: var(--chi-font-line-height-label);
+  --chi-line-height-page-title: var(--chi-font-line-height-page-title);
+  --chi-line-height-section-title: var(--chi-font-line-height-section-title);
+  --chi-duration: var(--chi-duration-base);
+}
+
+[data-chi-density="compact"] {
+  --chi-space-section: 32px;
+  --chi-space-group: 16px;
+  --chi-space-item: 12px;
+  --chi-size-control: var(--chi-size-control-compact);
+  --chi-size-list-row: var(--chi-size-list-row-compact);
+}
