@@ -51,6 +51,7 @@ PROFILES = {
     "chi-home": {"kind": "website", "title": "Chi 個人主站", "description": "個人主站首頁可用性檢查", "icon": "▣", "health_url": "https://chi.qzz.io/", "service_name": "Chi 個人主站", "health_path": "/"},
     "sub-service": {"kind": "website", "title": "SubsTracker", "description": "訂閱管理網站首頁可用性檢查", "icon": "▣", "health_url": "https://sub.chi.qzz.io/", "service_name": "SubsTracker", "health_path": "/"},
     "sms-service": {"kind": "website", "title": "Chi SMS", "description": "SMS 簡訊轉發服務健康檢查", "icon": "▣", "health_url": "https://sms.chi.qzz.io/health", "service_name": "Chi SMS", "health_path": "/health"},
+    "fgc-service": {"kind": "website", "title": "免費遊戲自動領取", "description": "免費遊戲自動領取服務首頁可用性檢查", "icon": "▣", "health_url": "https://fgc.chi.qzz.io/", "service_name": "免費遊戲自動領取", "health_path": "/"},
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
 TAIPEI_TZ = ZoneInfo("Asia/Taipei")
@@ -962,6 +963,23 @@ def main():
                           else "failure" if sms_item["business"]["business_status"] == "failure"
                           else "unknown")
     results.append(sms_item)
+    # FGC is a noVNC endpoint on a separate VPS/tunnel, monitored independently of GitHub Actions.
+    fgc_item = {
+        "name": "fgc-service", "full_name": "免費遊戲自動領取 · FGC",
+        "html_url": "https://fgc.chi.qzz.io/",
+        "workflow": "外部服務探測", "status": "unknown", "branch": "VPS-02",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "event": "healthcheck", "commit_message": "每 10 分鐘自動更新檢查 FGC 公開首頁",
+        "duration_seconds": None,
+        "runs_url": f"https://github.com/{OWNER}/status/actions",
+        "run_url": f"https://github.com/{OWNER}/status/actions",
+    }
+    fgc_item["business"] = business_data("fgc-service", fgc_item)
+    fgc_item["status"] = ("success" if fgc_item["business"]["business_status"] == "success"
+                          else "failure" if fgc_item["business"]["business_status"] == "failure"
+                          else "unknown")
+    results.append(fgc_item)
     def dashboard_priority(item):
         business_status = (item.get("business") or {}).get("business_status")
         workflow_status = item.get("status")
