@@ -189,6 +189,10 @@
   --chi-sidebar-text-active: #6B9BFF;
 }
 
+[data-chi-brand="auth"] {
+  --chi-color-brand: #175DDC;
+}
+
 [data-chi-brand="chi"] {
   --chi-color-brand: #4A88FC;
 }
@@ -213,6 +217,28 @@
   --chi-color-brand: #8CDC47;
 }
 
+[data-chi-brand="auth"] {
+  --chi-button-primary-background: #175DDC;
+  --chi-button-primary-background-active: #10419A;
+  --chi-button-primary-background-hover: #144FBB;
+  --chi-color-accent: #175DDC;
+  --chi-color-accent-active: #144FBB;
+  --chi-color-accent-hover: #144FBB;
+  --chi-color-focus-ring: #175DDC;
+  --chi-sidebar-text-active: #175DDC;
+}
+
+[data-chi-theme="dark"][data-chi-brand="auth"] {
+  --chi-button-primary-background: #749EEA;
+  --chi-button-primary-background-active: #5D8EE7;
+  --chi-button-primary-background-hover: #97B6EF;
+  --chi-color-accent: #749EEA;
+  --chi-color-accent-active: #5D8EE7;
+  --chi-color-accent-hover: #97B6EF;
+  --chi-color-focus-ring: #749EEA;
+  --chi-sidebar-text-active: #749EEA;
+}
+
 [data-chi-brand="fg"] {
   --chi-button-primary-background: #8F5600;
   --chi-button-primary-background-active: #663D00;
@@ -235,6 +261,50 @@
   --chi-sidebar-text-active: #FFB84D;
 }
 
+[data-chi-brand="h"] {
+  --chi-button-primary-background: #BD00B2;
+  --chi-button-primary-background-active: #94008C;
+  --chi-button-primary-background-hover: #A9009F;
+  --chi-color-accent: #BD00B2;
+  --chi-color-accent-active: #A9009F;
+  --chi-color-accent-hover: #A9009F;
+  --chi-color-focus-ring: #E600D8;
+  --chi-sidebar-text-active: #BD00B2;
+}
+
+[data-chi-theme="dark"][data-chi-brand="h"] {
+  --chi-button-primary-background: #FF6EF7;
+  --chi-button-primary-background-active: #FF61F6;
+  --chi-button-primary-background-hover: #FF97F9;
+  --chi-color-accent: #FF6EF7;
+  --chi-color-accent-active: #FF61F6;
+  --chi-color-accent-hover: #FF97F9;
+  --chi-color-focus-ring: #FF6EF7;
+  --chi-sidebar-text-active: #FF6EF7;
+}
+
+[data-chi-brand="merch"] {
+  --chi-button-primary-background: #584CCC;
+  --chi-button-primary-background-active: #4235BA;
+  --chi-button-primary-background-hover: #493CC7;
+  --chi-color-accent: #584CCC;
+  --chi-color-accent-active: #493CC7;
+  --chi-color-accent-hover: #493CC7;
+  --chi-color-focus-ring: #584CCC;
+  --chi-sidebar-text-active: #584CCC;
+}
+
+[data-chi-theme="dark"][data-chi-brand="merch"] {
+  --chi-button-primary-background: #A8A2E4;
+  --chi-button-primary-background-active: #928ADD;
+  --chi-button-primary-background-hover: #C6C2ED;
+  --chi-color-accent: #A8A2E4;
+  --chi-color-accent-active: #928ADD;
+  --chi-color-accent-hover: #C6C2ED;
+  --chi-color-focus-ring: #A8A2E4;
+  --chi-sidebar-text-active: #A8A2E4;
+}
+
 [data-chi-brand="nav"] {
   --chi-button-primary-background: #006E87;
   --chi-button-primary-background-active: #004A5E;
@@ -255,6 +325,28 @@
   --chi-color-accent-hover: #7DD3E8;
   --chi-color-focus-ring: #35BDD8;
   --chi-sidebar-text-active: #35BDD8;
+}
+
+[data-chi-brand="status"] {
+  --chi-button-primary-background: #46731C;
+  --chi-button-primary-background-active: #355A0F;
+  --chi-button-primary-background-hover: #3F6B12;
+  --chi-color-accent: #46731C;
+  --chi-color-accent-active: #3F6B12;
+  --chi-color-accent-hover: #3F6B12;
+  --chi-color-focus-ring: #52921C;
+  --chi-sidebar-text-active: #46731C;
+}
+
+[data-chi-theme="dark"][data-chi-brand="status"] {
+  --chi-button-primary-background: #A8E063;
+  --chi-button-primary-background-active: #8CDC47;
+  --chi-button-primary-background-hover: #BBE785;
+  --chi-color-accent: #A8E063;
+  --chi-color-accent-active: #8CDC47;
+  --chi-color-accent-hover: #BBE785;
+  --chi-color-focus-ring: #A8E063;
+  --chi-sidebar-text-active: #A8E063;
 }
 
 /* 相容別名（舊寫法沿用，見 components/base/base.css 檔頭） */
