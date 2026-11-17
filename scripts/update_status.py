@@ -260,9 +260,19 @@ def classify_checkin_result(timestamp, status_line, now=None, reset_hour=0, sour
         }
 
     business_status = "success" if success else "failure" if failure else "unknown"
+    if success and "已記錄今日成功通知" in status_line:
+        # bahasign writes its success as a full sentence
+        # ("✅ 已記錄今日成功通知，當天後續不再發送 Discord 訊息");
+        # as a card title that is too long, so map only success recognised
+        # via that phrase to the short label the other check-in cards use.
+        # displayed_result below keeps the verbatim source line, so the
+        # details row still shows the original record as evidence.
+        business_label = "✅ 簽到成功"
+    else:
+        business_label = status_line or "紀錄格式無法判讀"
     return {
         "business_status": business_status,
-        "business_label": status_line or "紀錄格式無法判讀",
+        "business_label": business_label,
         "displayed_result": status_line or "無法判讀",
         "tone": "good" if success else "bad" if failure else "normal",
     }

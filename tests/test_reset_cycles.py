@@ -280,7 +280,7 @@ class CheckinRecordParsingTests(unittest.TestCase):
         result = classify_checkin_result(timestamp, status_line, datetime(2026, 10, 16, 10, 0))
         self.assertEqual(result["business_status"], "unknown")
 
-    def test_bahasign_two_column_result_row_is_parsed_verbatim(self):
+    def test_bahasign_success_label_is_short_while_details_stay_verbatim(self):
         record = (
             "# 巴哈姆特自動簽到\n"
             "\n"
@@ -295,7 +295,10 @@ class CheckinRecordParsingTests(unittest.TestCase):
         self.assertEqual(status_line, "✅ 已記錄今日成功通知，當天後續不再發送 Discord 訊息")
         result = classify_checkin_result(timestamp, status_line, datetime(2026, 11, 17, 10, 0))
         self.assertEqual(result["business_status"], "success")
-        self.assertEqual(result["business_label"], "✅ 已記錄今日成功通知，當天後續不再發送 Discord 訊息")
+        # Card title is the short label, matching the apktw card.
+        self.assertEqual(result["business_label"], "✅ 簽到成功")
+        # Details row keeps the verbatim source line as evidence.
+        self.assertEqual(result["displayed_result"], "✅ 已記錄今日成功通知，當天後續不再發送 Discord 訊息")
         self.assertEqual(result["tone"], "good")
 
     def test_bahasign_two_column_failure_row_is_parsed(self):
@@ -337,6 +340,9 @@ class CheckinRecordParsingTests(unittest.TestCase):
         self.assertEqual((timestamp, status_line), ("2026-10-16 09:30:00", "✅ 簽到成功"))
         result = classify_checkin_result(timestamp, status_line, datetime(2026, 10, 16, 10, 0))
         self.assertEqual(result["business_status"], "success")
+        # Success recognised via the plain phrase keeps its own label.
+        self.assertEqual(result["business_label"], "✅ 簽到成功")
+        self.assertEqual(result["displayed_result"], "✅ 簽到成功")
 
 
 if __name__ == "__main__":
