@@ -1,0 +1,3 @@
+function syncThemeColor(e){var d=e&&e.detail?e.detail.effective:document.documentElement.getAttribute('data-chi-theme');var meta=document.querySelector('meta[name=theme-color]');if(meta)meta.content=d==='dark'?'#131519':'#F7F8FA'}syncThemeColor();window.addEventListener('chi-theme-change',syncThemeColor);
+async function loadVersion(){try{var r=await fetch('/version.json',{cache:'no-store'});if(!r.ok)return;var d=await r.json();var el=document.querySelector('[data-version]');if(!el||typeof d.version!=='string'||!d.version)return;el.textContent='v'+d.version+(typeof d.commit==='string'&&d.commit?' · '+d.commit.slice(0,7):'')}catch(e){}}
+loadVersion();

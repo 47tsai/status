@@ -14,7 +14,6 @@ class ScheduleFreshnessTests(unittest.TestCase):
                 "business_status": "success",
                 "business_label": "正常",
                 "metrics": [],
-                "note": "既有狀態",
             },
         }
 

@@ -1,0 +1,5 @@
+/* 副導覽改底線分頁：照抄 chi-system .chi-tab */
+.chi-subnav{gap:var(--chi-space-1);padding:0 var(--chi-space-4)}
+.chi-subnav a{padding:var(--chi-space-3) var(--chi-space-4);border-bottom:var(--chi-base-tabs-indicator-width) solid transparent;margin-bottom:var(--chi-base-tabs-indicator-overlap);font-size:var(--chi-font-size-label);line-height:var(--chi-line-height-label);font-weight:var(--chi-font-weight-label);transition:color var(--chi-duration),border-color var(--chi-duration)}
+.chi-subnav a:hover{color:var(--chi-color-text-primary)}
+.chi-subnav a[aria-current="page"]{color:var(--chi-color-text-primary);font-weight:var(--chi-font-weight-section-title);border-bottom-color:var(--chi-color-accent)}

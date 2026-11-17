@@ -35,23 +35,23 @@ if TOKEN:
 
 # The presentation profile is deliberately separate from GitHub's generic run status.
 PROFILES = {
-    "status": {"kind": "dashboard", "title": "Chi Status 監控儀表板", "description": "儀表板資料更新與部署狀態", "icon": "◈"},
-    "vps-01": {"kind": "vps", "title": "VPS-01 · Oracle Cloud", "description": "透過公開服務端點檢查 VPS 對外服務可用性", "icon": "▣"},
-    "vps-02": {"kind": "vps", "title": "VPS-02 · Oracle Cloud", "description": "透過公開服務端點檢查 VPS 對外服務可用性", "icon": "▣"},
-    "sc-auto-claim": {"kind": "claim", "title": "荒野亂鬥自動領取", "description": "兩個帳號的實際領取結果與最近成功時間", "icon": "gamepad"},
-    "free-game": {"kind": "freegame", "title": "限免遊戲通知", "description": "RSS 掃描、已處理遊戲與文章去重狀態", "icon": "gamepad"},
-    "apktwsign": {"kind": "checkin", "title": "APK.TW 自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
-    "bahasign": {"kind": "checkin", "title": "巴哈姆特自動簽到", "description": "網站回報的簽到結果與最近紀錄", "icon": "✓"},
-    "chi-source": {"kind": "source", "title": "Chi Source", "description": "AltStore 來源更新、應用程式版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipa.chi.qzz.io/"},
-    "chi-source-personal": {"kind": "source", "title": "Chi Source Personal", "description": "個人來源更新、應用程式版本變動與網站可用性", "icon": "⌘", "health_url": "https://ipap.chi.qzz.io/"},
-    "h": {"kind": "deploy", "title": "H", "description": "工具網站部署與實際 HTTP 健康檢查", "icon": "▣", "health_url": "https://h.chi.qzz.io/"},
-    "nav": {"kind": "deploy", "title": "Chi 的工具箱", "description": "導航網站部署與實際 HTTP 健康檢查", "icon": "⌖", "health_url": "https://nav.chi.qzz.io/"},
-    "merch": {"kind": "deploy", "title": "周邊收藏網", "description": "商品網站部署與實際 HTTP 健康檢查", "icon": "▦", "health_url": "https://merch.chi.qzz.io/"},
-    "vaultwarden-service": {"kind": "website", "title": "Vaultwarden", "description": "密碼管理服務存活端點檢查", "icon": "▣", "health_url": "https://vault.chi.qzz.io/alive", "service_name": "Vaultwarden", "health_path": "/alive"},
-    "chi-auth-service": {"kind": "website", "title": "Chi Auth", "description": "Passkey／SSO 驗證服務首頁可用性檢查", "icon": "⌑", "health_url": "https://auth.chi.qzz.io/", "service_name": "Chi Auth", "health_path": "/"},
-    "chi-home": {"kind": "website", "title": "Chi 個人主站", "description": "個人主站首頁可用性檢查", "icon": "▣", "health_url": "https://chi.qzz.io/", "service_name": "Chi 個人主站", "health_path": "/"},
-    "sub-service": {"kind": "website", "title": "SubsTracker", "description": "訂閱管理網站首頁可用性檢查", "icon": "▣", "health_url": "https://sub.chi.qzz.io/", "service_name": "SubsTracker", "health_path": "/"},
-    "sms-service": {"kind": "website", "title": "Chi SMS", "description": "SMS 簡訊轉發服務健康檢查", "icon": "▣", "health_url": "https://sms.chi.qzz.io/health", "service_name": "Chi SMS", "health_path": "/health"},
+    "status": {"kind": "dashboard", "title": "Chi Status 監控儀表板"},
+    "vps-01": {"kind": "vps", "title": "VPS-01 · Oracle Cloud"},
+    "vps-02": {"kind": "vps", "title": "VPS-02 · Oracle Cloud"},
+    "sc-auto-claim": {"kind": "claim", "title": "荒野亂鬥自動領取"},
+    "free-game": {"kind": "freegame", "title": "限免遊戲通知"},
+    "apktwsign": {"kind": "checkin", "title": "APK.TW 自動簽到"},
+    "bahasign": {"kind": "checkin", "title": "巴哈姆特自動簽到"},
+    "chi-source": {"kind": "source", "title": "Chi Source", "health_url": "https://ipa.chi.qzz.io/"},
+    "chi-source-personal": {"kind": "source", "title": "Chi Source Personal", "health_url": "https://ipap.chi.qzz.io/"},
+    "h": {"kind": "deploy", "title": "H", "health_url": "https://h.chi.qzz.io/"},
+    "nav": {"kind": "deploy", "title": "Chi 的工具箱", "health_url": "https://nav.chi.qzz.io/"},
+    "merch": {"kind": "deploy", "title": "周邊收藏網", "health_url": "https://merch.chi.qzz.io/"},
+    "vaultwarden-service": {"kind": "website", "title": "Vaultwarden", "health_url": "https://vault.chi.qzz.io/alive", "service_name": "Vaultwarden", "health_path": "/alive"},
+    "chi-auth-service": {"kind": "website", "title": "Chi Auth", "health_url": "https://auth.chi.qzz.io/", "service_name": "Chi Auth", "health_path": "/"},
+    "chi-home": {"kind": "website", "title": "Chi 個人主站", "health_url": "https://chi.qzz.io/", "service_name": "Chi 個人主站", "health_path": "/"},
+    "sub-service": {"kind": "website", "title": "SubsTracker", "health_url": "https://sub.chi.qzz.io/", "service_name": "SubsTracker", "health_path": "/"},
+    "sms-service": {"kind": "website", "title": "Chi SMS", "health_url": "https://sms.chi.qzz.io/health", "service_name": "Chi SMS", "health_path": "/health"},
 }
 
 # Public endpoints probed per VPS host card, with the HTTP 200 threshold
@@ -66,14 +66,12 @@ VPS_ENDPOINTS = {
             ("Twitch Drops Miner", "https://twitch.chi.qzz.io/"),
         ],
         "threshold": 2,
-        "note": "判定標準：Alist、BiliTool、Twitch Drops Miner 三個公開端點中，至少兩個回傳 HTTP 200，即判定服務正常。",
     },
     "vps-02": {
         "services": [
             ("免費遊戲自動領取", "https://fgc.chi.qzz.io/"),
         ],
         "threshold": 1,
-        "note": "判定標準：免費遊戲自動領取（noVNC 登入頁）一個公開端點回傳 HTTP 200，即判定服務正常。",
     },
 }
 RAW_BASE = "https://raw.githubusercontent.com/{}/{}/main/{}"
@@ -428,10 +426,8 @@ def business_data(repo_name, run):
     profile = PROFILES.get(repo_name, {})
     kind = profile.get("kind", "generic")
     result = {"kind": kind, "title": profile.get("title", repo_name),
-              "description": profile.get("description", "最近一次工作流程執行結果"),
-              "icon": profile.get("icon", "◉"),
               "business_status": "unknown", "business_label": "尚未建立業務紀錄",
-              "metrics": [], "details": [], "note": "", "evidence_url": None}
+              "metrics": [], "details": [], "evidence_url": None}
     if kind == "claim":
         states = []
         taipei_tz = __import__("zoneinfo").ZoneInfo("Asia/Taipei")
@@ -454,7 +450,6 @@ def business_data(repo_name, run):
         result["metrics"] = [metric("本輪成功帳號", f"{good}/{len(states)}", "good" if states and current == len(states) and good == len(states) else "normal"),
                              metric("最近領取", max((s["time"] for s in states), default="尚無紀錄"))]
         result["details"] = states
-        result["note"] = "以 claim_state_A/B.json 的實際結果判斷；每日週期於台灣時間 16:00 重置，跨週期的舊結果不沿用。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/tree/main"
     elif kind == "freegame":
         workflow_data = get_json(
@@ -568,11 +563,6 @@ def business_data(repo_name, run):
              "time": taipei_time(outbox.get("updated_at")) if notifications_available else "",
              "tone": "good" if notifications_available else "bad"},
         ]
-        result["note"] = (
-            "分別檢查 4Gamers RSS 掃描與 FGC 領取同步工作流程；遊戲目錄使用 "
-            "data/catalog/games.json，通知紀錄使用 data/operations/notifications.json。"
-            "本輪新增數以遊戲目錄最近一次提交的 diff 計算。"
-        )
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/tree/main/data"
     elif kind == "checkin":
         record = raw(repo_name, "activity.md") if repo_name == "apktwsign" else raw(repo_name, "README.md")
@@ -587,7 +577,6 @@ def business_data(repo_name, run):
         result["metrics"] = [metric("業務狀態", "成功" if business_status == "success" else "失敗" if business_status == "failure" else "待確認", tone),
                              metric("最近簽到", timestamp or "尚無紀錄")]
         result["details"] = [{"label": "來源紀錄", "result": displayed_result, "time": timestamp or "尚無紀錄", "tone": tone}]
-        result["note"] = "簽到結果只在台灣當日有效；跨日後若來源檔仍是昨天或缺少可辨識時間，會標示待確認，不沿用舊結果。"
         evidence_file = "activity.md" if repo_name == "apktwsign" else "README.md"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/{evidence_file}"
     elif kind == "dashboard":
@@ -596,7 +585,6 @@ def business_data(repo_name, run):
         result["business_label"] = "儀表板正在更新" if result["business_status"] == "running" else "資料更新成功" if result["business_status"] == "success" else "資料更新失敗" if result["business_status"] == "failure" else "等待資料更新"
         result["metrics"] = [metric("監控範圍", "公開儲存庫"), metric("更新頻率", "每 10 分鐘自動更新"), metric("資料更新狀態", result["business_label"], "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal")]
         result["details"] = [{"label": "最近更新工作流程", "result": result["business_label"], "time": taipei_time((run or {}).get("updated_at")), "tone": "good" if result["business_status"] == "success" else "bad" if result["business_status"] == "failure" else "normal"}]
-        result["note"] = "此專案負責收集各公開儲存庫的工作流程與業務狀態，自己的執行狀態會在更新期間短暫顯示為進行中。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     elif kind == "vps":
         # A VPS host is considered operational when at least `threshold` of
@@ -649,7 +637,6 @@ def business_data(repo_name, run):
                 "time": "",
                 "tone": tone,
             })
-        result["note"] = vps_config["note"]
         result["evidence_url"] = None
     elif kind == "website":
         health = health_check(profile.get("health_url"))
@@ -675,12 +662,6 @@ def business_data(repo_name, run):
                 {"label": "端點檢查", "result": health.get("content_reason") or "未取得內容判讀",
                  "time": f'HTTP {health.get("status", "未知")}', "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"},
             ]
-        if repo_name == "vaultwarden-service":
-            result["note"] = "使用 Vaultwarden 的公開 /alive 存活端點，每 10 分鐘自動更新檢查 HTTP 與非空回應。這只確認服務端點可回應，不代表資料庫、登入或同步等所有功能都已完整驗證。"
-        elif repo_name == "sub-service":
-            result["note"] = "每 10 分鐘自動檢查 SubsTracker 公開首頁的 HTTP 狀態、回應內容與回應時間。此檢查只確認網站基本可用，不代表登入、訂閱資料讀寫或 Telegram 通知等功能均已完成端對端驗證。"
-        else:
-            result["note"] = f"每 10 分鐘自動更新檢查 {service_name} 的公開首頁（HTTP 狀態、回應內容與回應時間）。這是基本可用性探測，不代表所有站內功能均已完成端對端驗證。"
         result["evidence_url"] = profile.get("health_url")
     elif kind == "source":
         readme = raw(repo_name, "README.md") or ""
@@ -709,7 +690,6 @@ def business_data(repo_name, run):
                              {"label": "版本狀態", "result": f"{len(updated_names)} 個應用程式更新、{unchanged_count} 個未變更", "time": "", "tone": "good" if updated_names else "normal"}]
         if updated_names:
             result["details"].append({"label": "已更新的應用程式", "result": "、".join(updated_names[:8]), "time": "", "tone": "good"})
-        result["note"] = "應用程式更新數來自來源儲存庫的 README 狀態表；網站可用性來自即時 HTTP 檢查。版本表是來源專案最後一次自動檢查的紀錄，不代表每個應用程式都能成功安裝。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/blob/main/README.md"
     elif kind == "deploy":
         status = (run or {}).get("status")
@@ -744,7 +724,6 @@ def business_data(repo_name, run):
         if health:
             result["details"].append({"label": "網站可用性檢查", "result": f"{health['url']} · HTTP {health['status']}", "time": "", "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"})
             result["details"].append({"label": "頁面內容", "result": health.get("content_reason") or "未取得內容判讀", "time": health.get("title") or "", "tone": "good" if health.get("ok") is True else "bad" if health.get("ok") is False else "normal"})
-        result["note"] = "綜合 GitHub Actions 部署結果與即時 HTTP 探測。HTTP 200 代表網站有回應，不代表站內所有功能均正常。" if profile.get("health_url") else "目前僅依 GitHub Actions 判定部署流程；此儲存庫尚未設定可驗證的正式網址。"
         result["evidence_url"] = f"https://github.com/{OWNER}/{repo_name}/actions"
     else:
         status = normalize_run_status(run)
@@ -759,7 +738,6 @@ def business_data(repo_name, run):
         result["metrics"] = [metric("工作流程", status_labels.get(status, status or "尚無紀錄")),
                              metric("分支", (run or {}).get("head_branch") or "－")]
         result["details"] = []
-        result["note"] = "目前只顯示工作流程執行結果，尚未設定專屬的業務資料判讀規則；工作流程成功不代表專案業務已確認正常。"
     return result
 
 def apply_schedule_freshness(item, now=None):
@@ -779,7 +757,6 @@ def apply_schedule_freshness(item, now=None):
         business = item.get("business") or {}
         business["business_status"] = "unknown"
         business["business_label"] = "無法確認排程是否準時執行"
-        business["note"] = (business.get("note", "") + "\n監控端無法解析最近一次工作流程的開始時間，因此無法確認排程新鮮度。").strip()
         item["business"] = business
         return item
 
@@ -801,7 +778,6 @@ def apply_schedule_freshness(item, now=None):
     business = item.get("business") or {}
     business["business_status"] = "failure"
     business["business_label"] = "排程執行逾期，可能未收到新的觸發"
-    business["note"] = (business.get("note", "") + f"\n排程新鮮度監控：{item['monitor_warning']}。").strip()
     business["metrics"] = list(business.get("metrics") or [])
     business["metrics"].append(metric("排程新鮮度", age_label, "bad"))
     item["business"] = business
@@ -818,10 +794,8 @@ def stale_fallback(repo, previous_item, error):
     item["event"] = "monitor-error"
     item["monitor_warning"] = str(error)[:180]
     business = item.get("business") or {}
-    previous_label = business.get("business_label") or "上次資料"
     business["business_status"] = "unknown"
     business["business_label"] = "暫時無法更新，保留上次資料"
-    business["note"] = (business.get("note", "") + f"\n本輪無法取得最新狀態（{previous_label}）；目前展示的是上次資料，請勿視為即時結果。").strip()
     business["metrics"] = list(business.get("metrics") or [])
     business["metrics"].append(metric("資料更新狀態", "暫時無法更新", "normal"))
     item["business"] = business

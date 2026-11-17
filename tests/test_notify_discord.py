@@ -56,6 +56,25 @@ class VaultwardenMonitorTests(unittest.TestCase):
         self.assertIn("Chi Auth", result["business_label"])
         health_check.assert_called_once_with("https://auth.chi.qzz.io/")
 
+    def test_business_data_carries_no_intro_or_dead_fields(self):
+        for profile in update_status.PROFILES.values():
+            self.assertNotIn("description", profile)
+            self.assertNotIn("icon", profile)
+        with patch("update_status.health_check") as health_check:
+            health_check.return_value = {
+                "ok": True, "status": 200, "latency_ms": 42,
+                "content_reason": "HTTP 與基本頁面內容檢查通過",
+            }
+            for name, run in (
+                ("vaultwarden-service", {}),
+                ("status", {"status": "success"}),
+                ("vps-01", {"name": "vps-01"}),
+            ):
+                result = update_status.business_data(name, run)
+                self.assertNotIn("description", result)
+                self.assertNotIn("note", result)
+                self.assertNotIn("icon", result)
+
     @patch("update_status.health_check")
     def test_chi_auth_monitor_reports_homepage_failure(self, health_check):
         health_check.return_value = {
@@ -179,7 +198,7 @@ class DiscordAlertTests(unittest.TestCase):
     def test_api_error_preserves_card_but_marks_data_unknown(self):
         previous = {
             "name": "demo", "status": "success",
-            "business": {"business_status": "success", "business_label": "正常", "metrics": [], "note": "原始說明"},
+            "business": {"business_status": "success", "business_label": "正常", "metrics": []},
         }
         fallback = stale_fallback({"name": "demo"}, previous, "HTTP 502")
         self.assertEqual(fallback["status"], "unknown")
