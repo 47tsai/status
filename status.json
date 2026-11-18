@@ -1,7 +1,101 @@
 {
-  "generated_at": "2026-11-18T17:21:30.372548+00:00",
+  "generated_at": "2026-11-18T17:32:14.887893+00:00",
   "repository_count": 17,
   "repositories": [
+    {
+      "name": "vps-02",
+      "full_name": "VPS-02 · Oracle Cloud Infrastructure",
+      "html_url": "https://fgc.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "failure",
+      "branch": "OCI",
+      "updated_at": "2026-11-18T17:31:47.395349+00:00",
+      "created_at": "2026-11-18T17:31:47.395360+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查一個公開服務端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "vps",
+        "title": "VPS-02 · Oracle Cloud",
+        "business_status": "failure",
+        "business_label": "VPS-02 異常（0/1 個端點 HTTP 200）",
+        "metrics": [
+          {
+            "label": "HTTP 200 端點",
+            "value": "0/1",
+            "tone": "bad"
+          },
+          {
+            "label": "非 200 端點",
+            "value": "1",
+            "tone": "bad"
+          },
+          {
+            "label": "未取得狀態",
+            "value": "0",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "免費遊戲自動領取",
+            "result": "非 HTTP 200 · HTTP 連線失敗 · 12073 ms",
+            "time": "",
+            "tone": "bad"
+          }
+        ],
+        "evidence_url": null
+      }
+    },
+    {
+      "name": "vaultwarden-service",
+      "full_name": "Vaultwarden · 密碼管理服務",
+      "html_url": "https://vault.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "failure",
+      "branch": "VPS-01",
+      "updated_at": "2026-11-18T17:31:59.469205+00:00",
+      "created_at": "2026-11-18T17:31:59.469219+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "website",
+        "title": "Vaultwarden",
+        "business_status": "failure",
+        "business_label": "Vaultwarden 端點異常",
+        "metrics": [
+          {
+            "label": "檢查端點",
+            "value": "/alive",
+            "tone": "normal"
+          },
+          {
+            "label": "HTTP 狀態",
+            "value": "連線失敗",
+            "tone": "bad"
+          },
+          {
+            "label": "回應時間",
+            "value": "12215 ms",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "端點檢查",
+            "result": "DNS、TLS、逾時或連線錯誤",
+            "time": "HTTP 連線失敗",
+            "tone": "bad"
+          }
+        ],
+        "evidence_url": "https://vault.chi.qzz.io/alive"
+      }
+    },
     {
       "name": "apktwsign",
       "full_name": "47tsai/apktwsign",
@@ -43,7 +137,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 4804,
+      "schedule_age_seconds": 5423,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -53,8 +147,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Workers",
-      "updated_at": "2026-11-18T17:21:29.944207+00:00",
-      "created_at": "2026-11-18T17:21:29.944219+00:00",
+      "updated_at": "2026-11-18T17:32:14.445808+00:00",
+      "created_at": "2026-11-18T17:32:14.445821+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
       "duration_seconds": null,
@@ -78,7 +172,7 @@
           },
           {
             "label": "回應時間",
-            "value": "428 ms",
+            "value": "441 ms",
             "tone": "normal"
           }
         ],
@@ -100,8 +194,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Pages",
-      "updated_at": "2026-11-18T17:21:29.178207+00:00",
-      "created_at": "2026-11-18T17:21:29.178218+00:00",
+      "updated_at": "2026-11-18T17:32:13.506716+00:00",
+      "created_at": "2026-11-18T17:32:13.506728+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
       "duration_seconds": null,
@@ -125,7 +219,7 @@
           },
           {
             "label": "回應時間",
-            "value": "764 ms",
+            "value": "937 ms",
             "tone": "normal"
           }
         ],
@@ -147,8 +241,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-18T17:21:27.543004+00:00",
-      "created_at": "2026-11-18T17:21:27.543017+00:00",
+      "updated_at": "2026-11-18T17:32:11.798877+00:00",
+      "created_at": "2026-11-18T17:32:11.798889+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
       "duration_seconds": null,
@@ -172,7 +266,7 @@
           },
           {
             "label": "回應時間",
-            "value": "1634 ms",
+            "value": "1707 ms",
             "tone": "normal"
           }
         ],
@@ -194,8 +288,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-18T17:21:27.042556+00:00",
-      "created_at": "2026-11-18T17:21:27.042569+00:00",
+      "updated_at": "2026-11-18T17:32:11.685077+00:00",
+      "created_at": "2026-11-18T17:32:11.685092+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -219,7 +313,7 @@
           },
           {
             "label": "回應時間",
-            "value": "498 ms",
+            "value": "111 ms",
             "tone": "normal"
           }
         ],
@@ -235,108 +329,14 @@
       }
     },
     {
-      "name": "vaultwarden-service",
-      "full_name": "Vaultwarden · 密碼管理服務",
-      "html_url": "https://vault.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "VPS-01",
-      "updated_at": "2026-11-18T17:21:25.797376+00:00",
-      "created_at": "2026-11-18T17:21:25.797387+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "website",
-        "title": "Vaultwarden",
-        "business_status": "success",
-        "business_label": "Vaultwarden 存活檢查通過",
-        "metrics": [
-          {
-            "label": "檢查端點",
-            "value": "/alive",
-            "tone": "normal"
-          },
-          {
-            "label": "HTTP 狀態",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "回應時間",
-            "value": "1245 ms",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "端點檢查",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "HTTP 200",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://vault.chi.qzz.io/alive"
-      }
-    },
-    {
-      "name": "vps-02",
-      "full_name": "VPS-02 · Oracle Cloud Infrastructure",
-      "html_url": "https://fgc.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "OCI",
-      "updated_at": "2026-11-18T17:21:23.563635+00:00",
-      "created_at": "2026-11-18T17:21:23.563647+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查一個公開服務端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "vps",
-        "title": "VPS-02 · Oracle Cloud",
-        "business_status": "success",
-        "business_label": "VPS-02 正常運作（至少 1/1 個端點 HTTP 200）",
-        "metrics": [
-          {
-            "label": "HTTP 200 端點",
-            "value": "1/1",
-            "tone": "good"
-          },
-          {
-            "label": "非 200 端點",
-            "value": "0",
-            "tone": "good"
-          },
-          {
-            "label": "未取得狀態",
-            "value": "0",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "免費遊戲自動領取",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 2233 ms",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": null
-      }
-    },
-    {
       "name": "vps-01",
       "full_name": "VPS-01 · Oracle Cloud Infrastructure",
       "html_url": "https://alist.chi.qzz.io/",
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-11-18T17:21:18.267977+00:00",
-      "created_at": "2026-11-18T17:21:18.267986+00:00",
+      "updated_at": "2026-11-18T17:31:41.259315+00:00",
+      "created_at": "2026-11-18T17:31:41.259325+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
       "duration_seconds": null,
@@ -367,19 +367,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 1346 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 713 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 3032 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 3181 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 915 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 2239 ms",
             "time": "",
             "tone": "good"
           }
@@ -394,13 +394,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-11-18T17:11:41Z",
-      "created_at": "2026-11-18T17:10:48Z",
+      "updated_at": "2026-11-18T17:21:53Z",
+      "created_at": "2026-11-18T17:20:49Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 53,
+      "duration_seconds": 64,
       "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions/runs/44355713614",
+      "run_url": "https://github.com/47tsai/status/actions/runs/44357638699",
       "business": {
         "kind": "dashboard",
         "title": "Chi Status 監控儀表板",
@@ -427,13 +427,13 @@
           {
             "label": "最近更新工作流程",
             "result": "資料更新成功",
-            "time": "2026-11-19 01:11:41",
+            "time": "2026-11-19 01:21:53",
             "tone": "good"
           }
         ],
         "evidence_url": "https://github.com/47tsai/status/actions"
       },
-      "schedule_age_seconds": 609,
+      "schedule_age_seconds": 618,
       "schedule_max_age_seconds": 1500
     },
     {
@@ -499,7 +499,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 1178,
+      "schedule_age_seconds": 1786,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -565,7 +565,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 1182,
+      "schedule_age_seconds": 1801,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -615,7 +615,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 4803,
+      "schedule_age_seconds": 5422,
       "schedule_max_age_seconds": 36000
     },
     {
@@ -687,7 +687,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/free-game/tree/main/data"
       },
-      "schedule_age_seconds": 4795,
+      "schedule_age_seconds": 5407,
       "schedule_max_age_seconds": 28800
     },
     {
@@ -731,7 +731,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 4805,
+      "schedule_age_seconds": 5424,
       "schedule_max_age_seconds": 57600
     },
     {

@@ -1,5 +1,17 @@
 {
   "active_failures": {
+    "vps-02": {
+      "name": "vps-02",
+      "title": "VPS-02 · Oracle Cloud",
+      "reason": "VPS-02 異常（0/1 個端點 HTTP 200）",
+      "url": "https://github.com/47tsai/status/actions"
+    },
+    "vaultwarden-service": {
+      "name": "vaultwarden-service",
+      "title": "Vaultwarden",
+      "reason": "Vaultwarden 端點異常",
+      "url": "https://github.com/47tsai/status/actions"
+    },
     "apktwsign": {
       "name": "apktwsign",
       "title": "APK.TW 自動簽到",
