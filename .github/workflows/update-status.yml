@@ -82,7 +82,7 @@ jobs:
           git pull --rebase origin main
           git push origin HEAD:main
 
-  deploy:
+  package:
     needs: update
     runs-on: ubuntu-latest
     permissions:
@@ -90,7 +90,7 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - name: Check out latest dashboard
+      - name: Check out latest status dashboard
         uses: actions/checkout@v7
         with:
           ref: main
@@ -124,13 +124,25 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
+
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
   notify-workflow-failure:
     if: ${{ failure() }}
-    needs: [update, deploy]
+    needs: [update, package, deploy]
     runs-on: ubuntu-latest
     timeout-minutes: 2
     permissions:
@@ -143,6 +155,7 @@ jobs:
           WORKFLOW: ${{ github.workflow }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           UPDATE_RESULT: ${{ needs.update.result }}
+          PACKAGE_RESULT: ${{ needs.package.result }}
           DEPLOY_RESULT: ${{ needs.deploy.result }}
         run: |
           if [ -z "$DISCORD_WEBHOOK_URL" ]; then
@@ -155,7 +168,7 @@ jobs:
           import urllib.request
 
           failed = []
-          for name in ("update", "deploy"):
+          for name in ("update", "package", "deploy"):
               result = os.environ.get(name.upper() + "_RESULT", "unknown")
               if result not in ("success", "skipped"):
                   failed.append(f"- {name}: {result}")
