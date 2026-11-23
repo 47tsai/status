@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T01:31:30.826742+00:00",
+  "generated_at": "2026-11-23T01:41:26.259908+00:00",
   "repository_count": 17,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Workers",
-      "updated_at": "2026-11-23T01:31:30.656528+00:00",
-      "created_at": "2026-11-23T01:31:30.656542+00:00",
+      "updated_at": "2026-11-23T01:41:26.178030+00:00",
+      "created_at": "2026-11-23T01:41:26.178040+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
       "duration_seconds": null,
@@ -34,7 +34,7 @@
           },
           {
             "label": "回應時間",
-            "value": "170 ms",
+            "value": "81 ms",
             "tone": "normal"
           }
         ],
@@ -56,8 +56,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Pages",
-      "updated_at": "2026-11-23T01:31:30.450907+00:00",
-      "created_at": "2026-11-23T01:31:30.450919+00:00",
+      "updated_at": "2026-11-23T01:41:25.979459+00:00",
+      "created_at": "2026-11-23T01:41:25.979469+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
       "duration_seconds": null,
@@ -81,7 +81,7 @@
           },
           {
             "label": "回應時間",
-            "value": "203 ms",
+            "value": "196 ms",
             "tone": "normal"
           }
         ],
@@ -103,8 +103,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-23T01:31:29.888993+00:00",
-      "created_at": "2026-11-23T01:31:29.889007+00:00",
+      "updated_at": "2026-11-23T01:41:25.469438+00:00",
+      "created_at": "2026-11-23T01:41:25.469447+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
       "duration_seconds": null,
@@ -128,7 +128,7 @@
           },
           {
             "label": "回應時間",
-            "value": "560 ms",
+            "value": "509 ms",
             "tone": "normal"
           }
         ],
@@ -150,8 +150,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-23T01:31:29.757793+00:00",
-      "created_at": "2026-11-23T01:31:29.757814+00:00",
+      "updated_at": "2026-11-23T01:41:25.335248+00:00",
+      "created_at": "2026-11-23T01:41:25.335260+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -175,7 +175,7 @@
           },
           {
             "label": "回應時間",
-            "value": "128 ms",
+            "value": "131 ms",
             "tone": "normal"
           }
         ],
@@ -197,8 +197,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-23T01:31:29.306521+00:00",
-      "created_at": "2026-11-23T01:31:29.306533+00:00",
+      "updated_at": "2026-11-23T01:41:24.864187+00:00",
+      "created_at": "2026-11-23T01:41:24.864198+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -222,7 +222,7 @@
           },
           {
             "label": "回應時間",
-            "value": "451 ms",
+            "value": "470 ms",
             "tone": "normal"
           }
         ],
@@ -244,8 +244,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-11-23T01:31:28.884446+00:00",
-      "created_at": "2026-11-23T01:31:28.884462+00:00",
+      "updated_at": "2026-11-23T01:41:24.289142+00:00",
+      "created_at": "2026-11-23T01:41:24.289151+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查一個公開服務端點",
       "duration_seconds": null,
@@ -276,7 +276,7 @@
         "details": [
           {
             "label": "免費遊戲自動領取",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 421 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 574 ms",
             "time": "",
             "tone": "good"
           }
@@ -291,8 +291,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-11-23T01:31:27.187754+00:00",
-      "created_at": "2026-11-23T01:31:27.187764+00:00",
+      "updated_at": "2026-11-23T01:41:22.535726+00:00",
+      "created_at": "2026-11-23T01:41:22.535735+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
       "duration_seconds": null,
@@ -323,19 +323,19 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 368 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 398 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 738 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 786 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 587 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 566 ms",
             "time": "",
             "tone": "good"
           }
@@ -344,19 +344,91 @@
       }
     },
     {
+      "name": "free-game",
+      "full_name": "47tsai/free-game",
+      "html_url": "https://github.com/47tsai/free-game",
+      "workflow": "FGC Claim Sync",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-11-23T01:32:21Z",
+      "created_at": "2026-11-23T01:32:07Z",
+      "event": "schedule",
+      "commit_message": "Hide game from fg.chi.qzz.io",
+      "duration_seconds": 14,
+      "runs_url": "https://github.com/47tsai/free-game/actions",
+      "run_url": "https://github.com/47tsai/free-game/actions/runs/45095101892",
+      "business": {
+        "kind": "freegame",
+        "title": "限免遊戲通知",
+        "business_status": "success",
+        "business_label": "4Gamers 掃描與 FGC 同步正常",
+        "metrics": [
+          {
+            "label": "本輪新增遊戲",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "本輪新增文章",
+            "value": "0",
+            "tone": "normal"
+          },
+          {
+            "label": "累積遊戲／文章",
+            "value": "12／11",
+            "tone": "normal"
+          },
+          {
+            "label": "已送出通知",
+            "value": "28",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "4Gamers RSS 掃描",
+            "result": "success",
+            "time": "2026-11-23 06:01:27",
+            "tone": "good"
+          },
+          {
+            "label": "FGC 領取同步",
+            "result": "success",
+            "time": "2026-11-23 09:32:21",
+            "tone": "good"
+          },
+          {
+            "label": "遊戲目錄 data/catalog/games.json",
+            "result": "可讀取 · 12 筆遊戲",
+            "time": "2026-11-22 06:01:31",
+            "tone": "good"
+          },
+          {
+            "label": "通知紀錄 data/operations/notifications.json",
+            "result": "可讀取 · 28 則已送出",
+            "time": "2026-11-22 06:01:30",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": "https://github.com/47tsai/free-game/tree/main/data"
+      },
+      "schedule_age_seconds": 547,
+      "schedule_max_age_seconds": 28800
+    },
+    {
       "name": "status",
       "full_name": "47tsai/status",
       "html_url": "https://github.com/47tsai/status",
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-11-23T01:21:53Z",
-      "created_at": "2026-11-23T01:20:53Z",
+      "updated_at": "2026-11-23T01:31:59Z",
+      "created_at": "2026-11-23T01:31:04Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 60,
+      "duration_seconds": 55,
       "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions/runs/45094058114",
+      "run_url": "https://github.com/47tsai/status/actions/runs/45095000226",
       "business": {
         "kind": "dashboard",
         "title": "Chi Status 監控儀表板",
@@ -383,13 +455,13 @@
           {
             "label": "最近更新工作流程",
             "result": "資料更新成功",
-            "time": "2026-11-23 09:21:53",
+            "time": "2026-11-23 09:31:59",
             "tone": "good"
           }
         ],
         "evidence_url": "https://github.com/47tsai/status/actions"
       },
-      "schedule_age_seconds": 620,
+      "schedule_age_seconds": 606,
       "schedule_max_age_seconds": 1500
     },
     {
@@ -461,7 +533,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 1769,
+      "schedule_age_seconds": 2365,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -533,7 +605,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 1778,
+      "schedule_age_seconds": 2374,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -583,80 +655,8 @@
         ],
         "evidence_url": "https://github.com/47tsai/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 5415,
+      "schedule_age_seconds": 6011,
       "schedule_max_age_seconds": 36000
-    },
-    {
-      "name": "free-game",
-      "full_name": "47tsai/free-game",
-      "html_url": "https://github.com/47tsai/free-game",
-      "workflow": "4Gamers RSS Ingestion",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-11-22T22:01:27Z",
-      "created_at": "2026-11-22T22:01:09Z",
-      "event": "workflow_dispatch",
-      "commit_message": "Hide game from fg.chi.qzz.io",
-      "duration_seconds": 18,
-      "runs_url": "https://github.com/47tsai/free-game/actions",
-      "run_url": "https://github.com/47tsai/free-game/actions/runs/45075295714",
-      "business": {
-        "kind": "freegame",
-        "title": "限免遊戲通知",
-        "business_status": "success",
-        "business_label": "4Gamers 掃描與 FGC 同步正常",
-        "metrics": [
-          {
-            "label": "本輪新增遊戲",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "本輪新增文章",
-            "value": "0",
-            "tone": "normal"
-          },
-          {
-            "label": "累積遊戲／文章",
-            "value": "12／11",
-            "tone": "normal"
-          },
-          {
-            "label": "已送出通知",
-            "value": "28",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "4Gamers RSS 掃描",
-            "result": "success",
-            "time": "2026-11-23 06:01:27",
-            "tone": "good"
-          },
-          {
-            "label": "FGC 領取同步",
-            "result": "success",
-            "time": "2026-11-23 04:57:34",
-            "tone": "good"
-          },
-          {
-            "label": "遊戲目錄 data/catalog/games.json",
-            "result": "可讀取 · 12 筆遊戲",
-            "time": "2026-11-22 06:01:31",
-            "tone": "good"
-          },
-          {
-            "label": "通知紀錄 data/operations/notifications.json",
-            "result": "可讀取 · 28 則已送出",
-            "time": "2026-11-22 06:01:30",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://github.com/47tsai/free-game/tree/main/data"
-      },
-      "schedule_age_seconds": 12609,
-      "schedule_max_age_seconds": 28800
     },
     {
       "name": "apktwsign",
@@ -699,7 +699,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 34216,
+      "schedule_age_seconds": 34811,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -743,7 +743,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 34217,
+      "schedule_age_seconds": 34812,
       "schedule_max_age_seconds": 57600
     },
     {
