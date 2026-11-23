@@ -1,411 +1,21 @@
 {
-  "generated_at": "2026-11-23T13:51:23.263183+00:00",
+  "generated_at": "2026-11-23T14:01:40.111242+00:00",
   "repository_count": 17,
   "repositories": [
-    {
-      "name": "sms-service",
-      "full_name": "Chi SMS · SMS 簡訊轉發服務",
-      "html_url": "https://sms-forwarder.tsai97216.workers.dev/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "Cloudflare Workers",
-      "updated_at": "2026-11-23T13:51:23.184453+00:00",
-      "created_at": "2026-11-23T13:51:23.184466+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/SMS/actions",
-      "run_url": "https://github.com/47tsai/SMS/actions",
-      "business": {
-        "kind": "website",
-        "title": "Chi SMS",
-        "business_status": "success",
-        "business_label": "Chi SMS 端點檢查通過",
-        "metrics": [
-          {
-            "label": "檢查端點",
-            "value": "/health",
-            "tone": "normal"
-          },
-          {
-            "label": "HTTP 狀態",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "回應時間",
-            "value": "78 ms",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "端點檢查",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "HTTP 200",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://sms.chi.qzz.io/health"
-      }
-    },
-    {
-      "name": "chi-home",
-      "full_name": "Chi 個人主站",
-      "html_url": "https://chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "Cloudflare Pages",
-      "updated_at": "2026-11-23T13:51:22.925539+00:00",
-      "created_at": "2026-11-23T13:51:22.925552+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "website",
-        "title": "Chi 個人主站",
-        "business_status": "success",
-        "business_label": "Chi 個人主站 端點檢查通過",
-        "metrics": [
-          {
-            "label": "檢查端點",
-            "value": "/",
-            "tone": "normal"
-          },
-          {
-            "label": "HTTP 狀態",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "回應時間",
-            "value": "256 ms",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "端點檢查",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "HTTP 200",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://chi.qzz.io/"
-      }
-    },
-    {
-      "name": "sub-service",
-      "full_name": "SubsTracker · 訂閱管理服務",
-      "html_url": "https://sub.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "VPS-01",
-      "updated_at": "2026-11-23T13:51:22.341623+00:00",
-      "created_at": "2026-11-23T13:51:22.341640+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "website",
-        "title": "SubsTracker",
-        "business_status": "success",
-        "business_label": "SubsTracker 端點檢查通過",
-        "metrics": [
-          {
-            "label": "檢查端點",
-            "value": "/",
-            "tone": "normal"
-          },
-          {
-            "label": "HTTP 狀態",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "回應時間",
-            "value": "583 ms",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "端點檢查",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "HTTP 200",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://sub.chi.qzz.io/"
-      }
-    },
-    {
-      "name": "chi-auth-service",
-      "full_name": "Chi Auth · Passkey／SSO 驗證服務",
-      "html_url": "https://auth.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "VPS-01",
-      "updated_at": "2026-11-23T13:51:22.227753+00:00",
-      "created_at": "2026-11-23T13:51:22.227767+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "website",
-        "title": "Chi Auth",
-        "business_status": "success",
-        "business_label": "Chi Auth 端點檢查通過",
-        "metrics": [
-          {
-            "label": "檢查端點",
-            "value": "/",
-            "tone": "normal"
-          },
-          {
-            "label": "HTTP 狀態",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "回應時間",
-            "value": "111 ms",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "端點檢查",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "HTTP 200",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://auth.chi.qzz.io/"
-      }
-    },
-    {
-      "name": "vaultwarden-service",
-      "full_name": "Vaultwarden · 密碼管理服務",
-      "html_url": "https://vault.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "VPS-01",
-      "updated_at": "2026-11-23T13:51:21.659714+00:00",
-      "created_at": "2026-11-23T13:51:21.659728+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "website",
-        "title": "Vaultwarden",
-        "business_status": "success",
-        "business_label": "Vaultwarden 存活檢查通過",
-        "metrics": [
-          {
-            "label": "檢查端點",
-            "value": "/alive",
-            "tone": "normal"
-          },
-          {
-            "label": "HTTP 狀態",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "回應時間",
-            "value": "567 ms",
-            "tone": "normal"
-          }
-        ],
-        "details": [
-          {
-            "label": "端點檢查",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "HTTP 200",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://vault.chi.qzz.io/alive"
-      }
-    },
-    {
-      "name": "vps-02",
-      "full_name": "VPS-02 · Oracle Cloud Infrastructure",
-      "html_url": "https://fgc.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "OCI",
-      "updated_at": "2026-11-23T13:51:21.108786+00:00",
-      "created_at": "2026-11-23T13:51:21.108799+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查一個公開服務端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "vps",
-        "title": "VPS-02 · Oracle Cloud",
-        "business_status": "success",
-        "business_label": "VPS-02 正常運作（至少 1/1 個端點 HTTP 200）",
-        "metrics": [
-          {
-            "label": "HTTP 200 端點",
-            "value": "1/1",
-            "tone": "good"
-          },
-          {
-            "label": "非 200 端點",
-            "value": "0",
-            "tone": "good"
-          },
-          {
-            "label": "未取得狀態",
-            "value": "0",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "免費遊戲自動領取",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 550 ms",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": null
-      }
-    },
-    {
-      "name": "vps-01",
-      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
-      "html_url": "https://alist.chi.qzz.io/",
-      "workflow": "外部服務探測",
-      "status": "success",
-      "branch": "OCI",
-      "updated_at": "2026-11-23T13:51:18.839525+00:00",
-      "created_at": "2026-11-23T13:51:18.839535+00:00",
-      "event": "healthcheck",
-      "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
-      "duration_seconds": null,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions",
-      "business": {
-        "kind": "vps",
-        "title": "VPS-01 · Oracle Cloud",
-        "business_status": "success",
-        "business_label": "VPS-01 正常運作（至少 2/3 個端點 HTTP 200）",
-        "metrics": [
-          {
-            "label": "HTTP 200 端點",
-            "value": "3/3",
-            "tone": "good"
-          },
-          {
-            "label": "非 200 端點",
-            "value": "0",
-            "tone": "good"
-          },
-          {
-            "label": "未取得狀態",
-            "value": "0",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 506 ms",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1235 ms",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 525 ms",
-            "time": "",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": null
-      }
-    },
-    {
-      "name": "status",
-      "full_name": "47tsai/status",
-      "html_url": "https://github.com/47tsai/status",
-      "workflow": "Update Actions status",
-      "status": "success",
-      "branch": "main",
-      "updated_at": "2026-11-23T13:42:00Z",
-      "created_at": "2026-11-23T13:40:57Z",
-      "event": "workflow_dispatch",
-      "commit_message": "chore: update project business status",
-      "duration_seconds": 63,
-      "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions/runs/45186329172",
-      "business": {
-        "kind": "dashboard",
-        "title": "Chi Status 監控儀表板",
-        "business_status": "success",
-        "business_label": "資料更新成功",
-        "metrics": [
-          {
-            "label": "監控範圍",
-            "value": "公開儲存庫",
-            "tone": "normal"
-          },
-          {
-            "label": "更新頻率",
-            "value": "每 10 分鐘自動更新",
-            "tone": "normal"
-          },
-          {
-            "label": "資料更新狀態",
-            "value": "資料更新成功",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近更新工作流程",
-            "result": "資料更新成功",
-            "time": "2026-11-23 21:42:00",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://github.com/47tsai/status/actions"
-      },
-      "schedule_age_seconds": 608,
-      "schedule_max_age_seconds": 1500
-    },
     {
       "name": "chi-source-personal",
       "full_name": "47tsai/chi-source-personal",
       "html_url": "https://github.com/47tsai/chi-source-personal",
-      "workflow": "pages build and deployment",
-      "status": "success",
+      "workflow": "Auto Update Chi Source Personal",
+      "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-11-23T13:02:17Z",
-      "created_at": "2026-11-23T13:01:36Z",
-      "event": "dynamic",
+      "updated_at": "2026-11-23T14:01:18Z",
+      "created_at": "2026-11-23T14:01:10Z",
+      "event": "workflow_dispatch",
       "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 41,
+      "duration_seconds": null,
       "runs_url": "https://github.com/47tsai/chi-source-personal/actions",
-      "run_url": "https://github.com/47tsai/chi-source-personal/actions/runs/45179842423",
+      "run_url": "https://github.com/47tsai/chi-source-personal/actions/runs/45189713028",
       "business": {
         "kind": "source",
         "title": "Chi Source Personal",
@@ -461,23 +71,23 @@
         ],
         "evidence_url": "https://github.com/47tsai/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 2975,
+      "schedule_age_seconds": 16,
       "schedule_max_age_seconds": 9000
     },
     {
       "name": "chi-source",
       "full_name": "47tsai/chi-source",
       "html_url": "https://github.com/47tsai/chi-source",
-      "workflow": "pages build and deployment",
-      "status": "success",
+      "workflow": "Auto Update Chi Source",
+      "status": "in_progress",
       "branch": "main",
-      "updated_at": "2026-11-23T13:02:10Z",
-      "created_at": "2026-11-23T13:01:30Z",
-      "event": "dynamic",
+      "updated_at": "2026-11-23T14:01:14Z",
+      "created_at": "2026-11-23T14:01:10Z",
+      "event": "workflow_dispatch",
       "commit_message": "auto: sync Chi Source",
-      "duration_seconds": 40,
+      "duration_seconds": null,
       "runs_url": "https://github.com/47tsai/chi-source/actions",
-      "run_url": "https://github.com/47tsai/chi-source/actions/runs/45179825439",
+      "run_url": "https://github.com/47tsai/chi-source/actions/runs/45189713189",
       "business": {
         "kind": "source",
         "title": "Chi Source",
@@ -533,23 +143,364 @@
         ],
         "evidence_url": "https://github.com/47tsai/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 2982,
+      "schedule_age_seconds": 17,
       "schedule_max_age_seconds": 9000
+    },
+    {
+      "name": "sms-service",
+      "full_name": "Chi SMS · SMS 簡訊轉發服務",
+      "html_url": "https://sms-forwarder.tsai97216.workers.dev/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "Cloudflare Workers",
+      "updated_at": "2026-11-23T14:01:39.950453+00:00",
+      "created_at": "2026-11-23T14:01:39.950464+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/SMS/actions",
+      "run_url": "https://github.com/47tsai/SMS/actions",
+      "business": {
+        "kind": "website",
+        "title": "Chi SMS",
+        "business_status": "success",
+        "business_label": "Chi SMS 端點檢查通過",
+        "metrics": [
+          {
+            "label": "檢查端點",
+            "value": "/health",
+            "tone": "normal"
+          },
+          {
+            "label": "HTTP 狀態",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "回應時間",
+            "value": "160 ms",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "端點檢查",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "HTTP 200",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": "https://sms.chi.qzz.io/health"
+      }
+    },
+    {
+      "name": "chi-home",
+      "full_name": "Chi 個人主站",
+      "html_url": "https://chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "Cloudflare Pages",
+      "updated_at": "2026-11-23T14:01:39.742324+00:00",
+      "created_at": "2026-11-23T14:01:39.742334+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "website",
+        "title": "Chi 個人主站",
+        "business_status": "success",
+        "business_label": "Chi 個人主站 端點檢查通過",
+        "metrics": [
+          {
+            "label": "檢查端點",
+            "value": "/",
+            "tone": "normal"
+          },
+          {
+            "label": "HTTP 狀態",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "回應時間",
+            "value": "205 ms",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "端點檢查",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "HTTP 200",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": "https://chi.qzz.io/"
+      }
+    },
+    {
+      "name": "sub-service",
+      "full_name": "SubsTracker · 訂閱管理服務",
+      "html_url": "https://sub.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "VPS-01",
+      "updated_at": "2026-11-23T14:01:39.159648+00:00",
+      "created_at": "2026-11-23T14:01:39.159660+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "website",
+        "title": "SubsTracker",
+        "business_status": "success",
+        "business_label": "SubsTracker 端點檢查通過",
+        "metrics": [
+          {
+            "label": "檢查端點",
+            "value": "/",
+            "tone": "normal"
+          },
+          {
+            "label": "HTTP 狀態",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "回應時間",
+            "value": "581 ms",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "端點檢查",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "HTTP 200",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": "https://sub.chi.qzz.io/"
+      }
+    },
+    {
+      "name": "chi-auth-service",
+      "full_name": "Chi Auth · Passkey／SSO 驗證服務",
+      "html_url": "https://auth.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "VPS-01",
+      "updated_at": "2026-11-23T14:01:38.906210+00:00",
+      "created_at": "2026-11-23T14:01:38.906224+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "website",
+        "title": "Chi Auth",
+        "business_status": "success",
+        "business_label": "Chi Auth 端點檢查通過",
+        "metrics": [
+          {
+            "label": "檢查端點",
+            "value": "/",
+            "tone": "normal"
+          },
+          {
+            "label": "HTTP 狀態",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "回應時間",
+            "value": "250 ms",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "端點檢查",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "HTTP 200",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": "https://auth.chi.qzz.io/"
+      }
+    },
+    {
+      "name": "vaultwarden-service",
+      "full_name": "Vaultwarden · 密碼管理服務",
+      "html_url": "https://vault.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "VPS-01",
+      "updated_at": "2026-11-23T14:01:38.225720+00:00",
+      "created_at": "2026-11-23T14:01:38.225730+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "website",
+        "title": "Vaultwarden",
+        "business_status": "success",
+        "business_label": "Vaultwarden 存活檢查通過",
+        "metrics": [
+          {
+            "label": "檢查端點",
+            "value": "/alive",
+            "tone": "normal"
+          },
+          {
+            "label": "HTTP 狀態",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "回應時間",
+            "value": "680 ms",
+            "tone": "normal"
+          }
+        ],
+        "details": [
+          {
+            "label": "端點檢查",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "HTTP 200",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": "https://vault.chi.qzz.io/alive"
+      }
+    },
+    {
+      "name": "vps-02",
+      "full_name": "VPS-02 · Oracle Cloud Infrastructure",
+      "html_url": "https://fgc.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "OCI",
+      "updated_at": "2026-11-23T14:01:37.573838+00:00",
+      "created_at": "2026-11-23T14:01:37.573850+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查一個公開服務端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "vps",
+        "title": "VPS-02 · Oracle Cloud",
+        "business_status": "success",
+        "business_label": "VPS-02 正常運作（至少 1/1 個端點 HTTP 200）",
+        "metrics": [
+          {
+            "label": "HTTP 200 端點",
+            "value": "1/1",
+            "tone": "good"
+          },
+          {
+            "label": "非 200 端點",
+            "value": "0",
+            "tone": "good"
+          },
+          {
+            "label": "未取得狀態",
+            "value": "0",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "免費遊戲自動領取",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 650 ms",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": null
+      }
+    },
+    {
+      "name": "vps-01",
+      "full_name": "VPS-01 · Oracle Cloud Infrastructure",
+      "html_url": "https://alist.chi.qzz.io/",
+      "workflow": "外部服務探測",
+      "status": "success",
+      "branch": "OCI",
+      "updated_at": "2026-11-23T14:01:35.119667+00:00",
+      "created_at": "2026-11-23T14:01:35.119678+00:00",
+      "event": "healthcheck",
+      "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
+      "duration_seconds": null,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions",
+      "business": {
+        "kind": "vps",
+        "title": "VPS-01 · Oracle Cloud",
+        "business_status": "success",
+        "business_label": "VPS-01 正常運作（至少 2/3 個端點 HTTP 200）",
+        "metrics": [
+          {
+            "label": "HTTP 200 端點",
+            "value": "3/3",
+            "tone": "good"
+          },
+          {
+            "label": "非 200 端點",
+            "value": "0",
+            "tone": "good"
+          },
+          {
+            "label": "未取得狀態",
+            "value": "0",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "Alist",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 566 ms",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "BiliTool",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 1199 ms",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "Twitch Drops Miner",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 686 ms",
+            "time": "",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": null
+      }
     },
     {
       "name": "free-game",
       "full_name": "47tsai/free-game",
       "html_url": "https://github.com/47tsai/free-game",
-      "workflow": "FGC Claim Sync",
+      "workflow": "4Gamers RSS Ingestion",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-11-23T11:59:11Z",
-      "created_at": "2026-11-23T11:58:58Z",
+      "updated_at": "2026-11-23T13:59:04Z",
+      "created_at": "2026-11-23T13:58:48Z",
       "event": "schedule",
       "commit_message": "Hide game from fg.chi.qzz.io",
-      "duration_seconds": 13,
+      "duration_seconds": 16,
       "runs_url": "https://github.com/47tsai/free-game/actions",
-      "run_url": "https://github.com/47tsai/free-game/actions/runs/45170013423",
+      "run_url": "https://github.com/47tsai/free-game/actions/runs/45189303565",
       "business": {
         "kind": "freegame",
         "title": "限免遊戲通知",
@@ -581,7 +532,7 @@
           {
             "label": "4Gamers RSS 掃描",
             "result": "success",
-            "time": "2026-11-23 18:01:25",
+            "time": "2026-11-23 21:59:04",
             "tone": "good"
           },
           {
@@ -605,8 +556,57 @@
         ],
         "evidence_url": "https://github.com/47tsai/free-game/tree/main/data"
       },
-      "schedule_age_seconds": 6731,
+      "schedule_age_seconds": 157,
       "schedule_max_age_seconds": 28800
+    },
+    {
+      "name": "status",
+      "full_name": "47tsai/status",
+      "html_url": "https://github.com/47tsai/status",
+      "workflow": "Update Actions status",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-11-23T13:51:53Z",
+      "created_at": "2026-11-23T13:50:56Z",
+      "event": "workflow_dispatch",
+      "commit_message": "chore: update project business status",
+      "duration_seconds": 57,
+      "runs_url": "https://github.com/47tsai/status/actions",
+      "run_url": "https://github.com/47tsai/status/actions/runs/45187991588",
+      "business": {
+        "kind": "dashboard",
+        "title": "Chi Status 監控儀表板",
+        "business_status": "success",
+        "business_label": "資料更新成功",
+        "metrics": [
+          {
+            "label": "監控範圍",
+            "value": "公開儲存庫",
+            "tone": "normal"
+          },
+          {
+            "label": "更新頻率",
+            "value": "每 10 分鐘自動更新",
+            "tone": "normal"
+          },
+          {
+            "label": "資料更新狀態",
+            "value": "資料更新成功",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近更新工作流程",
+            "result": "資料更新成功",
+            "time": "2026-11-23 21:51:53",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": "https://github.com/47tsai/status/actions"
+      },
+      "schedule_age_seconds": 623,
+      "schedule_max_age_seconds": 1500
     },
     {
       "name": "merch",
@@ -719,7 +719,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 21001,
+      "schedule_age_seconds": 21617,
       "schedule_max_age_seconds": 36000
     },
     {
@@ -763,7 +763,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 35406,
+      "schedule_age_seconds": 36022,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -807,7 +807,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 35405,
+      "schedule_age_seconds": 36021,
       "schedule_max_age_seconds": 57600
     },
     {
