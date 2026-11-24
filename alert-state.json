@@ -1,10 +1,22 @@
 {
   "active_failures": {
-    "chi-source-personal": {
-      "name": "chi-source-personal",
-      "title": "Chi Source Personal",
-      "reason": "來源網站內容檢查通過",
-      "url": "https://github.com/47tsai/chi-source-personal/actions/runs/45454899938"
+    "sms-service": {
+      "name": "sms-service",
+      "title": "Chi SMS",
+      "reason": "Chi SMS 端點異常",
+      "url": "https://github.com/47tsai/SMS/actions"
+    },
+    "sub-service": {
+      "name": "sub-service",
+      "title": "SubsTracker",
+      "reason": "SubsTracker 端點異常",
+      "url": "https://github.com/47tsai/status/actions"
+    },
+    "merch": {
+      "name": "merch",
+      "title": "周邊收藏網",
+      "reason": "網站 HTTP 或頁面內容檢查失敗",
+      "url": "https://github.com/47tsai/merch/actions/runs/45407232515"
     }
   }
 }
