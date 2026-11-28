@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-28T05:31:28.292735+00:00",
+  "generated_at": "2026-11-28T05:41:19.215079+00:00",
   "repository_count": 17,
   "repositories": [
     {
@@ -9,8 +9,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Workers",
-      "updated_at": "2026-11-28T05:31:28.199717+00:00",
-      "created_at": "2026-11-28T05:31:28.199728+00:00",
+      "updated_at": "2026-11-28T05:41:19.133671+00:00",
+      "created_at": "2026-11-28T05:41:19.133683+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi SMS 健康端點",
       "duration_seconds": null,
@@ -34,7 +34,7 @@
           },
           {
             "label": "回應時間",
-            "value": "92 ms",
+            "value": "81 ms",
             "tone": "normal"
           }
         ],
@@ -56,8 +56,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "Cloudflare Pages",
-      "updated_at": "2026-11-28T05:31:28.014716+00:00",
-      "created_at": "2026-11-28T05:31:28.014724+00:00",
+      "updated_at": "2026-11-28T05:41:18.856798+00:00",
+      "created_at": "2026-11-28T05:41:18.856809+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi 個人主站首頁",
       "duration_seconds": null,
@@ -81,7 +81,7 @@
           },
           {
             "label": "回應時間",
-            "value": "183 ms",
+            "value": "274 ms",
             "tone": "normal"
           }
         ],
@@ -103,8 +103,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-28T05:31:27.697465+00:00",
-      "created_at": "2026-11-28T05:31:27.697474+00:00",
+      "updated_at": "2026-11-28T05:41:18.425792+00:00",
+      "created_at": "2026-11-28T05:41:18.425803+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 SubsTracker 公開首頁",
       "duration_seconds": null,
@@ -128,7 +128,7 @@
           },
           {
             "label": "回應時間",
-            "value": "316 ms",
+            "value": "430 ms",
             "tone": "normal"
           }
         ],
@@ -150,8 +150,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-28T05:31:27.602391+00:00",
-      "created_at": "2026-11-28T05:31:27.602402+00:00",
+      "updated_at": "2026-11-28T05:41:18.259664+00:00",
+      "created_at": "2026-11-28T05:41:18.259677+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Chi Auth 公開首頁",
       "duration_seconds": null,
@@ -175,7 +175,7 @@
           },
           {
             "label": "回應時間",
-            "value": "93 ms",
+            "value": "163 ms",
             "tone": "normal"
           }
         ],
@@ -197,8 +197,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "VPS-01",
-      "updated_at": "2026-11-28T05:31:26.945535+00:00",
-      "created_at": "2026-11-28T05:31:26.945545+00:00",
+      "updated_at": "2026-11-28T05:41:17.841571+00:00",
+      "created_at": "2026-11-28T05:41:17.841581+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查 Vaultwarden /alive 存活端點",
       "duration_seconds": null,
@@ -222,7 +222,7 @@
           },
           {
             "label": "回應時間",
-            "value": "656 ms",
+            "value": "418 ms",
             "tone": "normal"
           }
         ],
@@ -244,8 +244,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-11-28T05:31:26.342924+00:00",
-      "created_at": "2026-11-28T05:31:26.342935+00:00",
+      "updated_at": "2026-11-28T05:41:17.342294+00:00",
+      "created_at": "2026-11-28T05:41:17.342303+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查一個公開服務端點",
       "duration_seconds": null,
@@ -276,7 +276,7 @@
         "details": [
           {
             "label": "免費遊戲自動領取",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 601 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 498 ms",
             "time": "",
             "tone": "good"
           }
@@ -291,8 +291,8 @@
       "workflow": "外部服務探測",
       "status": "success",
       "branch": "OCI",
-      "updated_at": "2026-11-28T05:31:24.351440+00:00",
-      "created_at": "2026-11-28T05:31:24.351448+00:00",
+      "updated_at": "2026-11-28T05:41:15.633517+00:00",
+      "created_at": "2026-11-28T05:41:15.633526+00:00",
       "event": "healthcheck",
       "commit_message": "每 10 分鐘自動更新檢查三個公開服務端點",
       "duration_seconds": null,
@@ -323,24 +323,88 @@
         "details": [
           {
             "label": "Alist",
-            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 627 ms",
+            "result": "HTTP 200 · HTTP 與基本頁面內容檢查通過 · 390 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "BiliTool",
-            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 813 ms",
+            "result": "HTTP 200 · HTTP 回應正常（HTML 無 title，略過標題檢查） · 764 ms",
             "time": "",
             "tone": "good"
           },
           {
             "label": "Twitch Drops Miner",
-            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 549 ms",
+            "result": "Cloudflare Access 登入頁可達 · HTTP 200 · 552 ms",
             "time": "",
             "tone": "good"
           }
         ],
         "evidence_url": null
+      }
+    },
+    {
+      "name": "h",
+      "full_name": "47tsai/h",
+      "html_url": "https://github.com/47tsai/h",
+      "workflow": "Deploy to GitHub Pages",
+      "status": "success",
+      "branch": "main",
+      "updated_at": "2026-11-28T05:35:52Z",
+      "created_at": "2026-11-28T05:34:45Z",
+      "event": "push",
+      "commit_message": "Merge pull request #4 from 47tsai/fix/storage-migration-type-2",
+      "duration_seconds": 67,
+      "runs_url": "https://github.com/47tsai/h/actions",
+      "run_url": "https://github.com/47tsai/h/actions/runs/46112740376",
+      "business": {
+        "kind": "deploy",
+        "title": "H",
+        "business_status": "success",
+        "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
+        "metrics": [
+          {
+            "label": "部署結果",
+            "value": "成功",
+            "tone": "good"
+          },
+          {
+            "label": "分支",
+            "value": "－",
+            "tone": "normal"
+          },
+          {
+            "label": "網站 HTTP",
+            "value": "200",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "value": "通過",
+            "tone": "good"
+          }
+        ],
+        "details": [
+          {
+            "label": "最近一次部署",
+            "result": "部署成功、HTTP 與基本頁面內容檢查通過",
+            "time": "2026-11-28 13:35:52",
+            "tone": "good"
+          },
+          {
+            "label": "網站可用性檢查",
+            "result": "https://h.chi.qzz.io/ · HTTP 200",
+            "time": "",
+            "tone": "good"
+          },
+          {
+            "label": "頁面內容",
+            "result": "HTTP 與基本頁面內容檢查通過",
+            "time": "Chi Tools",
+            "tone": "good"
+          }
+        ],
+        "evidence_url": "https://github.com/47tsai/h/actions"
       }
     },
     {
@@ -350,13 +414,13 @@
       "workflow": "Update Actions status",
       "status": "success",
       "branch": "main",
-      "updated_at": "2026-11-28T05:21:49Z",
-      "created_at": "2026-11-28T05:20:51Z",
+      "updated_at": "2026-11-28T05:31:56Z",
+      "created_at": "2026-11-28T05:31:03Z",
       "event": "workflow_dispatch",
       "commit_message": "chore: update project business status",
-      "duration_seconds": 58,
+      "duration_seconds": 53,
       "runs_url": "https://github.com/47tsai/status/actions",
-      "run_url": "https://github.com/47tsai/status/actions/runs/46111690537",
+      "run_url": "https://github.com/47tsai/status/actions/runs/46112458027",
       "business": {
         "kind": "dashboard",
         "title": "Chi Status 監控儀表板",
@@ -383,13 +447,13 @@
           {
             "label": "最近更新工作流程",
             "result": "資料更新成功",
-            "time": "2026-11-28 13:21:49",
+            "time": "2026-11-28 13:31:56",
             "tone": "good"
           }
         ],
         "evidence_url": "https://github.com/47tsai/status/actions"
       },
-      "schedule_age_seconds": 619,
+      "schedule_age_seconds": 600,
       "schedule_max_age_seconds": 1500
     },
     {
@@ -461,7 +525,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/chi-source-personal/blob/main/README.md"
       },
-      "schedule_age_seconds": 1773,
+      "schedule_age_seconds": 2365,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -527,7 +591,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/chi-source/blob/main/README.md"
       },
-      "schedule_age_seconds": 1790,
+      "schedule_age_seconds": 2381,
       "schedule_max_age_seconds": 9000
     },
     {
@@ -599,7 +663,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/free-game/tree/main/data"
       },
-      "schedule_age_seconds": 5410,
+      "schedule_age_seconds": 6002,
       "schedule_max_age_seconds": 28800
     },
     {
@@ -643,7 +707,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/bahasign/blob/main/README.md"
       },
-      "schedule_age_seconds": 5415,
+      "schedule_age_seconds": 6007,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -687,7 +751,7 @@
         ],
         "evidence_url": "https://github.com/47tsai/apktwsign/blob/main/activity.md"
       },
-      "schedule_age_seconds": 5414,
+      "schedule_age_seconds": 6006,
       "schedule_max_age_seconds": 57600
     },
     {
@@ -801,72 +865,8 @@
         ],
         "evidence_url": "https://github.com/47tsai/sc-auto-claim/tree/main"
       },
-      "schedule_age_seconds": 19812,
+      "schedule_age_seconds": 20404,
       "schedule_max_age_seconds": 36000
-    },
-    {
-      "name": "h",
-      "full_name": "47tsai/h",
-      "html_url": "https://github.com/47tsai/h",
-      "workflow": "CI",
-      "status": "success",
-      "branch": "fix/storage-migration-type-2",
-      "updated_at": "2026-11-27T10:24:47Z",
-      "created_at": "2026-11-27T10:24:07Z",
-      "event": "pull_request",
-      "commit_message": "Fix storage migration type error (second attempt)",
-      "duration_seconds": 40,
-      "runs_url": "https://github.com/47tsai/h/actions",
-      "run_url": "https://github.com/47tsai/h/actions/runs/45981786512",
-      "business": {
-        "kind": "deploy",
-        "title": "H",
-        "business_status": "success",
-        "business_label": "部署成功、HTTP 與基本頁面內容檢查通過",
-        "metrics": [
-          {
-            "label": "部署結果",
-            "value": "成功",
-            "tone": "good"
-          },
-          {
-            "label": "分支",
-            "value": "－",
-            "tone": "normal"
-          },
-          {
-            "label": "網站 HTTP",
-            "value": "200",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "value": "通過",
-            "tone": "good"
-          }
-        ],
-        "details": [
-          {
-            "label": "最近一次部署",
-            "result": "部署成功、HTTP 與基本頁面內容檢查通過",
-            "time": "2026-11-27 18:24:47",
-            "tone": "good"
-          },
-          {
-            "label": "網站可用性檢查",
-            "result": "https://h.chi.qzz.io/ · HTTP 200",
-            "time": "",
-            "tone": "good"
-          },
-          {
-            "label": "頁面內容",
-            "result": "HTTP 與基本頁面內容檢查通過",
-            "time": "Chi Tools",
-            "tone": "good"
-          }
-        ],
-        "evidence_url": "https://github.com/47tsai/h/actions"
-      }
     },
     {
       "name": "nav",
